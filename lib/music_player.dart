@@ -1,0 +1,146 @@
+// ignore_for_file: avoid_print
+
+import 'package:file_picker/file_picker.dart';
+import 'package:just_audio/just_audio.dart';
+
+late AudioPlayer audioPlayer;
+bool isPlaying = false;
+LoopMode currentLoopMode = LoopMode.off;
+bool songIsPlaying = false;
+bool isStopped = false;
+
+ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
+  useLazyPreparation: true,
+  shuffleOrder: DefaultShuffleOrder(),
+  // Specify the playlist items
+  children: [],
+);
+
+void playOrPause() async {
+  if (playlist.length == 0) {
+    print("Playlist is EMPTY!");
+    await pickAndPlayAudio();
+  } else {
+    if (songIsPlaying == false) {
+      songIsPlaying = !songIsPlaying;
+      await audioPlayer.play();
+    } else if (songIsPlaying == true) {
+      songIsPlaying = !songIsPlaying;
+      await audioPlayer.pause();
+    }
+  }
+
+  audioPlayer.playerStateStream.listen((playerState) {
+    final playing = playerState.playing;
+    final processingState = playerState.processingState;
+
+    if (playing) {
+      // The player is playing
+      print('Playing');
+      // audioPlayer.pause();
+    }
+
+    if (processingState == ProcessingState.ready) {
+      // The player is paused
+      print('Paused');
+      // audioPlayer.play();
+    }
+
+    if (processingState == ProcessingState.completed) {
+      // The player has completed playback
+      print('Completed');
+      // audioPlayer.play();
+    } else {
+      // Other states (idle, buffering, etc.)
+      print('Other state: $processingState');
+    }
+  });
+}
+
+void playSong() async {
+  await audioPlayer.play();
+  songIsPlaying = true;
+}
+
+void pauseSong() async {
+  songIsPlaying = false;
+  await audioPlayer.pause();
+}
+
+void stopSong() {
+  songIsPlaying = false;
+  isStopped = true;
+  audioPlayer.stop();
+}
+
+void nextSong() {
+  songIsPlaying = false;
+  audioPlayer.seekToNext();
+  playOrPause();
+}
+
+void previousSong() {
+  songIsPlaying = false;
+  audioPlayer.seekToPrevious();
+  playOrPause();
+}
+
+void forward() {
+  final currentPosition = audioPlayer.position;
+  const rewindDuration = Duration(seconds: 5);
+  final newPosition = currentPosition + rewindDuration;
+  audioPlayer.seek(currentPosition + newPosition);
+}
+
+void rewind() {
+  final currentPosition = audioPlayer.position;
+  const rewindDuration = Duration(seconds: 5);
+  final newPosition = currentPosition - rewindDuration;
+  audioPlayer.seek(currentPosition - newPosition);
+}
+
+void repeatMode() async {
+  if (currentLoopMode == LoopMode.off) {
+    currentLoopMode = LoopMode.one;
+    print("Repeat One");
+    await audioPlayer.setLoopMode(LoopMode.one);
+  } else if (currentLoopMode == LoopMode.one) {
+    currentLoopMode = LoopMode.all;
+    print("Repeat All");
+    await audioPlayer.setLoopMode(LoopMode.all);
+  } else if (currentLoopMode == LoopMode.all) {
+    currentLoopMode = LoopMode.off;
+    print("Repeat Off");
+    await audioPlayer.setLoopMode(LoopMode.off);
+  }
+}
+
+Future<void> pickAndPlayAudio() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowMultiple: true,
+      allowedExtensions: ["mp3", "m4a", "ogg", "wav", "aac", "midi"]);
+
+  if (result != null) {
+    List<String>? selectedSongs;
+    selectedSongs =
+        result.paths.where((path) => path != null).cast<String>().toList();
+
+    if (playlist.length == 0) {
+      for (var filePath in selectedSongs) {
+        print('Processing file: $filePath');
+        playlist.add(AudioSource.uri(Uri.file(filePath)));
+      }
+
+      audioPlayer.setAudioSource(playlist);
+      playOrPause();
+    } else {
+      for (var filePath in selectedSongs) {
+        playlist.add(AudioSource.uri(Uri.file(filePath)));
+        print('Processing file: $filePath');
+      }
+
+      // Perform your operation here for each file
+    }
+  }
+}
