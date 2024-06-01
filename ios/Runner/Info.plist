@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+
+    <!-- ###### Add these keys for file access permissions ###### -->
+
+    <!-- <key>NSPhotoLibraryUsageDescription</key> -->
+    <!-- <string>We need access to your photo library to choose files.</string> -->
+    <!-- <key>NSMicrophoneUsageDescription</key> -->
+    <!-- <string>We need access to your microphone to record voice notes.</string> -->
+    <!-- <key>NSCameraUsageDescription</key> -->
+    <!-- <string>We need access to your camera to take pictures.</string> -->
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>We need access to your documents folder to choose files.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
