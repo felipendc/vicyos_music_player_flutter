@@ -58,8 +58,8 @@ void playOrPause() async {
 }
 
 void playSong() async {
-  await audioPlayer.play();
   songIsPlaying = true;
+  await audioPlayer.play();
 }
 
 void pauseSong() async {
@@ -86,17 +86,11 @@ void previousSong() {
 }
 
 void forward() {
-  final currentPosition = audioPlayer.position;
-  const rewindDuration = Duration(seconds: 5);
-  final newPosition = currentPosition + rewindDuration;
-  audioPlayer.seek(currentPosition + newPosition);
+  audioPlayer.seek(audioPlayer.position + const Duration(seconds: 5));
 }
 
 void rewind() {
-  final currentPosition = audioPlayer.position;
-  const rewindDuration = Duration(seconds: 5);
-  final newPosition = currentPosition - rewindDuration;
-  audioPlayer.seek(currentPosition - newPosition);
+  audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
 }
 
 void repeatMode() async {
@@ -139,8 +133,6 @@ Future<void> pickAndPlayAudio() async {
         playlist.add(AudioSource.uri(Uri.file(filePath)));
         print('Processing file: $filePath');
       }
-
-      // Perform your operation here for each file
     }
   }
 }

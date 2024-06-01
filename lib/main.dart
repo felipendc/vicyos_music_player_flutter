@@ -1,13 +1,15 @@
 // ignore_for_file: avoid_print
 // Run flutter clean in case of running this code in another computer.
+// flutter run -d windows, if you are having problems to run this file.
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'music_player.dart';
 
-// flutter run -d windows
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -57,16 +59,6 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
               },
               child: const Text('IMPORT AUDIOS'),
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     if (playlist.length == 0) {
-            //       print("Playlist is EMPTY!");
-            //     } else {
-            //       playSong();
-            //     }
-            //   },
-            //   child: const Text('PLAY'),
-            // ),
             ElevatedButton(
               child: const Text('Play or Pause'),
               // child: isPlaying ? const Text('Pause') : const Text('Play'),
@@ -74,12 +66,6 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 playOrPause();
               },
             ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     pauseSong();
-            //   },
-            //   child: const Text('PAUSE'),
-            // ),
             ElevatedButton(
               onPressed: () {
                 nextSong();
