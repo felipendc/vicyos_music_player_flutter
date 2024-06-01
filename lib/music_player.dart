@@ -93,6 +93,15 @@ void rewind() {
   audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
 }
 
+void songSpeedRate1() {
+  audioPlayer.setSpeed(1.0);
+}
+
+// This is a temp function, just for learning purpose...
+void songSpeedRate2() {
+  audioPlayer.setSpeed(2.0);
+}
+
 void repeatMode() async {
   if (currentLoopMode == LoopMode.off) {
     currentLoopMode = LoopMode.one;
@@ -106,6 +115,15 @@ void repeatMode() async {
     currentLoopMode = LoopMode.off;
     print("Repeat Off");
     await audioPlayer.setLoopMode(LoopMode.off);
+  }
+}
+
+Future<void> pickFolder() async {
+  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+  if (selectedDirectory != null) {
+    selectedDirectory = selectedDirectory;
+    print(selectedDirectory);
   }
 }
 

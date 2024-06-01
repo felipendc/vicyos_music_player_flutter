@@ -55,6 +55,12 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
           children: [
             ElevatedButton(
               onPressed: () {
+                pickFolder();
+              },
+              child: const Text('Open folder'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 pickAndPlayAudio();
               },
               child: const Text('IMPORT AUDIOS'),
@@ -95,6 +101,18 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 rewind();
               },
               child: const Text('Rewind'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                songSpeedRate1();
+              },
+              child: const Text('Speed Rate 1.0'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                songSpeedRate2();
+              },
+              child: const Text('Speed Rate 2.0'),
             ),
           ],
         ),
