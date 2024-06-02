@@ -2,6 +2,8 @@
 
 import 'package:file_picker/file_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:audio_service/audio_service.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'dart:io';
 
 late AudioPlayer audioPlayer;
@@ -19,6 +21,15 @@ ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
   children: [],
 );
 
+void currenSongName() {
+  audioPlayer.currentIndexStream.listen((index) {
+    if (index != null) {
+      final currentMediaItem = audioPlayer.sequence![index].tag as MediaItem;
+      print('Current audio name USING MEDIA_ITEM: ${currentMediaItem.title}');
+    }
+  });
+}
+
 // void listenAudioPosition() {
 //   // I will need to use another state listener otherthan!
 //   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
@@ -31,11 +42,11 @@ ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
 //   });
 // }
 
-String formatDuration(Duration duration) {
-  final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
-  final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-  return '$minutes:$seconds';
-}
+// String formatDuration(Duration duration) {
+//   final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+//   final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+//   return '$minutes:$seconds';
+// }
 
 Future<void> playOrPause() async {
   if (playlist.length == 0) {
@@ -49,33 +60,34 @@ Future<void> playOrPause() async {
       songIsPlaying = !songIsPlaying;
       await audioPlayer.pause();
     }
+    currenSongName();
   }
 
-  audioPlayer.playerStateStream.listen((playerState) {
-    final playing = playerState.playing;
-    final processingState = playerState.processingState;
+  // audioPlayer.playerStateStream.listen((playerState) {
+  //   final playing = playerState.playing;
+  //   final processingState = playerState.processingState;
 
-    if (playing) {
-      // The player is playing
-      print('Playing');
-      // audioPlayer.pause();
-    }
+  //   if (playing) {
+  //     // The player is playing
+  //     print('Playing');
+  //     // audioPlayer.pause();
+  //   }
 
-    if (processingState == ProcessingState.ready) {
-      // The player is paused
-      print('Paused');
-      // audioPlayer.play();
-    }
+  //   if (processingState == ProcessingState.ready) {
+  //     // The player is paused
+  //     print('Paused');
+  //     // audioPlayer.play();
+  //   }
 
-    if (processingState == ProcessingState.completed) {
-      // The player has completed playback
-      print('Completed');
-      // audioPlayer.play();
-    } else {
-      // Other states (idle, buffering, etc.)
-      print('Other state: $processingState');
-    }
-  });
+  //   if (processingState == ProcessingState.completed) {
+  //     // The player has completed playback
+  //     print('Completed');
+  //     // audioPlayer.play();
+  //   } else {
+  //     // Other states (idle, buffering, etc.)
+  //     print('Other state: $processingState');
+  //   }
+  // });
 }
 
 void playSong() async {
@@ -157,14 +169,64 @@ Future<void> pickFolder() async {
 
     print(folderFileNames);
     if (playlist.length == 0) {
-      for (var file in folderFileNames) {
-        playlist.add(AudioSource.uri(Uri.file(file)));
+      for (String filePath in folderFileNames) {
+        // Try to extract metadata from the local file
+        File audioFile = File(filePath);
+        String fileName = audioFile.uri.pathSegments.last;
+        String filePathAsId = audioFile.absolute.path;
+
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileName,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(AudioSource.uri(
+          Uri.file(filePath),
+          tag: mediaItem,
+        ));
       }
       audioPlayer.setAudioSource(playlist);
       await playOrPause();
     } else {
-      for (var file in folderFileNames) {
-        playlist.add(AudioSource.uri(Uri.file(file)));
+      for (String filePath in folderFileNames) {
+        // Try to extract metadata from the local file
+        File audioFile = File(filePath);
+        String fileName = audioFile.uri.pathSegments.last;
+        String filePathAsId = audioFile.absolute.path;
+
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileName,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(AudioSource.uri(
+          Uri.file(filePath),
+          tag: mediaItem,
+        ));
       }
     }
   } else {
@@ -184,16 +246,67 @@ Future<void> pickAndPlayAudio() async {
         result.paths.where((path) => path != null).cast<String>().toList();
 
     if (playlist.length == 0) {
-      for (var filePath in selectedSongs) {
+      for (String filePath in selectedSongs) {
         print('Processing file: $filePath');
-        playlist.add(AudioSource.uri(Uri.file(filePath)));
+
+        // Try to extract metadata from the local file
+        File audioFile = File(filePath);
+        String fileName = audioFile.uri.pathSegments.last;
+        String filePathAsId = audioFile.absolute.path;
+
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileName,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(AudioSource.uri(
+          Uri.file(filePath),
+          tag: mediaItem,
+        ));
       }
 
       audioPlayer.setAudioSource(playlist);
       await playOrPause();
     } else {
-      for (var filePath in selectedSongs) {
-        playlist.add(AudioSource.uri(Uri.file(filePath)));
+      for (String filePath in selectedSongs) {
+        // Try to extract metadata from the local file
+        File audioFile = File(filePath);
+        String fileName = audioFile.uri.pathSegments.last;
+        String filePathAsId = audioFile.absolute.path;
+
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileName,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(AudioSource.uri(
+          Uri.file(filePath),
+          tag: mediaItem,
+        ));
         print('Processing file: $filePath');
       }
     }

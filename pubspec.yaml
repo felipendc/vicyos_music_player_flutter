@@ -33,6 +33,8 @@ dependencies:
   just_audio: ^0.9.38
   just_audio_windows: ^0.2.1
   file_picker: ^8.0.3  
+  audio_service: ^0.18.13
+  flutter_media_metadata: ^1.0.0+1
   # path_provider: ^2.0.11 
 
 

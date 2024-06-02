@@ -59,6 +59,7 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
             //   child: Text(
             //       'Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
             // ),
+
             ElevatedButton(
               onPressed: () async {
                 await pickFolder();
