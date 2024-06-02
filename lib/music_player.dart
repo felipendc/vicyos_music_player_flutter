@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:audio_service/audio_service.dart';
@@ -20,6 +22,19 @@ ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
   // Specify the playlist items
   children: [],
 );
+
+void cleanPlaylist() {
+  // audioPlayer.pause();
+  if (playlist.length > 0) {
+    if (songIsPlaying) {
+      songIsPlaying = false;
+    }
+    audioPlayer.pause();
+    audioPlayer.setAudioSource(playlist);
+    playlist.clear();
+    audioPlayer.setAudioSource(playlist);
+  }
+}
 
 void currenSongName() {
   audioPlayer.currentIndexStream.listen((index) {
@@ -54,7 +69,7 @@ Future<void> playOrPause() async {
     // await pickAndPlayAudio();
   } else {
     if (songIsPlaying == false) {
-      songIsPlaying = !songIsPlaying;
+      songIsPlaying = true;
       await audioPlayer.play();
     } else if (songIsPlaying == true) {
       songIsPlaying = !songIsPlaying;
@@ -90,12 +105,12 @@ Future<void> playOrPause() async {
   // });
 }
 
-void playSong() async {
-  songIsPlaying = true;
-  await audioPlayer.play();
-}
+// void playSong() async {
+//   songIsPlaying = true;
+//   await audioPlayer.play();
+// }
 
-void pauseSong() async {
+Future<void> pauseSong() async {
   songIsPlaying = false;
   await audioPlayer.pause();
 }
@@ -107,15 +122,15 @@ void stopSong() {
 }
 
 void nextSong() {
-  songIsPlaying = false;
+  // songIsPlaying = true;
   audioPlayer.seekToNext();
-  playOrPause();
+  // await playOrPause();
 }
 
 void previousSong() {
-  songIsPlaying = false;
+  // songIsPlaying = false;
   audioPlayer.seekToPrevious();
-  playOrPause();
+  // await playOrPause();
 }
 
 void forward() {
@@ -135,7 +150,7 @@ void songSpeedRate2() {
   audioPlayer.setSpeed(2.0);
 }
 
-void repeatMode() async {
+Future<void> repeatMode() async {
   if (currentLoopMode == LoopMode.off) {
     currentLoopMode = LoopMode.one;
     print("Repeat One");
@@ -197,8 +212,8 @@ Future<void> pickFolder() async {
           tag: mediaItem,
         ));
       }
-      audioPlayer.setAudioSource(playlist);
-      await playOrPause();
+      await audioPlayer.setAudioSource(playlist);
+      // await playOrPause();
     } else {
       for (String filePath in folderFileNames) {
         // Try to extract metadata from the local file
@@ -277,8 +292,8 @@ Future<void> pickAndPlayAudio() async {
         ));
       }
 
-      audioPlayer.setAudioSource(playlist);
-      await playOrPause();
+      await audioPlayer.setAudioSource(playlist);
+      // await playOrPause();
     } else {
       for (String filePath in selectedSongs) {
         // Try to extract metadata from the local file

@@ -53,13 +53,13 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ElevatedButton(
-            //   onPressed: () {},
-            //   // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
-            //   child: Text(
-            //       'Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
-            // ),
-
+            ElevatedButton(
+              onPressed: () {
+                cleanPlaylist();
+              },
+              // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
+              child: const Text('Clean playlist'),
+            ),
             ElevatedButton(
               onPressed: () async {
                 await pickFolder();
@@ -90,16 +90,13 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  totalDuration;
-                });
                 previousSong();
               },
               child: const Text('Previous Audio'),
             ),
             ElevatedButton(
-              onPressed: () {
-                repeatMode();
+              onPressed: () async {
+                await repeatMode();
               },
               child: const Text('Repeat'),
             ),
