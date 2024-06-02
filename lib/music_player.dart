@@ -9,6 +9,8 @@ bool isPlaying = false;
 LoopMode currentLoopMode = LoopMode.off;
 bool songIsPlaying = false;
 bool isStopped = false;
+Duration currentPosition = Duration.zero;
+Duration totalDuration = Duration.zero;
 
 ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
   useLazyPreparation: false,
@@ -16,6 +18,24 @@ ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
   // Specify the playlist items
   children: [],
 );
+
+// void listenAudioPosition() {
+//   // I will need to use another state listener otherthan!
+//   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
+//   audioPlayer.positionStream.listen((position) {
+//     currentPosition = position;
+//   });
+
+//   audioPlayer.durationStream.listen((duration) {
+//     totalDuration = duration ?? Duration.zero;
+//   });
+// }
+
+String formatDuration(Duration duration) {
+  final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+  final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+  return '$minutes:$seconds';
+}
 
 Future<void> playOrPause() async {
   if (playlist.length == 0) {

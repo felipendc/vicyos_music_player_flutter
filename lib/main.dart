@@ -53,6 +53,12 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
+            //   child: Text(
+            //       'Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
+            // ),
             ElevatedButton(
               onPressed: () async {
                 await pickFolder();
@@ -66,9 +72,12 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
               child: const Text('IMPORT AUDIOS'),
             ),
             ElevatedButton(
-              child: const Text('Play or Pause'),
+              child: const Text('Pause or Play'),
               // child: isPlaying ? const Text('Pause') : const Text('Play'),
               onPressed: () async {
+                setState(() {
+                  totalDuration;
+                });
                 await playOrPause();
               },
             ),
@@ -80,6 +89,9 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
             ),
             ElevatedButton(
               onPressed: () {
+                setState(() {
+                  totalDuration;
+                });
                 previousSong();
               },
               child: const Text('Previous Audio'),
