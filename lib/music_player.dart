@@ -2,6 +2,7 @@
 
 import 'package:file_picker/file_picker.dart';
 import 'package:just_audio/just_audio.dart';
+import 'dart:io';
 
 late AudioPlayer audioPlayer;
 bool isPlaying = false;
@@ -10,16 +11,16 @@ bool songIsPlaying = false;
 bool isStopped = false;
 
 ConcatenatingAudioSource playlist = ConcatenatingAudioSource(
-  useLazyPreparation: true,
+  useLazyPreparation: false,
   shuffleOrder: DefaultShuffleOrder(),
   // Specify the playlist items
   children: [],
 );
 
-void playOrPause() async {
+Future<void> playOrPause() async {
   if (playlist.length == 0) {
     print("Playlist is EMPTY!");
-    await pickAndPlayAudio();
+    // await pickAndPlayAudio();
   } else {
     if (songIsPlaying == false) {
       songIsPlaying = !songIsPlaying;
@@ -120,10 +121,34 @@ void repeatMode() async {
 
 Future<void> pickFolder() async {
   String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+  List<String> folderFileNames = [];
+  final allowedExtensions = ["mp3", "m4a", "ogg", "wav", "aac", "midi"];
 
   if (selectedDirectory != null) {
     selectedDirectory = selectedDirectory;
-    print(selectedDirectory);
+    final dir = Directory(selectedDirectory);
+    final files = dir.listSync();
+    folderFileNames = files
+        .where((file) =>
+            file is File &&
+            allowedExtensions.any((ext) => file.path.endsWith('.$ext')))
+        .map((file) => file.path)
+        .toList();
+
+    print(folderFileNames);
+    if (playlist.length == 0) {
+      for (var file in folderFileNames) {
+        playlist.add(AudioSource.uri(Uri.file(file)));
+      }
+      audioPlayer.setAudioSource(playlist);
+      await playOrPause();
+    } else {
+      for (var file in folderFileNames) {
+        playlist.add(AudioSource.uri(Uri.file(file)));
+      }
+    }
+  } else {
+    print("No folder has been selected");
   }
 }
 
@@ -145,7 +170,7 @@ Future<void> pickAndPlayAudio() async {
       }
 
       audioPlayer.setAudioSource(playlist);
-      playOrPause();
+      await playOrPause();
     } else {
       for (var filePath in selectedSongs) {
         playlist.add(AudioSource.uri(Uri.file(filePath)));

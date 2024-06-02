@@ -54,22 +54,22 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {
-                pickFolder();
+              onPressed: () async {
+                await pickFolder();
               },
               child: const Text('Open folder'),
             ),
             ElevatedButton(
-              onPressed: () {
-                pickAndPlayAudio();
+              onPressed: () async {
+                await pickAndPlayAudio();
               },
               child: const Text('IMPORT AUDIOS'),
             ),
             ElevatedButton(
               child: const Text('Play or Pause'),
               // child: isPlaying ? const Text('Pause') : const Text('Play'),
-              onPressed: () {
-                playOrPause();
+              onPressed: () async {
+                await playOrPause();
               },
             ),
             ElevatedButton(
