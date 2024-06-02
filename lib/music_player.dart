@@ -29,10 +29,11 @@ void cleanPlaylist() {
     if (songIsPlaying) {
       songIsPlaying = false;
     }
-    audioPlayer.pause();
-    audioPlayer.setAudioSource(playlist);
+
+    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: true);
     playlist.clear();
-    audioPlayer.setAudioSource(playlist);
+    pauseSong();
+    print('IS IT PLAYING? $isPlaying');
   }
 }
 
@@ -70,11 +71,13 @@ Future<void> playOrPause() async {
   } else {
     if (songIsPlaying == false) {
       songIsPlaying = true;
+      isStopped = false;
       await audioPlayer.play();
     } else if (songIsPlaying == true) {
       songIsPlaying = !songIsPlaying;
       await audioPlayer.pause();
     }
+
     currenSongName();
   }
 
@@ -121,15 +124,15 @@ void stopSong() {
   audioPlayer.stop();
 }
 
-void nextSong() {
+Future<void> nextSong() async {
   // songIsPlaying = true;
-  audioPlayer.seekToNext();
+  await audioPlayer.seekToNext();
   // await playOrPause();
 }
 
-void previousSong() {
+Future<void> previousSong() async {
   // songIsPlaying = false;
-  audioPlayer.seekToPrevious();
+  await audioPlayer.seekToPrevious();
   // await playOrPause();
 }
 
@@ -292,7 +295,7 @@ Future<void> pickAndPlayAudio() async {
         ));
       }
 
-      await audioPlayer.setAudioSource(playlist);
+      audioPlayer.setAudioSource(playlist);
       // await playOrPause();
     } else {
       for (String filePath in selectedSongs) {

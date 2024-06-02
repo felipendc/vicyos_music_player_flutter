@@ -53,6 +53,13 @@ class AudioPlayerScreenState extends State<AudioPlayerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // ElevatedButton(
+            //   onPressed: () {
+            //     stopSong();
+            //   },
+            //   // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
+            //   child: const Text('STOP'),
+            // ),
             ElevatedButton(
               onPressed: () {
                 cleanPlaylist();
