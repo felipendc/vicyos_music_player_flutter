@@ -15,26 +15,15 @@ class AudioPlayerScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ElevatedButton(
-            //   onPressed: () {
-            //   },
-            //   // Text('Current Time: ${)} / ${formatDuration(totalDuration)}')
-            //   child: const Text('Current Time: '),
-            // ),
             ElevatedButton(
               onPressed: () {},
-              // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
-              // child: Obx(() => Text('${controller.songIsPlaying.value}')),
-
               child: Obx(() =>
-                  Text('Current Index: ${controller.currentIndex?.value}')),
-              // Text('Song: : ${controller.currentSongName.value}')),
+                  Text('Current Index: ${controller.currentIndex.value}')),
             ),
             ElevatedButton(
               onPressed: () {
                 cleanPlaylist();
               },
-              // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
               child: const Text('Clean playlist'),
             ),
             ElevatedButton(
@@ -54,7 +43,6 @@ class AudioPlayerScreen extends StatelessWidget {
                 child: controller.songIsPlaying.value
                     ? const Text('Pause')
                     : const Text('Play'),
-                // child: isPlaying ? const Text('Pause') : const Text('Play'),
                 onPressed: () {
                   playOrPause();
                 },
@@ -65,14 +53,12 @@ class AudioPlayerScreen extends StatelessWidget {
                   nextSong();
                 },
                 child: const Text('Next')),
-
             ElevatedButton(
               onPressed: () {
                 previousSong();
               },
               child: const Text('Previous'),
             ),
-
             Obx(
               () => ElevatedButton(
                 onPressed: () {
@@ -81,7 +67,6 @@ class AudioPlayerScreen extends StatelessWidget {
                 child: Text(controller.currentLoopModeLabel.value),
               ),
             ),
-
             ElevatedButton(
               onPressed: () {
                 forward();

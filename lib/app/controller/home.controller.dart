@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   final RxBool songIsPlaying = false.obs;
   final RxBool isStopped = false.obs;
   final Rx<Duration> currentPosition = Duration.zero.obs;
-  final RxInt? currentIndex = 00.obs;
+  final RxInt currentIndex = 0.obs;
   final RxString currentSongName = ''.obs;
 
   final Rx<Duration> totalDuration = Duration.zero.obs;

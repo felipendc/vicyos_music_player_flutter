@@ -13,8 +13,19 @@ final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
 
 void getSongName() {
-  // TODO:
-  final index = controller.playlist.value.children[audioPlayer.currentIndex!];
+//   CODE REFERENCE!
+//   final List<AudioSource> playlist = [
+//   AudioSource.uri(Uri.parse('https://example.com/audio1.mp3'), data: {'title': 'Song Title 1'}),
+//   AudioSource.uri(Uri.parse('https://example.com/audio2.mp3'), data: {'title': 'Song Title 2'}),
+//   // ... more audio sources
+// ];
+
+// // Access the title from the data property within the AudioSource
+// final currentSongTitle = playlist[_player.currentIndex]['title'];
+
+  // TODO: Use it to get the name of the song via data.
+  final currentIndexPointer =
+      controller.playlist.value.children[controller.currentIndex.value];
 }
 
 // This func should be used on a flutter.iniSstate or GetX.onInit();
