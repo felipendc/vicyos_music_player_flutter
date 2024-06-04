@@ -2,14 +2,14 @@
 // Run flutter clean in case of running this code in another computer.
 // flutter run -d windows, if you are having problems to run this file.
 
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
-import 'music_player.dart';
+import 'package:vicyos_music_player/app/view/home.view.dart';
+import 'package:vicyos_music_player/app/controller/home.controller.dart';
 
 void main() {
-  runApp(
-    const MyApp(),
-  );
+  Get.put(HomeController());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,123 +17,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       home: AudioPlayerScreen(),
-    );
-  }
-}
-
-class AudioPlayerScreen extends StatefulWidget {
-  const AudioPlayerScreen({super.key});
-
-  @override
-  AudioPlayerScreenState createState() => AudioPlayerScreenState();
-}
-
-class AudioPlayerScreenState extends State<AudioPlayerScreen> {
-  @override
-  void initState() {
-    super.initState();
-    audioPlayer = AudioPlayer();
-  }
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Audio Player with File Picker'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // ElevatedButton(
-            //   onPressed: () {
-            //     stopSong();
-            //   },
-            //   // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
-            //   child: const Text('STOP'),
-            // ),
-            ElevatedButton(
-              onPressed: () {
-                cleanPlaylist();
-              },
-              // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
-              child: const Text('Clean playlist'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await pickFolder();
-              },
-              child: const Text('Open folder'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await pickAndPlayAudio();
-              },
-              child: const Text('IMPORT AUDIOS'),
-            ),
-            ElevatedButton(
-              child: const Text('Pause or Play'),
-              // child: isPlaying ? const Text('Pause') : const Text('Play'),
-              onPressed: () async {
-                setState(() {
-                  totalDuration;
-                });
-                await playOrPause();
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                nextSong();
-              },
-              child: const Text('Next Audio'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                previousSong();
-              },
-              child: const Text('Previous Audio'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await repeatMode();
-              },
-              child: const Text('Repeat'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                forward();
-              },
-              child: const Text('Forward'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                rewind();
-              },
-              child: const Text('Rewind'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                songSpeedRate1();
-              },
-              child: const Text('Speed Rate 1.0'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                songSpeedRate2();
-              },
-              child: const Text('Speed Rate 2.0'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
