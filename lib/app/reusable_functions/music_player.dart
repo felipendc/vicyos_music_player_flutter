@@ -54,7 +54,7 @@ void currenSongName() {
 //   return '$minutes:$seconds';
 // }
 
-Future<void> playOrPause() async {
+void playOrPause() {
   if (controller.playlist.value.length == 0) {
     print("Playlist is EMPTY!");
     // await pickAndPlayAudio();
@@ -62,10 +62,10 @@ Future<void> playOrPause() async {
     if (controller.songIsPlaying.value == false) {
       controller.songIsPlaying.value = true;
       controller.isStopped.value = false;
-      await controller.audioPlayer.play();
+      controller.audioPlayer.play();
     } else if (controller.songIsPlaying.value == true) {
       controller.songIsPlaying.value = !controller.songIsPlaying.value;
-      await controller.audioPlayer.pause();
+      controller.audioPlayer.pause();
     }
     print('IS THE SONG PLAYING? ${controller.songIsPlaying.value}');
     currenSongName();
@@ -103,9 +103,9 @@ Future<void> playOrPause() async {
 //   await controller.audioPlayer.play();
 // }
 
-Future<void> pauseSong() async {
+void pauseSong() {
   controller.songIsPlaying.value = false;
-  await controller.audioPlayer.pause();
+  controller.audioPlayer.pause();
 }
 
 void stopSong() {
@@ -114,9 +114,9 @@ void stopSong() {
   controller.audioPlayer.stop();
 }
 
-Future<void> nextSong() async {
+void nextSong() {
   // controller.songIsPlaying.value = true;
-  await controller.audioPlayer.seekToNext();
+  controller.audioPlayer.seekToNext();
   controller.audioPlayer.hasNext
       ? controller.hasNextSong.value = true
       : controller.hasNextSong.value = false;
@@ -126,9 +126,9 @@ Future<void> nextSong() async {
   // await playOrPause();
 }
 
-Future<void> previousSong() async {
+void previousSong() {
   // controller.songIsPlaying.value = false;
-  await controller.audioPlayer.seekToPrevious();
+  controller.audioPlayer.seekToPrevious();
   controller.audioPlayer.hasNext
       ? controller.hasNextSong.value = true
       : controller.hasNextSong.value = false;
@@ -157,22 +157,22 @@ void songSpeedRate2() {
   controller.audioPlayer.setSpeed(2.0);
 }
 
-Future<void> repeatMode() async {
+void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.off) {
     controller.currentLoopMode.value = LoopMode.one;
     controller.currentLoopModeLabel.value = "Repeat: One";
     print("Repeat One");
-    await controller.audioPlayer.setLoopMode(LoopMode.one);
+    controller.audioPlayer.setLoopMode(LoopMode.one);
   } else if (controller.currentLoopMode.value == LoopMode.one) {
     controller.currentLoopMode.value = LoopMode.all;
     controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
-    await controller.audioPlayer.setLoopMode(LoopMode.all);
+    controller.audioPlayer.setLoopMode(LoopMode.all);
   } else if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.off;
     controller.currentLoopModeLabel.value = "Repeat: Off";
     print("Repeat Off");
-    await controller.audioPlayer.setLoopMode(LoopMode.off);
+    controller.audioPlayer.setLoopMode(LoopMode.off);
   }
 }
 

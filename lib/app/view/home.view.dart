@@ -46,8 +46,8 @@ class AudioPlayerScreen extends StatelessWidget {
                     ? const Text('Pause')
                     : const Text('Play'),
                 // child: isPlaying ? const Text('Pause') : const Text('Play'),
-                onPressed: () async {
-                  await playOrPause();
+                onPressed: () {
+                  playOrPause();
                 },
               ),
             ),
@@ -78,8 +78,8 @@ class AudioPlayerScreen extends StatelessWidget {
             ),
             Obx(
               () => ElevatedButton(
-                onPressed: () async {
-                  await repeatMode();
+                onPressed: () {
+                  repeatMode();
                 },
                 child: Text(controller.currentLoopModeLabel.value),
               ),
