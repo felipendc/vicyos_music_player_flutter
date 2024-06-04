@@ -10,40 +10,62 @@ import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
+late AudioPlayer audioPlayer;
+
+void getSongName() {
+  // TODO:
+  final index = controller.playlist.value.children[audioPlayer.currentIndex!];
+}
+
+// This func should be used on a flutter.iniSstate or GetX.onInit();
+void playerEventStateStreamListener() {
+  // The player has completed playback
+  audioPlayer.playerStateStream.listen((playerState) {
+    if (playerState.processingState == ProcessingState.completed) {
+      controller.songIsPlaying.value = false;
+    }
+  });
+  // Get the current playlist index
+  audioPlayer.playbackEventStream.listen((event) {
+    controller.currentIndex?.value = event.currentIndex!;
+  });
+
+  //  Get current Songname using MediaItem tag.
+  audioPlayer.currentIndexStream.listen((index) {
+    if (index != null) {
+      final currentMediaItem = audioPlayer.sequence![index].tag as MediaItem;
+      controller.currentSongName.value = currentMediaItem.title;
+      print(
+          'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
+    }
+  });
+}
 
 void cleanPlaylist() {
-  // controller.audioPlayer.pause();
+  // audioPlayer.pause();
   if (controller.playlist.value.length > 0) {
     if (controller.songIsPlaying.value) {
       controller.songIsPlaying.value = false;
     }
     controller.playlistIsEmpty.value = true;
-    controller.audioPlayer.setAudioSource(controller.playlist.value,
+    audioPlayer.setAudioSource(controller.playlist.value,
         initialIndex: 0, preload: true);
     controller.playlist.value.clear();
     pauseSong();
     print('IS SONG PLAYING? ${controller.songIsPlaying.value}');
+  } else {
+    controller.currentSongName.value = "";
   }
-}
-
-void currenSongName() {
-  controller.audioPlayer.currentIndexStream.listen((index) {
-    if (index != null) {
-      final currentMediaItem =
-          controller.audioPlayer.sequence![index].tag as MediaItem;
-      print('Current audio name USING MEDIA_ITEM: ${currentMediaItem.title}');
-    }
-  });
 }
 
 // void listenAudioPosition() {
 //   // I will need to use another state listener otherthan!
 //   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(totalDuration)}'),
-//   controller.audioPlayer.positionStream.listen((position) {
+//   audioPlayer.positionStream.listen((position) {
 //     currentPosition = position;
 //   });
 
-//   controller.audioPlayer.durationStream.listen((duration) {
+//   audioPlayer.durationStream.listen((duration) {
 //     totalDuration = duration ?? Duration.zero;
 //   });
 // }
@@ -62,35 +84,35 @@ void playOrPause() {
     if (controller.songIsPlaying.value == false) {
       controller.songIsPlaying.value = true;
       controller.isStopped.value = false;
-      controller.audioPlayer.play();
+      audioPlayer.play();
     } else if (controller.songIsPlaying.value == true) {
       controller.songIsPlaying.value = !controller.songIsPlaying.value;
-      controller.audioPlayer.pause();
+      audioPlayer.pause();
     }
     print('IS THE SONG PLAYING? ${controller.songIsPlaying.value}');
-    currenSongName();
+    print('Song: : ${controller.currentSongName.value}');
   }
 
-  // controller.audioPlayer.playerStateStream.listen((playerState) {
+  // audioPlayer.playerStateStream.listen((playerState) {
   //   final playing = playerState.playing;
   //   final processingState = playerState.processingState;
 
   //   if (playing) {
   //     // The player is playing
   //     print('Playing');
-  //     // controller.audioPlayer.pause();
+  //     // audioPlayer.pause();
   //   }
 
   //   if (processingState == ProcessingState.ready) {
   //     // The player is paused
   //     print('Paused');
-  //     // controller.audioPlayer.play();
+  //     // audioPlayer.play();
   //   }
 
   //   if (processingState == ProcessingState.completed) {
   //     // The player has completed playback
   //     print('Completed');
-  //     // controller.audioPlayer.play();
+  //     // audioPlayer.play();
   //   } else {
   //     // Other states (idle, buffering, etc.)
   //     print('Other state: $processingState');
@@ -100,61 +122,43 @@ void playOrPause() {
 
 // void playSong() async {
 //   controller.songIsPlaying.value = true;
-//   await controller.audioPlayer.play();
+//   await audioPlayer.play();
 // }
 
 void pauseSong() {
   controller.songIsPlaying.value = false;
-  controller.audioPlayer.pause();
+  audioPlayer.pause();
 }
 
 void stopSong() {
   controller.songIsPlaying.value = false;
   controller.isStopped.value = true;
-  controller.audioPlayer.stop();
+  audioPlayer.stop();
 }
 
 void nextSong() {
-  // controller.songIsPlaying.value = true;
-  controller.audioPlayer.seekToNext();
-  controller.audioPlayer.hasNext
-      ? controller.hasNextSong.value = true
-      : controller.hasNextSong.value = false;
-  controller.audioPlayer.hasPrevious
-      ? controller.hasPreviousSong.value = true
-      : controller.hasPreviousSong.value = false;
-  // await playOrPause();
+  audioPlayer.seekToNext();
 }
 
 void previousSong() {
-  // controller.songIsPlaying.value = false;
-  controller.audioPlayer.seekToPrevious();
-  controller.audioPlayer.hasNext
-      ? controller.hasNextSong.value = true
-      : controller.hasNextSong.value = false;
-  controller.audioPlayer.hasPrevious
-      ? controller.hasPreviousSong.value = true
-      : controller.hasPreviousSong.value = false;
-  // await playOrPause();
+  audioPlayer.seekToPrevious();
 }
 
 void forward() {
-  controller.audioPlayer
-      .seek(controller.audioPlayer.position + const Duration(seconds: 5));
+  audioPlayer.seek(audioPlayer.position + const Duration(seconds: 5));
 }
 
 void rewind() {
-  controller.audioPlayer
-      .seek(controller.audioPlayer.position - const Duration(seconds: 5));
+  audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
 }
 
 void songSpeedRate1() {
-  controller.audioPlayer.setSpeed(1.0);
+  audioPlayer.setSpeed(1.0);
 }
 
 // This is a temp function, just for learning purpose...
 void songSpeedRate2() {
-  controller.audioPlayer.setSpeed(2.0);
+  audioPlayer.setSpeed(2.0);
 }
 
 void repeatMode() {
@@ -162,17 +166,17 @@ void repeatMode() {
     controller.currentLoopMode.value = LoopMode.one;
     controller.currentLoopModeLabel.value = "Repeat: One";
     print("Repeat One");
-    controller.audioPlayer.setLoopMode(LoopMode.one);
+    audioPlayer.setLoopMode(LoopMode.one);
   } else if (controller.currentLoopMode.value == LoopMode.one) {
     controller.currentLoopMode.value = LoopMode.all;
     controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
-    controller.audioPlayer.setLoopMode(LoopMode.all);
+    audioPlayer.setLoopMode(LoopMode.all);
   } else if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.off;
     controller.currentLoopModeLabel.value = "Repeat: Off";
     print("Repeat Off");
-    controller.audioPlayer.setLoopMode(LoopMode.off);
+    audioPlayer.setLoopMode(LoopMode.off);
   }
 }
 
@@ -222,7 +226,8 @@ Future<void> pickFolder() async {
           tag: mediaItem,
         ));
       }
-      await controller.audioPlayer.setAudioSource(controller.playlist.value);
+      await audioPlayer.setAudioSource(controller.playlist.value,
+          initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
       // await playOrPause();
     } else {
@@ -303,7 +308,8 @@ Future<void> pickAndPlayAudio() async {
         ));
       }
 
-      controller.audioPlayer.setAudioSource(controller.playlist.value);
+      audioPlayer.setAudioSource(controller.playlist.value,
+          initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
       // await playOrPause();
     } else {

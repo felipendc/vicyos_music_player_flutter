@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 
 class HomeController extends GetxController {
   final RxBool playlistIsEmpty = true.obs;
@@ -10,9 +11,11 @@ class HomeController extends GetxController {
   final RxBool songIsPlaying = false.obs;
   final RxBool isStopped = false.obs;
   final Rx<Duration> currentPosition = Duration.zero.obs;
+  final RxInt? currentIndex = 00.obs;
+  final RxString currentSongName = ''.obs;
+
   final Rx<Duration> totalDuration = Duration.zero.obs;
   final RxList<dynamic> listas = [].obs;
-  late AudioPlayer audioPlayer;
 
   Rx<ConcatenatingAudioSource> playlist = ConcatenatingAudioSource(
     useLazyPreparation: false,
@@ -25,6 +28,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     audioPlayer = AudioPlayer();
+    playerEventStateStreamListener();
   }
 
   @override

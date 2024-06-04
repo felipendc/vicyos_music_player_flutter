@@ -22,6 +22,15 @@ class AudioPlayerScreen extends StatelessWidget {
             //   child: const Text('Current Time: '),
             // ),
             ElevatedButton(
+              onPressed: () {},
+              // Text('Current Time: ${)} / ${formatDuration(_totalDuration)}')
+              // child: Obx(() => Text('${controller.songIsPlaying.value}')),
+
+              child: Obx(() =>
+                  Text('Current Index: ${controller.currentIndex?.value}')),
+              // Text('Song: : ${controller.currentSongName.value}')),
+            ),
+            ElevatedButton(
               onPressed: () {
                 cleanPlaylist();
               },
@@ -51,31 +60,19 @@ class AudioPlayerScreen extends StatelessWidget {
                 },
               ),
             ),
-            Obx(
-              () => ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
                   nextSong();
                 },
-                child: controller.playlistIsEmpty.value
-                    ? const Text('Next')
-                    : controller.hasNextSong.value
-                        ? const Text('Next')
-                        : const Text('This is the last song.'),
-              ),
+                child: const Text('Next')),
+
+            ElevatedButton(
+              onPressed: () {
+                previousSong();
+              },
+              child: const Text('Previous'),
             ),
 
-            Obx(
-              () => ElevatedButton(
-                onPressed: () {
-                  previousSong();
-                },
-                child: controller.playlistIsEmpty.value
-                    ? const Text('Previous')
-                    : controller.hasPreviousSong.value
-                        ? const Text('Previous')
-                        : const Text('This is the first song.'),
-              ),
-            ),
             Obx(
               () => ElevatedButton(
                 onPressed: () {
