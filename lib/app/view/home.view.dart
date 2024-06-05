@@ -17,8 +17,8 @@ class AudioPlayerScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {},
-              child: Obx(() =>
-                  Text('Current Index: ${controller.currentIndex.value}')),
+              child: Obx(() => Text(
+                  'Current Index: ${controller.currentIndex.value} Name: ${controller.currentSongName.value}')),
             ),
             ElevatedButton(
               onPressed: () {
