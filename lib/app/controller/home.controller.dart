@@ -5,8 +5,7 @@ import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 class HomeController extends GetxController {
   final RxBool playlistIsEmpty = true.obs;
   final RxBool songIsPlaying = false.obs;
-
-  // --- Need to updated and link all the references! ---//
+  //
   final RxBool firstSongIndex = true.obs;
   final RxBool lastSongIndex = false.obs;
   final RxBool penultimateSongIndex = false.obs;
