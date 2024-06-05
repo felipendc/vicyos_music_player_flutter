@@ -36,6 +36,7 @@ dependencies:
   audio_service: ^0.18.13
   flutter_media_metadata: ^1.0.0+1
   get: ^4.6.6
+  provider: ^6.0.0
   # path_provider: ^2.0.11 
 
   # // Current flutter version: Tools • Dart 3.4.1 • DevTools 2.34.3

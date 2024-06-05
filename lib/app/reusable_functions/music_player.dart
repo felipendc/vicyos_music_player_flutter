@@ -28,6 +28,16 @@ void getSongName() {
       controller.playlist.value.children[controller.currentIndex.value];
 }
 
+void hasPrevious() {
+  if (controller.currentIndex.value == 0) {
+    print('INDEX IS  EQUAL TO 0!');
+  }
+
+  if (controller.currentIndex.value > 0) {
+    print('INDEX IS  GRATER THAN 0!');
+  }
+}
+
 // This func should be used on a flutter.iniSstate or GetX.onInit();
 void playerEventStateStreamListener() {
   // The player has completed playback
@@ -38,7 +48,7 @@ void playerEventStateStreamListener() {
   });
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
-    controller.currentIndex?.value = event.currentIndex!;
+    controller.currentIndex.value = event.currentIndex!;
   });
 
   //  Get current Songname using MediaItem tag.
@@ -58,12 +68,13 @@ void cleanPlaylist() {
     if (controller.songIsPlaying.value) {
       controller.songIsPlaying.value = false;
     }
+
     controller.playlistIsEmpty.value = true;
     audioPlayer.setAudioSource(controller.playlist.value,
         initialIndex: 0, preload: true);
     controller.playlist.value.clear();
     pauseSong();
-    print('IS SONG PLAYING? ${controller.songIsPlaying.value}');
+    print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
   } else {
     controller.currentSongName.value = "";
   }
@@ -147,12 +158,46 @@ void stopSong() {
   audioPlayer.stop();
 }
 
-void nextSong() {
-  audioPlayer.seekToNext();
+Future<void> nextSong() async {
+  print('LIST TOTAL ITEM.${controller.playlist.value.children.length}');
+
+  await audioPlayer.seekToNext();
+  if (controller.currentIndex.value > 0) {
+    controller.firstSongIndex.value = false;
+    print('INDEX IS  GRATER THAN 0!');
+  }
+
+  if (controller.currentIndex.value ==
+      controller.playlist.value.children.length - 1) {
+    controller.lastSongIndex.value = true;
+    print('INDEX IS  THE LAST');
+  } else {
+    controller.lastSongIndex.value = false;
+  }
 }
 
-void previousSong() {
-  audioPlayer.seekToPrevious();
+Future<void> previousSong() async {
+  print('LIST TOTAL ITEM.${controller.playlist.value.children.length}');
+  if (controller.currentIndex.value == 0) {
+    controller.firstSongIndex.value = true;
+    print('INDEX IS  EQUAL TO 0!');
+  }
+
+  if (controller.currentIndex.value > 0) {
+    controller.firstSongIndex.value = false;
+    print('INDEX IS  GRATER THAN 0!');
+  }
+
+  await audioPlayer.seekToPrevious();
+
+  if (controller.currentIndex.value ==
+      controller.playlist.value.children.length - 2) {
+    controller.penultimateSongIndex.value = true;
+    print('INDEX IS  THE PENULTIMATE ####');
+  } else {
+    controller.penultimateSongIndex.value = false;
+    print('INDEX IS NO LONGER THE PENULTIMATE ####');
+  }
 }
 
 void forward() {
@@ -240,6 +285,7 @@ Future<void> pickFolder() async {
       await audioPlayer.setAudioSource(controller.playlist.value,
           initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
+      controller.firstSongIndex.value = true;
       // await playOrPause();
     } else {
       for (String filePath in folderFileNames) {
@@ -322,6 +368,7 @@ Future<void> pickAndPlayAudio() async {
       audioPlayer.setAudioSource(controller.playlist.value,
           initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
+      controller.firstSongIndex.value = true;
       // await playOrPause();
     } else {
       for (String filePath in selectedSongs) {
