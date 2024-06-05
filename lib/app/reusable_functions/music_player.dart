@@ -54,10 +54,9 @@ void cleanPlaylist() {
     audioPlayer.setAudioSource(controller.playlist.value,
         initialIndex: 0, preload: true);
     controller.playlist.value.clear();
+    controller.currentSongName.value = "";
     pauseSong();
     print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
-  } else {
-    controller.currentSongName.value = "";
   }
 }
 
