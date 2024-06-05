@@ -28,16 +28,6 @@ void getSongName() {
       controller.playlist.value.children[controller.currentIndex.value];
 }
 
-void hasPrevious() {
-  if (controller.currentIndex.value == 0) {
-    print('INDEX IS  EQUAL TO 0!');
-  }
-
-  if (controller.currentIndex.value > 0) {
-    print('INDEX IS  GRATER THAN 0!');
-  }
-}
-
 // This func should be used on a flutter.iniSstate or GetX.onInit();
 void playerEventStateStreamListener() {
   // The player has completed playback
