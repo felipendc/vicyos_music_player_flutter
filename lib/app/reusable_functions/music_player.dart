@@ -5,7 +5,6 @@ import 'dart:io';
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
-
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
@@ -220,14 +219,10 @@ void rewind() {
       : audioPlayer.seek(Duration.zero);
 }
 
-void songSpeedRate1() {
-  audioPlayer.setSpeed(1.0);
-}
-
 // This is a temp function, just for learning purpose...
-void songSpeedRate2() {
-  audioPlayer.setSpeed(2.0);
-}
+// void songSpeedRate2() {
+//   audioPlayer.setSpeed(2.0);
+// }
 
 void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.off) {

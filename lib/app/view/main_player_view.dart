@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,8 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 import 'package:flutter/services.dart';
+import 'package:vicyos_music_player/app/view/bottom.sheet.import.dart';
+import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 
 class MainPlayerView extends StatefulWidget {
   const MainPlayerView({super.key});
@@ -40,9 +44,10 @@ class _MainPlayerViewState extends State<MainPlayerView> {
           child: Text(
             "Vicyos Music Player",
             style: TextStyle(
-                color: TColor.primaryText80,
-                fontSize: 20,
-                fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w900,
+              color: TColor.unfocused,
+              fontSize: 25,
+            ),
           ),
         ),
       ),
@@ -207,15 +212,19 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Column(
                         children: [
                           SizedBox(
                             width: 45,
                             height: 40,
                             child: IconButton(
-                              onPressed: () async {
-                                await pickAndPlayAudio();
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  const ImportFilesBottomSheet(),
+                                  // backgroundColor: TColor.bg,
+                                  isScrollControlled: true,
+                                );
                               },
                               icon: Image.asset(
                                 "assets/img/add_song_icon.png",
@@ -235,35 +244,63 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: 45,
-                            height: 40,
-                            child: IconButton(
-                              onPressed: () async {
-                                await pickFolder();
-                              },
-                              icon: Image.asset(
-                                "assets/img/add_folder_icon.png",
-                                width: 30,
-                                height: 30,
-                                color: TColor.primaryText80,
-                              ),
+                          IconButton(
+                            onPressed: () {
+                              Get.bottomSheet(
+                                const SpeedRateBottomSheet(),
+                                // backgroundColor: TColor.bg,
+                                isScrollControlled: true,
+                              );
+                            },
+                            icon: Image.asset(
+                              'assets/img/speed-one.png',
+                              width: 40,
+                              height: 40,
+                              color: TColor.primaryText80,
                             ),
                           ),
 
                           // Text(
-                          //   "Add songs",
+                          //   "Repeat",
                           //   style: TextStyle(
                           //       color: TColor.secondaryText, fontSize: 9),
                           // ),
                         ],
                       ),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Column(
+                    //     children: [
+                    //       SizedBox(
+                    //         width: 45,
+                    //         height: 40,
+                    //         child: IconButton(
+                    //           onPressed: ()  {
+
+                    //           },
+                    //           icon: Image.asset(
+                    //             "assets/img/add_folder_icon.png",
+                    //             width: 30,
+                    //             height: 30,
+                    //             color: TColor.primaryText80,
+                    //           ),
+                    //         ),
+                    //       ),
+
+                    //       // Text(
+                    //       //   "Add songs",
+                    //       //   style: TextStyle(
+                    //       //       color: TColor.secondaryText, fontSize: 9),
+                    //       // ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Column(
                         children: [
                           SizedBox(
@@ -280,32 +317,6 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                   height: 30,
                                   color: TColor.primaryText80,
                                 ),
-                              ),
-                            ),
-                          ),
-
-                          // Text(
-                          //   "Repeat",
-                          //   style: TextStyle(
-                          //       color: TColor.secondaryText, fontSize: 9),
-                          // ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: 45,
-                            height: 40,
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Image.asset(
-                                'assets/img/more.png',
-                                width: 30,
-                                height: 30,
-                                color: TColor.primaryText80,
                               ),
                             ),
                           ),
