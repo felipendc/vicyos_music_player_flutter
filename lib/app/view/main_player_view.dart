@@ -177,9 +177,19 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               height: 10,
             ),
             Obx(
-              () => Text(
-                "Album: ${controller.currentSongAlbumName.value}",
-                style: TextStyle(color: TColor.secondaryText, fontSize: 14),
+              () => Padding(
+                padding: const EdgeInsets.only(
+                  right: 10,
+                  left: 10,
+                ),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "Album: ${controller.currentSongAlbumName.value}",
+                  style: TextStyle(
+                    color: TColor.secondaryText,
+                    fontSize: 14,
+                  ),
+                ),
               ),
             ),
             const SizedBox(
