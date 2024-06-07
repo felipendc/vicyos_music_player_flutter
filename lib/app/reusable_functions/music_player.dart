@@ -92,15 +92,15 @@ String formatDuration(Duration duration) {
 }
 
 void cleanPlaylist() {
-  if (controller.playlist.value.length > 0) {
+  if (controller.audioSources.isEmpty) {
     if (controller.songIsPlaying.value) {
       controller.songIsPlaying.value = false;
     }
 
     controller.playlistIsEmpty.value = true;
-    audioPlayer.setAudioSource(controller.playlist.value,
+    audioPlayer.setAudioSource(controller.playlist,
         initialIndex: 0, preload: true);
-    controller.playlist.value.clear();
+    controller.audioSources.clear();
     controller.currentSongName.value = "The playlist is empty";
     controller.currentSongNameTrimmed.value = "The playlist is empty";
 
@@ -112,7 +112,7 @@ void cleanPlaylist() {
 }
 
 void playOrPause() {
-  if (controller.playlist.value.length == 0) {
+  if (controller.audioSources.isEmpty) {
     print("The playlist is EMPTY");
   } else {
     if (controller.songIsPlaying.value == false) {
@@ -171,7 +171,7 @@ void stopSong() {
 }
 
 Future<void> nextSong() async {
-  print('LIST TOTAL ITEM.${controller.playlist.value.children.length}');
+  print('LIST TOTAL ITEM.${controller.audioSources.length}');
 
   await audioPlayer.seekToNext();
   if (controller.currentIndex.value > 0) {
@@ -179,8 +179,7 @@ Future<void> nextSong() async {
     print('INDEX IS GRATER THAN 0!');
   }
 
-  if (controller.currentIndex.value ==
-      controller.playlist.value.children.length - 1) {
+  if (controller.currentIndex.value == controller.audioSources.length - 1) {
     controller.lastSongIndex.value = true;
     print('INDEX IS THE LAST');
   } else {
@@ -189,7 +188,7 @@ Future<void> nextSong() async {
 }
 
 Future<void> previousSong() async {
-  print('LIST TOTAL ITEM.${controller.playlist.value.children.length}');
+  print('LIST TOTAL ITEM.${controller.audioSources.length}');
   if (controller.currentIndex.value == 0) {
     controller.firstSongIndex.value = true;
     print('INDEX IS EQUAL TO 0!');
@@ -202,8 +201,7 @@ Future<void> previousSong() async {
 
   await audioPlayer.seekToPrevious();
 
-  if (controller.currentIndex.value ==
-      controller.playlist.value.children.length - 2) {
+  if (controller.currentIndex.value == controller.audioSources.length - 2) {
     controller.penultimateSongIndex.value = true;
     print('INDEX IS THE PENULTIMATE ####');
   } else {
@@ -271,7 +269,7 @@ Future<void> pickFolder() async {
         .toList();
 
     print(folderFileNames);
-    if (controller.playlist.value.length == 0) {
+    if (controller.audioSources.isEmpty) {
       for (String filePath in folderFileNames) {
         // Try to extract metadata from the local file
         File audioFile = File(filePath);
@@ -297,18 +295,19 @@ Future<void> pickFolder() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.value.add(AudioSource.uri(
-          Uri.file(filePath),
-          tag: mediaItem,
-        ));
+        controller.playlist.add(
+          AudioSource.uri(
+            Uri.file(filePath),
+            tag: mediaItem,
+          ),
+        );
+        controller.playlistLength.value = controller.audioSources.length;
       }
-      await audioPlayer.setAudioSource(controller.playlist.value,
+      await audioPlayer.setAudioSource(controller.playlist,
           initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
-      controller.playlistLength.value =
-          controller.playlist.value.children.length;
 
       // await playOrPause();
     } else {
@@ -337,13 +336,14 @@ Future<void> pickFolder() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.value.add(AudioSource.uri(
-          Uri.file(filePath),
-          tag: mediaItem,
-        ));
+        controller.playlist.add(
+          AudioSource.uri(
+            Uri.file(filePath),
+            tag: mediaItem,
+          ),
+        );
+        controller.playlistLength.value = controller.audioSources.length;
       }
-      controller.playlistLength.value =
-          controller.playlist.value.children.length;
     }
   } else {
     print("No folder has been selected");
@@ -361,7 +361,7 @@ Future<void> pickAndPlayAudio() async {
     selectedSongs =
         result.paths.where((path) => path != null).cast<String>().toList();
 
-    if (controller.playlist.value.length == 0) {
+    if (controller.audioSources.isEmpty) {
       for (String filePath in selectedSongs) {
         print('Processing file: $filePath');
 
@@ -389,19 +389,20 @@ Future<void> pickAndPlayAudio() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.value.add(AudioSource.uri(
-          Uri.file(filePath),
-          tag: mediaItem,
-        ));
+        controller.playlist.add(
+          AudioSource.uri(
+            Uri.file(filePath),
+            tag: mediaItem,
+          ),
+        );
+        controller.playlistLength.value = controller.audioSources.length;
       }
 
-      audioPlayer.setAudioSource(controller.playlist.value,
+      audioPlayer.setAudioSource(controller.playlist,
           initialIndex: 0, preload: true);
       controller.playlistIsEmpty.value = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
-      controller.playlistLength.value =
-          controller.playlist.value.children.length;
 
       // await playOrPause();
     } else {
@@ -430,15 +431,13 @@ Future<void> pickAndPlayAudio() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.value.add(AudioSource.uri(
+        controller.playlist.add(AudioSource.uri(
           Uri.file(filePath),
           tag: mediaItem,
         ));
-
+        controller.playlistLength.value = controller.audioSources.length;
         print('Processing file: $filePath');
       }
-      controller.playlistLength.value =
-          controller.playlist.value.children.length;
     }
   }
 }

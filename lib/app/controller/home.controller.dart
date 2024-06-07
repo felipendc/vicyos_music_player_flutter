@@ -34,19 +34,20 @@ class HomeController extends GetxController {
   RxDouble sleekCircularSliderDuration =
       100.0.obs; // Initialize with default max value
 
-  Rx<ConcatenatingAudioSource> playlist = ConcatenatingAudioSource(
-    useLazyPreparation: false,
-    shuffleOrder: DefaultShuffleOrder(),
-    // Specify the playlist items
-    children: [],
-  ).obs;
+  final RxList<AudioSource> audioSources = <AudioSource>[].obs;
+  late ConcatenatingAudioSource playlist;
 
   @override
   void onInit() {
     super.onInit();
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
-    // playerEventStateStreamListener();
+
+    playlist = ConcatenatingAudioSource(
+      useLazyPreparation: false,
+      shuffleOrder: DefaultShuffleOrder(),
+      children: audioSources,
+    );
   }
 
   @override
