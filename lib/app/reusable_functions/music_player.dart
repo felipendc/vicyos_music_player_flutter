@@ -42,9 +42,16 @@ void playerEventStateStreamListener() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
     controller.currentSongName.value = currentMediaItem.title;
-
     controller.currentSongArtistName.value = currentMediaItem.artist!;
     controller.currentSongAlbumName.value = currentMediaItem.album!;
+
+    if (currentMediaItem.title.length < 21) {
+      controller.currentSongNameTrimmed.value = currentMediaItem.title;
+    } else {
+      controller.currentSongNameTrimmed.value =
+          "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
+    }
+    print(controller.currentSongNameTrimmed.value);
 
     print(
         'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
@@ -56,6 +63,13 @@ void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
     controller.currentSongName.value = currentMediaItem.title;
+
+    if (currentMediaItem.title.length < 21) {
+      controller.currentSongNameTrimmed.value = currentMediaItem.title;
+    } else {
+      controller.currentSongNameTrimmed.value =
+          "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
+    }
     print(
         'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
   });
@@ -63,9 +77,14 @@ void preLoadSongName() {
 
 // Format song duration.
 String formatDuration(Duration duration) {
+  final hours = (duration.inHours % 24).toString().padLeft(2, '0');
   final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
   final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
-  return '$minutes:$seconds';
+  if (duration.inHours >= 1) {
+    return '$hours:$minutes:$seconds';
+  } else {
+    return '$minutes:$seconds';
+  }
 }
 
 void cleanPlaylist() {
@@ -78,7 +97,9 @@ void cleanPlaylist() {
     audioPlayer.setAudioSource(controller.playlist.value,
         initialIndex: 0, preload: true);
     controller.playlist.value.clear();
-    controller.currentSongName.value = "The playlist is empty!";
+    controller.currentSongName.value = "The playlist is empty";
+    controller.currentSongNameTrimmed.value = "The playlist is empty";
+
     controller.currentSongArtistName.value = "Unknown Artist";
     controller.currentSongAlbumName.value = "Unknown Album";
     pauseSong();
@@ -88,7 +109,7 @@ void cleanPlaylist() {
 
 void playOrPause() {
   if (controller.playlist.value.length == 0) {
-    print("Playlist is EMPTY!");
+    print("The playlist is EMPTY");
   } else {
     if (controller.songIsPlaying.value == false) {
       controller.songIsPlaying.value = true;
@@ -280,6 +301,9 @@ Future<void> pickFolder() async {
       controller.playlistIsEmpty.value = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
+      controller.playlistLength.value =
+          controller.playlist.value.children.length;
+
       // await playOrPause();
     } else {
       for (String filePath in folderFileNames) {
@@ -312,6 +336,8 @@ Future<void> pickFolder() async {
           tag: mediaItem,
         ));
       }
+      controller.playlistLength.value =
+          controller.playlist.value.children.length;
     }
   } else {
     print("No folder has been selected");
@@ -368,6 +394,9 @@ Future<void> pickAndPlayAudio() async {
       controller.playlistIsEmpty.value = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
+      controller.playlistLength.value =
+          controller.playlist.value.children.length;
+
       // await playOrPause();
     } else {
       for (String filePath in selectedSongs) {
@@ -403,6 +432,8 @@ Future<void> pickAndPlayAudio() async {
         print('Processing file: $filePath');
         print('Processing file: $metadata');
       }
+      controller.playlistLength.value =
+          controller.playlist.value.children.length;
     }
   }
 }

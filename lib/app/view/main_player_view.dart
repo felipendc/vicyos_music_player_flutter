@@ -18,6 +18,7 @@ class MainPlayerView extends StatefulWidget {
 class _MainPlayerViewState extends State<MainPlayerView> {
   final HomeController controller = Get.find<HomeController>();
   late String repeatIconState = repeatIconState;
+  late String titleNameTrimmed;
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
@@ -132,11 +133,20 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               ),
             ),
             const SizedBox(
+              height: 1,
+            ),
+            Obx(
+              () => Text(
+                "${controller.playlist.value.children.isEmpty ? controller.currentIndex.value : controller.currentIndex.value + 1} of ${controller.playlistLength.value}",
+                style: TextStyle(color: TColor.secondaryText, fontSize: 15),
+              ),
+            ),
+            const SizedBox(
               height: 28,
             ),
             Obx(
               () => Text(
-                controller.currentSongName.value,
+                controller.currentSongNameTrimmed.value,
                 style: TextStyle(
                     color: TColor.primaryText.withOpacity(0.9),
                     fontSize: 19,
@@ -313,15 +323,29 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 65,
+                  height: 65,
+                  child: IconButton(
+                    iconSize: 10,
+                    onPressed: () {
+                      rewind();
+                    },
+                    icon: Image.asset(
+                      "assets/img/backward-5-seconds.png",
+                      color: TColor.primaryText80,
+                    ),
+                  ),
+                ),
                 const SizedBox(
-                  width: 15,
+                  width: 0,
                 ),
                 SizedBox(
-                  width: 80,
-                  height: 80,
+                  width: 82,
+                  height: 82,
                   child: Obx(
                     () => IconButton(
-                      iconSize: 46,
+                      iconSize: 45,
                       onPressed: () {
                         playOrPause();
                       },
@@ -337,7 +361,21 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                   ),
                 ),
                 const SizedBox(
-                  width: 15,
+                  width: 1,
+                ),
+                SizedBox(
+                  width: 65,
+                  height: 65,
+                  child: IconButton(
+                    iconSize: 10,
+                    onPressed: () {
+                      forward();
+                    },
+                    icon: Image.asset(
+                      "assets/img/forward-5-seconds.png",
+                      color: TColor.primaryText80,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 60,
