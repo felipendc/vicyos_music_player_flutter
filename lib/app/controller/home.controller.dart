@@ -9,10 +9,12 @@ class HomeController extends GetxController {
 
   final RxString currentSongArtistName = 'Unknown Artist'.obs;
   final RxString currentSongAlbumName = 'Unknown Album'.obs;
+  final RxBool isFirstArtDemoCover = true.obs;
 
+  //
   final Rx<Duration> currentSongDurationPostion = Duration.zero.obs;
   final Rx<Duration> currentSongTotalDuration = Duration.zero.obs;
-
+  //
   final RxBool songIsPlaying = false.obs;
   final RxBool isStopped = false.obs;
   //
@@ -27,6 +29,10 @@ class HomeController extends GetxController {
   final RxString currentLoopModeLabel = 'Repeat: Off'.obs;
   final RxString currentLoopModeIcone = 'assets/img/repeat_all.png'.obs;
   final Rx<Duration> songTotalDuration = Duration.zero.obs;
+  //
+  final RxDouble sleekCircularSliderPosition = 0.0.obs;
+  RxDouble sleekCircularSliderDuration =
+      100.0.obs; // Initialize with default max value
 
   Rx<ConcatenatingAudioSource> playlist = ConcatenatingAudioSource(
     useLazyPreparation: false,
@@ -40,7 +46,7 @@ class HomeController extends GetxController {
     super.onInit();
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
-    playerEventStateStreamListener();
+    // playerEventStateStreamListener();
   }
 
   @override

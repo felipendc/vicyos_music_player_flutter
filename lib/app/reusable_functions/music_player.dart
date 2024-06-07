@@ -21,10 +21,14 @@ void playerEventStateStreamListener() {
   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
     controller.currentSongDurationPostion.value = position;
+    controller.sleekCircularSliderPosition.value =
+        position.inSeconds.toDouble();
   });
 
   audioPlayer.durationStream.listen((duration) {
     controller.currentSongTotalDuration.value = duration ?? Duration.zero;
+    controller.sleekCircularSliderDuration.value =
+        duration?.inSeconds.toDouble() ?? 100.0;
   });
 
   // The player has completed playback
@@ -213,7 +217,9 @@ void forward() {
 }
 
 void rewind() {
-  audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
+  audioPlayer.position > const Duration(seconds: 5)
+      ? audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5))
+      : audioPlayer.seek(Duration.zero);
 }
 
 void songSpeedRate1() {
@@ -430,7 +436,6 @@ Future<void> pickAndPlayAudio() async {
         ));
 
         print('Processing file: $filePath');
-        print('Processing file: $metadata');
       }
       controller.playlistLength.value =
           controller.playlist.value.children.length;

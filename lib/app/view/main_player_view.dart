@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -17,8 +16,13 @@ class MainPlayerView extends StatefulWidget {
 
 class _MainPlayerViewState extends State<MainPlayerView> {
   final HomeController controller = Get.find<HomeController>();
-  late String repeatIconState = repeatIconState;
-  late String titleNameTrimmed;
+  late final MediaItem mediaItem;
+  @override
+  void initState() {
+    super.initState();
+    playerEventStateStreamListener();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
@@ -51,76 +55,92 @@ class _MainPlayerViewState extends State<MainPlayerView> {
             ),
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: Image.asset(
-                    "assets/img/player_image.png",
-                    width: media.width * 0.6,
-                    height: media.width * 0.6,
-                    fit: BoxFit.cover,
+                Obx(
+                  () => ClipRRect(
+                    borderRadius: BorderRadius.circular(media.width * 0.7),
+                    child: Image.asset(
+                      controller.isFirstArtDemoCover.value
+                          ? "assets/img/lofi-woman-album-cover-art_10.png"
+                          : "assets/img/lofi-woman-album-cover-art.png",
+                      width: media.width * 0.6,
+                      height: media.width * 0.6,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: media.width * 0.6,
-                  height: media.width * 0.6,
-                  child: SleekCircularSlider(
-                    appearance: CircularSliderAppearance(
-                        customWidths: CustomSliderWidths(
-                            trackWidth: 4,
-                            progressBarWidth: 6,
-                            shadowWidth: 10),
-                        customColors: CustomSliderColors(
-                            dotColor: const Color(0xffFFB1B2),
-                            trackColor:
-                                const Color(0xffffffff).withOpacity(0.3),
-                            progressBarColors: [
-                              const Color(0xffFB9967),
-                              const Color(0xffE9585A)
-                            ],
-                            shadowColor: const Color(0xffFFB1B2),
-                            shadowMaxOpacity: 0.05),
-                        infoProperties: InfoProperties(
-                          topLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          topLabelText: 'Elapsed',
-                          bottomLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                          bottomLabelText: 'time',
-                          mainLabelStyle: const TextStyle(
-                              color: Colors.transparent,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w600),
-                          // modifier: (double value) {
-                          //   final time =
-                          //       print(Duration(seconds: value.toInt()));
-                          //   return '$time';
-                          // },
-                        ),
-                        startAngle: 270,
-                        angleRange: 360,
-                        size: 350.0),
-                    min: 0,
-                    max: 100,
-                    initialValue: 60,
-                    onChange: (double value) {
-                      // callback providing a value while its being changed (with a pan gesture)
-                    },
-                    onChangeStart: (double startValue) {
-                      formatDuration(
-                          controller.currentSongDurationPostion.value) as Int;
-                      // callback providing a starting value (when a pan gesture starts)
-                    },
-                    onChangeEnd: (double endValue) {
-                      formatDuration(controller.currentSongTotalDuration.value)
-                          as Int;
-                      // ucallback providing an ending value (when a pan gesture ends)
-                    },
+                GestureDetector(
+                  onTapCancel: () {
+                    print(controller.isFirstArtDemoCover.value);
+                    controller.isFirstArtDemoCover.value =
+                        !controller.isFirstArtDemoCover.value;
+                  },
+                  child: SizedBox(
+                    width: media.width * 0.6,
+                    height: media.width * 0.6,
+                    child: Obx(
+                      () => SleekCircularSlider(
+                        appearance: CircularSliderAppearance(
+                            customWidths: CustomSliderWidths(
+                                trackWidth: 4,
+                                progressBarWidth: 6,
+                                shadowWidth: 30),
+                            customColors: CustomSliderColors(
+                                dotColor: const Color(0xffFFB1B2),
+                                trackColor:
+                                    const Color(0xffffffff).withOpacity(0.3),
+                                progressBarColors: [
+                                  const Color(0xffFB9967),
+                                  const Color(0xffE9585A)
+                                ],
+                                shadowColor: const Color(0xffFFB1B2),
+                                shadowMaxOpacity: 0.05),
+                            infoProperties: InfoProperties(
+                              topLabelStyle: const TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                              topLabelText: 'Elapsed',
+                              bottomLabelStyle: const TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                              bottomLabelText: 'time',
+                              mainLabelStyle: const TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: 50.0,
+                                  fontWeight: FontWeight.w600),
+                              // modifier: (double value) {
+                              //   final time =
+                              //       print(Duration(seconds: value.toInt()));
+                              //   return '$time';
+                              // },
+                            ),
+                            startAngle: 270,
+                            angleRange: 360,
+                            size: 350.0),
+                        min: 0,
+                        max: controller.sleekCircularSliderDuration.value,
+                        initialValue:
+                            controller.sleekCircularSliderPosition.value,
+                        onChange: (value) {
+                          if (value < 0) {
+                            return;
+                          } else {
+                            audioPlayer.seek(Duration(seconds: value.toInt()));
+                          }
+
+                          // callback providing a value while its being changed (with a pan gesture)
+                        },
+                        onChangeStart: (double startValue) {
+                          // callback providing a starting value (when a pan gesture starts)
+                        },
+                        onChangeEnd: (double endValue) {
+                          // ucallback providing an ending value (when a pan gesture ends)
+                        },
+                      ),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
