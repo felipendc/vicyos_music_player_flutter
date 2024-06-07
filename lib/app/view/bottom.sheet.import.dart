@@ -73,8 +73,8 @@ class ImportFilesBottomSheet extends StatelessWidget {
                       ),
                       contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                       onTap: () async {
-                        await pickFolder();
                         Get.back();
+                        await pickFolder();
                       },
                     ),
                     const Divider(
@@ -99,8 +99,8 @@ class ImportFilesBottomSheet extends StatelessWidget {
                       ),
                       contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                       onTap: () async {
-                        await pickAndPlayAudio();
                         Get.back();
+                        await pickAndPlayAudio();
                       },
                     ),
                     const Divider(
