@@ -3,15 +3,21 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/view/home.view.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/view/main_player_view.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
 
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   Get.put(HomeController());
+
   runApp(const MyApp());
 
   // Set the status bar color to match the app theme

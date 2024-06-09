@@ -34,7 +34,6 @@ dependencies:
   just_audio_windows: ^0.2.1
   file_picker: ^8.0.3  
   audio_service: ^0.18.13
-  flutter_media_metadata: ^1.0.0+1
   get: ^4.6.6
   provider: ^6.0.0
   flutter_native_splash: ^2.4.0
@@ -42,7 +41,16 @@ dependencies:
   sleek_circular_slider: ^2.0.1
   path: ^1.9.0
   cached_network_image: ^3.3.1
-  # path_provider: ^2.0.11 
+  just_audio_background: ^0.0.1-beta.12
+  media_info: ^0.12.0+2
+  flutter_media_metadata: ^1.0.0+1
+  
+
+
+
+
+
+
 
 
 

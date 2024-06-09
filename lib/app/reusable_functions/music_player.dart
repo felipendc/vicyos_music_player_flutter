@@ -3,12 +3,13 @@
 import 'dart:io';
 
 import 'dart:async';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
+
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -36,12 +37,75 @@ void playerEventStateStreamListener() {
       controller.songIsPlaying.value = false;
     }
   });
+
+  // Update the pause button if the player is interrupted
+  audioPlayer.playerStateStream.listen((state) {
+    if (state.playing == false &&
+        state.processingState == ProcessingState.ready) {
+      controller.songIsPlaying.value = false;
+    }
+  });
+
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
     controller.currentIndex.value = event.currentIndex!;
+    File audioFile =
+        File(controller.audioSources[event.currentIndex!] as String);
+    String fileName = audioFile.uri.pathSegments.last;
+    String fileNameWithoutExtension = path.basenameWithoutExtension(fileName);
+    controller.currentSongName.value = fileNameWithoutExtension;
+  });
+
+  // Get the current songe name
+  audioPlayer.currentIndexStream.listen((index) {
+    final audioFile = audioPlayer.sequence![index!] as File;
+    String fileName = audioFile.uri.pathSegments.last;
+    final String fileNameWithoutExtension =
+        path.basenameWithoutExtension(fileName);
+    controller.currentSongName.value = fileNameWithoutExtension;
+    if (fileNameWithoutExtension.length < 21) {
+      controller.currentSongNameTrimmed.value = fileNameWithoutExtension;
+    } else {
+      controller.currentSongNameTrimmed.value =
+          "${fileNameWithoutExtension.substring(0, 30)}..."; // Return the first 30 characters of the input
+    }
   });
 
   //  Get current Songname using MediaItem tag.
+  // audioPlayer.currentIndexStream.listen((index) {
+  //   final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
+  //   controller.currentSongName.value = currentMediaItem.title;
+  //   controller.currentSongArtistName.value = currentMediaItem.artist!;
+  //   controller.currentSongAlbumName.value = currentMediaItem.album!;
+
+  // if (currentMediaItem.title.length < 21) {
+  //   controller.currentSongNameTrimmed.value = currentMediaItem.title;
+  // } else {
+  //   controller.currentSongNameTrimmed.value =
+  //       "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
+  // }
+  // print(controller.currentSongNameTrimmed.value);
+
+  // print(
+  //     'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
+//   });
+}
+
+String trimName(String song) {
+  if (controller.audioSources.isEmpty) {
+    return "The playlist is empty";
+  } else {
+    if (song.length < 5) {
+      return controller.currentSongNameTrimmed.value = song;
+    } else {
+      return controller.currentSongNameTrimmed.value =
+          "${song.substring(0, 30)}..."; // Return the first 30 characters of the input
+    }
+  }
+}
+
+// This function will update the display the song title one the audio or folder is imported
+void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
     controller.currentSongName.value = currentMediaItem.title;
@@ -54,27 +118,6 @@ void playerEventStateStreamListener() {
       controller.currentSongNameTrimmed.value =
           "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
     }
-    print(controller.currentSongNameTrimmed.value);
-
-    print(
-        'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
-  });
-}
-
-// This function will update the display the song title one the audio or folder is imported
-void preLoadSongName() {
-  audioPlayer.currentIndexStream.listen((index) {
-    final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
-    controller.currentSongName.value = currentMediaItem.title;
-
-    if (currentMediaItem.title.length < 21) {
-      controller.currentSongNameTrimmed.value = currentMediaItem.title;
-    } else {
-      controller.currentSongNameTrimmed.value =
-          "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
-    }
-    print(
-        'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
   });
 }
 
