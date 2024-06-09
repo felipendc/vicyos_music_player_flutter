@@ -171,7 +171,9 @@ class _MainPlayerViewState extends State<MainPlayerView> {
             ),
             Obx(
               () => Text(
-                controller.currentSongNameTrimmed.value,
+                controller.currentSongName.value.length > 29
+                    ? "${controller.currentSongName.value.substring(0, 28)}..."
+                    : controller.currentSongName.value,
                 style: TextStyle(
                     color: TColor.primaryText.withOpacity(0.9),
                     fontSize: 19,

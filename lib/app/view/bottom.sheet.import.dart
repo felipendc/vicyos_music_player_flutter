@@ -17,7 +17,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
       child: Container(
         color: TColor.bg,
         height: 300, // Adjust the height as needed
-        padding: const EdgeInsets.fromLTRB(16, 5, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -107,8 +107,55 @@ class ImportFilesBottomSheet extends StatelessWidget {
                       color: Colors.white12,
                       indent: 58,
                       endIndent: 10,
-                      height: 1,
+                      height: 5,
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // ListTile(
+                    //   leading: Image.asset(
+                    //     "assets/img/close.png",
+                    //     width: 43,
+                    //     height: 43,
+                    //     color: const Color.fromARGB(255, 221, 8, 44),
+                    //   ),
+                    //   title: Text(
+                    //     "CLEAN PLAYLIST",
+                    //     style: TextStyle(
+                    //       color: TColor.lightGray,
+                    //       fontSize: 19,
+                    //     ),
+                    //   ),
+                    //   contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                    //   onTap: () async {
+                    //     controller.songIsPlaying.value = false;
+
+                    //     controller.currentSongName.value =
+                    //         "The playlist is empty";
+                    //     controller.currentSongArtistName.value =
+                    //         "Unknown Artist";
+                    //     controller.currentSongAlbumName.value = "Unknown Album";
+                    //     controller.currentSongDurationPostion.value =
+                    //         const Duration(minutes: 0);
+                    //     controller.currentSongTotalDuration.value =
+                    //         const Duration(minutes: 0);
+
+                    //     controller.playlistLength.value = 0;
+                    //     Duration.zero;
+                    //     controller.audioSources.clear();
+                    //     controller.audioSources.length;
+                    //     audioPlayer.setAudioSource(controller.playlist,
+                    //         initialIndex: 0, preload: true);
+
+                    //     Get.back();
+                    //   },
+                    // ),
+                    // const Divider(
+                    //   color: Colors.white12,
+                    //   indent: 58,
+                    //   endIndent: 10,
+                    //   height: 1,
+                    // ),
                     // Add more list tiles or widgets as needed
                   ],
                 ),

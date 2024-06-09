@@ -1,11 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-
 import 'dart:async';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
-
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -25,6 +23,7 @@ void playerEventStateStreamListener() {
         position.inSeconds.toDouble();
   });
 
+  // Get the duration and the full duration of the song for the sleekCircularSlider
   audioPlayer.durationStream.listen((duration) {
     controller.currentSongTotalDuration.value = duration ?? Duration.zero;
     controller.sleekCircularSliderDuration.value =
@@ -49,59 +48,7 @@ void playerEventStateStreamListener() {
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
     controller.currentIndex.value = event.currentIndex!;
-    File audioFile =
-        File(controller.audioSources[event.currentIndex!] as String);
-    String fileName = audioFile.uri.pathSegments.last;
-    String fileNameWithoutExtension = path.basenameWithoutExtension(fileName);
-    controller.currentSongName.value = fileNameWithoutExtension;
   });
-
-  // Get the current songe name
-  audioPlayer.currentIndexStream.listen((index) {
-    final audioFile = audioPlayer.sequence![index!] as File;
-    String fileName = audioFile.uri.pathSegments.last;
-    final String fileNameWithoutExtension =
-        path.basenameWithoutExtension(fileName);
-    controller.currentSongName.value = fileNameWithoutExtension;
-    if (fileNameWithoutExtension.length < 21) {
-      controller.currentSongNameTrimmed.value = fileNameWithoutExtension;
-    } else {
-      controller.currentSongNameTrimmed.value =
-          "${fileNameWithoutExtension.substring(0, 30)}..."; // Return the first 30 characters of the input
-    }
-  });
-
-  //  Get current Songname using MediaItem tag.
-  // audioPlayer.currentIndexStream.listen((index) {
-  //   final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
-  //   controller.currentSongName.value = currentMediaItem.title;
-  //   controller.currentSongArtistName.value = currentMediaItem.artist!;
-  //   controller.currentSongAlbumName.value = currentMediaItem.album!;
-
-  // if (currentMediaItem.title.length < 21) {
-  //   controller.currentSongNameTrimmed.value = currentMediaItem.title;
-  // } else {
-  //   controller.currentSongNameTrimmed.value =
-  //       "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
-  // }
-  // print(controller.currentSongNameTrimmed.value);
-
-  // print(
-  //     'Current audio name USING MEDIA_ITEM: ${controller.currentSongName.value}');
-//   });
-}
-
-String trimName(String song) {
-  if (controller.audioSources.isEmpty) {
-    return "The playlist is empty";
-  } else {
-    if (song.length < 5) {
-      return controller.currentSongNameTrimmed.value = song;
-    } else {
-      return controller.currentSongNameTrimmed.value =
-          "${song.substring(0, 30)}..."; // Return the first 30 characters of the input
-    }
-  }
 }
 
 // This function will update the display the song title one the audio or folder is imported
@@ -133,25 +80,21 @@ String formatDuration(Duration duration) {
   }
 }
 
-void cleanPlaylist() {
-  if (controller.audioSources.isEmpty) {
-    if (controller.songIsPlaying.value) {
-      controller.songIsPlaying.value = false;
-    }
-
-    controller.playlistIsEmpty.value = true;
-    audioPlayer.setAudioSource(controller.playlist,
-        initialIndex: 0, preload: true);
-    controller.audioSources.clear();
-    controller.currentSongName.value = "The playlist is empty";
-    controller.currentSongNameTrimmed.value = "The playlist is empty";
-
-    controller.currentSongArtistName.value = "Unknown Artist";
-    controller.currentSongAlbumName.value = "Unknown Album";
-    pauseSong();
-    print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
-  }
-}
+// void cleanPlaylist() {
+//   if (controller.audioSources.isEmpty) {
+//     controller.songIsPlaying.value = false;
+//     controller.audioSources.clear();
+//     audioPlayer.setAudioSource(controller.playlist,
+//         initialIndex: 0, preload: true);
+//     controller.currentSongName.value = "The playlist is empty";
+//     controller.currentSongArtistName.value = "Unknown Artist";
+//     controller.currentSongAlbumName.value = "Unknown Album";
+//     controller.currentSongDurationPostion.value = Duration.zero.obs as Duration;
+//     controller.currentSongTotalDuration.value = Duration.zero.obs as Duration;
+//     pauseSong();
+//     print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
+//   }
+// }
 
 void playOrPause() {
   if (controller.audioSources.isEmpty) {
@@ -261,11 +204,6 @@ void rewind() {
       ? audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5))
       : audioPlayer.seek(Duration.zero);
 }
-
-// This is a temp function, just for learning purpose...
-// void songSpeedRate2() {
-//   audioPlayer.setSpeed(2.0);
-// }
 
 void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.off) {
@@ -441,8 +379,6 @@ Future<void> pickAndPlayAudio() async {
       controller.playlistIsEmpty.value = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
-
-      // await playOrPause();
     } else {
       for (String filePath in selectedSongs) {
         // Try to extract metadata from the local file

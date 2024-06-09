@@ -33,7 +33,7 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
       child: Container(
         color: TColor.bg,
         height: 400, // Adjust the height as needed
-        padding: const EdgeInsets.fromLTRB(16, 5, 16, 16),
+        padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
