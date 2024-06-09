@@ -1,8 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 class HomeController extends GetxController {
+  var volumeSliderValue = 50.0.obs;
+  RxString volumeSliderStatus = 'idle'.obs;
+  Rx<MaterialColor> volumeSliderStatusColor = Colors.amber.obs;
+  //
   final RxBool playlistIsEmpty = true.obs;
   final RxString currentSongName = 'The playlist is empty'.obs;
   //
@@ -38,9 +44,10 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    initVolumeControl();
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
-
     playlist = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
@@ -51,6 +58,7 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    VolumeController().removeListener();
     super.dispose();
   }
 }

@@ -21,6 +21,7 @@ class MainPlayerView extends StatefulWidget {
 class _MainPlayerViewState extends State<MainPlayerView> {
   final HomeController controller = Get.find<HomeController>();
   late final MediaItem mediaItem;
+
   @override
   void initState() {
     super.initState();
@@ -289,17 +290,62 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                 ),
               ),
             ]),
-            const SizedBox(
-              height: 15,
-            ),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Divider(
-                color: Colors.white12,
-                indent: 20,
-                endIndent: 20,
-                height: 1,
-              ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
+            // const Padding(
+            //   padding: EdgeInsets.all(20),
+            //   child: Divider(
+            //     color: Colors.white12,
+            //     indent: 20,
+            //     endIndent: 20,
+            //     height: 1,
+            //   ),
+            // ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 8,
+                    trackShape: const RoundedRectSliderTrackShape(),
+                    activeTrackColor: Colors.purple.shade800,
+                    inactiveTrackColor: Colors.purple.shade100,
+                    thumbShape: const RoundSliderThumbShape(
+                      elevation: BorderSide.strokeAlignOutside,
+                      enabledThumbRadius: 14.0,
+                      pressedElevation: 8.0,
+                    ),
+                    thumbColor: Colors.pinkAccent,
+                    overlayColor: Colors.pink.withOpacity(0.2),
+                    overlayShape:
+                        const RoundSliderOverlayShape(overlayRadius: 25),
+                    tickMarkShape: const RoundSliderTickMarkShape(),
+                    activeTickMarkColor: Colors.pinkAccent,
+                    inactiveTickMarkColor: Colors.white,
+                    valueIndicatorShape:
+                        const PaddleSliderValueIndicatorShape(),
+                    valueIndicatorColor: Colors.black,
+                    valueIndicatorTextStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  child: Obx(
+                    () => Slider(
+                      min: 0.0,
+                      max: 100.0,
+                      value: controller.volumeSliderValue.value,
+                      divisions: 10,
+                      label: '${controller.volumeSliderValue.value.round()}',
+                      onChanged: (value) {
+                        controller.volumeSliderValue.value = value;
+                        setVolume(value);
+                      },
+                    ),
+                  ),
+                )
+              ],
             ),
             const SizedBox(
               height: 10,

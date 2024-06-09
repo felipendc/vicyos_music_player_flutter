@@ -9,9 +9,23 @@ import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
+
+void initVolumeControl() async {
+  VolumeController().listener((volume) {
+    controller.volumeSliderValue.value = volume * 100;
+  });
+  double currentVolume = await VolumeController().getVolume();
+  controller.volumeSliderValue.value = (currentVolume * 100);
+}
+
+void setVolume(double value) {
+  double volume = value / 100;
+  VolumeController().setVolume(volume);
+}
 
 // This func should be used on a flutter.initState or GetX.onInit();
 void playerEventStateStreamListener() {
