@@ -192,7 +192,9 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                 ),
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Album: ${controller.currentSongAlbumName.value}",
+                  controller.currentSongAlbumName.value.length > 29
+                      ? "Album:  ${controller.currentSongAlbumName.value.substring(0, 40)}}..."
+                      : controller.currentSongAlbumName.value,
                   style: TextStyle(
                     color: TColor.secondaryText,
                     fontSize: 14,
