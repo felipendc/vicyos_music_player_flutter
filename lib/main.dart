@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Music Player',
+      title: 'Vicyos Music Player',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Circular Std",
