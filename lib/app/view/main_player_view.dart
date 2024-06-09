@@ -236,12 +236,6 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               ),
                             ),
                           ),
-
-                          // Text(
-                          //   "Add songs",
-                          //   style: TextStyle(
-                          //       color: TColor.secondaryText, fontSize: 9),
-                          // ),
                         ],
                       ),
                     ),
@@ -264,43 +258,9 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               color: TColor.primaryText80,
                             ),
                           ),
-
-                          // Text(
-                          //   "Repeat",
-                          //   style: TextStyle(
-                          //       color: TColor.secondaryText, fontSize: 9),
-                          // ),
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Column(
-                    //     children: [
-                    //       SizedBox(
-                    //         width: 45,
-                    //         height: 40,
-                    //         child: IconButton(
-                    //           onPressed: ()  {
-
-                    //           },
-                    //           icon: Image.asset(
-                    //             "assets/img/add_folder_icon.png",
-                    //             width: 30,
-                    //             height: 30,
-                    //             color: TColor.primaryText80,
-                    //           ),
-                    //         ),
-                    //       ),
-
-                    //       // Text(
-                    //       //   "Add songs",
-                    //       //   style: TextStyle(
-                    //       //       color: TColor.secondaryText, fontSize: 9),
-                    //       // ),
-                    //     ],
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Column(
@@ -322,12 +282,6 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               ),
                             ),
                           ),
-
-                          // Text(
-                          //   "Repeat",
-                          //   style: TextStyle(
-                          //       color: TColor.secondaryText, fontSize: 9),
-                          // ),
                         ],
                       ),
                     ),

@@ -58,13 +58,6 @@ void preLoadSongName() {
     controller.currentSongName.value = currentMediaItem.title;
     controller.currentSongArtistName.value = currentMediaItem.artist!;
     controller.currentSongAlbumName.value = currentMediaItem.album!;
-
-    if (currentMediaItem.title.length < 21) {
-      controller.currentSongNameTrimmed.value = currentMediaItem.title;
-    } else {
-      controller.currentSongNameTrimmed.value =
-          "${currentMediaItem.title.substring(0, 30)}..."; // Return the first 30 characters of the input
-    }
   });
 }
 
@@ -111,38 +104,7 @@ void playOrPause() {
     print('IS THE SONG PLAYING? ${controller.songIsPlaying.value}');
     print('Song: : ${controller.currentSongName.value}');
   }
-
-  // audioPlayer.playerStateStream.listen((playerState) {
-  //   final playing = playerState.playing;
-  //   final processingState = playerState.processingState;
-
-  //   if (playing) {
-  //     // The player is playing
-  //     print('Playing');
-  //     // audioPlayer.pause();
-  //   }
-
-  //   if (processingState == ProcessingState.ready) {
-  //     // The player is paused
-  //     print('Paused');
-  //     // audioPlayer.play();
-  //   }
-
-  //   if (processingState == ProcessingState.completed) {
-  //     // The player has completed playback
-  //     print('Completed');
-  //     // audioPlayer.play();
-  //   } else {
-  //     // Other states (idle, buffering, etc.)
-  //     print('Other state: $processingState');
-  //   }
-  // });
 }
-
-// void playSong() async {
-//   controller.songIsPlaying.value = true;
-//   await audioPlayer.play();
-// }
 
 void pauseSong() {
   controller.songIsPlaying.value = false;

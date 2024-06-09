@@ -5,12 +5,10 @@ import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 class HomeController extends GetxController {
   final RxBool playlistIsEmpty = true.obs;
   final RxString currentSongName = 'The playlist is empty'.obs;
-  final RxString currentSongNameTrimmed = 'The playlist is empty'.obs;
-
+  //
   final RxString currentSongArtistName = 'Unknown Artist'.obs;
   final RxString currentSongAlbumName = 'Unknown Album'.obs;
   final RxBool isFirstArtDemoCover = true.obs;
-
   //
   final Rx<Duration> currentSongDurationPostion = Duration.zero.obs;
   final Rx<Duration> currentSongTotalDuration = Duration.zero.obs;
@@ -33,7 +31,7 @@ class HomeController extends GetxController {
   final RxDouble sleekCircularSliderPosition = 0.0.obs;
   RxDouble sleekCircularSliderDuration =
       100.0.obs; // Initialize with default max value
-
+  //
   final RxList<AudioSource> audioSources = <AudioSource>[].obs;
   late ConcatenatingAudioSource playlist;
 
@@ -44,7 +42,7 @@ class HomeController extends GetxController {
     audioPlayer.setLoopMode(LoopMode.all);
 
     playlist = ConcatenatingAudioSource(
-      useLazyPreparation: false,
+      useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
       children: audioSources,
     );
@@ -54,14 +52,5 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
     super.dispose();
-  }
-
-  String getFirst30Characters() {
-    if (controller.currentSongName.value.length <= 21) {
-      return controller.currentSongName
-          .value; // If the input is already 30 characters or less, return the input as is
-    } else {
-      return "${controller.currentSongName.value.substring(0, 30)}..."; // Return the first 30 characters of the input
-    }
   }
 }
