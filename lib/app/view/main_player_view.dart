@@ -307,46 +307,98 @@ class _MainPlayerViewState extends State<MainPlayerView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 8,
-                    trackShape: const RoundedRectSliderTrackShape(),
-                    activeTrackColor: Colors.purple.shade800,
-                    inactiveTrackColor: Colors.purple.shade100,
-                    thumbShape: const RoundSliderThumbShape(
-                      elevation: BorderSide.strokeAlignOutside,
-                      enabledThumbRadius: 14.0,
-                      pressedElevation: 8.0,
-                    ),
-                    thumbColor: Colors.pinkAccent,
-                    overlayColor: Colors.pink.withOpacity(0.2),
-                    overlayShape:
-                        const RoundSliderOverlayShape(overlayRadius: 25),
-                    tickMarkShape: const RoundSliderTickMarkShape(),
-                    activeTickMarkColor: Colors.pinkAccent,
-                    inactiveTickMarkColor: Colors.white,
-                    valueIndicatorShape:
-                        const PaddleSliderValueIndicatorShape(),
-                    valueIndicatorColor: Colors.black,
-                    valueIndicatorTextStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                    ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    right: 10,
+                    left: 10,
+                    top: 2,
+                    bottom: 2,
                   ),
-                  child: Obx(
-                    () => Slider(
-                      min: 0.0,
-                      max: 100.0,
-                      value: controller.volumeSliderValue.value,
-                      divisions: 10,
-                      label: '${controller.volumeSliderValue.value.round()}',
-                      onChanged: (value) {
-                        controller.volumeSliderValue.value = value;
-                        setVolume(value);
-                      },
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      trackHeight: 5,
+                      trackShape: const RoundedRectSliderTrackShape(),
+                      activeTrackColor: Colors.purple.shade800,
+                      inactiveTrackColor: Colors.purple.shade200,
+                      thumbShape: const RoundSliderThumbShape(
+                        elevation: BorderSide.strokeAlignOutside,
+                        enabledThumbRadius: 5.0,
+                        pressedElevation: 8.0,
+                      ),
+                      thumbColor: Colors.pinkAccent,
+                      overlayColor: Colors.pinkAccent,
+                      overlayShape:
+                          const RoundSliderOverlayShape(overlayRadius: 15),
+                      tickMarkShape: const RoundSliderTickMarkShape(),
+                      activeTickMarkColor: Colors.purple.shade800,
+                      // activeTickMarkColor: Colors.pinkAccent,
+                      inactiveTickMarkColor: Colors.purple.shade200,
+                      // inactiveTickMarkColor: Colors.white,
+                      valueIndicatorShape:
+                          const PaddleSliderValueIndicatorShape(),
+                      valueIndicatorColor: Colors.black,
+
+                      valueIndicatorTextStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    child: Obx(
+                      () => Slider(
+                        min: 0.0,
+                        max: 100.0,
+                        value: controller.volumeSliderValue.value,
+                        divisions: 20,
+                        label: '${controller.volumeSliderValue.value.round()}',
+                        onChanged: (value) {
+                          controller.volumeSliderValue.value = value;
+                          // setVolume(value);
+                          setVolume(value);
+                        },
+                      ),
                     ),
                   ),
                 )
+                // SliderTheme(
+                //   data: SliderTheme.of(context).copyWith(
+                //     trackHeight: 8,
+                //     trackShape: const RoundedRectSliderTrackShape(),
+                //     activeTrackColor: Colors.purple.shade800,
+                //     inactiveTrackColor: Colors.purple.shade100,
+                //     thumbShape: const RoundSliderThumbShape(
+                //       elevation: BorderSide.strokeAlignOutside,
+                //       enabledThumbRadius: 14.0,
+                //       pressedElevation: 8.0,
+                //     ),
+                //     thumbColor: Colors.pinkAccent,
+                //     overlayColor: Colors.pink.withOpacity(0.2),
+                //     overlayShape:
+                //         const RoundSliderOverlayShape(overlayRadius: 25),
+                //     tickMarkShape: const RoundSliderTickMarkShape(),
+                //     activeTickMarkColor: Colors.pinkAccent,
+                //     inactiveTickMarkColor: Colors.white,
+                //     valueIndicatorShape:
+                //         const PaddleSliderValueIndicatorShape(),
+                //     valueIndicatorColor: Colors.black,
+                //     valueIndicatorTextStyle: const TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 20.0,
+                //     ),
+                //   ),
+                //   child: Obx(
+                //     () => Slider(
+                //       min: 0.0,
+                //       max: 100.0,
+                //       value: controller.volumeSliderValue.value,
+                //       divisions: 10,
+                //       label: '${controller.volumeSliderValue.value.round()}',
+                //       onChanged: (value) {
+                //         controller.volumeSliderValue.value = value;
+                //         setVolume(value);
+                //       },
+                //     ),
+                //   ),
+                // )
               ],
             ),
             const SizedBox(
