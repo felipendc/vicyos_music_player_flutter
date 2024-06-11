@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 
+// flutter build apk --split-per-abi
+// flutter build apk
+
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';

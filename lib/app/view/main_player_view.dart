@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -20,12 +19,10 @@ class MainPlayerView extends StatefulWidget {
 
 class _MainPlayerViewState extends State<MainPlayerView> {
   final HomeController controller = Get.find<HomeController>();
-  late final MediaItem mediaItem;
 
   @override
   void initState() {
     super.initState();
-    playerEventStateStreamListener();
   }
 
   @override
