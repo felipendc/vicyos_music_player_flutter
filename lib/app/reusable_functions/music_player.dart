@@ -14,15 +14,6 @@ import 'package:volume_controller/volume_controller.dart';
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
 
-void clearAudioPlayerCache() {
-  Timer(const Duration(seconds: 9), () async {
-    // Clear the asset cache directory
-    AudioPlayer.clearAssetCache();
-
-    clearAudioPlayerCache();
-  });
-}
-
 void initVolumeControl() async {
   VolumeController().listener((volume) {
     controller.volumeSliderValue.value = volume * 100;
@@ -253,6 +244,7 @@ Future<void> pickFolder() async {
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
         controller.playlist.add(
@@ -293,6 +285,7 @@ Future<void> pickFolder() async {
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
         controller.playlist.add(
@@ -345,6 +338,7 @@ Future<void> pickAndPlayAudio() async {
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
         controller.playlist.add(
@@ -384,6 +378,7 @@ Future<void> pickAndPlayAudio() async {
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
         controller.playlist.add(AudioSource.uri(

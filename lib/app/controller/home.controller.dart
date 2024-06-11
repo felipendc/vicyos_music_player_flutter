@@ -53,14 +53,11 @@ class HomeController extends GetxController {
       shuffleOrder: DefaultShuffleOrder(),
       children: audioSources,
     );
-    playerEventStateStreamListener();
-    clearAudioPlayerCache();
   }
 
   @override
   void onClose() {
     super.onClose();
-    clearAudioPlayerCache();
     VolumeController().removeListener();
     super.dispose();
   }
