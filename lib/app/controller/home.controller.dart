@@ -53,6 +53,7 @@ class HomeController extends GetxController {
       shuffleOrder: DefaultShuffleOrder(),
       children: audioSources,
     );
+    playerEventStateStreamListener();
   }
 
   @override

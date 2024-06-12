@@ -13,6 +13,7 @@ import 'package:volume_controller/volume_controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
+late final MediaItem mediaItem;
 
 void initVolumeControl() async {
   VolumeController().listener((volume) {
