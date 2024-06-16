@@ -1,10 +1,17 @@
+import 'dart:io';
+
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 import 'package:volume_controller/volume_controller.dart';
+import 'package:path/path.dart' as path;
 
 class HomeController extends GetxController {
+  RxList musicFolderPaths = [].obs;
+  RxList folderSongList = [].obs;
   var volumeSliderValue = 50.0.obs;
   RxString volumeSliderStatus = 'idle'.obs;
   Rx<MaterialColor> volumeSliderStatusColor = Colors.amber.obs;
@@ -61,5 +68,49 @@ class HomeController extends GetxController {
     super.onClose();
     VolumeController().removeListener();
     super.dispose();
+  }
+
+  Future<void> setFolderAsPlaylist(currentFolder, currenIndex) async {
+    // controller.folderSongList.clear();
+    stopSong();
+    playlist.clear();
+
+    for (String filePath in currentFolder) {
+      File audioFile = File(filePath);
+      String fileNameWithoutExtension = path.basenameWithoutExtension(filePath);
+      String filePathAsId = audioFile.absolute.path;
+      Metadata? metadata;
+
+      try {
+        metadata = await MetadataRetriever.fromFile(audioFile);
+      } catch (e) {
+        print('Failed to extract metadata: $e');
+      }
+
+      final mediaItem = MediaItem(
+        id: filePathAsId,
+        album: metadata?.albumName ?? 'Unknown Album',
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(filePath),
+          tag: mediaItem,
+        ),
+      );
+      playlistLength.value = audioSources.length;
+    }
+
+    audioPlayer.setAudioSource(playlist,
+        initialIndex: currenIndex, preload: true);
+    playlistIsEmpty.value = false;
+    firstSongIndex.value = true;
+    preLoadSongName();
+    playOrPause();
+    // print("Testing");
   }
 }

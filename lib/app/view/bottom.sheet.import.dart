@@ -33,21 +33,21 @@ class ImportFilesBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              "IMPORT AUDIOS",
+              "ADD TO PLAYLIST",
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 color: TColor.org,
                 fontSize: 19,
               ),
             ),
-            Text(
-              "________",
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: TColor.org,
-                fontSize: 19,
-              ),
-            ),
+            // Text(
+            //   "________",
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.w900,
+            //     color: TColor.org,
+            //     fontSize: 19,
+            //   ),
+            // ),
             const SizedBox(height: 20),
             // Content
             Expanded(

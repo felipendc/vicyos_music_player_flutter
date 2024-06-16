@@ -56,14 +56,14 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                 fontSize: 19,
               ),
             ),
-            Text(
-              "________",
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: TColor.org,
-                fontSize: 19,
-              ),
-            ),
+            // Text(
+            //   "________",
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.w900,
+            //     color: TColor.org,
+            //     fontSize: 19,
+            //   ),
+            // ),
             const SizedBox(height: 20),
             // Content
             Expanded(
