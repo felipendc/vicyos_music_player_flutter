@@ -150,7 +150,7 @@ class MainPlayerView extends StatelessWidget {
             ),
             Obx(
               () => Text(
-                "${controller.audioSources.isEmpty ? controller.currentIndex.value : controller.currentIndex.value + 1} of ${controller.playlistLength.value}",
+                "${controller.audioSources.isEmpty ? controller.currentIndex.value : controller.currentIndex.value == controller.audioSources.length ? controller.currentIndex.value : controller.currentIndex.value + 1} of ${controller.playlistLength.value}",
                 style: TextStyle(color: TColor.secondaryText, fontSize: 15),
               ),
             ),
