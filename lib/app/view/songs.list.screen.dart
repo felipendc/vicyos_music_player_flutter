@@ -16,11 +16,33 @@ class SongsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.folderSongList.clear();
+    final Set<String> audioExtensions = {
+      '.mp3',
+      '.m4a',
+      '.ogg',
+      '.wav',
+      '.aac',
+      '.midi'
+    };
     Directory? folderDirectory = Directory(folderPath);
+
     final directorySongList = folderDirectory.listSync();
 
-    for (var songPath in directorySongList) {
-      controller.folderSongList.add(songPath.path);
+    final List<String> audioFiles = directorySongList
+        .where((entity) {
+          if (entity is File) {
+            String extension = entity.path
+                .substring(entity.path.lastIndexOf('.'))
+                .toLowerCase();
+            return audioExtensions.contains(extension);
+          }
+          return false;
+        })
+        .map((entity) => entity.path)
+        .toList();
+
+    for (var songPath in audioFiles) {
+      controller.folderSongList.add(songPath);
     }
 
     // Set the preferred orientations to portrait mode when this screen is built
