@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unused_element
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
-import 'package:vicyos_music_player/app/view/main_player_view.screen.dart';
+import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -39,9 +41,11 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
       () => Scaffold(
         appBar: controller.musicFolderPaths.isNotEmpty
             ? AppBar(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
                 toolbarHeight: 60,
-                elevation: 0,
 
+                elevation: 0,
                 backgroundColor: TColor.bg, // TColor.darkGray,
                 title: Center(
                   child: Text(

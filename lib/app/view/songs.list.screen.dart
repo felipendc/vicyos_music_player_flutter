@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
-import 'package:vicyos_music_player/app/view/main_player_view.screen.dart';
+import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -53,19 +55,20 @@ class SongsListScreen extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5))),
           toolbarHeight: 60,
-          elevation: 0,
+          // automaticallyImplyLeading: false
 
+          elevation: 0,
+          centerTitle: true,
           backgroundColor: TColor.bg, // TColor.darkGray,
-          title: Center(
-            child: Text(
-              folderName(folderPath),
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: TColor.org,
-                // color: TColor.lightGray,
-                fontSize: 20,
-              ),
+          title: Text(
+            folderName(folderPath),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: TColor.org,
+              fontSize: 22,
             ),
           ),
         ),

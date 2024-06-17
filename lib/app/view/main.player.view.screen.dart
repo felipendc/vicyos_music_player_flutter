@@ -26,16 +26,19 @@ class MainPlayerView extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: TColor.bg,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        toolbarHeight: 60,
         elevation: 0,
-        title: Center(
-          child: Text(
-            "Vicyos Music Player",
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              color: TColor.unfocused,
-              fontSize: 25,
-            ),
+        // automaticallyImplyLeading: false
+        centerTitle: true,
+        backgroundColor: TColor.bg,
+        title: Text(
+          "Vicyos Music Player",
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            color: TColor.primaryText80,
+            fontSize: 23,
           ),
         ),
       ),
