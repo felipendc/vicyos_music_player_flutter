@@ -7,7 +7,8 @@ import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
-import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music_player/app/widgets/bottom.player.art.dart';
+import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -52,81 +53,77 @@ class SongsListScreen extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return Obx(
-      () => Scaffold(
-        appBar: AppBar(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          toolbarHeight: 60,
-          // automaticallyImplyLeading: false
+    return Scaffold(
+      appBar: AppBar(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        toolbarHeight: 60,
+        // automaticallyImplyLeading: false
 
-          elevation: 0,
-          centerTitle: true,
-          backgroundColor: TColor.bg, // TColor.darkGray,
-          title: Text(
-            folderName(folderPath),
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: TColor.org,
-              fontSize: 22,
-            ),
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: TColor.bg, // TColor.darkGray,
+        title: Text(
+          folderName(folderPath),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: TColor.org,
+            fontSize: 22,
           ),
         ),
-        body: ListView.separated(
-          itemCount: controller.folderSongList.length,
-          itemBuilder: (context, index) {
-            return SizedBox(
-              // color: TColor.darkGray,
-              height: 70,
-              // margin: const EdgeInsets.all(10),
-              child: ListTile(
-                leading: Image.asset(
-                  "assets/img/songs_tab.png",
-                  width: 35,
-                  height: 35,
-                  color: TColor.focus,
+      ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: controller.folderSongList.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      // color: TColor.darkGray,
+                      height: 70,
+                      // margin: const EdgeInsets.all(10),
+                      child: ListTile(
+                        leading: Image.asset(
+                          "assets/img/songs_tab.png",
+                          width: 35,
+                          height: 35,
+                          color: TColor.focus,
+                        ),
+                        title: Text(
+                          textAlign: TextAlign.start,
+                          songName(controller.folderSongList[index]),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: TColor.lightGray,
+                            fontSize: 18,
+                          ),
+                        ),
+                        onTap: () {
+                          controller.setFolderAsPlaylist(
+                              controller.folderSongList, index);
+                          print(
+                              'Tapped on ${controller.folderSongList[index]}');
+                        },
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(
+                      color: Colors.white12,
+                      indent: 58,
+                      endIndent: 10,
+                      height: 1,
+                    );
+                  },
                 ),
-                title: Text(
-                  textAlign: TextAlign.start,
-                  songName(controller.folderSongList[index]),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: TColor.lightGray,
-                    fontSize: 18,
-                  ),
-                ),
-                onTap: () {
-                  controller.setFolderAsPlaylist(
-                      controller.folderSongList, index);
-                  print('Tapped on ${controller.folderSongList[index]}');
-                },
               ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return const Divider(
-              color: Colors.white12,
-              indent: 58,
-              endIndent: 10,
-              height: 1,
-            );
-          },
-        ),
-        floatingActionButton: controller.songIsPlaying.value
-            ? FloatingActionButton(
-                backgroundColor: TColor.darkGray,
-                heroTag: "fab1",
-                onPressed: () {
-                  Get.to(() => const MainPlayerView());
-                },
-                child: Image.asset(
-                  "assets/img/m_eq.png",
-                  width: 25,
-                  height: 25,
-                  color: TColor.focusStart,
-                ),
-              )
-            : Container(),
+              const BottomPlayer(),
+            ],
+          ),
+          const BottomPlayerArt(),
+        ],
       ),
     );
   }

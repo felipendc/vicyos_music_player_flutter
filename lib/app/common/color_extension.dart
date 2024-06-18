@@ -16,7 +16,7 @@ class TColor {
   static Color get primaryText60 => const Color(0xffFFFFFF).withOpacity(0.6);
   static Color get primaryText35 => const Color(0xffFFFFFF).withOpacity(0.35);
   static Color get primaryText28 => const Color(0xffFFFFFF).withOpacity(0.28);
-  static Color get secondaryText => Color.fromARGB(255, 128, 131, 150);
+  static Color get secondaryText => const Color.fromARGB(255, 128, 131, 150);
   static Color get thirdText => const Color(0xff585A66);
 
   static List<Color> get primaryG => [focusStart, focus];
