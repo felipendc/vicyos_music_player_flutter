@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
@@ -20,58 +21,148 @@ class BottomPlayer extends StatelessWidget {
           Column(
             children: [
               Container(
-                // width: media.width * 0.94,
-                // margin: const EdgeInsets.only(top: 10, bottom: 10),
-                height: 65,
+                width: media.width * 0.94,
+                margin: const EdgeInsets.only(top: 0, bottom: 18),
+                height: 72,
                 decoration: BoxDecoration(
-                  color: Colors.transparent,
+                  color: TColor.bgMiniPlayer,
                   boxShadow: [
                     BoxShadow(
                       color:
                           const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                      spreadRadius: 8,
-                      blurRadius: 4,
-                      offset: const Offset(0, 3), // changes position of shadow
+                      spreadRadius: 10,
+                      blurRadius: 8,
+                      offset: const Offset(0, 2), // changes position of shadow
                     ),
                   ],
-
-                  // borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(media.width * 0.19, 0, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(14, 5, 10, 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const MainPlayerView());
-                              },
-                              child: Text(
-                                controller.currentSongName.value.length > 13
-                                    ? "${controller.currentSongName.value.substring(0, 13)}..."
-                                    : controller.currentSongName.value,
-                                style: TextStyle(
-                                    color: TColor.primaryText.withOpacity(0.9),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(media.width * 0.7),
+                                  child: Image.asset(
+                                    "assets/img/lofi-woman-album-cover-art_10.png",
+                                    width: media.width * 0.15,
+                                    height: media.width * 0.15,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: media.width * 0.15,
+                                  height: media.width * 0.15,
+                                  child: SleekCircularSlider(
+                                    appearance: CircularSliderAppearance(
+                                        customWidths: CustomSliderWidths(
+                                            trackWidth: 3.5,
+                                            progressBarWidth: 3.5,
+                                            shadowWidth: 10),
+                                        customColors: CustomSliderColors(
+                                            dotColor: const Color(0xffFFB1B2),
+                                            trackColor: const Color(0xffffffff)
+                                                .withOpacity(0.3),
+                                            progressBarColors: [
+                                              TColor.focusStart,
+                                              TColor.focusStart
+                                            ],
+                                            shadowColor:
+                                                const Color(0xffFFB1B2),
+                                            shadowMaxOpacity: 0.05),
+                                        infoProperties: InfoProperties(
+                                          topLabelStyle: const TextStyle(
+                                              color: Colors.transparent,
+                                              fontSize: 0,
+                                              fontWeight: FontWeight.w400),
+                                          topLabelText: 'Elapsed',
+                                          bottomLabelStyle: const TextStyle(
+                                              color: Colors.transparent,
+                                              fontSize: 0,
+                                              fontWeight: FontWeight.w400),
+                                          bottomLabelText: 'time',
+                                          mainLabelStyle: const TextStyle(
+                                              color: Colors.transparent,
+                                              fontSize: 00,
+                                              fontWeight: FontWeight.w600),
+                                          // modifier: (double value) {
+                                          //   final time = print(Duration(
+                                          //       seconds: value.toInt()));
+                                          //   return '$time';
+                                          // },
+                                        ),
+                                        startAngle: 270,
+                                        angleRange: 360,
+                                        size: 350.0),
+                                    min: 0,
+                                    max: controller
+                                        .sleekCircularSliderDuration.value,
+                                    initialValue: controller
+                                        .sleekCircularSliderPosition.value,
+                                    onChange: (value) {
+                                      if (value < 0) {
+                                        return;
+                                      } else {
+                                        audioPlayer.seek(
+                                            Duration(seconds: value.toInt()));
+                                      }
+
+                                      // callback providing a value while its being changed (with a pan gesture)
+                                    },
+                                    onChangeStart: (double startValue) {
+                                      // callback providing a starting value (when a pan gesture starts)
+                                    },
+                                    onChangeEnd: (double endValue) {
+                                      // ucallback providing an ending value (when a pan gesture ends)
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              controller.currentSongAlbumName.value.length > 14
-                                  ? "${controller.currentSongAlbumName.value.substring(0, 14)}}..."
-                                  : controller.currentSongAlbumName.value,
-                              style: TextStyle(
-                                color: TColor.secondaryText,
-                                fontSize: 14,
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => const MainPlayerView());
+                                  },
+                                  child: Text(
+                                    controller.currentSongName.value.length > 13
+                                        ? "${controller.currentSongName.value.substring(0, 13)}..."
+                                        : controller.currentSongName.value,
+                                    style: TextStyle(
+                                        color:
+                                            TColor.primaryText.withOpacity(0.9),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                                Text(
+                                  controller.currentSongAlbumName.value.length >
+                                          14
+                                      ? "${controller.currentSongAlbumName.value.substring(0, 14)}}..."
+                                      : controller.currentSongAlbumName.value,
+                                  style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Row(
                         children: [
@@ -79,7 +170,7 @@ class BottomPlayer extends StatelessWidget {
                             width: 40,
                             height: 40,
                             child: IconButton(
-                              splashRadius: 20,
+                              splashRadius: 26,
 
                               // iconSize: 10,
                               onPressed: () async {
@@ -92,8 +183,8 @@ class BottomPlayer extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            width: 50,
-                            height: 50,
+                            width: 45,
+                            height: 45,
                             child: IconButton(
                               // iconSize: 10,
                               splashRadius: 26,

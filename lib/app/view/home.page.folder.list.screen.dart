@@ -8,7 +8,6 @@ import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
-import 'package:vicyos_music_player/app/widgets/bottom.player.art.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -57,6 +56,7 @@ class HomePageFolderList extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ListView.separated(
+                          padding: const EdgeInsets.only(bottom: 130),
                           itemCount: controller.musicFolderPaths.length,
                           itemBuilder: (context, index) {
                             return SizedBox(
@@ -101,17 +101,23 @@ class HomePageFolderList extends StatelessWidget {
                           },
                         ),
                       ),
-                      const BottomPlayer(),
                     ],
                   ),
-                  const BottomPlayerArt(),
+                  // const BottomPlayer()
+                  // ,
+                  // const BottomPlayerArt(),
+                  const Positioned(
+                    bottom: 6,
+                    right: 11,
+                    child: BottomPlayer(),
+                  ),
                 ],
               ),
         floatingActionButton: controller.musicFolderPaths.isNotEmpty
             ? Stack(
                 children: [
                   Positioned(
-                    bottom: 75,
+                    bottom: 100,
                     right: 4,
                     child: FloatingActionButton(
                       backgroundColor: TColor.darkGray,
