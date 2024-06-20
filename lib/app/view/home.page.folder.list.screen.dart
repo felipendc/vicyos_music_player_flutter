@@ -117,16 +117,19 @@ class HomePageFolderList extends StatelessWidget {
                   Positioned(
                     bottom: 100,
                     right: 4,
-                    child: FloatingActionButton(
-                      backgroundColor: TColor.darkGray,
-                      heroTag: "fab2",
-                      onPressed: () {
-                        controller.musicFolderPaths.clear();
-                        listMusicFolders();
-                      },
-                      child: Icon(
-                        Icons.sync_rounded,
-                        color: TColor.focusStart,
+                    child: SizedBox(
+                      height: 55,
+                      child: FloatingActionButton(
+                        backgroundColor: TColor.darkGray,
+                        heroTag: "fab2",
+                        onPressed: () {
+                          controller.musicFolderPaths.clear();
+                          listMusicFolders();
+                        },
+                        child: Icon(
+                          Icons.sync_rounded,
+                          color: TColor.focusStart,
+                        ),
                       ),
                     ),
                   ),

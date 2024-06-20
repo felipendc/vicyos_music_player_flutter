@@ -25,7 +25,7 @@ class BottomPlayer extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 0, bottom: 18),
                 height: 72,
                 decoration: BoxDecoration(
-                  color: TColor.bgMiniPlayer,
+                  color: TColor.darkGraySecond,
                   boxShadow: [
                     BoxShadow(
                       color:

@@ -25,6 +25,7 @@ class TColor {
   static Color get bg => const Color(0xff181B2C);
   static Color get bgMiniPlayer => const Color.fromARGB(255, 32, 38, 65);
   static Color get darkGray => const Color(0xff383B49);
+  static Color get darkGraySecond => const Color.fromARGB(255, 41, 43, 54);
   static Color get lightGray => const Color(0xffD0D1D4);
 }
 
