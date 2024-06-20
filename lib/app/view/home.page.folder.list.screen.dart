@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, unused_element
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
