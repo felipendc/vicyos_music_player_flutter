@@ -7,10 +7,6 @@ import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
 
 final HomeController controller = Get.find<HomeController>();
-final List<String> playlistCurrentPosition = controller.playlist.children
-    .map((audioSource) =>
-        Uri.decodeFull((audioSource as UriAudioSource).uri.toString()))
-    .toList();
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -77,7 +73,14 @@ class PlaylistBottomSheet extends StatelessWidget {
                       ),
                       title: Text(
                         textAlign: TextAlign.start,
-                        songName(playlistCurrentPosition[index]),
+                        songName(
+                          controller.playlist.children[index].sequence
+                              .map((audioSource) => Uri.decodeFull(
+                                  (audioSource as UriAudioSource)
+                                      .uri
+                                      .toString()))
+                              .toString(),
+                        ),
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: TColor.lightGray,
