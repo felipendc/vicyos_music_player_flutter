@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
+import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 
 class ImportFilesBottomSheet extends StatelessWidget {
   const ImportFilesBottomSheet({super.key});
@@ -111,6 +112,35 @@ class ImportFilesBottomSheet extends StatelessWidget {
                     ),
                     const SizedBox(
                       height: 30,
+                    ),
+                    ListTile(
+                      leading: Image.asset(
+                        "assets/img/add_folder_icon.png",
+                        width: 35,
+                        height: 35,
+                        color: TColor.focus,
+                      ),
+                      title: Text(
+                        "PLAYLIST",
+                        style: TextStyle(
+                          color: TColor.primaryText80,
+                          fontSize: 19,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                      onTap: () async {
+                        Get.bottomSheet(
+                          const PlaylistBottomSheet(),
+                          // backgroundColor: TColor.bg,
+                          isScrollControlled: true,
+                        );
+                      },
+                    ),
+                    const Divider(
+                      color: Colors.white12,
+                      indent: 58,
+                      endIndent: 10,
+                      height: 1,
                     ),
                     // ListTile(
                     //   leading: Image.asset(

@@ -6,6 +6,7 @@ import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.import.dart';
+import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -204,6 +205,32 @@ class MainPlayerView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: IconButton(
+                              onPressed: () {
+                                Get.bottomSheet(
+                                  const PlaylistBottomSheet(),
+                                  // backgroundColor: TColor.bg,
+                                  isScrollControlled: true,
+                                );
+                              },
+                              icon: Image.asset(
+                                "assets/img/playlist_3.png",
+                                // width: 60,
+                                // height: 60,
+                                color: TColor.primaryText80,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Column(
