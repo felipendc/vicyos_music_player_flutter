@@ -79,20 +79,10 @@ class PlaylistBottomSheet extends StatelessWidget {
                                 ))
                             .toString(),
                       ),
-                      child: ListTile(
-                        key: Key(
-                          controller.playlist.children[index].sequence
-                              .map((audioSource) => [audioSource].map(
-                                    (audioSource) => Uri.decodeFull(
-                                      (audioSource as UriAudioSource)
-                                          .uri
-                                          .toString(),
-                                    ),
-                                  ))
-                              .toString(),
-                        ),
-                        title: Text(
-                          songName(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          key: Key(
                             controller.playlist.children[index].sequence
                                 .map((audioSource) => [audioSource].map(
                                       (audioSource) => Uri.decodeFull(
@@ -103,15 +93,28 @@ class PlaylistBottomSheet extends StatelessWidget {
                                     ))
                                 .toString(),
                           ),
-                        ),
-                        trailing: const Icon(Icons.drag_handle),
-                        onTap: () {
-                          audioPlayer.setAudioSource(controller.playlist,
-                              initialIndex: index, preload: false);
+                          title: Text(
+                            songName(
+                              controller.playlist.children[index].sequence
+                                  .map((audioSource) => [audioSource].map(
+                                        (audioSource) => Uri.decodeFull(
+                                          (audioSource as UriAudioSource)
+                                              .uri
+                                              .toString(),
+                                        ),
+                                      ))
+                                  .toString(),
+                            ),
+                          ),
+                          trailing: const Icon(Icons.drag_handle),
+                          onTap: () {
+                            audioPlayer.setAudioSource(controller.playlist,
+                                initialIndex: index, preload: false);
 
-                          audioPlayer.play();
-                          controller.songIsPlaying.value = true;
-                        },
+                            audioPlayer.play();
+                            controller.songIsPlaying.value = true;
+                          },
+                        ),
                       ),
                     );
                   },
