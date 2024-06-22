@@ -1,8 +1,6 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
@@ -59,97 +57,66 @@ class PlaylistBottomSheet extends StatelessWidget {
                 fontSize: 19,
               ),
             ),
-            // Text(
-            //   "________",
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.w900,
-            //     color: TColor.org,
-            //     fontSize: 19,
-            //   ),
-            // ),
+
             const SizedBox(height: 20),
             // Content
             Expanded(
               child: Obx(
-                () => ReorderableListView(
+                () => ReorderableListView.builder(
+                  itemCount: controller.playlist.children.length,
                   onReorder: _onReorder,
-                  children: controller.playlist.children
-                      .map(
-                        (audioSource) => ListTile(
-                          key: Key(
-                            [audioSource]
-                                .map(
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      color: TColor.bg,
+                      key: ValueKey(
+                        controller.playlist.children[index].sequence
+                            .map((audioSource) => [audioSource].map(
                                   (audioSource) => Uri.decodeFull(
                                     (audioSource as UriAudioSource)
                                         .uri
                                         .toString(),
                                   ),
-                                )
+                                ))
+                            .toString(),
+                      ),
+                      child: ListTile(
+                        key: Key(
+                          controller.playlist.children[index].sequence
+                              .map((audioSource) => [audioSource].map(
+                                    (audioSource) => Uri.decodeFull(
+                                      (audioSource as UriAudioSource)
+                                          .uri
+                                          .toString(),
+                                    ),
+                                  ))
+                              .toString(),
+                        ),
+                        title: Text(
+                          songName(
+                            controller.playlist.children[index].sequence
+                                .map((audioSource) => [audioSource].map(
+                                      (audioSource) => Uri.decodeFull(
+                                        (audioSource as UriAudioSource)
+                                            .uri
+                                            .toString(),
+                                      ),
+                                    ))
                                 .toString(),
                           ),
-                          title: Text(songName(
-                            [audioSource]
-                                .map((audioSource) => Uri.decodeFull(
-                                    (audioSource as UriAudioSource)
-                                        .uri
-                                        .toString()))
-                                .toString(),
-                          )),
-                          trailing: const Icon(Icons.drag_handle),
-                          onTap: () {},
                         ),
-                      )
-                      .toList(),
+                        trailing: const Icon(Icons.drag_handle),
+                        onTap: () {
+                          audioPlayer.setAudioSource(controller.playlist,
+                              initialIndex: index, preload: false);
+
+                          audioPlayer.play();
+                          controller.songIsPlaying.value = true;
+                        },
+                      ),
+                    );
+                  },
                 ),
               ),
-
-              // ListView.separated(
-              //   padding: const EdgeInsets.only(bottom: 0 /*130*/),
-              //   itemCount: controller.playlist.children.length,
-              //   itemBuilder: (context, index) {
-              //     return SizedBox(
-              //       // color: TColor.darkGray,
-              //       height: 70,
-              //       // margin: const EdgeInsets.all(10),
-              //       child: ListTile(
-              //         leading: Image.asset(
-              //           "assets/img/songs_tab.png",
-              //           width: 35,
-              //           height: 35,
-              //           color: TColor.focus,
-              //         ),
-              //         title: Text(
-              //           textAlign: TextAlign.start,
-              //           songName(
-              //             controller.playlist.children[index].sequence
-              //                 .map((audioSource) => Uri.decodeFull(
-              //                     (audioSource as UriAudioSource)
-              //                         .uri
-              //                         .toString()))
-              //                 .toString(),
-              //           ),
-              //           style: TextStyle(
-              //             fontWeight: FontWeight.w500,
-              //             color: TColor.lightGray,
-              //             fontSize: 18,
-              //           ),
-              //         ),
-              //         onTap: () {
-              //           print(
-              //               'Tapped on ${controller.audioSources.elementAt(index).toString()}');
-              //         },
-              //       ),
-              //     );
-              //   },
-              //   separatorBuilder: (BuildContext context, int index) {
-              //     return const Divider(
-              //       color: Colors.white12,
-              //       indent: 58,
-              //       endIndent: 10,
-              //       height: 1,
-              //     );
-              //   },
-              // ),
             ),
           ],
         ),
