@@ -210,8 +210,8 @@ class MainPlayerView extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            width: 50,
-                            height: 50,
+                            width: 45,
+                            height: 45,
                             child: IconButton(
                               onPressed: () {
                                 Get.bottomSheet(
@@ -221,7 +221,7 @@ class MainPlayerView extends StatelessWidget {
                                 );
                               },
                               icon: Image.asset(
-                                "assets/img/playlist_3.png",
+                                "assets/img/playlist.png",
                                 // width: 60,
                                 // height: 60,
                                 color: TColor.primaryText80,

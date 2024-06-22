@@ -71,6 +71,7 @@ void preLoadSongName() {
     controller.currentSongName.value = currentMediaItem.title;
     controller.currentSongArtistName.value = currentMediaItem.artist!;
     controller.currentSongAlbumName.value = currentMediaItem.album!;
+    controller.currentIndex.value = audioPlayer.sequence![index] as int;
   });
 }
 

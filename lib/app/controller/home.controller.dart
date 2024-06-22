@@ -29,7 +29,7 @@ class HomeController extends GetxController {
   final RxBool isStopped = false.obs;
   //
   final RxInt playlistLength = 0.obs;
-  final RxInt currentIndex = 0.obs;
+  final Rx<int> currentIndex = 0.obs;
   final RxBool firstSongIndex = true.obs;
   final RxBool lastSongIndex = false.obs;
   final RxBool penultimateSongIndex = false.obs;
@@ -55,7 +55,7 @@ class HomeController extends GetxController {
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
     playlist = ConcatenatingAudioSource(
-      useLazyPreparation: true,
+      useLazyPreparation: false,
       shuffleOrder: DefaultShuffleOrder(),
       children: audioSources,
     );
@@ -105,7 +105,7 @@ class HomeController extends GetxController {
     }
 
     audioPlayer.setAudioSource(playlist,
-        initialIndex: currenIndex, preload: true);
+        initialIndex: currenIndex, preload: false);
     playlistIsEmpty.value = false;
     firstSongIndex.value = true;
     preLoadSongName();

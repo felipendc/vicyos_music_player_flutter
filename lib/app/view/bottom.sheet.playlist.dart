@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
@@ -5,11 +6,24 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
+
+  Future<void> _onReorder(int oldIndex, int newIndex) async {
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+
+    controller.playlist.move(oldIndex, newIndex);
+
+    audioPlayer.currentIndexStream.listen((index) {
+      controller.currentIndex.value = audioPlayer.sequence![index!] as int;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,53 +70,86 @@ class PlaylistBottomSheet extends StatelessWidget {
             const SizedBox(height: 20),
             // Content
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.only(bottom: 0 /*130*/),
-                itemCount: controller.playlist.children.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    // color: TColor.darkGray,
-                    height: 70,
-                    // margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      leading: Image.asset(
-                        "assets/img/songs_tab.png",
-                        width: 35,
-                        height: 35,
-                        color: TColor.focus,
-                      ),
-                      title: Text(
-                        textAlign: TextAlign.start,
-                        songName(
-                          controller.playlist.children[index].sequence
-                              .map((audioSource) => Uri.decodeFull(
-                                  (audioSource as UriAudioSource)
-                                      .uri
-                                      .toString()))
-                              .toString(),
+              child: Obx(
+                () => ReorderableListView(
+                  onReorder: _onReorder,
+                  children: controller.playlist.children
+                      .map(
+                        (audioSource) => ListTile(
+                          key: Key(
+                            [audioSource]
+                                .map(
+                                  (audioSource) => Uri.decodeFull(
+                                    (audioSource as UriAudioSource)
+                                        .uri
+                                        .toString(),
+                                  ),
+                                )
+                                .toString(),
+                          ),
+                          title: Text(songName(
+                            [audioSource]
+                                .map((audioSource) => Uri.decodeFull(
+                                    (audioSource as UriAudioSource)
+                                        .uri
+                                        .toString()))
+                                .toString(),
+                          )),
+                          trailing: const Icon(Icons.drag_handle),
+                          onTap: () {},
                         ),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: TColor.lightGray,
-                          fontSize: 18,
-                        ),
-                      ),
-                      onTap: () {
-                        print(
-                            'Tapped on ${controller.audioSources.elementAt(index).toString()}');
-                      },
-                    ),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    color: Colors.white12,
-                    indent: 58,
-                    endIndent: 10,
-                    height: 1,
-                  );
-                },
+                      )
+                      .toList(),
+                ),
               ),
+
+              // ListView.separated(
+              //   padding: const EdgeInsets.only(bottom: 0 /*130*/),
+              //   itemCount: controller.playlist.children.length,
+              //   itemBuilder: (context, index) {
+              //     return SizedBox(
+              //       // color: TColor.darkGray,
+              //       height: 70,
+              //       // margin: const EdgeInsets.all(10),
+              //       child: ListTile(
+              //         leading: Image.asset(
+              //           "assets/img/songs_tab.png",
+              //           width: 35,
+              //           height: 35,
+              //           color: TColor.focus,
+              //         ),
+              //         title: Text(
+              //           textAlign: TextAlign.start,
+              //           songName(
+              //             controller.playlist.children[index].sequence
+              //                 .map((audioSource) => Uri.decodeFull(
+              //                     (audioSource as UriAudioSource)
+              //                         .uri
+              //                         .toString()))
+              //                 .toString(),
+              //           ),
+              //           style: TextStyle(
+              //             fontWeight: FontWeight.w500,
+              //             color: TColor.lightGray,
+              //             fontSize: 18,
+              //           ),
+              //         ),
+              //         onTap: () {
+              //           print(
+              //               'Tapped on ${controller.audioSources.elementAt(index).toString()}');
+              //         },
+              //       ),
+              //     );
+              //   },
+              //   separatorBuilder: (BuildContext context, int index) {
+              //     return const Divider(
+              //       color: Colors.white12,
+              //       indent: 58,
+              //       endIndent: 10,
+              //       height: 1,
+              //     );
+              //   },
+              // ),
             ),
           ],
         ),
