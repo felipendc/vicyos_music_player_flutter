@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
-import 'package:flutter/services.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
+import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.import.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
@@ -17,10 +17,7 @@ class MainPlayerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    screenOrientationPortrait();
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -126,12 +123,12 @@ class MainPlayerView extends StatelessWidget {
 
                           // callback providing a value while its being changed (with a pan gesture)
                         },
-                        onChangeStart: (double startValue) {
-                          // callback providing a starting value (when a pan gesture starts)
-                        },
-                        onChangeEnd: (double endValue) {
-                          // ucallback providing an ending value (when a pan gesture ends)
-                        },
+                        // onChangeStart: (double startValue) {
+                        //   // callback providing a starting value (when a pan gesture starts)
+                        // },
+                        // onChangeEnd: (double endValue) {
+                        //   // ucallback providing an ending value (when a pan gesture ends)
+                        // },
                       ),
                     ),
                   ),
@@ -307,18 +304,6 @@ class MainPlayerView extends StatelessWidget {
                 ),
               ),
             ]),
-            // const SizedBox(
-            //   height: 15,
-            // ),
-            // const Padding(
-            //   padding: EdgeInsets.all(20),
-            //   child: Divider(
-            //     color: Colors.white12,
-            //     indent: 20,
-            //     endIndent: 20,
-            //     height: 1,
-            //   ),
-            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -374,46 +359,6 @@ class MainPlayerView extends StatelessWidget {
                     ),
                   ),
                 )
-                // SliderTheme(
-                //   data: SliderTheme.of(context).copyWith(
-                //     trackHeight: 8,
-                //     trackShape: const RoundedRectSliderTrackShape(),
-                //     activeTrackColor: Colors.purple.shade800,
-                //     inactiveTrackColor: Colors.purple.shade100,
-                //     thumbShape: const RoundSliderThumbShape(
-                //       elevation: BorderSide.strokeAlignOutside,
-                //       enabledThumbRadius: 14.0,
-                //       pressedElevation: 8.0,
-                //     ),
-                //     thumbColor: Colors.pinkAccent,
-                //     overlayColor: Colors.pink.withOpacity(0.2),
-                //     overlayShape:
-                //         const RoundSliderOverlayShape(overlayRadius: 25),
-                //     tickMarkShape: const RoundSliderTickMarkShape(),
-                //     activeTickMarkColor: Colors.pinkAccent,
-                //     inactiveTickMarkColor: Colors.white,
-                //     valueIndicatorShape:
-                //         const PaddleSliderValueIndicatorShape(),
-                //     valueIndicatorColor: Colors.black,
-                //     valueIndicatorTextStyle: const TextStyle(
-                //       color: Colors.white,
-                //       fontSize: 20.0,
-                //     ),
-                //   ),
-                //   child: Obx(
-                //     () => Slider(
-                //       min: 0.0,
-                //       max: 100.0,
-                //       value: controller.volumeSliderValue.value,
-                //       divisions: 10,
-                //       label: '${controller.volumeSliderValue.value.round()}',
-                //       onChanged: (value) {
-                //         controller.volumeSliderValue.value = value;
-                //         setVolume(value);
-                //       },
-                //     ),
-                //   ),
-                // )
               ],
             ),
             const SizedBox(

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 
 final HomeController controller = Get.find<HomeController>();
 

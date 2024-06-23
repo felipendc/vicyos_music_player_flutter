@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/get.folders.with.audio.files.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -56,7 +56,6 @@ class SongsListScreen extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5))),
         toolbarHeight: 60,
         // automaticallyImplyLeading: false
-
         elevation: 0,
         centerTitle: true,
         backgroundColor: TColor.bg, // TColor.darkGray,

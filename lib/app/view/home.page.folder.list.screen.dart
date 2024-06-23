@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
@@ -16,12 +17,7 @@ class HomePageFolderList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
-    MediaQuery.sizeOf(context);
+    screenOrientationPortrait();
 
     return Obx(
       () => Scaffold(
@@ -78,6 +74,13 @@ class HomePageFolderList extends StatelessWidget {
                                     fontSize: 20,
                                   ),
                                 ),
+                                subtitle: Text(
+                                  '${controller.musicFolderPaths[index].length} songs',
+                                  style: const TextStyle(
+                                      fontFamily: "Circular Std",
+                                      fontSize: 15,
+                                      color: Colors.white70),
+                                ),
                                 onTap: () {
                                   Get.to(() => SongsListScreen(
                                       folderPath:
@@ -101,9 +104,6 @@ class HomePageFolderList extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // const BottomPlayer()
-                  // ,
-                  // const BottomPlayerArt(),
                   const Positioned(
                     bottom: 6,
                     right: 11,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/reusable_functions/music_player.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 
 class SpeedRateBottomSheet extends StatefulWidget {
   const SpeedRateBottomSheet({super.key});
@@ -56,14 +56,6 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                 fontSize: 19,
               ),
             ),
-            // Text(
-            //   "________",
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.w900,
-            //     color: TColor.org,
-            //     fontSize: 19,
-            //   ),
-            // ),
             const SizedBox(height: 20),
             // Content
             Expanded(

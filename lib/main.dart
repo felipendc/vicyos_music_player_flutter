@@ -44,8 +44,6 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: false,
       ),
-      // home: const AudioPlayerScreen(), MainPlayerView
-      // home: const MainPlayerView(),
       home: const HomePageFolderList(),
     );
   }
