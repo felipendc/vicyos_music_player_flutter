@@ -58,12 +58,18 @@ class HomePageFolderList extends StatelessWidget {
                               height: 70,
                               // margin: const EdgeInsets.all(10),
                               child: ListTile(
-                                leading: Image.asset(
-                                  "assets/img/m_hidden_folder.png",
-                                  width: 35,
-                                  height: 35,
+                                leading: Icon(
+                                  Icons.folder,
                                   color: TColor.focus,
+                                  size: 40,
                                 ),
+
+                                // Image.asset(
+                                //   "assets/img/m_hidden_folder.png",
+                                //   width: 35,
+                                //   height: 35,
+                                //   color: TColor.focus,
+                                // ),
                                 title: Text(
                                   textAlign: TextAlign.start,
                                   folderName(

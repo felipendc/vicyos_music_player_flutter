@@ -82,12 +82,17 @@ class SongsListScreen extends StatelessWidget {
                       height: 70,
                       // margin: const EdgeInsets.all(10),
                       child: ListTile(
-                        leading: Image.asset(
-                          "assets/img/songs_tab.png",
-                          width: 35,
-                          height: 35,
+                        leading: Icon(
+                          Icons.music_note_rounded,
                           color: TColor.focus,
+                          size: 40,
                         ),
+                        // Image.asset(
+                        //   "assets/img/songs_tab.png",
+                        //   width: 35,
+                        //   height: 35,
+                        //   color: TColor.focus,
+                        // ),
                         title: Text(
                           textAlign: TextAlign.start,
                           songName(controller.folderSongList[index]),

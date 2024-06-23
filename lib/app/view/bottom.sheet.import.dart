@@ -8,7 +8,6 @@ class ImportFilesBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),
@@ -17,7 +16,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
       child: Container(
         color: TColor.bg,
         height: 300, // Adjust the height as needed
-        padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -45,61 +44,84 @@ class ImportFilesBottomSheet extends StatelessWidget {
             Expanded(
               child: Container(
                 color: TColor.bg,
-                width: media.width * 0.9,
+                // width: media.width * 0.9,
                 child: ListView(
-                  padding: EdgeInsets.zero,
                   children: [
-                    ListTile(
-                      leading: Image.asset(
-                        "assets/img/add_folder_icon.png",
-                        width: 35,
-                        height: 35,
-                        color: TColor.focus,
-                      ),
-                      title: Text(
-                        "Import folder",
-                        style: TextStyle(
-                          color: TColor.primaryText80,
-                          fontSize: 19,
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: Icon(
+                            Icons.create_new_folder_outlined,
+                            color: TColor.focus,
+                            size: 38,
+                          ),
                         ),
+
+                        // Image.asset(
+                        //   "assets/img/add_folder_icon.png",
+                        //   width: 35,
+                        //   height: 35,
+                        //   color: TColor.focus,
+                        // ),
+                        title: Text(
+                          "Import folder",
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 19,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Get.back();
+                          await pickFolder();
+                        },
                       ),
-                      contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                      onTap: () async {
-                        Get.back();
-                        await pickFolder();
-                      },
                     ),
                     const Divider(
                       color: Colors.white12,
-                      indent: 58,
-                      endIndent: 10,
+                      indent: 70,
+                      endIndent: 25,
                       height: 1,
                     ),
-                    ListTile(
-                      leading: Image.asset(
-                        "assets/img/audio_file.png",
-                        width: 43,
-                        height: 43,
-                        color: TColor.focus,
-                      ),
-                      title: Text(
-                        "Add songs",
-                        style: TextStyle(
-                          color: TColor.primaryText80,
-                          fontSize: 19,
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: Icon(
+                            Icons.queue_music_rounded,
+                            color: TColor.focus,
+                            size: 40,
+                          ),
                         ),
+
+                        // Image.asset(
+                        //   "assets/img/audio_file.png",
+                        //   width: 43,
+                        //   height: 43,
+                        //   color: TColor.focus,
+                        // ),
+                        title: Text(
+                          "Add songs",
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 19,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Get.back();
+                          await pickAndPlayAudio();
+                        },
                       ),
-                      contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                      onTap: () async {
-                        Get.back();
-                        await pickAndPlayAudio();
-                      },
                     ),
                     const Divider(
                       color: Colors.white12,
-                      indent: 58,
-                      endIndent: 10,
-                      height: 5,
+                      indent: 70,
+                      endIndent: 25,
+                      height: 1,
                     ),
                     const SizedBox(
                       height: 30,

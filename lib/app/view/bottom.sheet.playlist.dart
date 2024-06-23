@@ -65,7 +65,6 @@ class PlaylistBottomSheet extends StatelessWidget {
                   onReorder: _onReorder,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       color: TColor.bg,
                       key: ValueKey(
                         controller.playlist.children[index].sequence
@@ -96,20 +95,31 @@ class PlaylistBottomSheet extends StatelessWidget {
                                       .toString(),
                                 ),
                                 leading: controller.currentIndex.value == index
-                                    ? Image.asset(
-                                        "assets/img/m_eq.png",
-                                        // color: TColor.focusSecondary,
-                                        width: media.width * 0.058,
-                                        height: media.width * 0.058,
-                                        color: TColor.focusSecondary,
+                                    ? Icon(
+                                        Icons.equalizer_rounded,
+                                        color: TColor.focus,
+                                        size: 32,
                                       )
-                                    : Image.asset(
-                                        "assets/img/play_btn.png",
-                                        // color: TColor.focusSecondary,
-                                        width: media.width * 0.065,
-                                        height: media.width * 0.065,
-                                        color: TColor.focusSecondary,
+                                    // Image.asset(
+                                    //     "assets/img/m_eq.png",
+                                    //     // color: TColor.focusSecondary,
+                                    //     width: media.width * 0.058,
+                                    //     height: media.width * 0.058,
+                                    //     color: TColor.focusSecondary,
+                                    //   )
+
+                                    : Icon(
+                                        Icons.play_circle_filled_rounded,
+                                        color: TColor.focus,
+                                        size: 28,
                                       ),
+                                // Image.asset(
+                                //     "assets/img/play_btn.png",
+                                //     // color: TColor.focusSecondary,
+                                //     width: media.width * 0.065,
+                                //     height: media.width * 0.065,
+                                //     color: TColor.focusSecondary,
+                                //   ),
                                 title: Text(
                                   songName(
                                     controller.playlist.children[index].sequence
