@@ -79,42 +79,125 @@ class PlaylistBottomSheet extends StatelessWidget {
                                 ))
                             .toString(),
                       ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: ListTile(
-                          key: Key(
-                            controller.playlist.children[index].sequence
-                                .map((audioSource) => [audioSource].map(
-                                      (audioSource) => Uri.decodeFull(
-                                        (audioSource as UriAudioSource)
-                                            .uri
-                                            .toString(),
+                      child: Column(
+                        children: [
+                          Material(
+                            color: Colors.transparent,
+                            child: Obx(
+                              () => ListTile(
+                                key: Key(
+                                  controller.playlist.children[index].sequence
+                                      .map((audioSource) => [audioSource].map(
+                                            (audioSource) => Uri.decodeFull(
+                                              (audioSource as UriAudioSource)
+                                                  .uri
+                                                  .toString(),
+                                            ),
+                                          ))
+                                      .toString(),
+                                ),
+                                title: Text(
+                                  songName(
+                                    controller.playlist.children[index].sequence
+                                        .map((audioSource) => [audioSource].map(
+                                              (audioSource) => Uri.decodeFull(
+                                                (audioSource as UriAudioSource)
+                                                    .uri
+                                                    .toString(),
+                                              ),
+                                            ))
+                                        .toString(),
+                                  ),
+                                ),
+                                trailing: controller.currentIndex.value == index
+                                    ? Image.asset(
+                                        "assets/img/m_eq.png",
+                                        // color: TColor.focusSecondary,
+                                        width: media.width * 0.058,
+                                        height: media.width * 0.058,
+                                      )
+                                    : Image.asset(
+                                        "assets/img/play_btn.png",
+                                        // color: TColor.focusSecondary,
+                                        width: media.width * 0.065,
+                                        height: media.width * 0.065,
                                       ),
-                                    ))
-                                .toString(),
-                          ),
-                          title: Text(
-                            songName(
-                              controller.playlist.children[index].sequence
-                                  .map((audioSource) => [audioSource].map(
-                                        (audioSource) => Uri.decodeFull(
-                                          (audioSource as UriAudioSource)
-                                              .uri
-                                              .toString(),
+                                leading: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          media.width * 0.7),
+                                      child: Image.asset(
+                                        "assets/img/playlist_2.png",
+
+                                        // "assets/img/lofi-woman-album-cover-art.png",
+                                        width: media.width * 0.13,
+                                        height: media.width * 0.13,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          media.width * 0.7),
+                                      child: Container(
+                                        width: media.width * 0.07,
+                                        height: media.width * 0.07,
+                                        color: Colors.grey.shade900,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${index + 1}',
+                                      style: const TextStyle(
+                                          fontFamily: "Circular Std",
+                                          fontSize: 15,
+                                          color: Colors.white70),
+                                    ),
+                                    Container(
+                                      width: media.width * 0.13,
+                                      height: media.width * 0.13,
+                                      decoration: BoxDecoration(
+                                        color: Colors
+                                            .transparent, // Set to transparent if you only want the border
+                                        border: Border.all(
+                                          color: Colors.white70, // Border color
+                                          width: 2.0, // Border width
                                         ),
-                                      ))
-                                  .toString(),
+                                        borderRadius: BorderRadius.circular(
+                                            media.width * 0.7),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () async {
+                                  if (controller.currentIndex.value == index) {
+                                    if (controller.songIsPlaying.value) {
+                                      audioPlayer.pause();
+                                      controller.songIsPlaying.value = false;
+                                    } else {
+                                      audioPlayer.play();
+                                      controller.songIsPlaying.value = true;
+                                    }
+                                  } else {
+                                    audioPlayer.setAudioSource(
+                                        controller.playlist,
+                                        initialIndex: index,
+                                        preload: false);
+
+                                    audioPlayer.play();
+                                    controller.songIsPlaying.value = true;
+                                  }
+                                },
+                              ),
                             ),
                           ),
-                          trailing: const Icon(Icons.drag_handle),
-                          onTap: () {
-                            audioPlayer.setAudioSource(controller.playlist,
-                                initialIndex: index, preload: false);
-
-                            audioPlayer.play();
-                            controller.songIsPlaying.value = true;
-                          },
-                        ),
+                          // const Divider(
+                          //   color: Colors.white12,
+                          //   indent: 87,
+                          //   endIndent: 10,
+                          //   height: 1,
+                          // ),
+                        ],
                       ),
                     );
                   },

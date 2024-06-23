@@ -33,6 +33,8 @@ class HomeController extends GetxController {
   final RxBool firstSongIndex = true.obs;
   final RxBool lastSongIndex = false.obs;
   final RxBool penultimateSongIndex = false.obs;
+  final RxBool playlistTrailingIndex = false.obs;
+
   //
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<LoopMode> currentLoopMode = LoopMode.all.obs;

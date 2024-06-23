@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class TColor {
   static Color get primary => const Color(0xffC35BD1);
   static Color get focus => const Color(0xffD9519D);
+  static Color get focusSecondary => const Color.fromARGB(255, 197, 73, 143);
   static Color get unfocused => const Color(0xff63666E);
   static Color get focusStart => const Color(0xffED8770);
 
