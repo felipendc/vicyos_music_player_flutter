@@ -55,8 +55,28 @@ Future<void> listMusicFolders() async {
 }
 
 String folderLenght(String folderPath) {
+  final Set<String> audioExtensions = {
+    '.mp3',
+    '.m4a',
+    '.ogg',
+    '.wav',
+    '.aac',
+    '.midi'
+  };
+
   Directory? folderDirectory = Directory(folderPath);
   final directorySongList = folderDirectory.listSync();
-  final folderLenght = directorySongList.length;
-  return folderLenght.toString();
+  final folderLenght = directorySongList
+      .where((entity) {
+        if (entity is File) {
+          String extension =
+              entity.path.substring(entity.path.lastIndexOf('.')).toLowerCase();
+          return audioExtensions.contains(extension);
+        }
+        return false;
+      })
+      .map((entity) => entity.path)
+      .toList();
+  ;
+  return folderLenght.length.toString();
 }
