@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
@@ -81,7 +81,7 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '${controller.musicFolderPaths[index].length} songs',
+                                  '${folderLenght(controller.musicFolderPaths[index])} songs',
                                   style: const TextStyle(
                                       fontFamily: "Circular Std",
                                       fontSize: 15,

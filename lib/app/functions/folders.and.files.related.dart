@@ -53,3 +53,10 @@ Future<void> listMusicFolders() async {
   }
   print(audioFolders);
 }
+
+String folderLenght(String folderPath) {
+  Directory? folderDirectory = Directory(folderPath);
+  final directorySongList = folderDirectory.listSync();
+  final folderLenght = directorySongList.length;
+  return folderLenght.toString();
+}

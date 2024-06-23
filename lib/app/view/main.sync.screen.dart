@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 
 final HomeController controller = Get.find<HomeController>();
 

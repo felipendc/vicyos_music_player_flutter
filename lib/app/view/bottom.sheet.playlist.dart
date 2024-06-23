@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/get.folders.with.audio.files.dart';
+import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 
 final HomeController controller = Get.find<HomeController>();
