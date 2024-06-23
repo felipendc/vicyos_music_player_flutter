@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path/path.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/reusable_functions/get.folders.with.audio.files.dart';
@@ -67,6 +68,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                   onReorder: _onReorder,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                       color: TColor.bg,
                       key: ValueKey(
                         controller.playlist.children[index].sequence
@@ -96,6 +98,21 @@ class PlaylistBottomSheet extends StatelessWidget {
                                           ))
                                       .toString(),
                                 ),
+                                leading: controller.currentIndex.value == index
+                                    ? Image.asset(
+                                        "assets/img/m_eq.png",
+                                        // color: TColor.focusSecondary,
+                                        width: media.width * 0.058,
+                                        height: media.width * 0.058,
+                                        color: TColor.focusSecondary,
+                                      )
+                                    : Image.asset(
+                                        "assets/img/play_btn.png",
+                                        // color: TColor.focusSecondary,
+                                        width: media.width * 0.065,
+                                        height: media.width * 0.065,
+                                        color: TColor.focusSecondary,
+                                      ),
                                 title: Text(
                                   songName(
                                     controller.playlist.children[index].sequence
@@ -108,66 +125,34 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             ))
                                         .toString(),
                                   ),
+                                  style: TextStyle(
+                                    color: TColor.primaryText,
+                                    fontFamily: "Circular Std",
+                                    fontSize: 17,
+                                  ),
                                 ),
-                                trailing: controller.currentIndex.value == index
-                                    ? Image.asset(
-                                        "assets/img/m_eq.png",
-                                        // color: TColor.focusSecondary,
-                                        width: media.width * 0.058,
-                                        height: media.width * 0.058,
-                                      )
-                                    : Image.asset(
-                                        "assets/img/play_btn.png",
-                                        // color: TColor.focusSecondary,
-                                        width: media.width * 0.065,
-                                        height: media.width * 0.065,
-                                      ),
-                                leading: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.7),
-                                      child: Image.asset(
-                                        "assets/img/playlist_2.png",
-
-                                        // "assets/img/lofi-woman-album-cover-art.png",
-                                        width: media.width * 0.13,
-                                        height: media.width * 0.13,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.7),
-                                      child: Container(
-                                        width: media.width * 0.07,
-                                        height: media.width * 0.07,
-                                        color: Colors.grey.shade900,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${index + 1}',
-                                      style: const TextStyle(
-                                          fontFamily: "Circular Std",
-                                          fontSize: 15,
-                                          color: Colors.white70),
-                                    ),
-                                    Container(
-                                      width: media.width * 0.13,
-                                      height: media.width * 0.13,
-                                      decoration: BoxDecoration(
-                                        color: Colors
-                                            .transparent, // Set to transparent if you only want the border
-                                        border: Border.all(
-                                          color: Colors.white70, // Border color
-                                          width: 2.0, // Border width
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                            media.width * 0.7),
-                                      ),
-                                    ),
-                                  ],
+                                subtitle: Text(
+                                  'Index: ${index + 1}  ',
+                                  style: const TextStyle(
+                                      fontFamily: "Circular Std",
+                                      fontSize: 15,
+                                      color: Colors.white70),
+                                ),
+                                trailing: IconButton(
+                                  splashRadius: 26,
+                                  iconSize: 26,
+                                  icon:
+                                      const Icon(Icons.delete_forever_rounded),
+                                  color: TColor.focusSecondary,
+                                  onPressed: () {
+                                    controller.playlist.removeAt(index);
+                                    controller.playlistLength.value =
+                                        controller.audioSources.length;
+                                    if (controller.currentIndex.value ==
+                                        index) {
+                                      preLoadSongName();
+                                    }
+                                  },
                                 ),
                                 onTap: () async {
                                   if (controller.currentIndex.value == index) {
