@@ -5,11 +5,23 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
+import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
+// final folderPaths = controller.musicFolderPaths
+//     .map((index) => index as FolderSources)
+//     .map((index) => index.path)
+//     .toList()
+//     .toList();
+
+// final totalSongs = controller.musicFolderPaths
+//     .map((index) => index as FolderSources)
+//     .map((index) => index.songs)
+//     .toList()
+//     .toList();
 
 class HomePageFolderList extends StatelessWidget {
   const HomePageFolderList({super.key});
@@ -73,7 +85,7 @@ class HomePageFolderList extends StatelessWidget {
                                 title: Text(
                                   textAlign: TextAlign.start,
                                   folderName(
-                                      controller.musicFolderPaths[index]),
+                                      controller.musicFolderPaths[index].path),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: TColor.lightGray,
@@ -81,7 +93,7 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '${folderLenght(controller.musicFolderPaths[index])} songs',
+                                  '${controller.musicFolderPaths[index].songs} songs',
                                   style: const TextStyle(
                                       fontFamily: "Circular Std",
                                       fontSize: 15,
@@ -89,11 +101,11 @@ class HomePageFolderList extends StatelessWidget {
                                 ),
                                 onTap: () {
                                   Get.to(() => SongsListScreen(
-                                      folderPath:
-                                          controller.musicFolderPaths[index]));
+                                      folderPath: controller
+                                          .musicFolderPaths[index].path));
                                   // Handle tile tap
                                   print(
-                                      'Tapped on ${controller.musicFolderPaths[index]}');
+                                      'Tapped on ${controller.musicFolderPaths[index].path}');
                                 },
                               ),
                             );

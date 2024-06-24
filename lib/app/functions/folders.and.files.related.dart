@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/models/folder.sources.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -46,12 +47,24 @@ String songName(String songPath) {
 }
 
 Future<void> listMusicFolders() async {
+  String folderPath;
+  String totalSongs;
   final audioFolders =
       await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
+
   for (var folder in audioFolders) {
-    controller.musicFolderPaths.add(folder);
+    folderPath = folder;
+    totalSongs = folderLenght(folder);
+    controller.musicFolderPaths
+        .add(FolderSources(path: folderPath, songs: totalSongs));
+    print(controller.musicFolderPaths
+        .map((index) => index as FolderSources)
+        .map((index) => index.path)
+        .toString()
+        .toString());
   }
-  print(audioFolders);
+
+  // print(audioFolders);
 }
 
 String folderLenght(String folderPath) {
@@ -77,6 +90,6 @@ String folderLenght(String folderPath) {
       })
       .map((entity) => entity.path)
       .toList();
-  ;
+
   return folderLenght.length.toString();
 }
