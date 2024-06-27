@@ -132,6 +132,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             ))
                                         .toString(),
                                   ),
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     color: TColor.primaryText,
                                     fontFamily: "Circular Std",
