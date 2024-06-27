@@ -26,7 +26,20 @@ class MainPlayerView extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(5))),
         toolbarHeight: 60,
         elevation: 0,
-        // automaticallyImplyLeading: false
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14),
+          child: IconButton(
+            splashRadius: 20,
+            icon: Icon(
+              Icons.arrow_back,
+              color: TColor.primaryText80,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
         centerTitle: true,
         backgroundColor: TColor.bg,
         title: Text(

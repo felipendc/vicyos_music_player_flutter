@@ -115,4 +115,80 @@ class HomeController extends GetxController {
     playOrPause();
     // print("Testing");
   }
+
+  Future<void> addFolderToPlaylist(currentFolder) async {
+    if (audioSources.isEmpty) {
+      for (String filePath in currentFolder) {
+        File audioFile = File(filePath);
+        String fileNameWithoutExtension =
+            path.basenameWithoutExtension(filePath);
+        String filePathAsId = audioFile.absolute.path;
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(
+          AudioSource.uri(
+            Uri.file(filePath),
+            tag: mediaItem,
+          ),
+        );
+        playlistLength.value = audioSources.length;
+      }
+
+      audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+      playlistIsEmpty.value = false;
+      firstSongIndex.value = true;
+      preLoadSongName();
+      playOrPause();
+
+      // print("Testing");
+    } else {
+      for (String filePath in currentFolder) {
+        File audioFile = File(filePath);
+        String fileNameWithoutExtension =
+            path.basenameWithoutExtension(filePath);
+        String filePathAsId = audioFile.absolute.path;
+        Metadata? metadata;
+
+        try {
+          metadata = await MetadataRetriever.fromFile(audioFile);
+        } catch (e) {
+          print('Failed to extract metadata: $e');
+        }
+
+        final mediaItem = MediaItem(
+          id: filePathAsId,
+          album: metadata?.albumName ?? 'Unknown Album',
+
+          // Using the name of the file as the title by default
+          title: fileNameWithoutExtension,
+          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        );
+
+        playlist.add(
+          AudioSource.uri(
+            Uri.file(filePath),
+            tag: mediaItem,
+          ),
+        );
+        playlistLength.value = audioSources.length;
+      }
+
+      playlistIsEmpty.value = false;
+    }
+  }
 }

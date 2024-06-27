@@ -5,6 +5,7 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
+import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -53,7 +54,20 @@ class SongsListScreen extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(5))),
         toolbarHeight: 60,
-        // automaticallyImplyLeading: false
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14),
+          child: IconButton(
+            splashRadius: 20,
+            icon: Icon(
+              Icons.arrow_back,
+              color: TColor.org,
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
         elevation: 0,
         centerTitle: true,
         backgroundColor: TColor.bg, // TColor.darkGray,
@@ -67,6 +81,25 @@ class SongsListScreen extends StatelessWidget {
             fontSize: 22,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: IconButton(
+              splashRadius: 22,
+              icon: Icon(
+                color: TColor.org,
+                Icons.more_horiz_rounded,
+              ),
+              onPressed: () {
+                Get.bottomSheet(
+                  FolderToPlaylistBottomSheet(folderPath: folderPath),
+                  // backgroundColor: TColor.bg,
+                  isScrollControlled: true,
+                );
+              },
+            ),
+          )
+        ],
       ),
       body: Stack(
         children: [
