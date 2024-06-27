@@ -5,7 +5,6 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
-import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
@@ -44,6 +43,8 @@ class HomePageFolderList extends StatelessWidget {
                 title: Center(
                   child: Text(
                     ' MUSIC FOLDERS ',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: TColor.org,
@@ -83,9 +84,11 @@ class HomePageFolderList extends StatelessWidget {
                                 //   color: TColor.focus,
                                 // ),
                                 title: Text(
-                                  textAlign: TextAlign.start,
                                   folderName(
                                       controller.musicFolderPaths[index].path),
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: TColor.lightGray,

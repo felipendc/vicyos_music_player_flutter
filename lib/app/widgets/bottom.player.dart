@@ -135,33 +135,39 @@ class BottomPlayer extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
                                       Get.to(() => const MainPlayerView());
                                     },
-                                    child: Text(
-                                      controller.currentSongName.value.length >
-                                              13
-                                          ? "${controller.currentSongName.value.substring(0, 13)}..."
-                                          : controller.currentSongName.value,
-                                      style: TextStyle(
-                                          color: TColor.primaryText
-                                              .withOpacity(0.9),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
+                                    child: SizedBox(
+                                      width: media.width * 0.35,
+                                      child: Text(
+                                        controller.currentSongName.value,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            color: TColor.primaryText
+                                                .withOpacity(0.9),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    controller.currentSongAlbumName.value
-                                                .length >
-                                            14
-                                        ? "${controller.currentSongAlbumName.value.substring(0, 14)}}..."
-                                        : controller.currentSongAlbumName.value,
-                                    style: TextStyle(
-                                      color: TColor.secondaryText,
-                                      fontSize: 14,
+                                  SizedBox(
+                                    width: media.width * 0.30,
+                                    // color: Colors.amber,
+                                    child: Text(
+                                      controller.currentSongAlbumName.value,
+                                      maxLines: 1,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: TColor.secondaryText,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
                                 ],

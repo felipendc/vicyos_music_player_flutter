@@ -31,6 +31,8 @@ class MainPlayerView extends StatelessWidget {
         backgroundColor: TColor.bg,
         title: Text(
           "Vicyos Music Player",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.w900,
             color: TColor.primaryText80,
@@ -157,30 +159,41 @@ class MainPlayerView extends StatelessWidget {
               height: 28,
             ),
             Obx(
-              () => Text(
-                controller.currentSongName.value.length > 29
-                    ? "${controller.currentSongName.value.substring(0, 28)}..."
-                    : controller.currentSongName.value,
-                style: TextStyle(
-                    color: TColor.primaryText.withOpacity(0.9),
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600),
+              () => Padding(
+                padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
+                child: Text(
+                  controller.currentSongName.value,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: TColor.primaryText.withOpacity(0.9),
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
+
+              // Text(
+              //   controller.currentSongName.value.length > 29
+              //       ? "${controller.currentSongName.value.substring(0, 28)}..."
+              //       : controller.currentSongName.value,
+              //   style: TextStyle(
+              //       color: TColor.primaryText.withOpacity(0.9),
+              //       fontSize: 19,
+              //       fontWeight: FontWeight.w600),
+              // ),
             ),
             const SizedBox(
               height: 10,
             ),
             Obx(
               () => Padding(
-                padding: const EdgeInsets.only(
-                  right: 10,
-                  left: 10,
-                ),
+                padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
                 child: Text(
+                  controller.currentSongAlbumName.value,
                   textAlign: TextAlign.center,
-                  controller.currentSongAlbumName.value.length > 29
-                      ? "Album:  ${controller.currentSongAlbumName.value.substring(0, 28)}}..."
-                      : controller.currentSongAlbumName.value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: TColor.secondaryText,
                     fontSize: 14,

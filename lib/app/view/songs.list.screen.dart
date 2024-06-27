@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -46,10 +47,8 @@ class SongsListScreen extends StatelessWidget {
     }
 
     // Set the preferred orientations to portrait mode when this screen is built
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    screenOrientationPortrait();
+
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -61,6 +60,8 @@ class SongsListScreen extends StatelessWidget {
         backgroundColor: TColor.bg, // TColor.darkGray,
         title: Text(
           folderName(folderPath),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: TColor.org,
@@ -94,8 +95,10 @@ class SongsListScreen extends StatelessWidget {
                         //   color: TColor.focus,
                         // ),
                         title: Text(
-                          textAlign: TextAlign.start,
                           songName(controller.folderSongList[index]),
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: TColor.lightGray,
