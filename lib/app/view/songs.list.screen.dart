@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
@@ -105,6 +104,16 @@ class SongsListScreen extends StatelessWidget {
                             fontSize: 18,
                           ),
                         ),
+                        trailing: IconButton(
+                          splashRadius: 24,
+                          iconSize: 30,
+                          icon: Icon(
+                            Icons.playlist_add_rounded,
+                            color: TColor.focusSecondary,
+                          ),
+                          onPressed: () {},
+                        ),
+
                         onTap: () {
                           controller.setFolderAsPlaylist(
                               controller.folderSongList, index);
@@ -115,12 +124,13 @@ class SongsListScreen extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(
-                      color: Colors.white12,
-                      indent: 58,
-                      endIndent: 10,
-                      height: 1,
-                    );
+                    return Container();
+                    // const Divider(
+                    //   color: Colors.white12,
+                    //   indent: 58,
+                    //   endIndent: 10,
+                    //   height: 1,
+                    // );
                   },
                 ),
               ),

@@ -13,6 +13,8 @@ Future<void> requestStoragePermission() async {
   var status = await Permission.storage.status;
   if (!status.isGranted) {
     await Permission.storage.request();
+  } else {
+    // openAppSettings();
   }
 }
 

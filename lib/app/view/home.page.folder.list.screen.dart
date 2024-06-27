@@ -102,6 +102,16 @@ class HomePageFolderList extends StatelessWidget {
                                       fontSize: 15,
                                       color: Colors.white70),
                                 ),
+                                trailing: IconButton(
+                                  splashRadius: 24,
+                                  iconSize: 30,
+                                  icon: Icon(
+                                    Icons.playlist_add_rounded,
+                                    color: TColor.focusSecondary,
+                                  ),
+                                  onPressed: () {},
+                                ),
+
                                 onTap: () {
                                   Get.to(() => SongsListScreen(
                                       folderPath: controller
@@ -114,12 +124,13 @@ class HomePageFolderList extends StatelessWidget {
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              color: Colors.white12,
-                              indent: 58,
-                              endIndent: 10,
-                              height: 1,
-                            );
+                            return Container();
+                            // const Divider(
+                            //   color: Colors.white12,
+                            //   indent: 58,
+                            //   endIndent: 10,
+                            //   height: 1,
+                            // );
                           },
                         ),
                       ),
