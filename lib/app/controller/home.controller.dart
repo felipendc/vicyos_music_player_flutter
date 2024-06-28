@@ -191,4 +191,74 @@ class HomeController extends GetxController {
       playlistIsEmpty.value = false;
     }
   }
+
+  Future<void> addSongToPlaylist(songPath) async {
+    if (audioSources.isEmpty) {
+      File audioFile = File(songPath);
+      String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+      String filePathAsId = audioFile.absolute.path;
+      Metadata? metadata;
+
+      try {
+        metadata = await MetadataRetriever.fromFile(audioFile);
+      } catch (e) {
+        print('Failed to extract metadata: $e');
+      }
+
+      final mediaItem = MediaItem(
+        id: filePathAsId,
+        album: metadata?.albumName ?? 'Unknown Album',
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(songPath),
+          tag: mediaItem,
+        ),
+      );
+      playlistLength.value = audioSources.length;
+
+      audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+      playlistIsEmpty.value = false;
+      firstSongIndex.value = true;
+      preLoadSongName();
+      playOrPause();
+
+      // print("Testing");
+    } else {
+      File audioFile = File(songPath);
+      String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+      String filePathAsId = audioFile.absolute.path;
+      Metadata? metadata;
+
+      try {
+        metadata = await MetadataRetriever.fromFile(audioFile);
+      } catch (e) {
+        print('Failed to extract metadata: $e');
+      }
+
+      final mediaItem = MediaItem(
+        id: filePathAsId,
+        album: metadata?.albumName ?? 'Unknown Album',
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(songPath),
+          tag: mediaItem,
+        ),
+      );
+      playlistLength.value = audioSources.length;
+
+      playlistIsEmpty.value = false;
+    }
+  }
 }

@@ -144,7 +144,10 @@ class SongsListScreen extends StatelessWidget {
                             Icons.playlist_add_rounded,
                             color: TColor.focusSecondary,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.addSongToPlaylist(
+                                controller.folderSongList[index]);
+                          },
                         ),
 
                         onTap: () {
