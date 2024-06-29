@@ -39,7 +39,7 @@ class HomeController extends GetxController {
   //
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<LoopMode> currentLoopMode = LoopMode.all.obs;
-  final RxString currentLoopModeLabel = 'Repeat: Off'.obs;
+  final RxString currentLoopModeLabel = 'Repeat: All'.obs;
   final RxString currentLoopModeIcone = 'assets/img/repeat_all.png'.obs;
   final Rx<Duration> songTotalDuration = Duration.zero.obs;
   //

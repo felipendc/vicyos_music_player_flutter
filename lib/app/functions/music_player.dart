@@ -186,26 +186,27 @@ void rewind() {
 void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.one;
+    audioPlayer.setLoopMode(LoopMode.one);
     controller.currentLoopModeIcone.value = "assets/img/repeat_one.png";
     repeatModeSnackbar(
-      message: "Repeat One",
+      message: "Repeat: One",
       iconePath: controller.currentLoopModeIcone.value,
     );
 
-    audioPlayer.setLoopMode(LoopMode.one);
-    print("Repeat One");
+    print("Repeat: One");
   } else if (controller.currentLoopMode.value == LoopMode.one) {
     controller.currentLoopMode.value = LoopMode.off;
-
+    audioPlayer.setLoopMode(LoopMode.off);
     controller.currentLoopModeIcone.value = "assets/img/repeat_none.png";
     repeatModeSnackbar(
-      message: "Repeat Off",
+      message: "Repeat: Off",
       iconePath: controller.currentLoopModeIcone.value,
     );
 
-    print("Repeat Off");
+    print("Repeat: Off");
   } else if (controller.currentLoopMode.value == LoopMode.off) {
     controller.currentLoopMode.value = LoopMode.all;
+    audioPlayer.setLoopMode(LoopMode.all);
     controller.currentLoopModeIcone.value = "assets/img/repeat_all.png";
 
     repeatModeSnackbar(
