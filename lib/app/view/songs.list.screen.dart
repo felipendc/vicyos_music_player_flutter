@@ -7,6 +7,7 @@ import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
+import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -147,6 +148,11 @@ class SongsListScreen extends StatelessWidget {
                           onPressed: () {
                             controller.addSongToPlaylist(
                                 controller.folderSongList[index]);
+                            addPlaylistSnackbar(
+                              title: songName(controller.folderSongList[index]),
+                              message:
+                                  'This song has been added to the playlist',
+                            );
                           },
                         ),
 

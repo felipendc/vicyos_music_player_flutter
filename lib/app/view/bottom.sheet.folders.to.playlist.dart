@@ -5,6 +5,7 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -110,6 +111,12 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           controller
                               .addFolderToPlaylist(controller.folderSongList);
                           // Get.to(() => const MainPlayerView());
+
+                          addPlaylistSnackbar(
+                            title: folderName(folderPath),
+                            message:
+                                'This folder has been added to the playlist',
+                          );
                         },
                       ),
                     ),
@@ -150,6 +157,11 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           controller.setFolderAsPlaylist(
                               controller.folderSongList, 0);
                           Get.to(() => const MainPlayerView());
+
+                          addPlaylistSnackbar(
+                            title: folderName(folderPath),
+                            message: 'Playing all the songs from this folder',
+                          );
                         },
                       ),
                     ),

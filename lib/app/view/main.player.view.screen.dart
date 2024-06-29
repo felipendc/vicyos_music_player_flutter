@@ -5,7 +5,6 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.import.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 
@@ -254,32 +253,32 @@ class MainPlayerView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: 45,
-                            height: 40,
-                            child: IconButton(
-                              onPressed: () {
-                                Get.bottomSheet(
-                                  const ImportFilesBottomSheet(),
-                                  // backgroundColor: TColor.bg,
-                                  isScrollControlled: true,
-                                );
-                              },
-                              icon: Image.asset(
-                                "assets/img/add_song_icon.png",
-                                width: 30,
-                                height: 30,
-                                color: TColor.primaryText80,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                    //   child: Column(
+                    //     children: [
+                    //       SizedBox(
+                    //         width: 45,
+                    //         height: 40,
+                    //         child: IconButton(
+                    //           onPressed: () {
+                    //             Get.bottomSheet(
+                    //               const ImportFilesBottomSheet(),
+                    //               // backgroundColor: TColor.bg,
+                    //               isScrollControlled: true,
+                    //             );
+                    //           },
+                    //           icon: Image.asset(
+                    //             "assets/img/add_song_icon.png",
+                    //             width: 30,
+                    //             height: 30,
+                    //             color: TColor.primaryText80,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(

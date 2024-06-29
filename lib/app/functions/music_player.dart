@@ -7,6 +7,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -87,21 +88,22 @@ String formatDuration(Duration duration) {
   }
 }
 
-// void cleanPlaylist() {
-//   if (controller.audioSources.isEmpty) {
-//     controller.songIsPlaying.value = false;
-//     controller.audioSources.clear();
-//     audioPlayer.setAudioSource(controller.playlist,
-//         initialIndex: 0, preload: true);
-//     controller.currentSongName.value = "The playlist is empty";
-//     controller.currentSongArtistName.value = "Unknown Artist";
-//     controller.currentSongAlbumName.value = "Unknown Album";
-//     controller.currentSongDurationPostion.value = Duration.zero.obs as Duration;
-//     controller.currentSongTotalDuration.value = Duration.zero.obs as Duration;
-//     pauseSong();
-//     print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
-//   }
-// }
+Future<void> cleanPlaylist() async {
+  // if (controller.audioSources.isNotEmpty) {
+  audioPlayer.stop();
+  controller.songIsPlaying.value = false;
+  await controller.playlist.clear();
+  controller.currentIndex.value = 0;
+  controller.playlistLength.value = controller.audioSources.length;
+  controller.currentSongDurationPostion.value = Duration.zero;
+  controller.currentSongTotalDuration.value = Duration.zero;
+  controller.sleekCircularSliderPosition.value = 0.0;
+  controller.currentSongName.value = "The playlist is empty";
+  controller.currentSongArtistName.value = "Unknown Artist";
+  controller.currentSongAlbumName.value = "Unknown Album";
+  // print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
+  // }
+}
 
 void playOrPause() {
   if (controller.audioSources.isEmpty) {
@@ -182,25 +184,36 @@ void rewind() {
 }
 
 void repeatMode() {
-  if (controller.currentLoopMode.value == LoopMode.off) {
+  if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.one;
     controller.currentLoopModeIcone.value = "assets/img/repeat_one.png";
-    // controller.currentLoopModeLabel.value = "Repeat: One";
+    repeatModeSnackbar(
+      message: "Repeat One",
+      iconePath: controller.currentLoopModeIcone.value,
+    );
 
-    print("Repeat One");
     audioPlayer.setLoopMode(LoopMode.one);
+    print("Repeat One");
   } else if (controller.currentLoopMode.value == LoopMode.one) {
+    controller.currentLoopMode.value = LoopMode.off;
+
+    controller.currentLoopModeIcone.value = "assets/img/repeat_none.png";
+    repeatModeSnackbar(
+      message: "Repeat Off",
+      iconePath: controller.currentLoopModeIcone.value,
+    );
+
+    print("Repeat Off");
+  } else if (controller.currentLoopMode.value == LoopMode.off) {
     controller.currentLoopMode.value = LoopMode.all;
     controller.currentLoopModeIcone.value = "assets/img/repeat_all.png";
+
+    repeatModeSnackbar(
+      message: "Repeat All",
+      iconePath: controller.currentLoopModeIcone.value,
+    );
     // controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
-    audioPlayer.setLoopMode(LoopMode.all);
-  } else if (controller.currentLoopMode.value == LoopMode.all) {
-    controller.currentLoopMode.value = LoopMode.off;
-    controller.currentLoopModeIcone.value = "assets/img/repeat_none.png";
-    // controller.currentLoopModeLabel.value = "Repeat: Off";
-    print("Repeat Off");
-    audioPlayer.setLoopMode(LoopMode.off);
   }
 }
 

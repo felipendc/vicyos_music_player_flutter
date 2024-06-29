@@ -5,6 +5,7 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
+import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -36,28 +37,35 @@ class PlaylistBottomSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(height: 10),
             // Top button indicator
             Container(
-              width: 100,
+              alignment: Alignment.center,
+              width: 200,
               margin: const EdgeInsets.only(top: 10, bottom: 10),
-              height: 5,
+              height: 50,
               decoration: BoxDecoration(
-                color: TColor.secondaryText,
+                // color: TColor.secondaryText,
                 borderRadius: BorderRadius.circular(20),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "PLAYLIST",
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: TColor.org,
-                fontSize: 19,
+              child: Center(
+                child: FloatingActionButton.extended(
+                  label: Text(
+                    'CLEAR PLAYLIST',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: TColor.org,
+                      fontSize: 17,
+                    ),
+                  ),
+                  onPressed: () async {
+                    await cleanPlaylist();
+                  },
+                  backgroundColor: TColor.darkGray,
+                ),
               ),
             ),
-
-            const SizedBox(height: 20),
-            // Content
+            const SizedBox(height: 15),
             Expanded(
               child: Obx(
                 () => ReorderableListView.builder(
@@ -100,26 +108,11 @@ class PlaylistBottomSheet extends StatelessWidget {
                                         color: TColor.focus,
                                         size: 32,
                                       )
-                                    // Image.asset(
-                                    //     "assets/img/m_eq.png",
-                                    //     // color: TColor.focusSecondary,
-                                    //     width: media.width * 0.058,
-                                    //     height: media.width * 0.058,
-                                    //     color: TColor.focusSecondary,
-                                    //   )
-
                                     : Icon(
                                         Icons.play_circle_filled_rounded,
                                         color: TColor.focus,
                                         size: 28,
                                       ),
-                                // Image.asset(
-                                //     "assets/img/play_btn.png",
-                                //     // color: TColor.focusSecondary,
-                                //     width: media.width * 0.065,
-                                //     height: media.width * 0.065,
-                                //     color: TColor.focusSecondary,
-                                //   ),
                                 title: Text(
                                   songName(
                                     controller.playlist.children[index].sequence
@@ -155,6 +148,26 @@ class PlaylistBottomSheet extends StatelessWidget {
                                       const Icon(Icons.delete_forever_rounded),
                                   color: TColor.focusSecondary,
                                   onPressed: () {
+                                    bottomSheetPlaylistSnackbar(
+                                      title: songName(
+                                        controller
+                                            .playlist.children[index].sequence
+                                            .map((audioSource) =>
+                                                [audioSource].map(
+                                                  (audioSource) =>
+                                                      Uri.decodeFull(
+                                                    (audioSource
+                                                            as UriAudioSource)
+                                                        .uri
+                                                        .toString(),
+                                                  ),
+                                                ))
+                                            .toString(),
+                                      ), //
+                                      message:
+                                          'This song has been deleted from the playlist',
+                                    );
+
                                     controller.playlist.removeAt(index);
                                     controller.playlistLength.value =
                                         controller.audioSources.length;
@@ -186,12 +199,6 @@ class PlaylistBottomSheet extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // const Divider(
-                          //   color: Colors.white12,
-                          //   indent: 87,
-                          //   endIndent: 10,
-                          //   height: 1,
-                          // ),
                         ],
                       ),
                     );
