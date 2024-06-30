@@ -49,13 +49,18 @@ void playerEventStateStreamListener() {
     if (playerState.processingState == ProcessingState.completed) {
       controller.songIsPlaying.value = false;
     }
-  });
 
-  // Update the pause button if the player is interrupted
-  audioPlayer.playerStateStream.listen((state) {
-    if (state.playing == false &&
-        state.processingState == ProcessingState.ready) {
+    // Update the pause button if the player is interrupted
+    if (playerState.playing == false &&
+        playerState.processingState == ProcessingState.ready) {
       controller.songIsPlaying.value = false;
+    }
+
+    // Update the play button when the player is playing or paused
+    if (playerState.playing == false) {
+      controller.songIsPlaying.value = false;
+    } else if (playerState.playing) {
+      controller.songIsPlaying.value = true;
     }
   });
 
