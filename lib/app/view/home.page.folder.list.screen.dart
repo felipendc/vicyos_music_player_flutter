@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
@@ -8,6 +7,7 @@ import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
 import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
+import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -33,29 +33,8 @@ class HomePageFolderList extends StatelessWidget {
 
     return Obx(
       () => Scaffold(
-        appBar: controller.musicFolderPaths.isNotEmpty
-            ? AppBar(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
-                toolbarHeight: 60,
-
-                elevation: 0,
-                backgroundColor: TColor.bg, // TColor.darkGray,
-                title: Center(
-                  child: Text(
-                    ' MUSIC FOLDERS ',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: TColor.org,
-                      // color: TColor.lightGray,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              )
-            : null,
+        appBar:
+            controller.musicFolderPaths.isNotEmpty ? homePageAppBar() : null,
         body: controller.musicFolderPaths.isEmpty
             ? const MainSyncScreen()
             : Stack(

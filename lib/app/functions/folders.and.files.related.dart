@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
@@ -94,4 +95,45 @@ String folderLenght(String folderPath) {
       .toList();
 
   return folderLenght.length.toString();
+}
+
+void filterSongsOnlyToList({required String folderPath}) {
+  controller.folderSongList.clear();
+  final Set<String> audioExtensions = {
+    '.mp3',
+    '.m4a',
+    '.ogg',
+    '.wav',
+    '.aac',
+    '.midi'
+  };
+  Directory? folderDirectory = Directory(folderPath);
+
+  final directorySongList = folderDirectory.listSync();
+
+  final List<String> audioFiles = directorySongList
+      .where((entity) {
+        if (entity is File) {
+          String extension =
+              entity.path.substring(entity.path.lastIndexOf('.')).toLowerCase();
+          return audioExtensions.contains(extension);
+        }
+        return false;
+      })
+      .map((entity) => entity.path)
+      .toList();
+
+  for (var songPath in audioFiles) {
+    controller.folderSongList.add(songPath);
+  }
+}
+
+String songFullPath({required int index}) {
+  return controller.playlist.children[index].sequence
+      .map((audioSource) => [audioSource].map(
+            (audioSource) => Uri.decodeFull(
+              (audioSource as UriAudioSource).uri.toString(),
+            ),
+          ))
+      .toString();
 }

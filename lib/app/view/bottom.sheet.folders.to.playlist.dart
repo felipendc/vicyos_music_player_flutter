@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
@@ -15,36 +14,8 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.folderSongList.clear();
-    final Set<String> audioExtensions = {
-      '.mp3',
-      '.m4a',
-      '.ogg',
-      '.wav',
-      '.aac',
-      '.midi'
-    };
-    Directory? folderDirectory = Directory(folderPath);
-
-    final directorySongList = folderDirectory.listSync();
-
-    final List<String> audioFiles = directorySongList
-        .where((entity) {
-          if (entity is File) {
-            String extension = entity.path
-                .substring(entity.path.lastIndexOf('.'))
-                .toLowerCase();
-            return audioExtensions.contains(extension);
-          }
-          return false;
-        })
-        .map((entity) => entity.path)
-        .toList();
-
-    for (var songPath in audioFiles) {
-      controller.folderSongList.add(songPath);
-    }
-    //
+    // Filter all songs from folderPath and add them to controller.folderSongList
+    filterSongsOnlyToList(folderPath: folderPath);
 
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(

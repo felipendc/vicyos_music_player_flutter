@@ -1,11 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
@@ -17,91 +16,14 @@ class SongsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.folderSongList.clear();
-    final Set<String> audioExtensions = {
-      '.mp3',
-      '.m4a',
-      '.ogg',
-      '.wav',
-      '.aac',
-      '.midi'
-    };
-    Directory? folderDirectory = Directory(folderPath);
-
-    final directorySongList = folderDirectory.listSync();
-
-    final List<String> audioFiles = directorySongList
-        .where((entity) {
-          if (entity is File) {
-            String extension = entity.path
-                .substring(entity.path.lastIndexOf('.'))
-                .toLowerCase();
-            return audioExtensions.contains(extension);
-          }
-          return false;
-        })
-        .map((entity) => entity.path)
-        .toList();
-
-    for (var songPath in audioFiles) {
-      controller.folderSongList.add(songPath);
-    }
+    // Filter all songs from folderPath and add them to controller.folderSongList
+    filterSongsOnlyToList(folderPath: folderPath);
 
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
     return Scaffold(
-      appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        toolbarHeight: 60,
-        automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 14),
-          child: IconButton(
-            splashRadius: 20,
-            icon: Icon(
-              Icons.arrow_back,
-              color: TColor.org,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: TColor.bg, // TColor.darkGray,
-        title: Text(
-          folderName(folderPath),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: TColor.org,
-            fontSize: 22,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              splashRadius: 22,
-              icon: Icon(
-                color: TColor.org,
-                Icons.more_horiz_rounded,
-              ),
-              onPressed: () {
-                Get.bottomSheet(
-                  FolderToPlaylistBottomSheet(folderPath: folderPath),
-                  // backgroundColor: TColor.bg,
-                  isScrollControlled: true,
-                );
-              },
-            ),
-          )
-        ],
-      ),
+      appBar: songsListAppBar(folderPath: folderPath),
       body: Stack(
         children: [
           Column(

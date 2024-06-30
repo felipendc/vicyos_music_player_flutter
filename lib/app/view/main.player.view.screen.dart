@@ -7,6 +7,7 @@ import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
+import 'package:vicyos_music_player/app/widgets/appbars.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -20,38 +21,7 @@ class MainPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(5))),
-        toolbarHeight: 60,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 14),
-          child: IconButton(
-            splashRadius: 20,
-            icon: Icon(
-              Icons.arrow_back,
-              color: TColor.primaryText80,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: TColor.bg,
-        title: Text(
-          "Vicyos Music Player",
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-            color: TColor.primaryText80,
-            fontSize: 23,
-          ),
-        ),
-      ),
+      appBar: mainPlayerViewAppBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

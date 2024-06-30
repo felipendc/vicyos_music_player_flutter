@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
@@ -75,15 +74,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                     return Container(
                       color: TColor.bg,
                       key: ValueKey(
-                        controller.playlist.children[index].sequence
-                            .map((audioSource) => [audioSource].map(
-                                  (audioSource) => Uri.decodeFull(
-                                    (audioSource as UriAudioSource)
-                                        .uri
-                                        .toString(),
-                                  ),
-                                ))
-                            .toString(),
+                        songFullPath(index: index),
                       ),
                       child: Column(
                         children: [
@@ -92,15 +83,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                             child: Obx(
                               () => ListTile(
                                 key: Key(
-                                  controller.playlist.children[index].sequence
-                                      .map((audioSource) => [audioSource].map(
-                                            (audioSource) => Uri.decodeFull(
-                                              (audioSource as UriAudioSource)
-                                                  .uri
-                                                  .toString(),
-                                            ),
-                                          ))
-                                      .toString(),
+                                  songFullPath(index: index),
                                 ),
                                 leading: controller.currentIndex.value == index
                                     ? Icon(
@@ -115,15 +98,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                       ),
                                 title: Text(
                                   songName(
-                                    controller.playlist.children[index].sequence
-                                        .map((audioSource) => [audioSource].map(
-                                              (audioSource) => Uri.decodeFull(
-                                                (audioSource as UriAudioSource)
-                                                    .uri
-                                                    .toString(),
-                                              ),
-                                            ))
-                                        .toString(),
+                                    songFullPath(index: index),
                                   ),
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
@@ -150,19 +125,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                   onPressed: () {
                                     bottomSheetPlaylistSnackbar(
                                       title: songName(
-                                        controller
-                                            .playlist.children[index].sequence
-                                            .map((audioSource) =>
-                                                [audioSource].map(
-                                                  (audioSource) =>
-                                                      Uri.decodeFull(
-                                                    (audioSource
-                                                            as UriAudioSource)
-                                                        .uri
-                                                        .toString(),
-                                                  ),
-                                                ))
-                                            .toString(),
+                                        songFullPath(index: index),
                                       ), //
                                       message:
                                           'This song has been deleted from the playlist',
