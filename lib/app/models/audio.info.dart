@@ -2,12 +2,12 @@ class AudioInfo {
   String path;
   String name;
   String? size;
-  String? extension;
+  String? format;
 
   AudioInfo({
     required this.path,
     required this.name,
     this.size,
-    this.extension,
+    this.format,
   });
 }

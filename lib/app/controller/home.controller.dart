@@ -5,7 +5,7 @@ import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/models/file.sources.dart';
+import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:path/path.dart' as path;

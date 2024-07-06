@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/models/file.sources.dart';
+import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -131,7 +131,7 @@ void filterSongsOnlyToList({required String folderPath}) {
         name: songName(songPath),
         path: songPath,
         size: getFileSize(songPath),
-        extension: getFileExtension(songPath),
+        format: getFileExtension(songPath),
       ),
     );
   }

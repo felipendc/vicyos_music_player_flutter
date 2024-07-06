@@ -61,7 +61,7 @@ class SongsListScreen extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          "${controller.folderSongList[index].size!} MB  |  ${controller.folderSongList[index].extension!}",
+                          "${controller.folderSongList[index].size!} MB  |  ${controller.folderSongList[index].format!}",
                           textAlign: TextAlign.start,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
