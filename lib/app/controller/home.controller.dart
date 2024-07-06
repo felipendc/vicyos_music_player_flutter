@@ -119,10 +119,10 @@ class HomeController extends GetxController {
 
   Future<void> addFolderToPlaylist(currentFolder) async {
     if (audioSources.isEmpty) {
-      for (String filePath in currentFolder) {
-        File audioFile = File(filePath);
+      for (AudioInfo filePath in currentFolder) {
+        File audioFile = File(filePath.path);
         String fileNameWithoutExtension =
-            path.basenameWithoutExtension(filePath);
+            path.basenameWithoutExtension(filePath.path);
         String filePathAsId = audioFile.absolute.path;
         Metadata? metadata;
 
@@ -143,7 +143,7 @@ class HomeController extends GetxController {
 
         playlist.add(
           AudioSource.uri(
-            Uri.file(filePath),
+            Uri.file(filePath.path),
             tag: mediaItem,
           ),
         );
@@ -158,10 +158,10 @@ class HomeController extends GetxController {
 
       // print("Testing");
     } else {
-      for (String filePath in currentFolder) {
-        File audioFile = File(filePath);
+      for (AudioInfo filePath in currentFolder) {
+        File audioFile = File(filePath.path);
         String fileNameWithoutExtension =
-            path.basenameWithoutExtension(filePath);
+            path.basenameWithoutExtension(filePath.path);
         String filePathAsId = audioFile.absolute.path;
         Metadata? metadata;
 
@@ -182,7 +182,7 @@ class HomeController extends GetxController {
 
         playlist.add(
           AudioSource.uri(
-            Uri.file(filePath),
+            Uri.file(filePath.path),
             tag: mediaItem,
           ),
         );
