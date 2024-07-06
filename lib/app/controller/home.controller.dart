@@ -206,20 +206,13 @@ class HomeController extends GetxController {
         print('Failed to extract metadata: $e');
       }
 
-      // final mediaItem = MediaItem(
-      //   id: filePathAsId,
-      //   album: metadata?.albumName ?? 'Unknown Album',
-
-      //   // Using the name of the file as the title by default
-      //   title: fileNameWithoutExtension,
-      //   artist: metadata?.albumArtistName ?? 'Unknown Artist',
-      // );
-
-      final mediaItem = AudioInfo(
-        path: filePathAsId,
+      final mediaItem = MediaItem(
+        id: filePathAsId,
         album: metadata?.albumName ?? 'Unknown Album',
+
         // Using the name of the file as the title by default
-        name: fileNameWithoutExtension,
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
       );
 
       playlist.add(
@@ -249,20 +242,13 @@ class HomeController extends GetxController {
         print('Failed to extract metadata: $e');
       }
 
-      // final mediaItem = MediaItem(
-      //   id: filePathAsId,
-      //   album: metadata?.albumName ?? 'Unknown Album',
-
-      //   // Using the name of the file as the title by default
-      //   title: fileNameWithoutExtension,
-      //   artist: metadata?.albumArtistName ?? 'Unknown Artist',
-      // );
-
-      final mediaItem = AudioInfo(
-        path: filePathAsId,
+      final mediaItem = MediaItem(
+        id: filePathAsId,
         album: metadata?.albumName ?? 'Unknown Album',
+
         // Using the name of the file as the title by default
-        name: fileNameWithoutExtension,
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
       );
 
       playlist.add(
