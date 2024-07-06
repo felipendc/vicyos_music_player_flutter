@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/models/file.sources.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 
 final HomeController controller = Get.find<HomeController>();
@@ -51,7 +52,7 @@ String songName(String songPath) {
 
 Future<void> listMusicFolders() async {
   String folderPath;
-  String totalSongs;
+  int totalSongs;
   final audioFolders =
       await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
 
@@ -61,7 +62,7 @@ Future<void> listMusicFolders() async {
     controller.musicFolderPaths
         .add(FolderSources(path: folderPath, songs: totalSongs));
     print(controller.musicFolderPaths
-        .map((index) => index as FolderSources)
+        .map((index) => index)
         .map((index) => index.path)
         .toString()
         .toString());
@@ -70,7 +71,7 @@ Future<void> listMusicFolders() async {
   // print(audioFolders);
 }
 
-String folderLenght(String folderPath) {
+int folderLenght(String folderPath) {
   final Set<String> audioExtensions = {
     '.mp3',
     '.m4a',
@@ -94,7 +95,7 @@ String folderLenght(String folderPath) {
       .map((entity) => entity.path)
       .toList();
 
-  return folderLenght.length.toString();
+  return folderLenght.length;
 }
 
 void filterSongsOnlyToList({required String folderPath}) {
@@ -116,6 +117,7 @@ void filterSongsOnlyToList({required String folderPath}) {
         if (entity is File) {
           String extension =
               entity.path.substring(entity.path.lastIndexOf('.')).toLowerCase();
+
           return audioExtensions.contains(extension);
         }
         return false;
@@ -124,16 +126,42 @@ void filterSongsOnlyToList({required String folderPath}) {
       .toList();
 
   for (var songPath in audioFiles) {
-    controller.folderSongList.add(songPath);
+    controller.folderSongList.add(
+      AudioInfo(
+        name: songName(songPath),
+        path: songPath,
+        size: getFileSize(songPath),
+        extension: getFileExtension(songPath),
+      ),
+    );
   }
 }
 
 String songFullPath({required int index}) {
-  return controller.playlist.children[index].sequence
-      .map((audioSource) => [audioSource].map(
-            (audioSource) => Uri.decodeFull(
-              (audioSource as UriAudioSource).uri.toString(),
-            ),
+  var fullPath = controller.playlist.children[index].sequence
+      .map((audioSource) => Uri.decodeFull(
+            (audioSource as UriAudioSource).uri.toString(),
           ))
-      .toString();
+      .first;
+
+  if (fullPath.startsWith("file://")) {
+    return fullPath.replaceFirst('file://', '');
+  }
+  return fullPath;
+}
+
+String getFileSize(filePath) {
+  final file = File(filePath);
+  int sizeInBytes = file.lengthSync();
+  double sizeInMb = sizeInBytes / (1024 * 1024);
+  // double kb = sizeInMb * 1024;
+  return sizeInMb.toStringAsFixed(2);
+}
+
+String getFileExtension(filePath) {
+  final file = File(filePath);
+  String fileExtension =
+      file.path.substring(file.path.lastIndexOf('.')).toUpperCase();
+
+  return fileExtension;
 }

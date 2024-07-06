@@ -11,17 +11,6 @@ import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
-// final folderPaths = controller.musicFolderPaths
-//     .map((index) => index as FolderSources)
-//     .map((index) => index.path)
-//     .toList()
-//     .toList();
-
-// final totalSongs = controller.musicFolderPaths
-//     .map((index) => index as FolderSources)
-//     .map((index) => index.songs)
-//     .toList()
-//     .toList();
 
 class HomePageFolderList extends StatelessWidget {
   const HomePageFolderList({super.key});
@@ -76,7 +65,9 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '${controller.musicFolderPaths[index].songs} songs',
+                                  controller.musicFolderPaths[index].songs > 1
+                                      ? '${controller.musicFolderPaths[index].songs.toString()} songs'
+                                      : '${controller.musicFolderPaths[index].songs.toString()} song',
                                   style: const TextStyle(
                                       fontFamily: "Circular Std",
                                       fontSize: 15,

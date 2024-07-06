@@ -35,7 +35,7 @@ class SongsListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return SizedBox(
                       // color: TColor.darkGray,
-                      height: 70,
+                      height: 67,
                       // margin: const EdgeInsets.all(10),
                       child: ListTile(
                         leading: Icon(
@@ -50,7 +50,7 @@ class SongsListScreen extends StatelessWidget {
                         //   color: TColor.focus,
                         // ),
                         title: Text(
-                          songName(controller.folderSongList[index]),
+                          controller.folderSongList[index].name,
                           textAlign: TextAlign.start,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -58,6 +58,16 @@ class SongsListScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: TColor.lightGray,
                             fontSize: 18,
+                          ),
+                        ),
+                        subtitle: Text(
+                          "${controller.folderSongList[index].size!} MB  |  ${controller.folderSongList[index].extension!}",
+                          textAlign: TextAlign.start,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: TColor.secondaryText,
+                            fontSize: 15,
                           ),
                         ),
                         trailing: IconButton(
@@ -69,9 +79,10 @@ class SongsListScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             controller.addSongToPlaylist(
-                                controller.folderSongList[index]);
+                                controller.folderSongList[index].path);
+
                             addPlaylistSnackbar(
-                              title: songName(controller.folderSongList[index]),
+                              title: controller.folderSongList[index].name,
                               message:
                                   'This song has been added to the playlist',
                             );
@@ -82,7 +93,7 @@ class SongsListScreen extends StatelessWidget {
                           controller.setFolderAsPlaylist(
                               controller.folderSongList, index);
                           print(
-                              'Tapped on ${controller.folderSongList[index]}');
+                              'Tapped on ${controller.folderSongList[index].path}');
                         },
                       ),
                     );

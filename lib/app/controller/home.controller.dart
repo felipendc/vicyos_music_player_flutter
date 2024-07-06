@@ -5,13 +5,14 @@ import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
+import 'package:vicyos_music_player/app/models/file.sources.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:path/path.dart' as path;
 
 class HomeController extends GetxController {
-  RxList musicFolderPaths = <FolderSources>[].obs;
-  RxList folderSongList = [].obs;
+  RxList<FolderSources> musicFolderPaths = <FolderSources>[].obs;
+  RxList<AudioInfo> folderSongList = <AudioInfo>[].obs;
   var volumeSliderValue = 50.0.obs;
   RxString volumeSliderStatus = 'idle'.obs;
   Rx<MaterialColor> volumeSliderStatusColor = Colors.amber.obs;
@@ -35,7 +36,6 @@ class HomeController extends GetxController {
   final RxBool lastSongIndex = false.obs;
   final RxBool penultimateSongIndex = false.obs;
   final RxBool playlistTrailingIndex = false.obs;
-
   //
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<LoopMode> currentLoopMode = LoopMode.all.obs;
@@ -77,9 +77,10 @@ class HomeController extends GetxController {
     stopSong();
     playlist.clear();
 
-    for (String filePath in currentFolder) {
-      File audioFile = File(filePath);
-      String fileNameWithoutExtension = path.basenameWithoutExtension(filePath);
+    for (AudioInfo filePath in currentFolder) {
+      File audioFile = File(filePath.path);
+      String fileNameWithoutExtension =
+          path.basenameWithoutExtension(filePath.path);
       String filePathAsId = audioFile.absolute.path;
       Metadata? metadata;
 
@@ -100,7 +101,7 @@ class HomeController extends GetxController {
 
       playlist.add(
         AudioSource.uri(
-          Uri.file(filePath),
+          Uri.file(filePath.path),
           tag: mediaItem,
         ),
       );

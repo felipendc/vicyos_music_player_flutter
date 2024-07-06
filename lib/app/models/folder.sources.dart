@@ -1,6 +1,9 @@
 class FolderSources {
   String path;
-  String songs;
+  int songs;
 
-  FolderSources({required this.path, required this.songs});
+  FolderSources({
+    required this.path,
+    required this.songs,
+  });
 }

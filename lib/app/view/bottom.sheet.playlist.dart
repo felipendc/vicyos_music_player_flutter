@@ -110,7 +110,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  'Index: ${index + 1}  ',
+                                  /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
                                   style: const TextStyle(
                                       fontFamily: "Circular Std",
                                       fontSize: 15,
