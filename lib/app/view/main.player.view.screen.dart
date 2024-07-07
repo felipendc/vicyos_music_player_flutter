@@ -8,8 +8,20 @@ import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
+import 'package:music_visualizer/music_visualizer.dart';
 
 final HomeController controller = Get.find<HomeController>();
+
+final List<Color> colors = [
+  TColor.focus,
+  TColor.secondaryEnd,
+  TColor.focusStart,
+  Colors.blue[900]!,
+  // TColor.lightGray,
+  // TColor.bgMiniPlayer
+];
+
+final List<int> duration = [900, 700, 600, 800, 500];
 
 class MainPlayerView extends StatelessWidget {
   const MainPlayerView({super.key});
@@ -184,13 +196,23 @@ class MainPlayerView extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
-            Image.asset(
-              "assets/img/eq_display.png",
-              height: 60,
-              fit: BoxFit.fitHeight,
+            SizedBox(
+              height: 90,
+              width: media.width * 0.6,
+              child: MusicVisualizer(
+                barCount: 30,
+                colors: colors,
+                duration: duration,
+              ),
             ),
+
+            // Image.asset(
+            //   "assets/img/eq_display.png",
+            //   height: 60,
+            //   fit: BoxFit.fitHeight,
+            // ),
             Column(children: [
               Padding(
                 padding: const EdgeInsets.all(9.0),
