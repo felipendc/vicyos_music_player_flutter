@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
@@ -79,15 +74,15 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          Get.back();
+                          Navigator.pop(context);
                           addFolderToPlaylist(folderSongList);
                           // Get.to(() => const MainPlayerView());
 
-                          addPlaylistSnackbar(
-                            title: folderName(folderPath),
-                            message:
-                                'This folder has been added to the playlist',
-                          );
+                          // addPlaylistSnackbar(
+                          //   title: folderName(folderPath),
+                          //   message:
+                          //       'This folder has been added to the playlist',
+                          // );
                         },
                       ),
                     ),
@@ -124,14 +119,20 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          Get.back();
+                          Navigator.pop(context);
                           setFolderAsPlaylist(folderSongList, 0);
-                          Get.to(() => const MainPlayerView());
 
-                          addPlaylistSnackbar(
-                            title: folderName(folderPath),
-                            message: 'Playing all the songs from this folder',
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainPlayerView(),
+                            ),
                           );
+
+                          // addPlaylistSnackbar(
+                          //   title: folderName(folderPath),
+                          //   message: 'Playing all the songs from this folder',
+                          // );
                         },
                       ),
                     ),

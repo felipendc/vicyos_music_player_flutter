@@ -1,18 +1,12 @@
-// import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
-// import 'package:music_visualizer/music_visualizer.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 final List<Color> colors = [
   TColor.focus,
@@ -35,7 +29,7 @@ class MainPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: mainPlayerViewAppBar(),
+      appBar: mainPlayerViewAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -286,10 +280,12 @@ class MainPlayerView extends StatelessWidget {
                             height: 45,
                             child: IconButton(
                               onPressed: () {
-                                Get.bottomSheet(
-                                  const PlaylistBottomSheet(),
-                                  // backgroundColor: TColor.bg,
-                                  isScrollControlled: true,
+                                showModalBottomSheet<void>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const PlaylistBottomSheet();
+                                  },
                                 );
                               },
                               icon: Image.asset(
@@ -335,10 +331,12 @@ class MainPlayerView extends StatelessWidget {
                         children: [
                           IconButton(
                             onPressed: () {
-                              Get.bottomSheet(
-                                const SpeedRateBottomSheet(),
-                                // backgroundColor: TColor.bg,
-                                isScrollControlled: true,
+                              showModalBottomSheet<void>(
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const SpeedRateBottomSheet();
+                                },
                               );
                             },
                             icon: Image.asset(

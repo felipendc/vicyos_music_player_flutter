@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
@@ -28,7 +27,8 @@ AppBar homePageAppBar() {
   );
 }
 
-AppBar songsListAppBar({required String folderPath}) {
+AppBar songsListAppBar(
+    {required String folderPath, required BuildContext context}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -43,7 +43,8 @@ AppBar songsListAppBar({required String folderPath}) {
           color: TColor.org,
         ),
         onPressed: () {
-          Get.back();
+          // Get.back();
+          Navigator.pop(context);
         },
       ),
     ),
@@ -70,11 +71,19 @@ AppBar songsListAppBar({required String folderPath}) {
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
-            Get.bottomSheet(
-              FolderToPlaylistBottomSheet(folderPath: folderPath),
-              // backgroundColor: TColor.bg,
-              isScrollControlled: true,
+            showModalBottomSheet<void>(
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (BuildContext context) {
+                return FolderToPlaylistBottomSheet(folderPath: folderPath);
+              },
             );
+
+            // Get.bottomSheet(
+            //   FolderToPlaylistBottomSheet(folderPath: folderPath),
+            //   // backgroundColor: TColor.bg,
+            //   isScrollControlled: true,
+            // );
           },
         ),
       )
@@ -82,7 +91,7 @@ AppBar songsListAppBar({required String folderPath}) {
   );
 }
 
-AppBar mainPlayerViewAppBar() {
+AppBar mainPlayerViewAppBar(BuildContext context) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -98,7 +107,8 @@ AppBar mainPlayerViewAppBar() {
           color: TColor.primaryText80,
         ),
         onPressed: () {
-          Get.back();
+          // Get.back();
+          Navigator.pop(context);
         },
       ),
     ),

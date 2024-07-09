@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
@@ -135,7 +131,13 @@ class BottomPlayer extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Get.to(() => const MainPlayerView());
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MainPlayerView(),
+                                      ),
+                                    );
                                   },
                                   child: SizedBox(
                                     width: media.width * 0.35,

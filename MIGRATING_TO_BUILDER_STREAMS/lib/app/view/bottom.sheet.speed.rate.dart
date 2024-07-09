@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
+// import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
 List<String> speedRates = [
   "1.6",
@@ -117,11 +117,11 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                               ),
                         onTap: () {
                           audioPlayer.setSpeed(speedRatestoDouble[index]);
-                          playBackSpeedSnackbar(
-                            message: (index == 6)
-                                ? "${speedRates[index]}  -  Default"
-                                : speedRates[index],
-                          );
+                          // playBackSpeedSnackbar(
+                          //   message: (index == 6)
+                          //       ? "${speedRates[index]}  -  Default"
+                          //       : speedRates[index],
+                          // );
                         },
                       ),
                     );

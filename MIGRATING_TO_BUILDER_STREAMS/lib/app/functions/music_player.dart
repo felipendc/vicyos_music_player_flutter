@@ -2,15 +2,12 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
-// import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 //
@@ -61,6 +58,14 @@ StreamController<String> currentSongAlbumStreamController =
     StreamController<String>.broadcast();
 StreamController<String> currentSongNameStreamController =
     StreamController<String>.broadcast();
+
+StreamController<int> listPlaylistFolderStreamController =
+    StreamController<int>.broadcast();
+
+void listPlaylistFolderStreamListener() {
+  listPlaylistFolderStreamController.sink
+      .add(playlistLength = musicFolderPaths.length);
+}
 
 void playlistLenghtStreamListener() {
   playlistLenghtStreamController.sink
@@ -269,20 +274,20 @@ void repeatMode() {
     currentLoopMode = LoopMode.one;
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcone = "assets/img/repeat_one.png";
-    repeatModeSnackbar(
-      message: "Repeat: One",
-      iconePath: currentLoopModeIcone,
-    );
+    // repeatModeSnackbar(
+    //   message: "Repeat: One",
+    //   iconePath: currentLoopModeIcone,
+    // );
 
     print("Repeat: One");
   } else if (currentLoopMode == LoopMode.one) {
     currentLoopMode = LoopMode.off;
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcone = "assets/img/repeat_none.png";
-    repeatModeSnackbar(
-      message: "Repeat: Off",
-      iconePath: currentLoopModeIcone,
-    );
+    // repeatModeSnackbar(
+    //   message: "Repeat: Off",
+    //   iconePath: currentLoopModeIcone,
+    // );
 
     print("Repeat: Off");
   } else if (currentLoopMode == LoopMode.off) {
@@ -290,10 +295,10 @@ void repeatMode() {
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcone = "assets/img/repeat_all.png";
 
-    repeatModeSnackbar(
-      message: "Repeat All",
-      iconePath: currentLoopModeIcone,
-    );
+    // repeatModeSnackbar(
+    //   message: "Repeat All",
+    //   iconePath: currentLoopModeIcone,
+    // );
     // controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
   }

@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/controller/home.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 class SongsListScreen extends StatelessWidget {
   final String folderPath;
@@ -24,7 +19,7 @@ class SongsListScreen extends StatelessWidget {
     screenOrientationPortrait();
 
     return Scaffold(
-      appBar: songsListAppBar(folderPath: folderPath),
+      appBar: songsListAppBar(folderPath: folderPath, context: context),
       body: Stack(
         children: [
           Column(
@@ -81,11 +76,11 @@ class SongsListScreen extends StatelessWidget {
                           onPressed: () {
                             addSongToPlaylist(folderSongList[index].path);
 
-                            addPlaylistSnackbar(
-                              title: folderSongList[index].name,
-                              message:
-                                  'This song has been added to the playlist',
-                            );
+                            // addPlaylistSnackbar(
+                            //   title: folderSongList[index].name,
+                            //   message:
+                            //       'This song has been added to the playlist',
+                            // );
                           },
                         ),
 

@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:music_visualizer/music_visualizer.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 final List<Color> colors = [
   TColor.focus,
@@ -150,13 +145,13 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                               icon: const Icon(Icons.delete_forever_rounded),
                               color: TColor.focusSecondary,
                               onPressed: () {
-                                bottomSheetPlaylistSnackbar(
-                                  title: songName(
-                                    songFullPath(index: index),
-                                  ), //
-                                  message:
-                                      'This song has been deleted from the playlist',
-                                );
+                                // bottomSheetPlaylistSnackbar(
+                                //   title: songName(
+                                //     songFullPath(index: index),
+                                //   ), //
+                                //   message:
+                                //       'This song has been deleted from the playlist',
+                                // );
 
                                 playlist.removeAt(index);
                                 playlistLength = playlist.children.length;

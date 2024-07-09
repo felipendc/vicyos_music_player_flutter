@@ -1,14 +1,10 @@
 import 'dart:io';
-// import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
-// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
-
-// final HomeController controller = Get.find<HomeController>();
 
 // String internalStorage = '/storage/emulated/0/Music/';
 
@@ -99,7 +95,7 @@ Future<void> listMusicFolders() async {
         .toString()
         .toString());
   }
-
+  listPlaylistFolderStreamListener();
   // print(audioFolders);
 }
 
