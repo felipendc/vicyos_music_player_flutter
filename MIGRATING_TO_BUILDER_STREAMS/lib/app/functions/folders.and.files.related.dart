@@ -1,14 +1,14 @@
 import 'dart:io';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 // String internalStorage = '/storage/emulated/0/Music/';
 
@@ -92,9 +92,8 @@ Future<void> listMusicFolders() async {
   for (var folder in await audioFolder()) {
     folderPath = folder;
     totalSongs = folderLenght(folder);
-    controller.musicFolderPaths
-        .add(FolderSources(path: folderPath, songs: totalSongs));
-    print(controller.musicFolderPaths
+    musicFolderPaths.add(FolderSources(path: folderPath, songs: totalSongs));
+    print(musicFolderPaths
         .map((index) => index)
         .map((index) => index.path)
         .toString()
@@ -132,7 +131,7 @@ int folderLenght(String folderPath) {
 }
 
 void filterSongsOnlyToList({required String folderPath}) {
-  controller.folderSongList.clear();
+  folderSongList.clear();
   final Set<String> audioExtensions = {
     '.mp3',
     '.m4a',
@@ -159,7 +158,7 @@ void filterSongsOnlyToList({required String folderPath}) {
       .toList();
 
   for (var songPath in audioFiles) {
-    controller.folderSongList.add(
+    folderSongList.add(
       AudioInfo(
         name: songName(songPath),
         path: songPath,

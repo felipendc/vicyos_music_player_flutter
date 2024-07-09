@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
 // import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
@@ -10,7 +11,7 @@ import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 class HomePageFolderList extends StatefulWidget {
   const HomePageFolderList({super.key});
@@ -35,7 +36,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
       () => Scaffold(
         appBar: homePageAppBar(),
         body:
-            //  controller.musicFolderPaths.isEmpty
+            //  musicFolderPaths.isEmpty
             //     ? const MainSyncScreen()
             //     :
             Stack(
@@ -45,7 +46,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                 Expanded(
                   child: ListView.separated(
                     padding: const EdgeInsets.only(bottom: 130),
-                    itemCount: controller.musicFolderPaths.length,
+                    itemCount: musicFolderPaths.length,
                     itemBuilder: (context, index) {
                       return SizedBox(
                         // color: TColor.darkGray,
@@ -65,7 +66,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                           //   color: TColor.focus,
                           // ),
                           title: Text(
-                            folderName(controller.musicFolderPaths[index].path),
+                            folderName(musicFolderPaths[index].path),
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -76,9 +77,9 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                             ),
                           ),
                           subtitle: Text(
-                            controller.musicFolderPaths[index].songs > 1
-                                ? '${controller.musicFolderPaths[index].songs.toString()} songs'
-                                : '${controller.musicFolderPaths[index].songs.toString()} song',
+                            musicFolderPaths[index].songs > 1
+                                ? '${musicFolderPaths[index].songs.toString()} songs'
+                                : '${musicFolderPaths[index].songs.toString()} song',
                             style: const TextStyle(
                                 fontFamily: "Circular Std",
                                 fontSize: 15,
@@ -94,8 +95,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                             onPressed: () {
                               Get.bottomSheet(
                                 FolderToPlaylistBottomSheet(
-                                    folderPath: controller
-                                        .musicFolderPaths[index].path),
+                                    folderPath: musicFolderPaths[index].path),
                                 // backgroundColor: TColor.bg,
                                 isScrollControlled: true,
                               );
@@ -104,11 +104,9 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
 
                           onTap: () {
                             Get.to(() => SongsListScreen(
-                                folderPath:
-                                    controller.musicFolderPaths[index].path));
+                                folderPath: musicFolderPaths[index].path));
                             // Handle tile tap
-                            print(
-                                'Tapped on ${controller.musicFolderPaths[index].path}');
+                            print('Tapped on ${musicFolderPaths[index].path}');
                           },
                         ),
                       );
@@ -133,7 +131,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
             ),
           ],
         ),
-        floatingActionButton: controller.musicFolderPaths.isNotEmpty
+        floatingActionButton: musicFolderPaths.isNotEmpty
             ? Stack(
                 children: [
                   Positioned(
@@ -145,7 +143,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                         backgroundColor: TColor.darkGray,
                         heroTag: "fab2",
                         onPressed: () {
-                          controller.musicFolderPaths.clear();
+                          musicFolderPaths.clear();
                           listMusicFolders();
                         },
                         child: Icon(

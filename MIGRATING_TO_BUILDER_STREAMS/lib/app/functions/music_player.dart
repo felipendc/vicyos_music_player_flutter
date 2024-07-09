@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -25,10 +27,30 @@ double sleekCircularSliderPosition = 0.0; //temp
 double sleekCircularSliderDuration = 100.0; //temp
 bool playlistIsEmpty = true; //temp
 List<FolderSources> musicFolderPaths = <FolderSources>[];
+List<AudioInfo> folderSongList = <AudioInfo>[];
+String volumeSliderStatus = 'idle';
+MaterialColor volumeSliderStatusColor = Colors.amber;
+String currentSongArtistName = 'Unknown Artist';
+
+bool songIsPlaying = false;
+bool isStopped = false;
+//
+int playlistLength = 0;
+int currentIndex = 0;
+bool firstSongIndex = true;
+bool lastSongIndex = false;
+bool penultimateSongIndex = false;
+bool playlistTrailingIndex = false;
+//
+Duration currentPosition = Duration.zero;
+LoopMode currentLoopMode = LoopMode.all;
+String currentLoopModeLabel = 'Repeat: All';
+// String currentLoopModeIcone = 'assets/img/repeat_all.png';
+Duration songTotalDuration = Duration.zero;
 //
 List<AudioSource> audioSources = <AudioSource>[];
 late ConcatenatingAudioSource playlist;
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 
@@ -96,26 +118,26 @@ void playerEventStateStreamListener() {
   // The player has completed playback
   audioPlayer.playerStateStream.listen((playerState) {
     if (playerState.processingState == ProcessingState.completed) {
-      controller.songIsPlaying.value = false;
+      songIsPlaying = false;
     }
 
     // Update the pause button if the player is interrupted
     if (playerState.playing == false &&
         playerState.processingState == ProcessingState.ready) {
-      controller.songIsPlaying.value = false;
+      songIsPlaying = false;
     }
 
     // Update the play button when the player is playing or paused
     if (playerState.playing == false) {
-      controller.songIsPlaying.value = false;
+      songIsPlaying = false;
     } else if (playerState.playing) {
-      controller.songIsPlaying.value = true;
+      songIsPlaying = true;
     }
   });
 
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
-    controller.currentIndex.value = event.currentIndex!;
+    currentIndex = event.currentIndex!;
   });
 }
 
@@ -125,11 +147,11 @@ void preLoadSongName() {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
     currentSongNameStreamListener(currentSongName = currentMediaItem.title);
 
-    controller.currentSongArtistName.value = currentMediaItem.artist!;
+    currentSongArtistName = currentMediaItem.artist!;
     currentSongAlbumStreamListener(
         currentSongAlbumName = currentMediaItem.album!);
 
-    controller.currentIndex.value = index;
+    currentIndex = index;
   });
 }
 
@@ -148,19 +170,19 @@ String formatDuration(Duration duration) {
 Future<void> cleanPlaylist() async {
   // if (controller.audioSources.isNotEmpty) {
   audioPlayer.stop();
-  controller.songIsPlaying.value = false;
+  songIsPlaying = false;
   await playlist.clear();
   playlistLenghtStreamListener();
 
-  controller.currentIndex.value = 0;
-  controller.playlistLength.value = playlist.children.length;
+  currentIndex = 0;
+  playlistLength = playlist.children.length;
   currentSongDurationPostion = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
   currentSongNameStreamListener(currentSongName = "The playlist is empty");
   // controller.currentSongArtistName.value = "Unknown Artist";
   currentSongAlbumStreamListener(currentSongAlbumName = "Unknown Album");
-  // print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
+  // print('CLEAN LIST!!! IS SONG PLAYING? ${songIsPlaying}');
   // }
 }
 
@@ -168,27 +190,27 @@ void playOrPause() {
   if (playlist.children.isEmpty) {
     print("The playlist is EMPTY");
   } else {
-    if (controller.songIsPlaying.value == false) {
-      controller.songIsPlaying.value = true;
-      controller.isStopped.value = false;
+    if (songIsPlaying == false) {
+      songIsPlaying = true;
+      isStopped = false;
       audioPlayer.play();
-    } else if (controller.songIsPlaying.value == true) {
-      controller.songIsPlaying.value = !controller.songIsPlaying.value;
+    } else if (songIsPlaying == true) {
+      songIsPlaying = !songIsPlaying;
       audioPlayer.pause();
     }
-    print('IS THE SONG PLAYING? ${controller.songIsPlaying.value}');
+    print('IS THE SONG PLAYING? $songIsPlaying');
     print('Song: : $currentSongName');
   }
 }
 
 void pauseSong() {
-  controller.songIsPlaying.value = false;
+  songIsPlaying = false;
   audioPlayer.pause();
 }
 
 void stopSong() {
-  controller.songIsPlaying.value = false;
-  controller.isStopped.value = true;
+  songIsPlaying = false;
+  isStopped = true;
   audioPlayer.stop();
 }
 
@@ -196,38 +218,38 @@ Future<void> nextSong() async {
   print('LIST TOTAL ITEM.${playlist.children.length}');
 
   await audioPlayer.seekToNext();
-  if (controller.currentIndex.value > 0) {
-    controller.firstSongIndex.value = false;
+  if (currentIndex > 0) {
+    firstSongIndex = false;
     print('INDEX IS GRATER THAN 0!');
   }
 
-  if (controller.currentIndex.value == playlist.children.length - 1) {
-    controller.lastSongIndex.value = true;
+  if (currentIndex == playlist.children.length - 1) {
+    lastSongIndex = true;
     print('INDEX IS THE LAST');
   } else {
-    controller.lastSongIndex.value = false;
+    lastSongIndex = false;
   }
 }
 
 Future<void> previousSong() async {
   print('LIST TOTAL ITEM.${playlist.children.length}');
-  if (controller.currentIndex.value == 0) {
-    controller.firstSongIndex.value = true;
+  if (currentIndex == 0) {
+    firstSongIndex = true;
     print('INDEX IS EQUAL TO 0!');
   }
 
-  if (controller.currentIndex.value > 0) {
-    controller.firstSongIndex.value = false;
+  if (currentIndex > 0) {
+    firstSongIndex = false;
     print('INDEX IS GRATER THAN 0!');
   }
 
   await audioPlayer.seekToPrevious();
 
-  if (controller.currentIndex.value == playlist.children.length - 2) {
-    controller.penultimateSongIndex.value = true;
+  if (currentIndex == playlist.children.length - 2) {
+    penultimateSongIndex = true;
     print('INDEX IS THE PENULTIMATE ####');
   } else {
-    controller.penultimateSongIndex.value = false;
+    penultimateSongIndex = false;
     print('INDEX IS NO LONGER THE PENULTIMATE ####');
   }
 }
@@ -243,8 +265,8 @@ void rewind() {
 }
 
 void repeatMode() {
-  if (controller.currentLoopMode.value == LoopMode.all) {
-    controller.currentLoopMode.value = LoopMode.one;
+  if (currentLoopMode == LoopMode.all) {
+    currentLoopMode = LoopMode.one;
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcone = "assets/img/repeat_one.png";
     repeatModeSnackbar(
@@ -253,8 +275,8 @@ void repeatMode() {
     );
 
     print("Repeat: One");
-  } else if (controller.currentLoopMode.value == LoopMode.one) {
-    controller.currentLoopMode.value = LoopMode.off;
+  } else if (currentLoopMode == LoopMode.one) {
+    currentLoopMode = LoopMode.off;
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcone = "assets/img/repeat_none.png";
     repeatModeSnackbar(
@@ -263,8 +285,8 @@ void repeatMode() {
     );
 
     print("Repeat: Off");
-  } else if (controller.currentLoopMode.value == LoopMode.off) {
-    controller.currentLoopMode.value = LoopMode.all;
+  } else if (currentLoopMode == LoopMode.off) {
+    currentLoopMode = LoopMode.all;
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcone = "assets/img/repeat_all.png";
 
@@ -326,12 +348,12 @@ Future<void> pickFolder() async {
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = playlist.children.length;
+        playlistLength = playlist.children.length;
       }
       await audioPlayer.setAudioSource(playlist,
           initialIndex: 0, preload: true);
       playlistIsEmpty = false;
-      controller.firstSongIndex.value = true;
+      firstSongIndex = true;
       preLoadSongName();
 
       // await playOrPause();
@@ -367,7 +389,7 @@ Future<void> pickFolder() async {
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = playlist.children.length;
+        playlistLength = playlist.children.length;
       }
     }
   } else {
@@ -420,12 +442,12 @@ Future<void> pickAndPlayAudio() async {
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = playlist.children.length;
+        playlistLength = playlist.children.length;
       }
 
       audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: true);
       playlistIsEmpty = false;
-      controller.firstSongIndex.value = true;
+      firstSongIndex = true;
       preLoadSongName();
     } else {
       for (String filePath in selectedSongs) {
@@ -457,9 +479,203 @@ Future<void> pickAndPlayAudio() async {
           Uri.file(filePath),
           tag: mediaItem,
         ));
-        controller.playlistLength.value = playlist.children.length;
+        playlistLength = playlist.children.length;
         print('Processing file: $filePath');
       }
     }
+  }
+}
+
+//
+
+Future<void> setFolderAsPlaylist(currentFolder, currenIndex) async {
+  // controller.folderSongList.clear();
+  stopSong();
+  await playlist.clear();
+
+  for (AudioInfo filePath in currentFolder) {
+    File audioFile = File(filePath.path);
+    String fileNameWithoutExtension =
+        path.basenameWithoutExtension(filePath.path);
+    String filePathAsId = audioFile.absolute.path;
+    Metadata? metadata;
+
+    try {
+      metadata = await MetadataRetriever.fromFile(audioFile);
+    } catch (e) {
+      print('Failed to extract metadata: $e');
+    }
+
+    final mediaItem = MediaItem(
+      id: filePathAsId,
+      album: metadata?.albumName ?? 'Unknown Album',
+
+      // Using the name of the file as the title by default
+      title: fileNameWithoutExtension,
+      artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    );
+
+    playlist.add(
+      AudioSource.uri(
+        Uri.file(filePath.path),
+        tag: mediaItem,
+      ),
+    );
+    playlistLenghtStreamListener();
+  }
+
+  audioPlayer.setAudioSource(playlist,
+      initialIndex: currenIndex, preload: false);
+  playlistIsEmpty = false;
+  firstSongIndex = true;
+  preLoadSongName();
+  playOrPause();
+  // print("Testing");
+}
+
+Future<void> addFolderToPlaylist(currentFolder) async {
+  if (audioSources.isEmpty) {
+    for (AudioInfo filePath in currentFolder) {
+      File audioFile = File(filePath.path);
+      String fileNameWithoutExtension =
+          path.basenameWithoutExtension(filePath.path);
+      String filePathAsId = audioFile.absolute.path;
+      Metadata? metadata;
+
+      try {
+        metadata = await MetadataRetriever.fromFile(audioFile);
+      } catch (e) {
+        print('Failed to extract metadata: $e');
+      }
+
+      final mediaItem = MediaItem(
+        id: filePathAsId,
+        album: metadata?.albumName ?? 'Unknown Album',
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(filePath.path),
+          tag: mediaItem,
+        ),
+      );
+      playlistLenghtStreamListener();
+    }
+
+    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    playlistIsEmpty = false;
+    firstSongIndex = true;
+    preLoadSongName();
+    playOrPause();
+
+    // print("Testing");
+  } else {
+    for (AudioInfo filePath in currentFolder) {
+      File audioFile = File(filePath.path);
+      String fileNameWithoutExtension =
+          path.basenameWithoutExtension(filePath.path);
+      String filePathAsId = audioFile.absolute.path;
+      Metadata? metadata;
+
+      try {
+        metadata = await MetadataRetriever.fromFile(audioFile);
+      } catch (e) {
+        print('Failed to extract metadata: $e');
+      }
+
+      final mediaItem = MediaItem(
+        id: filePathAsId,
+        album: metadata?.albumName ?? 'Unknown Album',
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(filePath.path),
+          tag: mediaItem,
+        ),
+      );
+      playlistLenghtStreamListener();
+    }
+
+    playlistIsEmpty = false;
+  }
+}
+
+Future<void> addSongToPlaylist(songPath) async {
+  if (audioSources.isEmpty) {
+    File audioFile = File(songPath);
+    String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+    String filePathAsId = audioFile.absolute.path;
+    Metadata? metadata;
+
+    try {
+      metadata = await MetadataRetriever.fromFile(audioFile);
+    } catch (e) {
+      print('Failed to extract metadata: $e');
+    }
+
+    final mediaItem = MediaItem(
+      id: filePathAsId,
+      album: metadata?.albumName ?? 'Unknown Album',
+
+      // Using the name of the file as the title by default
+      title: fileNameWithoutExtension,
+      artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    );
+
+    playlist.add(
+      AudioSource.uri(
+        Uri.file(songPath),
+        tag: mediaItem,
+      ),
+    );
+
+    playlistLenghtStreamListener();
+
+    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    playlistIsEmpty = false;
+    firstSongIndex = true;
+    preLoadSongName();
+    playOrPause();
+
+    // print("Testing");
+  } else {
+    File audioFile = File(songPath);
+    String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+    String filePathAsId = audioFile.absolute.path;
+    Metadata? metadata;
+
+    try {
+      metadata = await MetadataRetriever.fromFile(audioFile);
+    } catch (e) {
+      print('Failed to extract metadata: $e');
+    }
+
+    final mediaItem = MediaItem(
+      id: filePathAsId,
+      album: metadata?.albumName ?? 'Unknown Album',
+
+      // Using the name of the file as the title by default
+      title: fileNameWithoutExtension,
+      artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    );
+
+    playlist.add(
+      AudioSource.uri(
+        Uri.file(songPath),
+        tag: mediaItem,
+      ),
+    );
+    playlistLenghtStreamListener();
+
+    playlistIsEmpty = false;
   }
 }

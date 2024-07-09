@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:music_visualizer/music_visualizer.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 final List<Color> colors = [
   TColor.focus,
@@ -34,7 +34,7 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
     }
     playlist.move(oldIndex, newIndex);
     audioPlayer.currentIndexStream.listen((index) {
-      controller.currentIndex.value = audioPlayer.sequence![index!] as int;
+      currentIndex = audioPlayer.sequence![index!] as int;
     });
   }
 
@@ -103,7 +103,7 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                             key: Key(
                               songFullPath(index: index),
                             ),
-                            leading: controller.currentIndex.value == index
+                            leading: currentIndex == index
                                 ? SizedBox(
                                     height: 30,
                                     width: 38,
@@ -159,29 +159,28 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                                 );
 
                                 playlist.removeAt(index);
-                                controller.playlistLength.value =
-                                    playlist.children.length;
-                                if (controller.currentIndex.value == index) {
+                                playlistLength = playlist.children.length;
+                                if (currentIndex == index) {
                                   preLoadSongName();
                                 }
                                 playlistLenghtStreamListener();
                               },
                             ),
                             onTap: () async {
-                              if (controller.currentIndex.value == index) {
-                                if (controller.songIsPlaying.value) {
+                              if (currentIndex == index) {
+                                if (songIsPlaying) {
                                   audioPlayer.pause();
-                                  controller.songIsPlaying.value = false;
+                                  songIsPlaying = false;
                                 } else {
                                   audioPlayer.play();
-                                  controller.songIsPlaying.value = true;
+                                  songIsPlaying = true;
                                 }
                               } else {
                                 audioPlayer.setAudioSource(playlist,
                                     initialIndex: index, preload: false);
 
                                 audioPlayer.play();
-                                controller.songIsPlaying.value = true;
+                                songIsPlaying = true;
                               }
                             },
                           ),

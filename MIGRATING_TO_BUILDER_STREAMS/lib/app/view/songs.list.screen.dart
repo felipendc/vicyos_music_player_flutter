@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
 import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 class SongsListScreen extends StatelessWidget {
   final String folderPath;
@@ -16,7 +17,7 @@ class SongsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter all songs from folderPath and add them to controller.folderSongList
+    // Filter all songs from folderPath and add them to folderSongList
     filterSongsOnlyToList(folderPath: folderPath);
 
     // Set the preferred orientations to portrait mode when this screen is built
@@ -31,7 +32,7 @@ class SongsListScreen extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.only(bottom: 130),
-                  itemCount: controller.folderSongList.length,
+                  itemCount: folderSongList.length,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       // color: TColor.darkGray,
@@ -50,7 +51,7 @@ class SongsListScreen extends StatelessWidget {
                         //   color: TColor.focus,
                         // ),
                         title: Text(
-                          controller.folderSongList[index].name,
+                          folderSongList[index].name,
                           textAlign: TextAlign.start,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -61,7 +62,7 @@ class SongsListScreen extends StatelessWidget {
                           ),
                         ),
                         subtitle: Text(
-                          "${controller.folderSongList[index].size!} MB  |  ${controller.folderSongList[index].format!}",
+                          "${folderSongList[index].size!} MB  |  ${folderSongList[index].format!}",
                           textAlign: TextAlign.start,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -78,11 +79,10 @@ class SongsListScreen extends StatelessWidget {
                             color: TColor.focusSecondary,
                           ),
                           onPressed: () {
-                            controller.addSongToPlaylist(
-                                controller.folderSongList[index].path);
+                            addSongToPlaylist(folderSongList[index].path);
 
                             addPlaylistSnackbar(
-                              title: controller.folderSongList[index].name,
+                              title: folderSongList[index].name,
                               message:
                                   'This song has been added to the playlist',
                             );
@@ -90,11 +90,9 @@ class SongsListScreen extends StatelessWidget {
                         ),
 
                         onTap: () {
-                          controller.setFolderAsPlaylist(
-                              controller.folderSongList, index);
+                          setFolderAsPlaylist(folderSongList, index);
 
-                          print(
-                              'Tapped on ${controller.folderSongList[index].path}');
+                          print('Tapped on ${folderSongList[index].path}');
                         },
                       ),
                     );

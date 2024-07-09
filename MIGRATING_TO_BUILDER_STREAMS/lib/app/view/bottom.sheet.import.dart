@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 
@@ -74,7 +74,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          Get.back();
+                          // Get.back();
                           await pickFolder();
                         },
                       ),
@@ -112,7 +112,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          Get.back();
+                          // Get.back();
                           await pickAndPlayAudio();
                         },
                       ),

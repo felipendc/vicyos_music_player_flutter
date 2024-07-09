@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
@@ -79,8 +80,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Get.back();
-                          controller
-                              .addFolderToPlaylist(controller.folderSongList);
+                          addFolderToPlaylist(folderSongList);
                           // Get.to(() => const MainPlayerView());
 
                           addPlaylistSnackbar(
@@ -125,8 +125,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Get.back();
-                          controller.setFolderAsPlaylist(
-                              controller.folderSongList, 0);
+                          setFolderAsPlaylist(folderSongList, 0);
                           Get.to(() => const MainPlayerView());
 
                           addPlaylistSnackbar(

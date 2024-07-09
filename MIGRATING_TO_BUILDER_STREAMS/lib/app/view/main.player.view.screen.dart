@@ -1,6 +1,6 @@
 // import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
