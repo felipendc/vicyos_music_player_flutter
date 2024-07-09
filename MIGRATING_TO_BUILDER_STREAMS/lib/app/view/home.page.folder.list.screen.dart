@@ -33,8 +33,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
 
     return Obx(
       () => Scaffold(
-        appBar:
-            controller.musicFolderPaths.isNotEmpty ? homePageAppBar() : null,
+        appBar: homePageAppBar(),
         body:
             //  controller.musicFolderPaths.isEmpty
             //     ? const MainSyncScreen()

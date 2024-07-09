@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 
@@ -170,7 +171,7 @@ void filterSongsOnlyToList({required String folderPath}) {
 }
 
 String songFullPath({required int index}) {
-  var fullPath = controller.playlist.children[index].sequence
+  var fullPath = playlist.children[index].sequence
       .map((audioSource) => Uri.decodeFull(
             (audioSource as UriAudioSource).uri.toString(),
           ))

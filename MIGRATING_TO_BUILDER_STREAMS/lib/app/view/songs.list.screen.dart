@@ -92,6 +92,7 @@ class SongsListScreen extends StatelessWidget {
                         onTap: () {
                           controller.setFolderAsPlaylist(
                               controller.folderSongList, index);
+
                           print(
                               'Tapped on ${controller.folderSongList[index].path}');
                         },

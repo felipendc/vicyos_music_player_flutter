@@ -20,14 +20,19 @@ final List<Color> colors = [
 
 final List<int> duration = [900, 700, 600, 800, 500];
 
-class PlaylistBottomSheet extends StatelessWidget {
+class PlaylistBottomSheet extends StatefulWidget {
   const PlaylistBottomSheet({super.key});
 
+  @override
+  State<PlaylistBottomSheet> createState() => _PlaylistBottomSheetState();
+}
+
+class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
   Future<void> _onReorder(int oldIndex, int newIndex) async {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
-    controller.playlist.move(oldIndex, newIndex);
+    playlist.move(oldIndex, newIndex);
     audioPlayer.currentIndexStream.listen((index) {
       controller.currentIndex.value = audioPlayer.sequence![index!] as int;
     });
@@ -70,6 +75,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    setState(() {
+                      // rebuild the entiry screen to clean the listview
+                    });
                     await cleanPlaylist();
                   },
                   backgroundColor: TColor.darkGray,
@@ -78,117 +86,110 @@ class PlaylistBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             Expanded(
-              child: Obx(
-                () => ReorderableListView.builder(
-                  itemCount: controller.playlist.children.length,
-                  onReorder: _onReorder,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      color: TColor.bg,
-                      key: ValueKey(
-                        songFullPath(index: index),
-                      ),
-                      child: Column(
-                        children: [
-                          Material(
-                            color: Colors.transparent,
-                            child: Obx(
-                              () => ListTile(
-                                key: Key(
-                                  songFullPath(index: index),
-                                ),
-                                leading: controller.currentIndex.value == index
-                                    ? SizedBox(
-                                        height: 30,
-                                        width: 38,
-                                        child: MusicVisualizer(
-                                          barCount: 6,
-                                          colors: colors,
-                                          duration: duration,
-                                        ),
-                                      )
+              child: ReorderableListView.builder(
+                itemCount: playlist.children.length,
+                onReorder: _onReorder,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    color: TColor.bg,
+                    key: ValueKey(
+                      songFullPath(index: index),
+                    ),
+                    child: Column(
+                      children: [
+                        Material(
+                          color: Colors.transparent,
+                          child: ListTile(
+                            key: Key(
+                              songFullPath(index: index),
+                            ),
+                            leading: controller.currentIndex.value == index
+                                ? SizedBox(
+                                    height: 30,
+                                    width: 38,
+                                    child: MusicVisualizer(
+                                      barCount: 6,
+                                      colors: colors,
+                                      duration: duration,
+                                    ),
+                                  )
 
-                                    // Icon(
-                                    //     Icons.equalizer_rounded,
-                                    //     color: TColor.focus,
-                                    //     size: 32,
-                                    //   )
-                                    : Icon(
-                                        Icons.play_circle_filled_rounded,
-                                        color: TColor.focus,
-                                        size: 28,
-                                      ),
-                                title: Text(
-                                  songName(
-                                    songFullPath(index: index),
+                                // Icon(
+                                //     Icons.equalizer_rounded,
+                                //     color: TColor.focus,
+                                //     size: 32,
+                                //   )
+                                : Icon(
+                                    Icons.play_circle_filled_rounded,
+                                    color: TColor.focus,
+                                    size: 28,
                                   ),
-                                  textAlign: TextAlign.start,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: TColor.primaryText,
-                                    fontFamily: "Circular Std",
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
-                                  style: const TextStyle(
-                                      fontFamily: "Circular Std",
-                                      fontSize: 15,
-                                      color: Colors.white70),
-                                ),
-                                trailing: IconButton(
-                                  splashRadius: 26,
-                                  iconSize: 26,
-                                  icon:
-                                      const Icon(Icons.delete_forever_rounded),
-                                  color: TColor.focusSecondary,
-                                  onPressed: () {
-                                    bottomSheetPlaylistSnackbar(
-                                      title: songName(
-                                        songFullPath(index: index),
-                                      ), //
-                                      message:
-                                          'This song has been deleted from the playlist',
-                                    );
-
-                                    controller.playlist.removeAt(index);
-                                    controller.playlistLength.value =
-                                        controller.audioSources.length;
-                                    if (controller.currentIndex.value ==
-                                        index) {
-                                      preLoadSongName();
-                                    }
-                                  },
-                                ),
-                                onTap: () async {
-                                  if (controller.currentIndex.value == index) {
-                                    if (controller.songIsPlaying.value) {
-                                      audioPlayer.pause();
-                                      controller.songIsPlaying.value = false;
-                                    } else {
-                                      audioPlayer.play();
-                                      controller.songIsPlaying.value = true;
-                                    }
-                                  } else {
-                                    audioPlayer.setAudioSource(
-                                        controller.playlist,
-                                        initialIndex: index,
-                                        preload: false);
-
-                                    audioPlayer.play();
-                                    controller.songIsPlaying.value = true;
-                                  }
-                                },
+                            title: Text(
+                              songName(
+                                songFullPath(index: index),
+                              ),
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: TColor.primaryText,
+                                fontFamily: "Circular Std",
+                                fontSize: 17,
                               ),
                             ),
+                            subtitle: Text(
+                              /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
+                              style: const TextStyle(
+                                  fontFamily: "Circular Std",
+                                  fontSize: 15,
+                                  color: Colors.white70),
+                            ),
+                            trailing: IconButton(
+                              splashRadius: 26,
+                              iconSize: 26,
+                              icon: const Icon(Icons.delete_forever_rounded),
+                              color: TColor.focusSecondary,
+                              onPressed: () {
+                                bottomSheetPlaylistSnackbar(
+                                  title: songName(
+                                    songFullPath(index: index),
+                                  ), //
+                                  message:
+                                      'This song has been deleted from the playlist',
+                                );
+
+                                playlist.removeAt(index);
+                                controller.playlistLength.value =
+                                    playlist.children.length;
+                                if (controller.currentIndex.value == index) {
+                                  preLoadSongName();
+                                }
+                                playlistLenghtStreamListener();
+                              },
+                            ),
+                            onTap: () async {
+                              if (controller.currentIndex.value == index) {
+                                if (controller.songIsPlaying.value) {
+                                  audioPlayer.pause();
+                                  controller.songIsPlaying.value = false;
+                                } else {
+                                  audioPlayer.play();
+                                  controller.songIsPlaying.value = true;
+                                }
+                              } else {
+                                audioPlayer.setAudioSource(playlist,
+                                    initialIndex: index, preload: false);
+
+                                audioPlayer.play();
+                                controller.songIsPlaying.value = true;
+                              }
+                            },
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],

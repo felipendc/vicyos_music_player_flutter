@@ -13,19 +13,19 @@ import 'package:path/path.dart' as path;
 class HomeController extends GetxController {
   RxList<FolderSources> musicFolderPaths = <FolderSources>[].obs;
   RxList<AudioInfo> folderSongList = <AudioInfo>[].obs;
-  var volumeSliderValue = 50.0.obs;
+  // var volumeSliderValue = 50.0.obs;
   RxString volumeSliderStatus = 'idle'.obs;
   Rx<MaterialColor> volumeSliderStatusColor = Colors.amber.obs;
   //
-  final RxBool playlistIsEmpty = true.obs;
-  final RxString currentSongName = 'The playlist is empty'.obs;
+  // final RxBool playlistIsEmpty = true.obs;
+  // final RxString currentSongName = 'The playlist is empty'.obs;
   //
   final RxString currentSongArtistName = 'Unknown Artist'.obs;
-  final RxString currentSongAlbumName = 'Unknown Album'.obs;
-  final RxBool isFirstArtDemoCover = true.obs;
+  // final RxString currentSongAlbumName = 'Unknown Album'.obs;
+  // final RxBool isFirstArtDemoCover = true.obs;
   //
-  final Rx<Duration> currentSongDurationPostion = Duration.zero.obs;
-  final Rx<Duration> currentSongTotalDuration = Duration.zero.obs;
+  // final Rx<Duration> currentSongDurationPostion = Duration.zero.obs;
+  // final Rx<Duration> currentSongTotalDuration = Duration.zero.obs;
   //
   final RxBool songIsPlaying = false.obs;
   final RxBool isStopped = false.obs;
@@ -40,30 +40,30 @@ class HomeController extends GetxController {
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<LoopMode> currentLoopMode = LoopMode.all.obs;
   final RxString currentLoopModeLabel = 'Repeat: All'.obs;
-  final RxString currentLoopModeIcone = 'assets/img/repeat_all.png'.obs;
+  // final RxString currentLoopModeIcone = 'assets/img/repeat_all.png'.obs;
   final Rx<Duration> songTotalDuration = Duration.zero.obs;
   //
-  final RxDouble sleekCircularSliderPosition = 0.0.obs;
-  RxDouble sleekCircularSliderDuration =
-      100.0.obs; // Initialize with default max value
+  // final RxDouble sleekCircularSliderPosition = 0.0.obs;
+  // RxDouble sleekCircularSliderDuration =
+  //     100.0.obs; // Initialize with default max value
   //
-  final RxList<AudioSource> audioSources = <AudioSource>[].obs;
-  late ConcatenatingAudioSource playlist;
+  // final RxList<AudioSource> audioSources = <AudioSource>[].obs;
+  // late ConcatenatingAudioSource playlist;
 
   @override
-  void onInit() {
-    super.onInit();
+  // void onInit() {
+  //   super.onInit();
 
-    initVolumeControl();
-    audioPlayer = AudioPlayer();
-    audioPlayer.setLoopMode(LoopMode.all);
-    playlist = ConcatenatingAudioSource(
-      useLazyPreparation: false,
-      shuffleOrder: DefaultShuffleOrder(),
-      children: audioSources,
-    );
-    playerEventStateStreamListener();
-  }
+  // initVolumeControl();
+  // audioPlayer = AudioPlayer();
+  // audioPlayer.setLoopMode(LoopMode.all);
+  // playlist = ConcatenatingAudioSource(
+  //   useLazyPreparation: false,
+  //   shuffleOrder: DefaultShuffleOrder(),
+  //   children: audioSources,
+  // );
+  // playerEventStateStreamListener();
+  // }
 
   @override
   void onClose() {
@@ -105,12 +105,12 @@ class HomeController extends GetxController {
           tag: mediaItem,
         ),
       );
-      playlistLength.value = audioSources.length;
+      playlistLenghtStreamListener();
     }
 
     audioPlayer.setAudioSource(playlist,
         initialIndex: currenIndex, preload: false);
-    playlistIsEmpty.value = false;
+    playlistIsEmpty = false;
     firstSongIndex.value = true;
     preLoadSongName();
     playOrPause();
@@ -147,11 +147,11 @@ class HomeController extends GetxController {
             tag: mediaItem,
           ),
         );
-        playlistLength.value = audioSources.length;
+        playlistLenghtStreamListener();
       }
 
       audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
-      playlistIsEmpty.value = false;
+      playlistIsEmpty = false;
       firstSongIndex.value = true;
       preLoadSongName();
       playOrPause();
@@ -186,10 +186,10 @@ class HomeController extends GetxController {
             tag: mediaItem,
           ),
         );
-        playlistLength.value = audioSources.length;
+        playlistLenghtStreamListener();
       }
 
-      playlistIsEmpty.value = false;
+      playlistIsEmpty = false;
     }
   }
 
@@ -221,10 +221,11 @@ class HomeController extends GetxController {
           tag: mediaItem,
         ),
       );
-      playlistLength.value = audioSources.length;
+
+      playlistLenghtStreamListener();
 
       audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
-      playlistIsEmpty.value = false;
+      playlistIsEmpty = false;
       firstSongIndex.value = true;
       preLoadSongName();
       playOrPause();
@@ -257,9 +258,9 @@ class HomeController extends GetxController {
           tag: mediaItem,
         ),
       );
-      playlistLength.value = audioSources.length;
+      playlistLenghtStreamListener();
 
-      playlistIsEmpty.value = false;
+      playlistIsEmpty = false;
     }
   }
 }

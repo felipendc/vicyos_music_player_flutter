@@ -7,19 +7,70 @@ import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
+import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+//
+int playlistLengths = 0;
+//
+bool isFirstArtDemoCover = true;
+String currentLoopModeIcone = 'assets/img/repeat_all.png';
+var volumeSliderValue = 50.0;
+String currentSongAlbumName = 'Unknown Album'; //temp
+String currentSongName = 'The playlist is empty'; //temp
+Duration currentSongDurationPostion = Duration.zero; //temp
+Duration currentSongTotalDuration = Duration.zero; //temp
+double sleekCircularSliderPosition = 0.0; //temp
+double sleekCircularSliderDuration = 100.0; //temp
+bool playlistIsEmpty = true; //temp
+List<FolderSources> musicFolderPaths = <FolderSources>[];
+//
+List<AudioSource> audioSources = <AudioSource>[];
+late ConcatenatingAudioSource playlist;
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 
+StreamController<int> playlistLenghtStreamController =
+    StreamController<int>.broadcast();
+
+StreamController<String> currentSongAlbumStreamController =
+    StreamController<String>.broadcast();
+StreamController<String> currentSongNameStreamController =
+    StreamController<String>.broadcast();
+
+void playlistLenghtStreamListener() {
+  playlistLenghtStreamController.sink
+      .add(playlistLengths = playlist.children.length);
+}
+
+void currentSongNameStreamListener(value) {
+  currentSongNameStreamController.sink.add(value);
+}
+
+void currentSongAlbumStreamListener(value) {
+  currentSongAlbumStreamController.sink.add(value);
+}
+
+void onInitPlayer() {
+  initVolumeControl();
+  audioPlayer = AudioPlayer();
+  audioPlayer.setLoopMode(LoopMode.all);
+  playlist = ConcatenatingAudioSource(
+    useLazyPreparation: false,
+    shuffleOrder: DefaultShuffleOrder(),
+    children: audioSources,
+  );
+  playerEventStateStreamListener();
+}
+
 void initVolumeControl() async {
   VolumeController().listener((volume) {
-    controller.volumeSliderValue.value = volume * 100;
+    volumeSliderValue = volume * 100;
   });
   double currentVolume = await VolumeController().getVolume();
-  controller.volumeSliderValue.value = (currentVolume * 100);
+  volumeSliderValue = (currentVolume * 100);
 }
 
 void setVolume(double value) {
@@ -32,16 +83,14 @@ void playerEventStateStreamListener() {
   // I will need to use another state listener otherthan!
   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
-    controller.currentSongDurationPostion.value = position;
-    controller.sleekCircularSliderPosition.value =
-        position.inSeconds.toDouble();
+    currentSongDurationPostion = position;
+    sleekCircularSliderPosition = position.inSeconds.toDouble();
   });
 
   // Get the duration and the full duration of the song for the sleekCircularSlider
   audioPlayer.durationStream.listen((duration) {
-    controller.currentSongTotalDuration.value = duration ?? Duration.zero;
-    controller.sleekCircularSliderDuration.value =
-        duration?.inSeconds.toDouble() ?? 100.0;
+    currentSongTotalDuration = duration ?? Duration.zero;
+    sleekCircularSliderDuration = duration?.inSeconds.toDouble() ?? 100.0;
   });
 
   // The player has completed playback
@@ -74,9 +123,12 @@ void playerEventStateStreamListener() {
 void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
-    controller.currentSongName.value = currentMediaItem.title;
+    currentSongNameStreamListener(currentSongName = currentMediaItem.title);
+
     controller.currentSongArtistName.value = currentMediaItem.artist!;
-    controller.currentSongAlbumName.value = currentMediaItem.album!;
+    currentSongAlbumStreamListener(
+        currentSongAlbumName = currentMediaItem.album!);
+
     controller.currentIndex.value = index;
   });
 }
@@ -97,22 +149,23 @@ Future<void> cleanPlaylist() async {
   // if (controller.audioSources.isNotEmpty) {
   audioPlayer.stop();
   controller.songIsPlaying.value = false;
-  await controller.playlist.clear();
+  await playlist.clear();
+  playlistLenghtStreamListener();
 
   controller.currentIndex.value = 0;
-  controller.playlistLength.value = controller.audioSources.length;
-  controller.currentSongDurationPostion.value = Duration.zero;
-  controller.currentSongTotalDuration.value = Duration.zero;
-  controller.sleekCircularSliderPosition.value = 0.0;
-  controller.currentSongName.value = "The playlist is empty";
-  controller.currentSongArtistName.value = "Unknown Artist";
-  controller.currentSongAlbumName.value = "Unknown Album";
+  controller.playlistLength.value = playlist.children.length;
+  currentSongDurationPostion = Duration.zero;
+  currentSongTotalDuration = Duration.zero;
+  sleekCircularSliderPosition = 0.0;
+  currentSongNameStreamListener(currentSongName = "The playlist is empty");
+  // controller.currentSongArtistName.value = "Unknown Artist";
+  currentSongAlbumStreamListener(currentSongAlbumName = "Unknown Album");
   // print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
   // }
 }
 
 void playOrPause() {
-  if (controller.audioSources.isEmpty) {
+  if (playlist.children.isEmpty) {
     print("The playlist is EMPTY");
   } else {
     if (controller.songIsPlaying.value == false) {
@@ -124,7 +177,7 @@ void playOrPause() {
       audioPlayer.pause();
     }
     print('IS THE SONG PLAYING? ${controller.songIsPlaying.value}');
-    print('Song: : ${controller.currentSongName.value}');
+    print('Song: : $currentSongName');
   }
 }
 
@@ -140,7 +193,7 @@ void stopSong() {
 }
 
 Future<void> nextSong() async {
-  print('LIST TOTAL ITEM.${controller.audioSources.length}');
+  print('LIST TOTAL ITEM.${playlist.children.length}');
 
   await audioPlayer.seekToNext();
   if (controller.currentIndex.value > 0) {
@@ -148,7 +201,7 @@ Future<void> nextSong() async {
     print('INDEX IS GRATER THAN 0!');
   }
 
-  if (controller.currentIndex.value == controller.audioSources.length - 1) {
+  if (controller.currentIndex.value == playlist.children.length - 1) {
     controller.lastSongIndex.value = true;
     print('INDEX IS THE LAST');
   } else {
@@ -157,7 +210,7 @@ Future<void> nextSong() async {
 }
 
 Future<void> previousSong() async {
-  print('LIST TOTAL ITEM.${controller.audioSources.length}');
+  print('LIST TOTAL ITEM.${playlist.children.length}');
   if (controller.currentIndex.value == 0) {
     controller.firstSongIndex.value = true;
     print('INDEX IS EQUAL TO 0!');
@@ -170,7 +223,7 @@ Future<void> previousSong() async {
 
   await audioPlayer.seekToPrevious();
 
-  if (controller.currentIndex.value == controller.audioSources.length - 2) {
+  if (controller.currentIndex.value == playlist.children.length - 2) {
     controller.penultimateSongIndex.value = true;
     print('INDEX IS THE PENULTIMATE ####');
   } else {
@@ -193,31 +246,31 @@ void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.one;
     audioPlayer.setLoopMode(LoopMode.one);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_one.png";
+    currentLoopModeIcone = "assets/img/repeat_one.png";
     repeatModeSnackbar(
       message: "Repeat: One",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: currentLoopModeIcone,
     );
 
     print("Repeat: One");
   } else if (controller.currentLoopMode.value == LoopMode.one) {
     controller.currentLoopMode.value = LoopMode.off;
     audioPlayer.setLoopMode(LoopMode.off);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_none.png";
+    currentLoopModeIcone = "assets/img/repeat_none.png";
     repeatModeSnackbar(
       message: "Repeat: Off",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: currentLoopModeIcone,
     );
 
     print("Repeat: Off");
   } else if (controller.currentLoopMode.value == LoopMode.off) {
     controller.currentLoopMode.value = LoopMode.all;
     audioPlayer.setLoopMode(LoopMode.all);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_all.png";
+    currentLoopModeIcone = "assets/img/repeat_all.png";
 
     repeatModeSnackbar(
       message: "Repeat All",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: currentLoopModeIcone,
     );
     // controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
@@ -241,7 +294,7 @@ Future<void> pickFolder() async {
         .toList();
 
     print(folderFileNames);
-    if (controller.audioSources.isEmpty) {
+    if (playlist.children.isEmpty) {
       for (String filePath in folderFileNames) {
         // Try to extract metadata from the local file
         File audioFile = File(filePath);
@@ -267,17 +320,17 @@ Future<void> pickFolder() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.add(
+        playlist.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = controller.audioSources.length;
+        controller.playlistLength.value = playlist.children.length;
       }
-      await audioPlayer.setAudioSource(controller.playlist,
+      await audioPlayer.setAudioSource(playlist,
           initialIndex: 0, preload: true);
-      controller.playlistIsEmpty.value = false;
+      playlistIsEmpty = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
 
@@ -308,13 +361,13 @@ Future<void> pickFolder() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.add(
+        playlist.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = controller.audioSources.length;
+        controller.playlistLength.value = playlist.children.length;
       }
     }
   } else {
@@ -333,7 +386,7 @@ Future<void> pickAndPlayAudio() async {
     selectedSongs =
         result.paths.where((path) => path != null).cast<String>().toList();
 
-    if (controller.audioSources.isEmpty) {
+    if (playlist.children.isEmpty) {
       for (String filePath in selectedSongs) {
         print('Processing file: $filePath');
 
@@ -361,18 +414,17 @@ Future<void> pickAndPlayAudio() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.add(
+        playlist.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        controller.playlistLength.value = controller.audioSources.length;
+        controller.playlistLength.value = playlist.children.length;
       }
 
-      audioPlayer.setAudioSource(controller.playlist,
-          initialIndex: 0, preload: true);
-      controller.playlistIsEmpty.value = false;
+      audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: true);
+      playlistIsEmpty = false;
       controller.firstSongIndex.value = true;
       preLoadSongName();
     } else {
@@ -401,11 +453,11 @@ Future<void> pickAndPlayAudio() async {
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
         );
 
-        controller.playlist.add(AudioSource.uri(
+        playlist.add(AudioSource.uri(
           Uri.file(filePath),
           tag: mediaItem,
         ));
-        controller.playlistLength.value = controller.audioSources.length;
+        controller.playlistLength.value = playlist.children.length;
         print('Processing file: $filePath');
       }
     }

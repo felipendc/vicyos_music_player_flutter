@@ -71,8 +71,8 @@ class BottomPlayerArt extends StatelessWidget {
                     angleRange: 360,
                     size: 350.0),
                 min: 0,
-                max: controller.sleekCircularSliderDuration.value,
-                initialValue: controller.sleekCircularSliderPosition.value,
+                max: sleekCircularSliderDuration,
+                initialValue: sleekCircularSliderPosition,
                 onChange: (value) {
                   if (value < 0) {
                     return;

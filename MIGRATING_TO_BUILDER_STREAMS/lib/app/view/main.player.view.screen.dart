@@ -1,9 +1,10 @@
+// import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
+// import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
@@ -11,7 +12,7 @@ import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
 // import 'package:music_visualizer/music_visualizer.dart';
 
-final HomeController controller = Get.find<HomeController>();
+// final HomeController controller = Get.find<HomeController>();
 
 final List<Color> colors = [
   TColor.focus,
@@ -44,90 +45,89 @@ class MainPlayerView extends StatelessWidget {
             ),
             Stack(
               children: [
-                Obx(
-                  () => ClipRRect(
-                    borderRadius: BorderRadius.circular(media.width * 0.7),
-                    child: Image.asset(
-                      controller.isFirstArtDemoCover.value
-                          ? "assets/img/lofi-woman-album-cover-art_10.png"
-                          : "assets/img/lofi-woman-album-cover-art.png",
-                      width: media.width * 0.6,
-                      height: media.width * 0.6,
-                      fit: BoxFit.cover,
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(media.width * 0.7),
+                  child: Image.asset(
+                    isFirstArtDemoCover
+                        ? "assets/img/lofi-woman-album-cover-art_10.png"
+                        : "assets/img/lofi-woman-album-cover-art.png",
+                    width: media.width * 0.6,
+                    height: media.width * 0.6,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 GestureDetector(
                   onTapCancel: () {
-                    print(controller.isFirstArtDemoCover.value);
-                    controller.isFirstArtDemoCover.value =
-                        !controller.isFirstArtDemoCover.value;
+                    print(isFirstArtDemoCover);
+                    isFirstArtDemoCover = !isFirstArtDemoCover;
                   },
                   child: SizedBox(
                     width: media.width * 0.6,
                     height: media.width * 0.6,
-                    child: Obx(
-                      () => SleekCircularSlider(
-                        appearance: CircularSliderAppearance(
-                            customWidths: CustomSliderWidths(
-                                trackWidth: 4,
-                                progressBarWidth: 6,
-                                shadowWidth: 30),
-                            customColors: CustomSliderColors(
-                                dotColor: const Color(0xffFFB1B2),
-                                trackColor:
-                                    const Color(0xffffffff).withOpacity(0.3),
-                                progressBarColors: [
-                                  const Color(0xffFB9967),
-                                  const Color(0xffE9585A)
-                                ],
-                                shadowColor: const Color(0xffFFB1B2),
-                                shadowMaxOpacity: 0.05),
-                            infoProperties: InfoProperties(
-                              topLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              topLabelText: 'Elapsed',
-                              bottomLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              bottomLabelText: 'time',
-                              mainLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 50.0,
-                                  fontWeight: FontWeight.w600),
-                              // modifier: (double value) {
-                              //   final time =
-                              //       print(Duration(seconds: value.toInt()));
-                              //   return '$time';
-                              // },
-                            ),
-                            startAngle: 270,
-                            angleRange: 360,
-                            size: 350.0),
-                        min: 0,
-                        max: controller.sleekCircularSliderDuration.value,
-                        initialValue:
-                            controller.sleekCircularSliderPosition.value,
-                        onChange: (value) {
-                          if (value < 0) {
-                            return;
-                          } else {
-                            audioPlayer.seek(Duration(seconds: value.toInt()));
-                          }
+                    child: StreamBuilder<Duration>(
+                        stream: audioPlayer.positionStream,
+                        builder: (context, snapshot) {
+                          return SleekCircularSlider(
+                            appearance: CircularSliderAppearance(
+                                customWidths: CustomSliderWidths(
+                                    trackWidth: 4,
+                                    progressBarWidth: 6,
+                                    shadowWidth: 30),
+                                customColors: CustomSliderColors(
+                                    dotColor: const Color(0xffFFB1B2),
+                                    trackColor: const Color(0xffffffff)
+                                        .withOpacity(0.3),
+                                    progressBarColors: [
+                                      const Color(0xffFB9967),
+                                      const Color(0xffE9585A)
+                                    ],
+                                    shadowColor: const Color(0xffFFB1B2),
+                                    shadowMaxOpacity: 0.05),
+                                infoProperties: InfoProperties(
+                                  topLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  topLabelText: 'Elapsed',
+                                  bottomLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  bottomLabelText: 'time',
+                                  mainLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 50.0,
+                                      fontWeight: FontWeight.w600),
+                                  // modifier: (double value) {
+                                  //   final time =
+                                  //       print(Duration(seconds: value.toInt()));
+                                  //   return '$time';
+                                  // },
+                                ),
+                                startAngle: 270,
+                                angleRange: 360,
+                                size: 350.0),
+                            min: 0,
+                            max: sleekCircularSliderDuration,
+                            initialValue: sleekCircularSliderPosition,
+                            onChange: (value) {
+                              if (value < 0) {
+                                return;
+                              } else {
+                                audioPlayer
+                                    .seek(Duration(seconds: value.toInt()));
+                              }
 
-                          // callback providing a value while its being changed (with a pan gesture)
-                        },
-                        // onChangeStart: (double startValue) {
-                        //   // callback providing a starting value (when a pan gesture starts)
-                        // },
-                        // onChangeEnd: (double endValue) {
-                        //   // ucallback providing an ending value (when a pan gesture ends)
-                        // },
-                      ),
-                    ),
+                              // callback providing a value while its being changed (with a pan gesture)
+                            },
+                            // onChangeStart: (double startValue) {
+                            //   // callback providing a starting value (when a pan gesture starts)
+                            // },
+                            // onChangeEnd: (double endValue) {
+                            //   // ucallback providing an ending value (when a pan gesture ends)
+                            // },
+                          );
+                        }),
                   ),
                 ),
               ],
@@ -135,75 +135,124 @@ class MainPlayerView extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            Obx(
-              () => Text(
-                "${formatDuration(controller.currentSongDurationPostion.value)} | ${formatDuration(controller.currentSongTotalDuration.value)}",
-                style: TextStyle(color: TColor.secondaryText, fontSize: 15),
-              ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StreamBuilder<Duration>(
+                    stream: audioPlayer.positionStream,
+                    builder: (context, snapshot) {
+                      final position = snapshot.data ?? Duration.zero;
+                      return Text(
+                        (audioPlayer.processingState != ProcessingState.idle)
+                            ? formatDuration(position)
+                            : formatDuration(Duration.zero),
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    }),
+                Text(
+                  " | ",
+                  style: TextStyle(color: TColor.secondaryText, fontSize: 15),
+                ),
+                StreamBuilder<Duration?>(
+                    stream: audioPlayer.durationStream,
+                    builder: (context, snapshot) {
+                      final duration = snapshot.data ?? Duration.zero;
+                      return Text(
+                        formatDuration(duration),
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    }),
+              ],
             ),
+
             const SizedBox(
               height: 1,
             ),
 
-            StreamBuilder<PlaybackEvent>(
-                stream: audioPlayer.playbackEventStream,
-                builder: (context, snapshot) {
-                  final eventState = snapshot.data;
-                  final index = eventState?.currentIndex;
-                  final playerState = audioPlayer.processingState;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StreamBuilder<PlaybackEvent>(
+                    stream: audioPlayer.playbackEventStream,
+                    builder: (context, snapshot) {
+                      final eventState = snapshot.data;
+                      final index = eventState?.currentIndex;
+                      final playerState = audioPlayer.processingState;
 
-                  return Text(
-                    "${(playerState == ProcessingState.idle) ? '0' : "${index! + 1}"} of ${controller.playlistLength.value}",
-                    style: TextStyle(color: TColor.secondaryText, fontSize: 15),
-                  );
-                }),
+                      return Text(
+                        (playerState == ProcessingState.idle)
+                            ? '0'
+                            : "${index! + 1}",
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    }),
+                StreamBuilder<int>(
+                    stream: playlistLenghtStreamController.stream,
+                    builder: (context, snapshot) {
+                      return Text(
+                        " of $playlistLengths",
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    }),
+              ],
+            ),
 
             const SizedBox(
               height: 28,
             ),
-            Obx(
-              () => Padding(
-                padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
-                child: Text(
-                  controller.currentSongName.value,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: TColor.primaryText.withOpacity(0.9),
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
+              child: StreamBuilder<String>(
+                  stream: currentSongNameStreamController.stream,
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: [
+                        Text(
+                          currentSongName,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: TColor.primaryText.withOpacity(0.9),
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                          child: Text(
+                            currentSongAlbumName,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: TColor.secondaryText,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+            ),
 
-              // Text(
-              //   controller.currentSongName.value.length > 29
-              //       ? "${controller.currentSongName.value.substring(0, 28)}..."
-              //       : controller.currentSongName.value,
-              //   style: TextStyle(
-              //       color: TColor.primaryText.withOpacity(0.9),
-              //       fontSize: 19,
-              //       fontWeight: FontWeight.w600),
-              // ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Obx(
-              () => Padding(
-                padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
-                child: Text(
-                  controller.currentSongAlbumName.value,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: TColor.secondaryText,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
+            // Text(
+            //   currentSongName.length > 29
+            //       ? "${currentSongName.substring(0, 28)}..."
+            //       : currentSongName,
+            //   style: TextStyle(
+            //       color: TColor.primaryText.withOpacity(0.9),
+            //       fontSize: 19,
+            //       fontWeight: FontWeight.w600),
+            // ),
+
             const SizedBox(
               height: 10,
             ),
@@ -309,17 +358,15 @@ class MainPlayerView extends StatelessWidget {
                           SizedBox(
                             width: 45,
                             height: 40,
-                            child: Obx(
-                              () => IconButton(
-                                onPressed: () {
-                                  repeatMode();
-                                },
-                                icon: Image.asset(
-                                  controller.currentLoopModeIcone.value,
-                                  width: 30,
-                                  height: 30,
-                                  color: TColor.primaryText80,
-                                ),
+                            child: IconButton(
+                              onPressed: () {
+                                repeatMode();
+                              },
+                              icon: Image.asset(
+                                currentLoopModeIcone,
+                                width: 30,
+                                height: 30,
+                                color: TColor.primaryText80,
                               ),
                             ),
                           ),
@@ -369,19 +416,17 @@ class MainPlayerView extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
-                    child: Obx(
-                      () => Slider(
-                        min: 0.0,
-                        max: 100.0,
-                        value: controller.volumeSliderValue.value,
-                        divisions: 20,
-                        label: '${controller.volumeSliderValue.value.round()}',
-                        onChanged: (value) {
-                          controller.volumeSliderValue.value = value;
-                          // setVolume(value);
-                          setVolume(value);
-                        },
-                      ),
+                    child: Slider(
+                      min: 0.0,
+                      max: 100.0,
+                      value: volumeSliderValue,
+                      divisions: 20,
+                      label: '${volumeSliderValue.round()}',
+                      onChanged: (value) {
+                        volumeSliderValue = value;
+                        // setVolume(value);
+                        setVolume(value);
+                      },
                     ),
                   ),
                 )
@@ -423,28 +468,6 @@ class MainPlayerView extends StatelessWidget {
                 const SizedBox(
                   width: 0,
                 ),
-
-                // SizedBox(
-                //   width: 82,
-                //   height: 82,
-                //   child: Obx(
-                //     () =>
-                // IconButton(
-                //       iconSize: 45,
-                //       onPressed: () {
-                //         playOrPause();
-                //       },
-                //       icon: controller.songIsPlaying.value
-                //           ? Image.asset(
-                //               "assets/img/round-pause-button_icon.png",
-                //               color: TColor.primaryText80,
-                //             )
-                //           : Image.asset(
-                //               "assets/img/play.png",
-                //             ),
-                //     ),
-                //   ),
-                // ),
                 StreamBuilder<PlayerState>(
                   stream: audioPlayer.playerStateStream,
                   builder: (context, snapshot) {
@@ -458,7 +481,7 @@ class MainPlayerView extends StatelessWidget {
                         child: IconButton(
                           iconSize: 45,
                           onPressed: () {
-                            if (controller.playlist.children.isNotEmpty) {
+                            if (playlist.children.isNotEmpty) {
                               audioPlayer.play();
                             }
                           },
