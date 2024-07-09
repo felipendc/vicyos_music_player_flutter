@@ -75,7 +75,7 @@ class HomeController extends GetxController {
   Future<void> setFolderAsPlaylist(currentFolder, currenIndex) async {
     // controller.folderSongList.clear();
     stopSong();
-    playlist.clear();
+    await playlist.clear();
 
     for (AudioInfo filePath in currentFolder) {
       File audioFile = File(filePath.path);

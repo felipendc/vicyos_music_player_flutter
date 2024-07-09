@@ -50,13 +50,45 @@ String songName(String songPath) {
   return songNameWithoutExtension;
 }
 
+Future<String> getMusicFolderPath() async {
+  // Get the user directory
+  Directory userDirectory;
+
+  if (Platform.isWindows) {
+    userDirectory = Directory(Platform.environment['USERPROFILE']!);
+  } else {
+    userDirectory = Directory(Platform.environment['HOME']!);
+  }
+
+  if (!await userDirectory.exists()) {
+    throw Exception('Could not find user home directory');
+  }
+
+  // Append the Music folder to the user home directory
+  String musicFolderPath = path.join(userDirectory.path, 'Music');
+
+  return musicFolderPath;
+}
+
 Future<void> listMusicFolders() async {
   String folderPath;
   int totalSongs;
-  final audioFolders =
-      await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
 
-  for (var folder in audioFolders) {
+  Future<List<String>> audioFolder() async {
+    late List<String> audioFolders;
+
+    if (Platform.isAndroid) {
+      audioFolders =
+          await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
+    } else if (Platform.isWindows) {
+      audioFolders = await getFoldersWithAudioFiles(await getMusicFolderPath());
+      print(audioFolders);
+    }
+
+    return audioFolders;
+  }
+
+  for (var folder in await audioFolder()) {
     folderPath = folder;
     totalSongs = folderLenght(folder);
     controller.musicFolderPaths
@@ -144,7 +176,13 @@ String songFullPath({required int index}) {
           ))
       .first;
 
-  if (fullPath.startsWith("file://")) {
+  print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA $fullPath");
+  /*
+   Windows has /// Android //
+   */
+  if (fullPath.startsWith("file:///")) {
+    return fullPath.replaceFirst('file:///', '');
+  } else if (fullPath.startsWith("file://")) {
     return fullPath.replaceFirst('file://', '');
   }
   return fullPath;
