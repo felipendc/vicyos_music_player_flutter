@@ -153,7 +153,10 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                                 //       'This song has been deleted from the playlist',
                                 // );
 
-                                playlist.removeAt(index);
+                                setState(() {
+                                  playlist.removeAt(index);
+                                });
+
                                 playlistLength = playlist.children.length;
                                 if (currentIndex == index) {
                                   preLoadSongName();
@@ -174,7 +177,9 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                                 audioPlayer.setAudioSource(playlist,
                                     initialIndex: index, preload: false);
 
-                                audioPlayer.play();
+                                setState(() {
+                                  audioPlayer.play();
+                                });
                                 songIsPlaying = true;
                               }
                             },

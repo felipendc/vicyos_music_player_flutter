@@ -59,67 +59,79 @@ class BottomPlayer extends StatelessWidget {
                                 SizedBox(
                                   width: media.width * 0.15,
                                   height: media.width * 0.15,
-                                  child: SleekCircularSlider(
-                                    appearance: CircularSliderAppearance(
-                                        customWidths: CustomSliderWidths(
-                                            trackWidth: 3.5,
-                                            progressBarWidth: 3.5,
-                                            shadowWidth: 10),
-                                        customColors: CustomSliderColors(
-                                            dotColor: const Color(0xffFFB1B2),
-                                            trackColor: const Color(0xffffffff)
-                                                .withOpacity(0.3),
-                                            progressBarColors: [
-                                              TColor.focusStart,
-                                              TColor.focusStart
-                                            ],
-                                            shadowColor:
-                                                const Color(0xffFFB1B2),
-                                            shadowMaxOpacity: 0.05),
-                                        infoProperties: InfoProperties(
-                                          topLabelStyle: const TextStyle(
-                                              color: Colors.transparent,
-                                              fontSize: 0,
-                                              fontWeight: FontWeight.w400),
-                                          topLabelText: 'Elapsed',
-                                          bottomLabelStyle: const TextStyle(
-                                              color: Colors.transparent,
-                                              fontSize: 0,
-                                              fontWeight: FontWeight.w400),
-                                          bottomLabelText: 'time',
-                                          mainLabelStyle: const TextStyle(
-                                              color: Colors.transparent,
-                                              fontSize: 00,
-                                              fontWeight: FontWeight.w600),
-                                          // modifier: (double value) {
-                                          //   final time = print(Duration(
-                                          //       seconds: value.toInt()));
-                                          //   return '$time';
-                                          // },
-                                        ),
-                                        startAngle: 270,
-                                        angleRange: 360,
-                                        size: 350.0),
-                                    min: 0,
-                                    max: sleekCircularSliderDuration,
-                                    initialValue: sleekCircularSliderPosition,
-                                    onChange: (value) {
-                                      if (value < 0) {
-                                        return;
-                                      } else {
-                                        audioPlayer.seek(
-                                            Duration(seconds: value.toInt()));
-                                      }
+                                  child: StreamBuilder<Duration>(
+                                      stream: audioPlayer.positionStream,
+                                      builder: (context, snapshot) {
+                                        return SleekCircularSlider(
+                                          appearance: CircularSliderAppearance(
+                                              customWidths: CustomSliderWidths(
+                                                  trackWidth: 3.5,
+                                                  progressBarWidth: 3.5,
+                                                  shadowWidth: 10),
+                                              customColors: CustomSliderColors(
+                                                  dotColor:
+                                                      const Color(0xffFFB1B2),
+                                                  trackColor:
+                                                      const Color(0xffffffff)
+                                                          .withOpacity(0.3),
+                                                  progressBarColors: [
+                                                    TColor.focusStart,
+                                                    TColor.focusStart
+                                                  ],
+                                                  shadowColor:
+                                                      const Color(0xffFFB1B2),
+                                                  shadowMaxOpacity: 0.05),
+                                              infoProperties: InfoProperties(
+                                                topLabelStyle: const TextStyle(
+                                                    color: Colors.transparent,
+                                                    fontSize: 0,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                                topLabelText: 'Elapsed',
+                                                bottomLabelStyle:
+                                                    const TextStyle(
+                                                        color:
+                                                            Colors.transparent,
+                                                        fontSize: 0,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                bottomLabelText: 'time',
+                                                mainLabelStyle: const TextStyle(
+                                                    color: Colors.transparent,
+                                                    fontSize: 00,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                                // modifier: (double value) {
+                                                //   final time = print(Duration(
+                                                //       seconds: value.toInt()));
+                                                //   return '$time';
+                                                // },
+                                              ),
+                                              startAngle: 270,
+                                              angleRange: 360,
+                                              size: 350.0),
+                                          min: 0,
+                                          max: sleekCircularSliderDuration,
+                                          initialValue:
+                                              sleekCircularSliderPosition,
+                                          onChange: (value) {
+                                            if (value < 0) {
+                                              return;
+                                            } else {
+                                              audioPlayer.seek(Duration(
+                                                  seconds: value.toInt()));
+                                            }
 
-                                      // callback providing a value while its being changed (with a pan gesture)
-                                    },
-                                    onChangeStart: (double startValue) {
-                                      // callback providing a starting value (when a pan gesture starts)
-                                    },
-                                    onChangeEnd: (double endValue) {
-                                      // ucallback providing an ending value (when a pan gesture ends)
-                                    },
-                                  ),
+                                            // callback providing a value while its being changed (with a pan gesture)
+                                          },
+                                          onChangeStart: (double startValue) {
+                                            // callback providing a starting value (when a pan gesture starts)
+                                          },
+                                          onChangeEnd: (double endValue) {
+                                            // ucallback providing an ending value (when a pan gesture ends)
+                                          },
+                                        );
+                                      }),
                                 ),
                               ],
                             ),
@@ -139,34 +151,44 @@ class BottomPlayer extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                  child: SizedBox(
-                                    width: media.width * 0.35,
-                                    child: Text(
-                                      currentSongName,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: TColor.primaryText
-                                              .withOpacity(0.9),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: media.width * 0.30,
-                                  // color: Colors.amber,
-                                  child: Text(
-                                    currentSongAlbumName,
-                                    maxLines: 1,
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: TColor.secondaryText,
-                                      fontSize: 14,
-                                    ),
-                                  ),
+                                  child: StreamBuilder<String>(
+                                      stream: currentSongNameStreamController
+                                          .stream,
+                                      builder: (context, snapshot) {
+                                        return Column(
+                                          children: [
+                                            SizedBox(
+                                              width: media.width * 0.35,
+                                              child: Text(
+                                                currentSongName,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: TColor.primaryText
+                                                        .withOpacity(0.9),
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: media.width * 0.30,
+                                              // color: Colors.amber,
+                                              child: Text(
+                                                currentSongAlbumName,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: TColor.secondaryText,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
                                 ),
                               ],
                             ),
