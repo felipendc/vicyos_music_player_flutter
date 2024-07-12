@@ -62,6 +62,9 @@ StreamController<String> currentSongNameStreamController =
 StreamController<int> listPlaylistFolderStreamController =
     StreamController<int>.broadcast();
 
+StreamController<void> clearCurrentPlaylistStreamController =
+    StreamController<void>.broadcast();
+
 void listPlaylistFolderStreamListener() {
   listPlaylistFolderStreamController.sink
       .add(playlistLength = musicFolderPaths.length);
@@ -78,6 +81,10 @@ void currentSongNameStreamListener(value) {
 
 void currentSongAlbumStreamListener(value) {
   currentSongAlbumStreamController.sink.add(value);
+}
+
+void clearCurrentPlaylistStreamListener() {
+  clearCurrentPlaylistStreamController.sink.add(playlist.clear());
 }
 
 void onInitPlayer() {
@@ -174,6 +181,9 @@ String formatDuration(Duration duration) {
 
 Future<void> cleanPlaylist() async {
   // if (controller.audioSources.isNotEmpty) {
+  if (audioPlayer.playerState.playing == false) {
+    clearCurrentPlaylistStreamListener();
+  }
   audioPlayer.stop();
   songIsPlaying = false;
   await playlist.clear();
