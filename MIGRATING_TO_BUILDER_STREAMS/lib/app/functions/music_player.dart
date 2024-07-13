@@ -16,8 +16,8 @@ int playlistLengths = 0;
 bool isFirstArtDemoCover = true;
 String currentLoopModeIcone = 'assets/img/repeat_all.png';
 var volumeSliderValue = 50.0;
-String currentSongAlbumName = 'Unknown Album'; //temp
-String currentSongName = 'The playlist is empty'; //temp
+String currentSongAlbumName = 'Unknown Album';
+String currentSongName = 'The playlist is empty';
 Duration currentSongDurationPostion = Duration.zero; //temp
 Duration currentSongTotalDuration = Duration.zero; //temp
 double sleekCircularSliderPosition = 0.0; //temp
@@ -56,6 +56,7 @@ StreamController<int> playlistLenghtStreamController =
 
 StreamController<String> currentSongAlbumStreamController =
     StreamController<String>.broadcast();
+
 StreamController<String> currentSongNameStreamController =
     StreamController<String>.broadcast();
 
@@ -64,6 +65,15 @@ StreamController<int> listPlaylistFolderStreamController =
 
 StreamController<void> clearCurrentPlaylistStreamController =
     StreamController<void>.broadcast();
+
+StreamController<LoopMode> repeatModeStreamController =
+    StreamController<LoopMode>.broadcast();
+
+StreamController<double> systemVolumeStreamController =
+    StreamController<double>.broadcast();
+
+StreamController<bool> albumArtStreamController =
+    StreamController<bool>.broadcast();
 
 void listPlaylistFolderStreamListener() {
   listPlaylistFolderStreamController.sink
@@ -87,6 +97,18 @@ void clearCurrentPlaylistStreamListener() {
   clearCurrentPlaylistStreamController.sink.add(playlist.clear());
 }
 
+void repeatModeStreamListener(value) {
+  repeatModeStreamController.sink.add(value);
+}
+
+void systemVolumeStreamListener(value) {
+  systemVolumeStreamController.sink.add(value);
+}
+
+void albumArtStreamControllerStreamListener(value) {
+  albumArtStreamController.sink.add(value);
+}
+
 void onInitPlayer() {
   initVolumeControl();
   audioPlayer = AudioPlayer();
@@ -101,7 +123,7 @@ void onInitPlayer() {
 
 void initVolumeControl() async {
   VolumeController().listener((volume) {
-    volumeSliderValue = volume * 100;
+    systemVolumeStreamListener(volumeSliderValue = volume * 100);
   });
   double currentVolume = await VolumeController().getVolume();
   volumeSliderValue = (currentVolume * 100);
@@ -109,7 +131,15 @@ void initVolumeControl() async {
 
 void setVolume(double value) {
   double volume = value / 100;
-  VolumeController().setVolume(volume);
+  // Set the volume and keep the system volume UI hidden
+  VolumeController().setVolume(volume, showSystemUI: false);
+}
+
+void setVolumeJustAudio(value) {
+  double volume = value / 100;
+  audioPlayer.setVolume(volume);
+  // Set the volume and keep the system volume UI hidden
+  VolumeController().setVolume(audioPlayer.volume, showSystemUI: false);
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
@@ -128,24 +158,34 @@ void playerEventStateStreamListener() {
   });
 
   // The player has completed playback
-  audioPlayer.playerStateStream.listen((playerState) {
-    if (playerState.processingState == ProcessingState.completed) {
-      songIsPlaying = false;
-    }
+  audioPlayer.playerStateStream.listen(
+    (playerState) {
+      // print(
+      //     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA   $playerState");
+      if (playerState.processingState == ProcessingState.completed) {
+        songIsPlaying = false;
+      }
+      if (playerState.processingState == ProcessingState.completed &&
+          audioPlayer.loopMode == LoopMode.off) {
+        audioPlayer.setAudioSource(
+            preload: true, playlist, initialIndex: audioPlayer.currentIndex);
+        audioPlayer.pause();
+      }
 
-    // Update the pause button if the player is interrupted
-    if (playerState.playing == false &&
-        playerState.processingState == ProcessingState.ready) {
-      songIsPlaying = false;
-    }
+      // Update the pause button if the player is interrupted
+      if (playerState.playing == false &&
+          playerState.processingState == ProcessingState.ready) {
+        songIsPlaying = false;
+      }
 
-    // Update the play button when the player is playing or paused
-    if (playerState.playing == false) {
-      songIsPlaying = false;
-    } else if (playerState.playing) {
-      songIsPlaying = true;
-    }
-  });
+      // Update the play button when the player is playing or paused
+      if (playerState.playing == false) {
+        songIsPlaying = false;
+      } else if (playerState.playing) {
+        songIsPlaying = true;
+      }
+    },
+  );
 
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
@@ -281,7 +321,7 @@ void rewind() {
 
 void repeatMode() {
   if (currentLoopMode == LoopMode.all) {
-    currentLoopMode = LoopMode.one;
+    repeatModeStreamListener(currentLoopMode = LoopMode.one);
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcone = "assets/img/repeat_one.png";
     // repeatModeSnackbar(
@@ -291,7 +331,7 @@ void repeatMode() {
 
     print("Repeat: One");
   } else if (currentLoopMode == LoopMode.one) {
-    currentLoopMode = LoopMode.off;
+    repeatModeStreamListener(currentLoopMode = LoopMode.off);
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcone = "assets/img/repeat_none.png";
     // repeatModeSnackbar(
@@ -301,7 +341,7 @@ void repeatMode() {
 
     print("Repeat: Off");
   } else if (currentLoopMode == LoopMode.off) {
-    currentLoopMode = LoopMode.all;
+    repeatModeStreamListener(currentLoopMode = LoopMode.all);
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcone = "assets/img/repeat_all.png";
 

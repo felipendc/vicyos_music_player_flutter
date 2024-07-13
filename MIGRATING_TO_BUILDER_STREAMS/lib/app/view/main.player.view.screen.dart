@@ -7,6 +7,7 @@ import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music_player/app/widgets/appbars.dart';
+import 'package:vicyos_music_player/app/widgets/music_visualizer.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -39,94 +40,181 @@ class MainPlayerView extends StatelessWidget {
             ),
             Stack(
               children: [
+                //   ClipRRect(
+                //     borderRadius: BorderRadius.circular(media.width * 0.7),
+                //     child: StreamBuilder<bool>(
+                //         stream: albumArtStreamController.stream,
+                //         builder: (context, snapshot) {
+                //           return Image.asset(
+                //             isFirstArtDemoCover
+                //                 ? "assets/img/lofi-woman-album-cover-art_10.png"
+                //                 : "assets/img/lofi-woman-album-cover-art.png",
+                //             width: media.width * 0.6,
+                //             height: media.width * 0.6,
+                //             fit: BoxFit.cover,
+                //           );
+                //         }),
+                //   ),
+                //   GestureDetector(
+                //     onTapCancel: () {
+                //       print(isFirstArtDemoCover);
+                //       albumArtStreamControllerStreamListener(
+                //           isFirstArtDemoCover = !isFirstArtDemoCover);
+                //     },
+                //     child: SizedBox(
+                //       width: media.width * 0.6,
+                //       height: media.width * 0.6,
+                //       child: StreamBuilder<void>(
+                //           stream: clearCurrentPlaylistStreamController.stream,
+                //           builder: (context, snapshot) {
+                //             return StreamBuilder<Duration>(
+                //                 stream: audioPlayer.positionStream,
+                //                 builder: (context, snapshot) {
+                //                   return SleekCircularSlider(
+                //                     appearance: CircularSliderAppearance(
+                //                         customWidths: CustomSliderWidths(
+                //                             trackWidth: 4,
+                //                             progressBarWidth: 6,
+                //                             shadowWidth: 30),
+                //                         customColors: CustomSliderColors(
+                //                             dotColor: const Color(0xffFFB1B2),
+                //                             trackColor: const Color(0xffffffff)
+                //                                 .withOpacity(0.3),
+                //                             progressBarColors: [
+                //                               const Color(0xffFB9967),
+                //                               const Color(0xffE9585A)
+                //                             ],
+                //                             shadowColor: const Color(0xffFFB1B2),
+                //                             shadowMaxOpacity: 0.05),
+                //                         infoProperties: InfoProperties(
+                //                           topLabelStyle: const TextStyle(
+                //                               color: Colors.transparent,
+                //                               fontSize: 16,
+                //                               fontWeight: FontWeight.w400),
+                //                           topLabelText: 'Elapsed',
+                //                           bottomLabelStyle: const TextStyle(
+                //                               color: Colors.transparent,
+                //                               fontSize: 16,
+                //                               fontWeight: FontWeight.w400),
+                //                           bottomLabelText: 'time',
+                //                           mainLabelStyle: const TextStyle(
+                //                               color: Colors.transparent,
+                //                               fontSize: 50.0,
+                //                               fontWeight: FontWeight.w600),
+                //                           // modifier: (double value) {
+                //                           //   final time =
+                //                           //       print(Duration(seconds: value.toInt()));
+                //                           //   return '$time';
+                //                           // },
+                //                         ),
+                //                         startAngle: 270,
+                //                         angleRange: 360,
+                //                         size: 350.0),
+                //                     min: 0,
+                //                     max: sleekCircularSliderDuration,
+                //                     initialValue: sleekCircularSliderPosition,
+                //                     onChange: (value) {
+                //                       if (value < 0) {
+                //                         return;
+                //                       } else {
+                //                         audioPlayer.seek(
+                //                             Duration(seconds: value.toInt()));
+                //                       }
+
+                //                       // callback providing a value while its being changed (with a pan gesture)
+                //                     },
+                //                     // onChangeStart: (double startValue) {
+                //                     //   // callback providing a starting value (when a pan gesture starts)
+                //                     // },
+                //                     // onChangeEnd: (double endValue) {
+                //                     //   // ucallback providing an ending value (when a pan gesture ends)
+                //                     // },
+                //                   );
+                //                 });
+                //           }),
+                //     ),
+                //   ),
+
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
                   child: Image.asset(
-                    isFirstArtDemoCover
-                        ? "assets/img/lofi-woman-album-cover-art_10.png"
-                        : "assets/img/lofi-woman-album-cover-art.png",
+                    "assets/img/lofi-woman-album-cover-art_10.png",
                     width: media.width * 0.6,
                     height: media.width * 0.6,
                     fit: BoxFit.cover,
                   ),
                 ),
-                GestureDetector(
-                  onTapCancel: () {
-                    print(isFirstArtDemoCover);
-                    isFirstArtDemoCover = !isFirstArtDemoCover;
-                  },
-                  child: SizedBox(
-                    width: media.width * 0.6,
-                    height: media.width * 0.6,
-                    child: StreamBuilder<void>(
-                        stream: clearCurrentPlaylistStreamController.stream,
-                        builder: (context, snapshot) {
-                          return StreamBuilder<Duration>(
-                              stream: audioPlayer.positionStream,
-                              builder: (context, snapshot) {
-                                return SleekCircularSlider(
-                                  appearance: CircularSliderAppearance(
-                                      customWidths: CustomSliderWidths(
-                                          trackWidth: 4,
-                                          progressBarWidth: 6,
-                                          shadowWidth: 30),
-                                      customColors: CustomSliderColors(
-                                          dotColor: const Color(0xffFFB1B2),
-                                          trackColor: const Color(0xffffffff)
-                                              .withOpacity(0.3),
-                                          progressBarColors: [
-                                            const Color(0xffFB9967),
-                                            const Color(0xffE9585A)
-                                          ],
-                                          shadowColor: const Color(0xffFFB1B2),
-                                          shadowMaxOpacity: 0.05),
-                                      infoProperties: InfoProperties(
-                                        topLabelStyle: const TextStyle(
-                                            color: Colors.transparent,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                        topLabelText: 'Elapsed',
-                                        bottomLabelStyle: const TextStyle(
-                                            color: Colors.transparent,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400),
-                                        bottomLabelText: 'time',
-                                        mainLabelStyle: const TextStyle(
-                                            color: Colors.transparent,
-                                            fontSize: 50.0,
-                                            fontWeight: FontWeight.w600),
-                                        // modifier: (double value) {
-                                        //   final time =
-                                        //       print(Duration(seconds: value.toInt()));
-                                        //   return '$time';
-                                        // },
-                                      ),
-                                      startAngle: 270,
-                                      angleRange: 360,
-                                      size: 350.0),
-                                  min: 0,
-                                  max: sleekCircularSliderDuration,
-                                  initialValue: sleekCircularSliderPosition,
-                                  onChange: (value) {
-                                    if (value < 0) {
-                                      return;
-                                    } else {
-                                      audioPlayer.seek(
-                                          Duration(seconds: value.toInt()));
-                                    }
+                SizedBox(
+                  width: media.width * 0.6,
+                  height: media.width * 0.6,
+                  child: StreamBuilder<void>(
+                      stream: clearCurrentPlaylistStreamController.stream,
+                      builder: (context, snapshot) {
+                        return StreamBuilder<Duration>(
+                            stream: audioPlayer.positionStream,
+                            builder: (context, snapshot) {
+                              return SleekCircularSlider(
+                                appearance: CircularSliderAppearance(
+                                    customWidths: CustomSliderWidths(
+                                        trackWidth: 4,
+                                        progressBarWidth: 6,
+                                        shadowWidth: 30),
+                                    customColors: CustomSliderColors(
+                                        dotColor: const Color(0xffFFB1B2),
+                                        trackColor: const Color(0xffffffff)
+                                            .withOpacity(0.3),
+                                        progressBarColors: [
+                                          const Color(0xffFB9967),
+                                          const Color(0xffE9585A)
+                                        ],
+                                        shadowColor: const Color(0xffFFB1B2),
+                                        shadowMaxOpacity: 0.05),
+                                    infoProperties: InfoProperties(
+                                      topLabelStyle: const TextStyle(
+                                          color: Colors.transparent,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                      topLabelText: 'Elapsed',
+                                      bottomLabelStyle: const TextStyle(
+                                          color: Colors.transparent,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                      bottomLabelText: 'time',
+                                      mainLabelStyle: const TextStyle(
+                                          color: Colors.transparent,
+                                          fontSize: 50.0,
+                                          fontWeight: FontWeight.w600),
+                                      // modifier: (double value) {
+                                      //   final time =
+                                      //       print(Duration(seconds: value.toInt()));
+                                      //   return '$time';
+                                      // },
+                                    ),
+                                    startAngle: 270,
+                                    angleRange: 360,
+                                    size: 350.0),
+                                min: 0,
+                                max: sleekCircularSliderDuration,
+                                initialValue: sleekCircularSliderPosition,
+                                onChange: (value) {
+                                  if (value < 0) {
+                                    return;
+                                  } else {
+                                    audioPlayer
+                                        .seek(Duration(seconds: value.toInt()));
+                                  }
 
-                                    // callback providing a value while its being changed (with a pan gesture)
-                                  },
-                                  // onChangeStart: (double startValue) {
-                                  //   // callback providing a starting value (when a pan gesture starts)
-                                  // },
-                                  // onChangeEnd: (double endValue) {
-                                  //   // ucallback providing an ending value (when a pan gesture ends)
-                                  // },
-                                );
-                              });
-                        }),
-                  ),
+                                  // callback providing a value while its being changed (with a pan gesture)
+                                },
+                                // onChangeStart: (double startValue) {
+                                //   // callback providing a starting value (when a pan gesture starts)
+                                // },
+                                // onChangeEnd: (double endValue) {
+                                //   // ucallback providing an ending value (when a pan gesture ends)
+                                // },
+                              );
+                            });
+                      }),
                 ),
               ],
             ),
@@ -181,8 +269,16 @@ class MainPlayerView extends StatelessWidget {
                 StreamBuilder<PlaybackEvent>(
                     stream: audioPlayer.playbackEventStream,
                     builder: (context, snapshot) {
-                      final eventState = snapshot.data;
-                      final index = eventState?.currentIndex;
+                      // Check if snapshot has data
+                      if (!snapshot.hasData) {
+                        return Text(
+                          '0',
+                          style: TextStyle(
+                              color: TColor.secondaryText, fontSize: 15),
+                        );
+                      }
+                      final eventState = snapshot.data!;
+                      final index = eventState.currentIndex;
                       final playerState = audioPlayer.processingState;
 
                       return Text(
@@ -206,44 +302,47 @@ class MainPlayerView extends StatelessWidget {
             ),
 
             const SizedBox(
-              height: 28,
+              height: 17,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
-              child: StreamBuilder<String>(
-                  stream: currentSongNameStreamController.stream,
-                  builder: (context, snapshot) {
-                    return Column(
-                      children: [
-                        Text(
-                          currentSongName,
-                          maxLines: 1,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: TColor.primaryText.withOpacity(0.9),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
-                          child: Text(
-                            currentSongAlbumName,
-                            textAlign: TextAlign.center,
+              child: SizedBox(
+                height: 65,
+                child: StreamBuilder<String>(
+                    stream: currentSongNameStreamController.stream,
+                    builder: (context, snapshot) {
+                      return Column(
+                        children: [
+                          Text(
+                            currentSongName,
                             maxLines: 1,
+                            textAlign: TextAlign.center,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: TColor.secondaryText,
-                              fontSize: 14,
+                                color: TColor.primaryText.withOpacity(0.9),
+                                fontSize: 19,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                            child: Text(
+                              currentSongAlbumName,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: TColor.secondaryText,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
+                        ],
+                      );
+                    }),
+              ),
             ),
 
             // Text(
@@ -257,7 +356,7 @@ class MainPlayerView extends StatelessWidget {
             // ),
 
             const SizedBox(
-              height: 10,
+              height: 25,
             ),
             // SizedBox(
             //   height: 90,
@@ -269,10 +368,30 @@ class MainPlayerView extends StatelessWidget {
             //   ),
             // ),
 
-            Image.asset(
-              "assets/img/eq_display.png",
-              height: 60,
-              fit: BoxFit.fitHeight,
+            // Image.asset(
+            //   "assets/img/eq_display.png",
+            //   height: 60,
+            //   fit: BoxFit.fitHeight,
+            // ),
+
+            SizedBox(
+              height: 50,
+              width: media.width * 0.5,
+              child: MusicVisualizer(
+                barCount: 26,
+                colors: [
+                  TColor.focus,
+                  TColor.secondaryEnd,
+                  TColor.focusStart,
+                  Colors.blue[900]!,
+                  // TColor.lightGray,
+                  // TColor.bgMiniPlayer
+                ],
+                duration: const [900, 700, 600, 800, 500],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             Column(children: [
               Padding(
@@ -369,12 +488,16 @@ class MainPlayerView extends StatelessWidget {
                               onPressed: () {
                                 repeatMode();
                               },
-                              icon: Image.asset(
-                                currentLoopModeIcone,
-                                width: 30,
-                                height: 30,
-                                color: TColor.primaryText80,
-                              ),
+                              icon: StreamBuilder<LoopMode>(
+                                  stream: repeatModeStreamController.stream,
+                                  builder: (context, snapshot) {
+                                    return Image.asset(
+                                      currentLoopModeIcone,
+                                      width: 30,
+                                      height: 30,
+                                      color: TColor.primaryText80,
+                                    );
+                                  }),
                             ),
                           ),
                         ],
@@ -394,48 +517,67 @@ class MainPlayerView extends StatelessWidget {
                     top: 2,
                     bottom: 2,
                   ),
-                  child: SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      trackHeight: 5,
-                      trackShape: const RoundedRectSliderTrackShape(),
-                      activeTrackColor: Colors.purple.shade800,
-                      inactiveTrackColor: Colors.purple.shade200,
-                      thumbShape: const RoundSliderThumbShape(
-                        elevation: BorderSide.strokeAlignOutside,
-                        enabledThumbRadius: 5.0,
-                        pressedElevation: 8.0,
-                      ),
-                      thumbColor: Colors.pinkAccent,
-                      overlayColor: Colors.pinkAccent,
-                      overlayShape:
-                          const RoundSliderOverlayShape(overlayRadius: 15),
-                      tickMarkShape: const RoundSliderTickMarkShape(),
-                      activeTickMarkColor: Colors.purple.shade800,
-                      // activeTickMarkColor: Colors.pinkAccent,
-                      inactiveTickMarkColor: Colors.purple.shade200,
-                      // inactiveTickMarkColor: Colors.white,
-                      valueIndicatorShape:
-                          const PaddleSliderValueIndicatorShape(),
-                      valueIndicatorColor: Colors.black,
+                  child: StreamBuilder<Object>(
+                      stream: systemVolumeStreamController.stream,
+                      builder: (context, snapshot) {
+                        return SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            trackHeight: 5,
+                            trackShape: const RoundedRectSliderTrackShape(),
+                            activeTrackColor: Colors.purple.shade800,
+                            inactiveTrackColor: Colors.purple.shade200,
+                            thumbShape: const RoundSliderThumbShape(
+                              elevation: BorderSide.strokeAlignOutside,
+                              enabledThumbRadius: 5.0,
+                              pressedElevation: 8.0,
+                            ),
+                            thumbColor: Colors.pinkAccent,
+                            overlayColor: Colors.pinkAccent,
+                            overlayShape: const RoundSliderOverlayShape(
+                                overlayRadius: 15),
+                            tickMarkShape: const RoundSliderTickMarkShape(),
+                            activeTickMarkColor: Colors.purple.shade800,
+                            // activeTickMarkColor: Colors.pinkAccent,
+                            inactiveTickMarkColor: Colors.purple.shade200,
+                            // inactiveTickMarkColor: Colors.white,
+                            valueIndicatorShape:
+                                const PaddleSliderValueIndicatorShape(),
+                            valueIndicatorColor: Colors.black,
 
-                      valueIndicatorTextStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    child: Slider(
-                      min: 0.0,
-                      max: 100.0,
-                      value: volumeSliderValue,
-                      divisions: 20,
-                      label: '${volumeSliderValue.round()}',
-                      onChanged: (value) {
-                        volumeSliderValue = value;
-                        // setVolume(value);
-                        setVolume(value);
-                      },
-                    ),
-                  ),
+                            valueIndicatorTextStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          child: Slider(
+                            min: 0.0,
+                            max: 100.0,
+                            value: volumeSliderValue,
+                            divisions: 20,
+                            label: '${volumeSliderValue.round()}',
+                            onChanged: (value) {
+                              systemVolumeStreamListener(value);
+                              setVolumeJustAudio(value);
+                              // setVolume(value);
+                            },
+                          ),
+
+                          // Slider(
+                          //   min: 0.0,
+                          //   max: 100.0,
+                          //   value: volumeSliderValue,
+                          //   divisions: 20,
+                          //   label: '${volumeSliderValue.round()}',
+                          //   onChanged: (value) {
+                          //     systemVolumeStreamListener(
+                          //         volumeSliderValue = value);
+
+                          //     // setVolume(value);
+                          //     setVolume(value);
+                          //   },
+                          // ),
+                        );
+                      }),
                 )
               ],
             ),

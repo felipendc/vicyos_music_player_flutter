@@ -51,18 +51,21 @@ class BottomPlayer extends StatelessWidget {
                                       BorderRadius.circular(media.width * 0.7),
                                   child: Image.asset(
                                     "assets/img/lofi-woman-album-cover-art_10.png",
+                                    // isFirstArtDemoCover
+                                    //     ? "assets/img/lofi-woman-album-cover-art_10.png"
+                                    //     : "assets/img/lofi-woman-album-cover-art.png",
                                     width: media.width * 0.15,
                                     height: media.width * 0.15,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: media.width * 0.15,
-                                  height: media.width * 0.15,
-                                  child: StreamBuilder<Duration>(
-                                      stream: audioPlayer.positionStream,
-                                      builder: (context, snapshot) {
-                                        return SleekCircularSlider(
+                                StreamBuilder<Duration>(
+                                    stream: audioPlayer.positionStream,
+                                    builder: (context, snapshot) {
+                                      return SizedBox(
+                                        width: media.width * 0.15,
+                                        height: media.width * 0.15,
+                                        child: SleekCircularSlider(
                                           appearance: CircularSliderAppearance(
                                               customWidths: CustomSliderWidths(
                                                   trackWidth: 3.5,
@@ -130,9 +133,9 @@ class BottomPlayer extends StatelessWidget {
                                           onChangeEnd: (double endValue) {
                                             // ucallback providing an ending value (when a pan gesture ends)
                                           },
-                                        );
-                                      }),
-                                ),
+                                        ),
+                                      );
+                                    }),
                               ],
                             ),
                           ),
