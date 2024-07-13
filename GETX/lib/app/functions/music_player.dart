@@ -24,6 +24,7 @@ void initVolumeControl() async {
 
 void setVolume(double value) {
   double volume = value / 100;
+  VolumeController().showSystemUI = false; // Hide the system volume UI
   VolumeController().setVolume(volume);
 }
 
