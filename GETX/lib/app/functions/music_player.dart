@@ -24,8 +24,8 @@ void initVolumeControl() async {
 
 void setVolume(double value) {
   double volume = value / 100;
-  VolumeController().showSystemUI = false; // Hide the system volume UI
-  VolumeController().setVolume(volume);
+  // Set the volume and keep the system volume UI hidden
+  VolumeController().setVolume(volume, showSystemUI: false);
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
