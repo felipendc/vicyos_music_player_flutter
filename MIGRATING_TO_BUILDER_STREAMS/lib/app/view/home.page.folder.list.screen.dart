@@ -130,14 +130,10 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                         ),
                       ],
                     ),
-                    Positioned(
+                    const Positioned(
                       bottom: 6,
                       right: 11,
-                      child: StreamBuilder<Duration>(
-                          stream: audioPlayer.positionStream,
-                          builder: (context, snapshot) {
-                            return BottomPlayer();
-                          }),
+                      child: BottomPlayer(),
                     ),
                   ]),
             floatingActionButton: musicFolderPaths.isNotEmpty
