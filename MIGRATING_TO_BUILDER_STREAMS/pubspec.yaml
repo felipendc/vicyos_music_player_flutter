@@ -44,6 +44,7 @@ dependencies:
   volume_controller: ^2.0.7
   path_provider: ^2.0.11
   permission_handler: ^11.3.1
+  audio_session: ^0.1.20
   # music_visualizer: ^1.0.4
   
 

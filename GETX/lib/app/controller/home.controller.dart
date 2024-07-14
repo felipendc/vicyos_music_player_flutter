@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audio_service/audio_service.dart';
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
@@ -53,8 +54,12 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-
     initVolumeControl();
+    // Inform the operating system of our app's audio attributes etc.
+    // We pick a reasonable default for an app that plays speech.
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
+
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
     playlist = ConcatenatingAudioSource(

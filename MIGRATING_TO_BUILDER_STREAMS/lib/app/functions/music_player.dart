@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -114,6 +115,11 @@ void albumArtStreamControllerStreamListener(value) {
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
+  // Inform the operating system of our app's audio attributes etc.
+  // We pick a reasonable default for an app that plays speech.
+  final session = await AudioSession.instance;
+  await session.configure(const AudioSessionConfiguration.music());
+
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
   playlist = ConcatenatingAudioSource(
