@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music_player/app/models/audio.info.dart';
 import 'package:vicyos_music_player/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -28,6 +30,7 @@ List<AudioInfo> folderSongList = <AudioInfo>[];
 String volumeSliderStatus = 'idle';
 MaterialColor volumeSliderStatusColor = Colors.amber;
 String currentSongArtistName = 'Unknown Artist';
+late final File defaultalbumArt;
 
 bool songIsPlaying = false;
 bool isStopped = false;
@@ -109,7 +112,7 @@ void albumArtStreamControllerStreamListener(value) {
   albumArtStreamController.sink.add(value);
 }
 
-void onInitPlayer() {
+Future<void> onInitPlayer() async {
   initVolumeControl();
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
@@ -119,6 +122,19 @@ void onInitPlayer() {
     children: audioSources,
   );
   playerEventStateStreamListener();
+  await defaultAlbumArt();
+}
+
+Future<void> defaultAlbumArt() async {
+  // Load the image asset as a Uri
+  final ByteData imageData =
+      await rootBundle.load('assets/img/lofi-woman-album-cover-art_10.png');
+  final Uint8List bytes = imageData.buffer.asUint8List();
+
+  // Save the image to a temporary directory
+  final tempDir = await getTemporaryDirectory();
+  defaultalbumArt =
+      await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
 void initVolumeControl() async {
@@ -395,6 +411,7 @@ Future<void> pickFolder() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(
@@ -436,6 +453,7 @@ Future<void> pickFolder() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(
@@ -489,6 +507,7 @@ Future<void> pickAndPlayAudio() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(
@@ -528,6 +547,7 @@ Future<void> pickAndPlayAudio() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(AudioSource.uri(
@@ -568,6 +588,7 @@ Future<void> setFolderAsPlaylist(currentFolder, currenIndex) async {
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
       artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      artUri: Uri.file(defaultalbumArt.path),
     );
 
     playlist.add(
@@ -610,6 +631,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
         artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        artUri: Uri.file(defaultalbumArt.path),
       );
 
       playlist.add(
@@ -649,6 +671,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
         artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        artUri: Uri.file(defaultalbumArt.path),
       );
 
       playlist.add(
@@ -684,6 +707,7 @@ Future<void> addSongToPlaylist(songPath) async {
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
       artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      artUri: Uri.file(defaultalbumArt.path),
     );
 
     playlist.add(
@@ -721,6 +745,7 @@ Future<void> addSongToPlaylist(songPath) async {
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
       artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      artUri: Uri.file(defaultalbumArt.path),
     );
 
     playlist.add(

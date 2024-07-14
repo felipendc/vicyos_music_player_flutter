@@ -51,7 +51,7 @@ class HomeController extends GetxController {
   late ConcatenatingAudioSource playlist;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
 
     initVolumeControl();
@@ -63,6 +63,7 @@ class HomeController extends GetxController {
       children: audioSources,
     );
     playerEventStateStreamListener();
+    await defaultAlbumArt();
   }
 
   @override
@@ -97,6 +98,7 @@ class HomeController extends GetxController {
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
         artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        artUri: Uri.file(defaultalbumArt.path),
       );
 
       playlist.add(
@@ -139,6 +141,7 @@ class HomeController extends GetxController {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(
@@ -178,6 +181,7 @@ class HomeController extends GetxController {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         playlist.add(
@@ -213,6 +217,7 @@ class HomeController extends GetxController {
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
         artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        artUri: Uri.file(defaultalbumArt.path),
       );
 
       playlist.add(
@@ -249,6 +254,7 @@ class HomeController extends GetxController {
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
         artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        artUri: Uri.file(defaultalbumArt.path),
       );
 
       playlist.add(

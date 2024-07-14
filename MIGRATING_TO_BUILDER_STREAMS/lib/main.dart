@@ -15,7 +15,7 @@ void main() async {
     androidNotificationOngoing: true,
   );
   // Get.put(HomeController());
-  onInitPlayer();
+  await onInitPlayer();
 
   runApp(const MyApp());
 

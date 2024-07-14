@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 import 'package:just_audio/just_audio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audio_service/audio_service.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -13,6 +15,19 @@ import 'package:volume_controller/volume_controller.dart';
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
+late final File defaultalbumArt;
+
+Future<void> defaultAlbumArt() async {
+  // Load the image asset as a Uri
+  final ByteData imageData =
+      await rootBundle.load('assets/img/lofi-woman-album-cover-art_10.png');
+  final Uint8List bytes = imageData.buffer.asUint8List();
+
+  // Save the image to a temporary directory
+  final tempDir = await getTemporaryDirectory();
+  defaultalbumArt =
+      await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
+}
 
 void initVolumeControl() async {
   VolumeController().listener((volume) {
@@ -265,6 +280,7 @@ Future<void> pickFolder() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         controller.playlist.add(
@@ -306,6 +322,7 @@ Future<void> pickFolder() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         controller.playlist.add(
@@ -359,6 +376,7 @@ Future<void> pickAndPlayAudio() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         controller.playlist.add(
@@ -399,6 +417,7 @@ Future<void> pickAndPlayAudio() async {
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
           artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          artUri: Uri.file(defaultalbumArt.path),
         );
 
         controller.playlist.add(AudioSource.uri(
