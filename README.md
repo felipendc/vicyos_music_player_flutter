@@ -28,6 +28,7 @@ These instructions will help you get a copy of the project up and running on you
 - Flutter: Make sure you have Flutter installed. [Install Flutter](https://flutter.dev/docs/get-started/install)
 - Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git`
 - Navigate to the project directory: `cd vicyos_music_player_flutter`
+- Choose the one you want "GetX" or "StreamBuilder".
 
 ### Dependencies
 
@@ -54,7 +55,7 @@ This project uses the following dependencies:
 1. Run `flutter pub get` to install the required dependencies.
 2. Connect your device or start an emulator.
 3. Run `flutter run` to launch the app.
-
+4. Or build the App APK: `flutter build apk --split-per-abi`
 
 1. Fork the project.
 2. Create your feature branch: `git checkout -b feature/new-feature`
@@ -63,8 +64,14 @@ This project uses the following dependencies:
 5. Open a pull request.
 
 
+
 ## Acknowledgments
 
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
-
 - Shoutout to the Flutter community for their support and resources.
+
+## Credits
+
+[svgrepo:](https://www.svgrepo.com/) for the Icons.
+[flaticon:](https://www.flaticon.com/) for the Icons.
+[logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
