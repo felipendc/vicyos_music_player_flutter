@@ -57,6 +57,7 @@ This project uses the following dependencies:
 3. Run `flutter run` to launch the app.
 4. Or build the App APK: `flutter build apk --split-per-abi`
 
+### Submit a pull request
 1. Fork the project.
 2. Create your feature branch: `git checkout -b feature/new-feature`
 3. Commit your changes: `git commit -am 'Add a new feature'`
