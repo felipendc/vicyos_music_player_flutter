@@ -30,6 +30,14 @@ These instructions will help you get a copy of the project up and running on you
 - Navigate to the project directory: `cd vicyos_music_player_flutter`
 - Choose the one you want "GetX" or "StreamBuilder".
 
+### Installing
+
+0. Run `flutter clean` make a clean build.
+1. Run `flutter pub get` to install the required dependencies.
+2. Connect your device or start an emulator.
+3. Run `flutter run` to launch the app.
+4. Or build the App APK: `flutter build apk --split-per-abi`
+5. 
 ### Dependencies
 
 This project uses the following dependencies:
@@ -49,13 +57,6 @@ This project uses the following dependencies:
 - `volume_controller: ^2.0.7` A Flutter volume plugin for ios and android control system volume.
 - `music_visualizer: ^1.0.4` This plugin help developers to show a music wave through animation.
 
-
-### Installing
-
-1. Run `flutter pub get` to install the required dependencies.
-2. Connect your device or start an emulator.
-3. Run `flutter run` to launch the app.
-4. Or build the App APK: `flutter build apk --split-per-abi`
 
 ### Submit a pull request
 1. Fork the project.
