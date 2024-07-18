@@ -68,7 +68,3 @@ This project uses the following dependencies:
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 
 - Shoutout to the Flutter community for their support and resources.
-
-## Contact
-
-If you have any questions or suggestions regarding the Car Control Dashboard app, feel free to contact us at: 
