@@ -70,9 +70,6 @@ This project uses the following dependencies:
 
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Shoutout to the Flutter community for their support and resources.
-
-## Credits
-
-[svgrepo:](https://www.svgrepo.com/) for the Icons.
-[flaticon:](https://www.flaticon.com/) for the Icons.
-[logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
+- [svgrepo:](https://www.svgrepo.com/) for the Icons. 
+- [flaticon:](https://www.flaticon.com/) for the Icons. 
+- [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
