@@ -1,4 +1,4 @@
-# Vicyos Music Player App
+### Vicyos Music Player App
 
 A Flutter music streaming application that allows users to play audio files from local storage.
 
