@@ -32,7 +32,7 @@ These instructions will help you get a copy of the project up and running on you
 
 ### Installing
 
-0. Run `flutter clean` make a clean build.
+0. Run `flutter clean` to make a clean build.
 1. Run `flutter pub get` to install the required dependencies.
 2. Connect your device or start an emulator.
 3. Run `flutter run` to launch the app.
