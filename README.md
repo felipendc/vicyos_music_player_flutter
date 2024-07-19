@@ -42,21 +42,22 @@ These instructions will help you get a copy of the project up and running on you
 
 This project uses the following dependencies:
 
-- `just_audio: ^0.9.39` - A powerful audio player for Flutter applications.
-- `path_provider: ^2.0.15` - Provides access to the device's file system paths.
-- `permission_handler: ^11.3.1` - Handles runtime permissions for accessing device features.
-- `path: ^1.9.0` - Provides utilities for handling file and directory paths.
-- `file_picker: ^8.0.3` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
-- `audio_service: ^0.18.13` Flutter plugin to play audio in the background while the screen is off
-- `provider: ^6.0.0` A wrapper around InheritedWidget to make them easier to use and more reusable.
-- `flutter_native_splash: ^2.4.0` Customize Flutter's default white native splash screen with background color and splash image.
-- `sleek_circular_slider: ^2.0.1` A highly customizable circular slider/progress bar & spinner for Flutter.
-- `just_audio_background: ^0.0.1-beta.12` An add-on for just_audio that supports background playback and media notifications.
-- `media_info: ^0.12.0+2` Platform services exposed to Flutter apps.
-- `flutter_media_metadata: ^1.0.0+1` A Flutter plugin to read metadata of media files.
-- `volume_controller: ^2.0.7` A Flutter volume plugin for ios and android control system volume.
-- `music_visualizer: ^1.0.4` This plugin help developers to show a music wave through animation.
+- `just_audio: 0.9.39` - A powerful audio player for Flutter applications.
 - `audio_session: 0.1.21` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
+- `just_audio_background: 0.0.1-beta.13` An add-on for just_audio that supports background playback and media notifications
+- `audio_service: 0.18.15` Flutter plugin to play audio in the background while the screen is off
+- `provider: 6.1.2` A wrapper around InheritedWidget to make them easier to use and more reusable.
+- `path_provider: 2.1.3` - Provides access to the device's file system paths.
+- `path: 1.9.0` - Provides utilities for handling file and directory paths.
+- `media_info: 0.12.0+2` Platform services exposed to Flutter apps.
+- `sleek_circular_slider: 2.0.1` A highly customizable circular slider/progress bar & spinner for Flutter.
+- `flutter_media_metadata: 1.0.0+1` A Flutter plugin to read metadata of media files.
+- `volume_controller: 2.0.7` A Flutter volume plugin for ios and android control system volume.
+- `file_picker: 8.0.6` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
+- `permission_handler: 11.3.1` - Handles runtime permissions for accessing device features.
+- `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
+- `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
+- `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX.
 
 ### Submit a pull request
 1. Fork the project.
