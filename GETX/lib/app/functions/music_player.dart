@@ -275,7 +275,7 @@ Future<void> pickFolder() async {
         }
 
         final mediaItem = MediaItem(
-          id: Uuid().v4(),
+          id: const Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -317,7 +317,7 @@ Future<void> pickFolder() async {
         }
 
         final mediaItem = MediaItem(
-          id: Uuid().v4(),
+          id: const Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -371,7 +371,7 @@ Future<void> pickAndPlayAudio() async {
         }
 
         final mediaItem = MediaItem(
-          id: Uuid().v4(),
+          id: const Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -412,7 +412,7 @@ Future<void> pickAndPlayAudio() async {
         }
 
         final mediaItem = MediaItem(
-          id: Uuid().v4(),
+          id: const Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
