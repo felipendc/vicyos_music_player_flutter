@@ -58,6 +58,8 @@ This project uses the following dependencies:
 - `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
 - `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX.
+- `uuid: 4.4.2` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
+
 
 ### Submit a pull request
 1. Fork the project.
