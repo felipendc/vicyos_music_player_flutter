@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 import 'package:volume_controller/volume_controller.dart';
+import 'package:uuid/uuid.dart';
 
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
@@ -263,7 +264,7 @@ Future<void> pickFolder() async {
         String fileName = audioFile.uri.pathSegments.last;
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(fileName);
-        String filePathAsId = audioFile.absolute.path;
+        // String filePathAsId = audioFile.absolute.path;
 
         Metadata? metadata;
 
@@ -274,7 +275,7 @@ Future<void> pickFolder() async {
         }
 
         final mediaItem = MediaItem(
-          id: filePathAsId,
+          id: Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -305,7 +306,7 @@ Future<void> pickFolder() async {
         String fileName = audioFile.uri.pathSegments.last;
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(fileName);
-        String filePathAsId = audioFile.absolute.path;
+        // String filePathAsId = audioFile.absolute.path;
 
         Metadata? metadata;
 
@@ -316,7 +317,7 @@ Future<void> pickFolder() async {
         }
 
         final mediaItem = MediaItem(
-          id: filePathAsId,
+          id: Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -359,7 +360,7 @@ Future<void> pickAndPlayAudio() async {
         String fileName = audioFile.uri.pathSegments.last;
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(fileName);
-        String filePathAsId = audioFile.absolute.path;
+        // String filePathAsId = audioFile.absolute.path;
 
         Metadata? metadata;
 
@@ -370,7 +371,7 @@ Future<void> pickAndPlayAudio() async {
         }
 
         final mediaItem = MediaItem(
-          id: filePathAsId,
+          id: Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
@@ -400,7 +401,7 @@ Future<void> pickAndPlayAudio() async {
         String fileName = audioFile.uri.pathSegments.last;
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(fileName);
-        String filePathAsId = audioFile.absolute.path;
+        // String filePathAsId = audioFile.absolute.path;
 
         Metadata? metadata;
 
@@ -411,7 +412,7 @@ Future<void> pickAndPlayAudio() async {
         }
 
         final mediaItem = MediaItem(
-          id: filePathAsId,
+          id: Uuid().v4(),
           album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default

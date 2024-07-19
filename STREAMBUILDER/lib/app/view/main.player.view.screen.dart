@@ -40,181 +40,99 @@ class MainPlayerView extends StatelessWidget {
             ),
             Stack(
               children: [
-                //   ClipRRect(
-                //     borderRadius: BorderRadius.circular(media.width * 0.7),
-                //     child: StreamBuilder<bool>(
-                //         stream: albumArtStreamController.stream,
-                //         builder: (context, snapshot) {
-                //           return Image.asset(
-                //             isFirstArtDemoCover
-                //                 ? "assets/img/lofi-woman-album-cover-art_10.png"
-                //                 : "assets/img/lofi-woman-album-cover-art.png",
-                //             width: media.width * 0.6,
-                //             height: media.width * 0.6,
-                //             fit: BoxFit.cover,
-                //           );
-                //         }),
-                //   ),
-                //   GestureDetector(
-                //     onTapCancel: () {
-                //       print(isFirstArtDemoCover);
-                //       albumArtStreamControllerStreamListener(
-                //           isFirstArtDemoCover = !isFirstArtDemoCover);
-                //     },
-                //     child: SizedBox(
-                //       width: media.width * 0.6,
-                //       height: media.width * 0.6,
-                //       child: StreamBuilder<void>(
-                //           stream: clearCurrentPlaylistStreamController.stream,
-                //           builder: (context, snapshot) {
-                //             return StreamBuilder<Duration>(
-                //                 stream: audioPlayer.positionStream,
-                //                 builder: (context, snapshot) {
-                //                   return SleekCircularSlider(
-                //                     appearance: CircularSliderAppearance(
-                //                         customWidths: CustomSliderWidths(
-                //                             trackWidth: 4,
-                //                             progressBarWidth: 6,
-                //                             shadowWidth: 30),
-                //                         customColors: CustomSliderColors(
-                //                             dotColor: const Color(0xffFFB1B2),
-                //                             trackColor: const Color(0xffffffff)
-                //                                 .withOpacity(0.3),
-                //                             progressBarColors: [
-                //                               const Color(0xffFB9967),
-                //                               const Color(0xffE9585A)
-                //                             ],
-                //                             shadowColor: const Color(0xffFFB1B2),
-                //                             shadowMaxOpacity: 0.05),
-                //                         infoProperties: InfoProperties(
-                //                           topLabelStyle: const TextStyle(
-                //                               color: Colors.transparent,
-                //                               fontSize: 16,
-                //                               fontWeight: FontWeight.w400),
-                //                           topLabelText: 'Elapsed',
-                //                           bottomLabelStyle: const TextStyle(
-                //                               color: Colors.transparent,
-                //                               fontSize: 16,
-                //                               fontWeight: FontWeight.w400),
-                //                           bottomLabelText: 'time',
-                //                           mainLabelStyle: const TextStyle(
-                //                               color: Colors.transparent,
-                //                               fontSize: 50.0,
-                //                               fontWeight: FontWeight.w600),
-                //                           // modifier: (double value) {
-                //                           //   final time =
-                //                           //       print(Duration(seconds: value.toInt()));
-                //                           //   return '$time';
-                //                           // },
-                //                         ),
-                //                         startAngle: 270,
-                //                         angleRange: 360,
-                //                         size: 350.0),
-                //                     min: 0,
-                //                     max: sleekCircularSliderDuration,
-                //                     initialValue: sleekCircularSliderPosition,
-                //                     onChange: (value) {
-                //                       if (value < 0) {
-                //                         return;
-                //                       } else {
-                //                         audioPlayer.seek(
-                //                             Duration(seconds: value.toInt()));
-                //                       }
-
-                //                       // callback providing a value while its being changed (with a pan gesture)
-                //                     },
-                //                     // onChangeStart: (double startValue) {
-                //                     //   // callback providing a starting value (when a pan gesture starts)
-                //                     // },
-                //                     // onChangeEnd: (double endValue) {
-                //                     //   // ucallback providing an ending value (when a pan gesture ends)
-                //                     // },
-                //                   );
-                //                 });
-                //           }),
-                //     ),
-                //   ),
-
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: Image.asset(
-                    "assets/img/lofi-woman-album-cover-art_10.png",
+                  child: StreamBuilder<bool>(
+                      stream: albumArtStreamController.stream,
+                      builder: (context, snapshot) {
+                        return Image.asset(
+                          isFirstArtDemoCover
+                              ? "assets/img/lofi-woman-album-cover-art_10.png"
+                              : "assets/img/lofi-woman-album-cover-art.png",
+                          width: media.width * 0.6,
+                          height: media.width * 0.6,
+                          fit: BoxFit.cover,
+                        );
+                      }),
+                ),
+                GestureDetector(
+                  onTapCancel: () {
+                    print(isFirstArtDemoCover);
+                    albumArtStreamControllerStreamListener(
+                        isFirstArtDemoCover = !isFirstArtDemoCover);
+                  },
+                  child: SizedBox(
                     width: media.width * 0.6,
                     height: media.width * 0.6,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(
-                  width: media.width * 0.6,
-                  height: media.width * 0.6,
-                  child: StreamBuilder<void>(
-                      stream: clearCurrentPlaylistStreamController.stream,
-                      builder: (context, snapshot) {
-                        return StreamBuilder<Duration>(
-                            stream: audioPlayer.positionStream,
-                            builder: (context, snapshot) {
-                              return SleekCircularSlider(
-                                appearance: CircularSliderAppearance(
-                                    customWidths: CustomSliderWidths(
-                                        trackWidth: 4,
-                                        progressBarWidth: 6,
-                                        shadowWidth: 30),
-                                    customColors: CustomSliderColors(
-                                        dotColor: const Color(0xffFFB1B2),
-                                        trackColor: const Color(0xffffffff)
-                                            .withOpacity(0.3),
-                                        progressBarColors: [
-                                          const Color(0xffFB9967),
-                                          const Color(0xffE9585A)
-                                        ],
-                                        shadowColor: const Color(0xffFFB1B2),
-                                        shadowMaxOpacity: 0.05),
-                                    infoProperties: InfoProperties(
-                                      topLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      topLabelText: 'Elapsed',
-                                      bottomLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      bottomLabelText: 'time',
-                                      mainLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 50.0,
-                                          fontWeight: FontWeight.w600),
-                                      // modifier: (double value) {
-                                      //   final time =
-                                      //       print(Duration(seconds: value.toInt()));
-                                      //   return '$time';
-                                      // },
-                                    ),
-                                    startAngle: 270,
-                                    angleRange: 360,
-                                    size: 350.0),
-                                min: 0,
-                                max: sleekCircularSliderDuration,
-                                initialValue: sleekCircularSliderPosition,
-                                onChange: (value) {
-                                  if (value < 0) {
-                                    return;
-                                  } else {
-                                    audioPlayer
-                                        .seek(Duration(seconds: value.toInt()));
-                                  }
+                    child: StreamBuilder<void>(
+                        stream: clearCurrentPlaylistStreamController.stream,
+                        builder: (context, snapshot) {
+                          return StreamBuilder<Duration>(
+                              stream: audioPlayer.positionStream,
+                              builder: (context, snapshot) {
+                                return SleekCircularSlider(
+                                  appearance: CircularSliderAppearance(
+                                      customWidths: CustomSliderWidths(
+                                          trackWidth: 4,
+                                          progressBarWidth: 6,
+                                          shadowWidth: 30),
+                                      customColors: CustomSliderColors(
+                                          dotColor: const Color(0xffFFB1B2),
+                                          trackColor: const Color(0xffffffff)
+                                              .withOpacity(0.3),
+                                          progressBarColors: [
+                                            const Color(0xffFB9967),
+                                            const Color(0xffE9585A)
+                                          ],
+                                          shadowColor: const Color(0xffFFB1B2),
+                                          shadowMaxOpacity: 0.05),
+                                      infoProperties: InfoProperties(
+                                        topLabelStyle: const TextStyle(
+                                            color: Colors.transparent,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                        topLabelText: 'Elapsed',
+                                        bottomLabelStyle: const TextStyle(
+                                            color: Colors.transparent,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                        bottomLabelText: 'time',
+                                        mainLabelStyle: const TextStyle(
+                                            color: Colors.transparent,
+                                            fontSize: 50.0,
+                                            fontWeight: FontWeight.w600),
+                                        // modifier: (double value) {
+                                        //   final time =
+                                        //       print(Duration(seconds: value.toInt()));
+                                        //   return '$time';
+                                        // },
+                                      ),
+                                      startAngle: 270,
+                                      angleRange: 360,
+                                      size: 350.0),
+                                  min: 0,
+                                  max: sleekCircularSliderDuration,
+                                  initialValue: sleekCircularSliderPosition,
+                                  onChange: (value) {
+                                    if (value < 0) {
+                                      return;
+                                    } else {
+                                      audioPlayer.seek(
+                                          Duration(seconds: value.toInt()));
+                                    }
 
-                                  // callback providing a value while its being changed (with a pan gesture)
-                                },
-                                // onChangeStart: (double startValue) {
-                                //   // callback providing a starting value (when a pan gesture starts)
-                                // },
-                                // onChangeEnd: (double endValue) {
-                                //   // ucallback providing an ending value (when a pan gesture ends)
-                                // },
-                              );
-                            });
-                      }),
+                                    // callback providing a value while its being changed (with a pan gesture)
+                                  },
+                                  // onChangeStart: (double startValue) {
+                                  //   // callback providing a starting value (when a pan gesture starts)
+                                  // },
+                                  // onChangeEnd: (double endValue) {
+                                  //   // ucallback providing an ending value (when a pan gesture ends)
+                                  // },
+                                );
+                              });
+                        }),
+                  ),
                 ),
               ],
             ),
@@ -427,32 +345,6 @@ class MainPlayerView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                    //   child: Column(
-                    //     children: [
-                    //       SizedBox(
-                    //         width: 45,
-                    //         height: 40,
-                    //         child: IconButton(
-                    //           onPressed: () {
-                    //             Get.bottomSheet(
-                    //               const ImportFilesBottomSheet(),
-                    //               // backgroundColor: TColor.bg,
-                    //               isScrollControlled: true,
-                    //             );
-                    //           },
-                    //           icon: Image.asset(
-                    //             "assets/img/add_song_icon.png",
-                    //             width: 30,
-                    //             height: 30,
-                    //             color: TColor.primaryText80,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(

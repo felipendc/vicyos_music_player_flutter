@@ -43,7 +43,6 @@ AppBar songsListAppBar(
           color: TColor.org,
         ),
         onPressed: () {
-          // Get.back();
           Navigator.pop(context);
         },
       ),
@@ -78,12 +77,6 @@ AppBar songsListAppBar(
                 return FolderToPlaylistBottomSheet(folderPath: folderPath);
               },
             );
-
-            // Get.bottomSheet(
-            //   FolderToPlaylistBottomSheet(folderPath: folderPath),
-            //   // backgroundColor: TColor.bg,
-            //   isScrollControlled: true,
-            // );
           },
         ),
       )
@@ -107,7 +100,6 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
           color: TColor.primaryText80,
         ),
         onPressed: () {
-          // Get.back();
           Navigator.pop(context);
         },
       ),

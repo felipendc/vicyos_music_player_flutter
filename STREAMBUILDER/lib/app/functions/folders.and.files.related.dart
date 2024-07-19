@@ -172,10 +172,7 @@ String songFullPath({required int index}) {
           ))
       .first;
 
-  print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA $fullPath");
-  /*
-   Windows has /// Android //
-   */
+  //  "Windows has /// Android //""
   if (fullPath.startsWith("file:///")) {
     return fullPath.replaceFirst('file:///', '');
   } else if (fullPath.startsWith("file://")) {

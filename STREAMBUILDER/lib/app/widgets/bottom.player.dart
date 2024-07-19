@@ -49,15 +49,18 @@ class BottomPlayer extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius:
                                       BorderRadius.circular(media.width * 0.7),
-                                  child: Image.asset(
-                                    "assets/img/lofi-woman-album-cover-art_10.png",
-                                    // isFirstArtDemoCover
-                                    //     ? "assets/img/lofi-woman-album-cover-art_10.png"
-                                    //     : "assets/img/lofi-woman-album-cover-art.png",
-                                    width: media.width * 0.15,
-                                    height: media.width * 0.15,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: StreamBuilder<bool>(
+                                      stream: albumArtStreamController.stream,
+                                      builder: (context, snapshot) {
+                                        return Image.asset(
+                                          isFirstArtDemoCover
+                                              ? "assets/img/lofi-woman-album-cover-art_10.png"
+                                              : "assets/img/lofi-woman-album-cover-art.png",
+                                          width: media.width * 0.15,
+                                          height: media.width * 0.15,
+                                          fit: BoxFit.cover,
+                                        );
+                                      }),
                                 ),
                                 StreamBuilder<Duration>(
                                     stream: audioPlayer.positionStream,

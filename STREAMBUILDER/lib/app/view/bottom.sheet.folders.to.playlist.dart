@@ -76,13 +76,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(folderSongList);
-                          // Get.to(() => const MainPlayerView());
-
-                          // addPlaylistSnackbar(
-                          //   title: folderName(folderPath),
-                          //   message:
-                          //       'This folder has been added to the playlist',
-                          // );
                         },
                       ),
                     ),
@@ -128,11 +121,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                               builder: (context) => const MainPlayerView(),
                             ),
                           );
-
-                          // addPlaylistSnackbar(
-                          //   title: folderName(folderPath),
-                          //   message: 'Playing all the songs from this folder',
-                          // );
                         },
                       ),
                     ),

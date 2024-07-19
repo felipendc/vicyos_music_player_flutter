@@ -14,7 +14,6 @@ void main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  // Get.put(HomeController());
   await onInitPlayer();
 
   runApp(const MyApp());
