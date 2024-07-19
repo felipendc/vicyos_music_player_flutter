@@ -2,7 +2,7 @@
 
 A Flutter music streaming application that allows users to play audio files from local storage.
 
-## Screenshots
+### Screenshots
 
 Basic screenshots of the app to give users a visual preview of the Vicyos Music Player interface.
 
@@ -10,7 +10,7 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/main_demo.png">
 
 
-## Features
+### Features
 
 - Display all the folders containing audio files in '/storage/emulated/0/Music/'.
 - Dark UI based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
@@ -19,7 +19,7 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 - Play, pause, skip, rewind 5 or go forward 5 seconds, control volume from the player screen, or even seek to a specific part of the song.
 - Minimalistic and intuitive user interface.
 
-## Getting Started
+### Getting Started
 
 These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -67,7 +67,7 @@ This project uses the following dependencies:
 
 
 
-## Acknowledgments
+### Acknowledgments
 
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Shoutout to the Flutter community for their support and resources.
