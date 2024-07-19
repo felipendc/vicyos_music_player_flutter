@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:music_visualizer/music_visualizer.dart';
 import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/controller/home.controller.dart';
 import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
+import 'package:vicyos_music_player/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music_player/app/widgets/snackbar.dart';
 
 final HomeController controller = Get.find<HomeController>();
-
-final List<Color> colors = [
-  TColor.focus,
-  TColor.secondaryEnd,
-  TColor.focusStart,
-  Colors.blue[900]!,
-  // TColor.lightGray,
-  // TColor.bgMiniPlayer
-];
 
 final List<int> duration = [900, 700, 600, 800, 500];
 
@@ -103,8 +94,21 @@ class PlaylistBottomSheet extends StatelessWidget {
                                         width: 38,
                                         child: MusicVisualizer(
                                           barCount: 6,
-                                          colors: colors,
-                                          duration: duration,
+                                          colors: [
+                                            TColor.focus,
+                                            TColor.secondaryEnd,
+                                            TColor.focusStart,
+                                            Colors.blue[900]!,
+                                            // TColor.lightGray,
+                                            // TColor.bgMiniPlayer
+                                          ],
+                                          duration: const [
+                                            900,
+                                            700,
+                                            600,
+                                            800,
+                                            500
+                                          ],
                                         ),
                                       )
 
