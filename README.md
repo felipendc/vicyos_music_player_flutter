@@ -37,7 +37,7 @@ These instructions will help you get a copy of the project up and running on you
 2. Connect your device or start an emulator.
 3. Run `flutter run` to launch the app.
 4. Or build the App APK: `flutter build apk --split-per-abi`
-5. 
+
 ### Dependencies
 
 This project uses the following dependencies:
