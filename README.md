@@ -4,11 +4,11 @@ A Flutter music streaming application that allows users to play audio files from
 
 ## Screenshots
 
-SOON! Basic screenshots of the app to give users a visual preview of the Vicyos Music Player interface.
+Basic screenshots of the app to give users a visual preview of the Vicyos Music Player interface.
 
-<!-- 
-<img src="demo.png">
--->
+
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/main_demo.png">
+
 
 ## Features
 
@@ -74,3 +74,20 @@ This project uses the following dependencies:
 - [svgrepo:](https://www.svgrepo.com/) for the Icons. 
 - [flaticon:](https://www.flaticon.com/) for the Icons. 
 - [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
+
+### Vicyos Music Player Screenshots 
+
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/main_demo.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-53-59-381_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-04-737_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-07-827_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-13-499_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-16-875_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-50-199_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-54-53-869_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-55-01-343_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-55-06-579_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-18-55-19-363_com.example.vicyos_app.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-20-45-59-800_com.miui.powerkeeper.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-20-46-26-634_com.miui.securitycenter.jpg">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/Screenshot_2024-07-18-20-46-43-062_com.lbe.security.miui.jpg">
