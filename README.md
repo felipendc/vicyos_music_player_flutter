@@ -56,7 +56,7 @@ This project uses the following dependencies:
 - `flutter_media_metadata: ^1.0.0+1` A Flutter plugin to read metadata of media files.
 - `volume_controller: ^2.0.7` A Flutter volume plugin for ios and android control system volume.
 - `music_visualizer: ^1.0.4` This plugin help developers to show a music wave through animation.
-
+- `audio_session: 0.1.21` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
 
 ### Submit a pull request
 1. Fork the project.
