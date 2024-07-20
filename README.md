@@ -38,6 +38,8 @@ These instructions will help you get a copy of this project up and running on yo
 4. Run `flutter run` to launch the app.
 5. Or build the App APK: `flutter build apk --split-per-abi`
 6. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
+7. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
+
 ### Dependencies
 
 This project uses the following dependencies:
