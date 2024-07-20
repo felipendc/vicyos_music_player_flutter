@@ -15,29 +15,29 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 - Display all the folders containing audio files in '/storage/emulated/0/Music/'.
 - Dark UI based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Animations to enhance the user experience.
-- Play all the songs from a folder or add a to the current playlist.
+- Play a song from a folder, play all the from a folder, or add a folder to the current playlist.
 - Play, pause, skip, rewind 5 or go forward 5 seconds, control volume from the player screen, or even seek to a specific part of the song.
 - Minimalistic and intuitive user interface.
 
 ### Getting Started
 
-These instructions will help you get a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
 - Flutter: Make sure you have Flutter installed. [Install Flutter](https://flutter.dev/docs/get-started/install)
 - Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git`
 - Navigate to the project directory: `cd vicyos_music_player_flutter`
-- Choose the one you want "GetX" or "StreamBuilder".
+- Choose the one you want "GetX" or "StreamBuilder" UI state management.
 
 ### Installing
 
-0. Run `flutter clean` to make a clean build.
-1. Run `flutter pub get` to install the required dependencies.
-2. Connect your device or start an emulator.
-3. Run `flutter run` to launch the app.
-4. Or build the App APK: `flutter build apk --split-per-abi`
-
+1. Run `flutter clean` to make a clean build and avoid potential build errors.
+2. Run `flutter pub get` to install the required dependencies.
+3. Connect your device to the PC or start an emulator.
+4. Run `flutter run` to launch the app.
+5. Or build the App APK: `flutter build apk --split-per-abi`
+6. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
 ### Dependencies
 
 This project uses the following dependencies:
@@ -74,8 +74,7 @@ This project uses the following dependencies:
 
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Shoutout to the Flutter community for their support and resources.
-- [svgrepo:](https://www.svgrepo.com/) for the Icons. 
-- [flaticon:](https://www.flaticon.com/) for the Icons. 
+- [svgrepo:](https://www.svgrepo.com/) and [flaticon:](https://www.flaticon.com/) for the Icons. 
 - [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
 
 ### Vicyos Music Player Screenshots 
