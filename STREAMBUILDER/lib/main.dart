@@ -5,7 +5,8 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/view/home.page.folder.list.screen.dart';
 
-// vicyos_music_player_flutter> flutter build apk --split-per-abi
+// flutter clean
+// flutter build apk
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
