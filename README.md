@@ -23,12 +23,52 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+## 
 
-- Flutter: Make sure you have Flutter installed. [Install Flutter](https://flutter.dev/docs/get-started/install)
-- Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git`
-- Navigate to the project directory: `cd vicyos_music_player_flutter`
-- Choose the one you want "GetX" or "StreamBuilder" UI state management.
+### This project is only compatible with:
+
+#### Android Studio:
+- Android Studio Iguana | `2023.2.1 RC 1 February 5, 2024`
+-  ChromeOS: `android-studio-2023.2.1.21-cros.deb (944.2 MB)`
+- Mac (Apple Silicon): `android-studio-2023.2.1.21-mac_arm.dmg (1.2 GB)`
+- Mac (Intel): `android-studio-2023.2.1.21-mac.dmg (1.2 GB)`
+- Windows (64-bit): `android-studio-2023.2.1.21-windows.exe (1.1 GB)`
+- LINK: https://developer.android.com/studio/archive
+
+
+
+#### Flutter 3.22.1:
+
+- Flutter version: `3.22.1 x64`
+- Dart version: `3.4.1`
+- File name:  `flutter_windows_3.22.1-stable.zip`
+- LINK: https://docs.flutter.dev/release/archive
+- How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
+
+
+#### Git for Windows:
+
+- Git for Windows: https://gitforwindows.org/
+
+
+#### Visual Studio Code:
+
+- Visual Studio - develop Windows apps (Visual Studio Community): https://visualstudio.microsoft.com/pt-br/
+
+
+#### VS Code:
+
+- Visual Studio Code: https://code.visualstudio.com/
+- Flutter extension for VS Code: https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter 
+
+
+##
+
+### Downloading this project
+
+Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git` <br />
+Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
+Choose the one you want "GetX" or "StreamBuilder" UI state management. <br />
 
 ### Installing
 
@@ -36,16 +76,18 @@ These instructions will help you get a copy of this project up and running on yo
 2. Run `flutter pub get` to install the required dependencies.
 3. Connect your device to the PC or start an emulator.
 4. Run `flutter run` to launch the app.
-5. Or build the App APK: `flutter build apk --split-per-abi`
-6. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
-7. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
+5. Or build the App APK: `flutter clean && flutter pub get && flutter build apk --split-per-abi`
+6. Or build the App APK: `flutter clean && flutter pub get && flutter build apk`
+7. or Just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
+8. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
+9. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
 
 ### Dependencies
 
 This project uses the following dependencies:
 
-- `just_audio: 0.9.39` - A powerful audio player for Flutter applications.
-- `audio_session: 0.1.21` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
+- `just_audio: 0.9.42` - A powerful audio player for Flutter applications.
+- `audio_session: 0.1.23` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
 - `just_audio_background: 0.0.1-beta.13` An add-on for just_audio that supports background playback and media notifications
 - `audio_service: 0.18.15` Flutter plugin to play audio in the background while the screen is off
 - `provider: 6.1.2` A wrapper around InheritedWidget to make them easier to use and more reusable.
