@@ -19,11 +19,14 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 - Play, pause, skip, rewind 5 or go forward 5 seconds, control volume from the player screen, or even seek to a specific part of the song.
 - Minimalistic and intuitive user interface.
 
+## 
+
 ### Getting Started
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-## 
+
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like.png">
 
 ### This project is only compatible with:
 
