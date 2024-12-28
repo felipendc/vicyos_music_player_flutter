@@ -35,7 +35,7 @@ environment:
   # FLUTTER:    VERSION: 3.22.1	x64	
   # DART:       VERSION: 3.4.1
   # FILE NAME:  flutter_windows_3.22.1-stable.zip
-  # LINK: https://docs.flutter.dev/release/archive
+  # https://docs.flutter.dev/release/archive
 
 
 
@@ -49,8 +49,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  just_audio: ^0.9.39
-  audio_session: ^0.1.21
+  just_audio: ^0.9.42
+  audio_session: ^0.1.23
   just_audio_background: ^0.0.1-beta.13
   audio_service: ^0.18.15
   provider: ^6.1.2

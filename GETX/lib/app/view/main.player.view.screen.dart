@@ -190,10 +190,10 @@ class MainPlayerView extends StatelessWidget {
               height: 10,
             ),
             SizedBox(
-              height: 90,
-              width: media.width * 0.6,
+              height: 50,
+              width: media.width * 0.5,
               child: MusicVisualizer(
-                barCount: 6,
+                barCount: 26,
                 colors: [
                   TColor.focus,
                   TColor.secondaryEnd,
