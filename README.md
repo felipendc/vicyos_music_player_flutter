@@ -75,12 +75,13 @@ Choose the one you want "GetX" or "StreamBuilder" UI state management. <br />
 
 ### Installing
 
+0. Open VS Code Editor
 1. Run `flutter clean` to make a clean build and avoid potential build errors.
 2. Run `flutter pub get` to install the required dependencies.
 3. Connect your device to the PC or start an emulator.
 4. Run `flutter run` to launch the app.
-5. Or build the App APK: `flutter clean && flutter pub get && flutter build apk --split-per-abi`
-6. Or build the App APK: `flutter clean && flutter pub get && flutter build apk`
+5. Or build the App APK: `flutter clean; flutter pub get; flutter build apk --split-per-abi`
+6. Or build the App APK: `flutter clean; flutter pub get; flutter build apk`
 7. or Just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
 8. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
 9. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
