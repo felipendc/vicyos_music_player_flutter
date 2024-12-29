@@ -5,7 +5,7 @@ import 'package:vicyos_music_player/app/common/color_extension.dart';
 import 'package:vicyos_music_player/app/functions/music_player.dart';
 import 'package:vicyos_music_player/app/view/home.page.folder.list.screen.dart';
 
-// flutter clean && flutter pub get && flutter build apk
+// flutter clean; flutter pub get; flutter build apk --release
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
