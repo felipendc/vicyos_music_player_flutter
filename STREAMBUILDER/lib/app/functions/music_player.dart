@@ -107,22 +107,53 @@ void albumArtStreamControllerStreamListener(value) {
   albumArtStreamController.sink.add(value);
 }
 
-Future<void> onInitPlayer() async {
-  initVolumeControl();
-  // Inform the operating system of our app's audio attributes etc.
-  // We pick a reasonable default for an app that plays speech.
-  final session = await AudioSession.instance;
-  await session.configure(const AudioSessionConfiguration.music());
+//  ######################################################
+// void initVolumeControl() async {
+//   VolumeController.instance.addListener((volume) {
+//     systemVolumeStreamListener(volumeSliderValue = volume * 100);
+//   });
+//   double currentVolume = await VolumeController.instance.getVolume();
+//   volumeSliderValue = (currentVolume * 100);
+// }
 
-  audioPlayer = AudioPlayer();
-  audioPlayer.setLoopMode(LoopMode.all);
-  playlist = ConcatenatingAudioSource(
-    useLazyPreparation: false,
-    shuffleOrder: DefaultShuffleOrder(),
-    children: audioSources,
-  );
-  playerEventStateStreamListener();
-  await defaultAlbumArt();
+// void setVolume(double value) {
+//   double volume = value / 100;
+//   // Set the volume and keep the system volume UI hidden
+//   VolumeController.instance.setVolume(volume);
+//   VolumeController.instance.showSystemUI = false;
+// }
+
+// void setVolumeJustAudio(value) {
+//   double volume = value / 100;
+//   audioPlayer.setVolume(volume);
+//   // Set the volume and keep the system volume UI hidden
+//   VolumeController.instance.setVolume(audioPlayer.volume);
+//   VolumeController.instance.showSystemUI = false;
+// }
+//  ######################################################
+
+
+void initVolumeControl() async {
+  VolumeController.instance.addListener((volume) {
+    systemVolumeStreamListener(volumeSliderValue = volume * 100);
+  });
+  double currentVolume = await VolumeController.instance.getVolume();
+  volumeSliderValue = (currentVolume * 100);
+}
+
+void setVolume(double value) {
+  double volume = value / 100;
+  // Set the volume and keep the system volume UI hidden
+  VolumeController.instance.setVolume(volume);
+  VolumeController.instance.showSystemUI = false;
+}
+
+void setVolumeJustAudio(value) {
+  double volume = value / 100;
+  audioPlayer.setVolume(volume);
+  // Set the volume and keep the system volume UI hidden
+  VolumeController.instance.setVolume(audioPlayer.volume);
+  VolumeController.instance.showSystemUI = false;
 }
 
 Future<void> defaultAlbumArt() async {
