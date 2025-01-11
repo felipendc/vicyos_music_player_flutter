@@ -30,6 +30,34 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
+
+//  ######################################################
+// void initVolumeControl() async {
+//   VolumeController.instance.addListener((volume) {
+//     systemVolumeStreamListener(volumeSliderValue = volume * 100);
+//   });
+//   double currentVolume = await VolumeController.instance.getVolume();
+//   volumeSliderValue = (currentVolume * 100);
+// }
+
+// void setVolume(double value) {
+//   double volume = value / 100;
+//   // Set the volume and keep the system volume UI hidden
+//   VolumeController.instance.setVolume(volume);
+//   VolumeController.instance.showSystemUI = false;
+// }
+
+// void setVolumeJustAudio(value) {
+//   double volume = value / 100;
+//   audioPlayer.setVolume(volume);
+//   // Set the volume and keep the system volume UI hidden
+//   VolumeController.instance.setVolume(audioPlayer.volume);
+//   VolumeController.instance.showSystemUI = false;
+// }
+//  ######################################################
+
+
+
 void initVolumeControl() async {
   VolumeController().listener((volume) {
     controller.volumeSliderValue.value = volume * 100;
