@@ -1,14 +1,17 @@
-# Flutter-specific rules
+# Flutter-specific ProGuard rules
 -keep class io.flutter.** { *; }
 -keep class io.flutter.embedding.** { *; }
--keepclassmembers class * {
-    native <methods>;
-}
 
-# Retain all classes that extend FlutterActivity or FlutterFragment
--keep public class * extends io.flutter.embedding.android.FlutterActivity
--keep public class * extends io.flutter.embedding.android.FlutterFragment
+# Keep annotations
+-keepattributes *Annotation*
 
-# Retain specific libraries
+# Keep application classes
+-keep class com.example.vicyos_app.** { *; }
+
+# Exclude R8 warnings
+-dontwarn com.example.vicyos_app.**
+
+
+# Keep all Flutter-related classes
+# Prevent obfuscation for JSON serialization/deserialization
 -keep class com.google.gson.** { *; }
--dontwarn com.google.gson.**

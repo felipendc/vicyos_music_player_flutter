@@ -1,12 +1,13 @@
 plugins {
-    // id "com.android.application"
+    id "com.android.application"
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
-    
-    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
-    id "com.android.application" version "7.3.0" apply false
-    id "org.jetbrains.kotlin.android" version "1.8.22" apply false
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.6.1"
+
 }
 
 def localProperties = new Properties()
@@ -52,8 +53,6 @@ android {
         release {
             // Enable code shrinking, obfuscation, and optimization
             minifyEnabled true
-
-            // Use ProGuard or R8 (R8 is used by default if present)
             shrinkResources true
 
             // Path to ProGuard rules
