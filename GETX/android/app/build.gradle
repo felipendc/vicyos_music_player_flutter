@@ -41,6 +41,13 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "bool", "enable_deferred_component_support", "false"
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFileName = "vicyos_music_getx.apk"
+                    output.outputFileName = outputFileName
+                }
+            }
         }
     }
 }
