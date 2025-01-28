@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
 
 AppBar homePageAppBar() {
   return AppBar(

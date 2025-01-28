@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
@@ -75,7 +75,7 @@ class BottomPlayer extends StatelessWidget {
                                                   progressBarWidth: 3.5,
                                                   shadowWidth: 10),
                                               customColors: CustomSliderColors(
-                                                  dotColor:
+                                                  dotFillColor:
                                                       const Color(0xffFFB1B2),
                                                   trackColor:
                                                       const Color(0xffffffff)
@@ -118,8 +118,9 @@ class BottomPlayer extends StatelessWidget {
                                               size: 350.0),
                                           min: 0,
                                           max: sleekCircularSliderDuration,
-                                          initialValue:
-                                              sleekCircularSliderPosition,
+
+                                          // The initValue has been renamed to value.
+                                          value: sleekCircularSliderPosition,
                                           onChange: (value) {
                                             if (value < 0) {
                                               return;
@@ -130,12 +131,12 @@ class BottomPlayer extends StatelessWidget {
 
                                             // callback providing a value while its being changed (with a pan gesture)
                                           },
-                                          onChangeStart: (double startValue) {
-                                            // callback providing a starting value (when a pan gesture starts)
-                                          },
-                                          onChangeEnd: (double endValue) {
-                                            // ucallback providing an ending value (when a pan gesture ends)
-                                          },
+                                          // onChangeStart: (double startValue) {
+                                          //   // callback providing a starting value (when a pan gesture starts)
+                                          // },
+                                          // onChangeEnd: (double endValue) {
+                                          //   // ucallback providing an ending value (when a pan gesture ends)
+                                          // },
                                         ),
                                       );
                                     }),

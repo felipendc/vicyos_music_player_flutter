@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:vicyos_music_player/app/functions/music_player.dart";
+import "package:vicyos_music/app/functions/music_player.dart";
 
 // IMPORTANT NOTE:
 // This music_visualizer was created by Rajkumar07793,

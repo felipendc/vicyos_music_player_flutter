@@ -1,9 +1,10 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/view/home.page.folder.list.screen.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
+
+import 'app/functions/music_player.dart';
 
 // flutter clean; flutter pub get; flutter build apk --release
 
@@ -14,6 +15,7 @@ void main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
+
   await onInitPlayer();
 
   runApp(const MyApp());

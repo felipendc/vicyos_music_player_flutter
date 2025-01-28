@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/models/audio.info.dart';
-import 'package:vicyos_music_player/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/folder.sources.dart';
 
 // String internalStorage = '/storage/emulated/0/Music/';
 

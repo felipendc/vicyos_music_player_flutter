@@ -1,4 +1,4 @@
-# vicyos_app
+# vicyos_music
 
 A new Flutter project.
 
