@@ -31,20 +31,20 @@ These instructions will help you get a copy of this project up and running on yo
 ### This project is only compatible with:
 
 #### Android Studio:
-- Android Studio Iguana | `2023.2.1 RC 1 February 5, 2024`
--  ChromeOS: `android-studio-2023.2.1.21-cros.deb (944.2 MB)`
-- Mac (Apple Silicon): `android-studio-2023.2.1.21-mac_arm.dmg (1.2 GB)`
-- Mac (Intel): `android-studio-2023.2.1.21-mac.dmg (1.2 GB)`
-- Windows (64-bit): `android-studio-2023.2.1.21-windows.exe (1.1 GB)`
+- Android Studio Ladybug Feature Drop | `2024.2.2 RC 2 December 16, 2024`
+- ChromeOS: `android-studio-2024.2.2.12-cros.deb (1.0 GB)`
+- Mac (Apple Silicon): `android-studio-2024.2.2.12-mac_arm.dmg (1.3 GB)`
+- Mac (Intel): `android-studio-2024.2.2.12-mac.dmg (1.3 GB)`
+- Windows (64-bit): `android-studio-2024.2.2.12-windows.exe (1.2 GB)`
 - LINK: https://developer.android.com/studio/archive
 
 
 
-#### Flutter 3.22.1:
+#### Flutter 3.27.3:
 
-- Flutter version: `3.22.1 x64`
-- Dart version: `3.4.1`
-- File name:  `flutter_windows_3.22.1-stable.zip`
+- Flutter version: `3.27.3 x64`
+- Dart version: `3.6.1 (stable) (Tue Jan 7 09:50:00 2025 -0800) on "windows_x64"`
+- File name:  `flutter_windows_3.27.3-stable.zip` 
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
 
