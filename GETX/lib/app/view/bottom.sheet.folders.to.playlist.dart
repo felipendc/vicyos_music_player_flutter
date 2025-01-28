@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
-import 'package:vicyos_music_player/app/view/main.player.view.screen.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/controller/home.controller.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/widgets/snackbar.dart';
 
 final HomeController controller = Get.find<HomeController>();
 

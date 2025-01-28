@@ -1,17 +1,18 @@
-import 'dart:io';
 import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
-import 'package:get/get.dart';
-import 'package:path/path.dart' as path;
-import 'package:just_audio/just_audio.dart';
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+// import 'package:flutter_media_metadata/flutter_media_metadata.dart'; ERROR
+import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/widgets/snackbar.dart';
-import 'package:volume_controller/volume_controller.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vicyos_music/app/controller/home.controller.dart';
+import 'package:vicyos_music/app/widgets/snackbar.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
 late AudioPlayer audioPlayer;
@@ -30,46 +31,30 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-
-//  ######################################################
-// void initVolumeControl() async {
-//   VolumeController.instance.addListener((volume) {
-//     systemVolumeStreamListener(volumeSliderValue = volume * 100);
-//   });
-//   double currentVolume = await VolumeController.instance.getVolume();
-//   volumeSliderValue = (currentVolume * 100);
-// }
-
-// void setVolume(double value) {
-//   double volume = value / 100;
-//   // Set the volume and keep the system volume UI hidden
-//   VolumeController.instance.setVolume(volume);
-//   VolumeController.instance.showSystemUI = false;
-// }
-
-// void setVolumeJustAudio(value) {
-//   double volume = value / 100;
-//   audioPlayer.setVolume(volume);
-//   // Set the volume and keep the system volume UI hidden
-//   VolumeController.instance.setVolume(audioPlayer.volume);
-//   VolumeController.instance.showSystemUI = false;
-// }
-//  ######################################################
-
-
-
 void initVolumeControl() async {
-  VolumeController().listener((volume) {
+  VolumeController.instance.addListener((volume) {
     controller.volumeSliderValue.value = volume * 100;
   });
-  double currentVolume = await VolumeController().getVolume();
+
+  double currentVolume = await VolumeController.instance.getVolume();
   controller.volumeSliderValue.value = (currentVolume * 100);
 }
 
 void setVolume(double value) {
-  double volume = value / 100;
   // Set the volume and keep the system volume UI hidden
-  VolumeController().setVolume(volume, showSystemUI: false);
+  // VolumeController.instance.showSystemUI = false;
+
+  double volume = value / 100;
+  VolumeController.instance.setVolume(volume);
+}
+
+void setVolumeJustAudio(value) {
+  // Set the volume and keep the system volume UI hidden
+  // VolumeController.instance.showSystemUI = false;
+
+  double volume = value / 100;
+  audioPlayer.setVolume(volume);
+  VolumeController.instance.setVolume(audioPlayer.volume);
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
@@ -77,7 +62,7 @@ void playerEventStateStreamListener() {
   // I will need to use another state listener otherthan!
   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
-    controller.currentSongDurationPostion.value = position;
+    controller.currentSongDurationPosition.value = position;
     controller.sleekCircularSliderPosition.value =
         position.inSeconds.toDouble();
   });
@@ -145,7 +130,7 @@ Future<void> cleanPlaylist() async {
   await controller.playlist.clear();
   controller.currentIndex.value = 0;
   controller.playlistLength.value = controller.audioSources.length;
-  controller.currentSongDurationPostion.value = Duration.zero;
+  controller.currentSongDurationPosition.value = Duration.zero;
   controller.currentSongTotalDuration.value = Duration.zero;
   controller.sleekCircularSliderPosition.value = 0.0;
   controller.currentSongName.value = "The playlist is empty";
@@ -237,31 +222,31 @@ void repeatMode() {
   if (controller.currentLoopMode.value == LoopMode.all) {
     controller.currentLoopMode.value = LoopMode.one;
     audioPlayer.setLoopMode(LoopMode.one);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_one.png";
+    controller.currentLoopModeIcon.value = "assets/img/repeat_one.png";
     repeatModeSnackbar(
       message: "Repeat: One",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: controller.currentLoopModeIcon.value,
     );
 
     print("Repeat: One");
   } else if (controller.currentLoopMode.value == LoopMode.one) {
     controller.currentLoopMode.value = LoopMode.off;
     audioPlayer.setLoopMode(LoopMode.off);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_none.png";
+    controller.currentLoopModeIcon.value = "assets/img/repeat_none.png";
     repeatModeSnackbar(
       message: "Repeat: Off",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: controller.currentLoopModeIcon.value,
     );
 
     print("Repeat: Off");
   } else if (controller.currentLoopMode.value == LoopMode.off) {
     controller.currentLoopMode.value = LoopMode.all;
     audioPlayer.setLoopMode(LoopMode.all);
-    controller.currentLoopModeIcone.value = "assets/img/repeat_all.png";
+    controller.currentLoopModeIcon.value = "assets/img/repeat_all.png";
 
     repeatModeSnackbar(
       message: "Repeat All",
-      iconePath: controller.currentLoopModeIcone.value,
+      iconePath: controller.currentLoopModeIcon.value,
     );
     // controller.currentLoopModeLabel.value = "Repeat: All";
     print("Repeat All");
@@ -294,21 +279,21 @@ Future<void> pickFolder() async {
             path.basenameWithoutExtension(fileName);
         // String filePathAsId = audioFile.absolute.path;
 
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 
@@ -336,21 +321,21 @@ Future<void> pickFolder() async {
             path.basenameWithoutExtension(fileName);
         // String filePathAsId = audioFile.absolute.path;
 
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 
@@ -390,21 +375,21 @@ Future<void> pickAndPlayAudio() async {
             path.basenameWithoutExtension(fileName);
         // String filePathAsId = audioFile.absolute.path;
 
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 
@@ -431,21 +416,21 @@ Future<void> pickAndPlayAudio() async {
             path.basenameWithoutExtension(fileName);
         // String filePathAsId = audioFile.absolute.path;
 
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 

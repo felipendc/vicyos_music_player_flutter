@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
-import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.folders.to.playlist.dart';
-// import 'package:vicyos_music_player/app/view/main.sync.screen.dart';
-import 'package:vicyos_music_player/app/view/songs.list.screen.dart';
-import 'package:vicyos_music_player/app/widgets/appbars.dart';
-import 'package:vicyos_music_player/app/widgets/bottom.player.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/controller/home.controller.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
+// import 'package:vicyos_music/app/view/main.sync.screen.dart';
+import 'package:vicyos_music/app/view/songs.list.screen.dart';
+import 'package:vicyos_music/app/widgets/appbars.dart';
+import 'package:vicyos_music/app/widgets/bottom.player.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -94,11 +94,12 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                             ),
                             onPressed: () {
                               Get.bottomSheet(
+                                shape: CircleBorder(),
                                 FolderToPlaylistBottomSheet(
                                     folderPath: controller
                                         .musicFolderPaths[index].path),
                                 // backgroundColor: TColor.bg,
-                                isScrollControlled: true,
+                                isScrollControlled: false,
                               );
                             },
                           ),

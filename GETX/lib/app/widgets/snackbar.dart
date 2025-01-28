@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 
 SnackbarController addPlaylistSnackbar({
   required String title,

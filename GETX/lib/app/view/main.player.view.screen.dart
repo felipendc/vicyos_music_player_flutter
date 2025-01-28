@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:vicyos_music_player/app/common/color_extension.dart';
-import 'package:vicyos_music_player/app/controller/home.controller.dart';
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/functions/screen.orientation.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.playlist.dart';
-import 'package:vicyos_music_player/app/view/bottom.sheet.speed.rate.dart';
-import 'package:vicyos_music_player/app/widgets/appbars.dart';
-import 'package:vicyos_music_player/app/widgets/music_visualizer.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/controller/home.controller.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.playlist.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.speed.rate.dart';
+import 'package:vicyos_music/app/widgets/appbars.dart';
+import 'package:vicyos_music/app/widgets/music_visualizer.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 final HomeController controller = Get.find<HomeController>();
 
@@ -19,6 +20,9 @@ class MainPlayerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Set the volume and keep the system volume UI hidden
+    VolumeController.instance.showSystemUI = false;
+
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
@@ -34,92 +38,96 @@ class MainPlayerView extends StatelessWidget {
             ),
             Stack(
               children: [
-                Obx(
-                  () => ClipRRect(
-                    borderRadius: BorderRadius.circular(media.width * 0.7),
-                    child: Image.asset(
-                      controller.isFirstArtDemoCover.value
-                          ? "assets/img/lofi-woman-album-cover-art_10.png"
-                          : "assets/img/lofi-woman-album-cover-art.png",
-                      width: media.width * 0.6,
-                      height: media.width * 0.6,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTapCancel: () {
-                    print(controller.isFirstArtDemoCover.value);
-                    controller.isFirstArtDemoCover.value =
-                        !controller.isFirstArtDemoCover.value;
-                  },
-                  child: SizedBox(
+                // Obx(
+                //   () =>
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(media.width * 0.7),
+                  child: Image.asset(
+                    // controller.isFirstArtDemoCover.value
+                    //     ?
+                    "assets/img/lofi-woman-album-cover-art_10.png",
+                    // : "assets/img/lofi-woman-album-cover-art.png",
                     width: media.width * 0.6,
                     height: media.width * 0.6,
-                    child: Obx(
-                      () => SleekCircularSlider(
-                        appearance: CircularSliderAppearance(
-                            customWidths: CustomSliderWidths(
-                                trackWidth: 4,
-                                progressBarWidth: 6,
-                                shadowWidth: 30),
-                            customColors: CustomSliderColors(
-                                dotColor: const Color(0xffFFB1B2),
-                                trackColor:
-                                    const Color(0xffffffff).withOpacity(0.3),
-                                progressBarColors: [
-                                  const Color(0xffFB9967),
-                                  const Color(0xffE9585A)
-                                ],
-                                shadowColor: const Color(0xffFFB1B2),
-                                shadowMaxOpacity: 0.05),
-                            infoProperties: InfoProperties(
-                              topLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              topLabelText: 'Elapsed',
-                              bottomLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400),
-                              bottomLabelText: 'time',
-                              mainLabelStyle: const TextStyle(
-                                  color: Colors.transparent,
-                                  fontSize: 50.0,
-                                  fontWeight: FontWeight.w600),
-                              // modifier: (double value) {
-                              //   final time =
-                              //       print(Duration(seconds: value.toInt()));
-                              //   return '$time';
-                              // },
-                            ),
-                            startAngle: 270,
-                            angleRange: 360,
-                            size: 350.0),
-                        min: 0,
-                        max: controller.sleekCircularSliderDuration.value,
-                        initialValue:
-                            controller.sleekCircularSliderPosition.value,
-                        onChange: (value) {
-                          if (value < 0) {
-                            return;
-                          } else {
-                            audioPlayer.seek(Duration(seconds: value.toInt()));
-                          }
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                // ),
+                // GestureDetector(
+                //   onTapCancel: () {
+                //     print(controller.isFirstArtDemoCover.value);
+                //     controller.isFirstArtDemoCover.value =
+                //         !controller.isFirstArtDemoCover.value;
+                //   },
+                //   child:
+                SizedBox(
+                  width: media.width * 0.6,
+                  height: media.width * 0.6,
+                  child: Obx(
+                    () => SleekCircularSlider(
+                      appearance: CircularSliderAppearance(
+                          customWidths: CustomSliderWidths(
+                              trackWidth: 4,
+                              progressBarWidth: 6,
+                              shadowWidth: 30),
+                          customColors: CustomSliderColors(
+                              dotFillColor: const Color(0xffFFB1B2),
+                              trackColor:
+                                  const Color(0xffffffff).withOpacity(0.3),
+                              progressBarColors: [
+                                const Color(0xffFB9967),
+                                const Color(0xffE9585A)
+                              ],
+                              shadowColor: const Color(0xffFFB1B2),
+                              shadowMaxOpacity: 0.05),
+                          infoProperties: InfoProperties(
+                            topLabelStyle: const TextStyle(
+                                color: Colors.transparent,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                            topLabelText: 'Elapsed',
+                            bottomLabelStyle: const TextStyle(
+                                color: Colors.transparent,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                            bottomLabelText: 'time',
+                            mainLabelStyle: const TextStyle(
+                                color: Colors.transparent,
+                                fontSize: 50.0,
+                                fontWeight: FontWeight.w600),
+                            // modifier: (double value) {
+                            //   final time =
+                            //       print(Duration(seconds: value.toInt()));
+                            //   return '$time';
+                            // },
+                          ),
+                          startAngle: 270,
+                          angleRange: 360,
+                          size: 350.0),
+                      min: 0,
+                      max: controller.sleekCircularSliderDuration.value,
 
-                          // callback providing a value while its being changed (with a pan gesture)
-                        },
-                        // onChangeStart: (double startValue) {
-                        //   // callback providing a starting value (when a pan gesture starts)
-                        // },
-                        // onChangeEnd: (double endValue) {
-                        //   // ucallback providing an ending value (when a pan gesture ends)
-                        // },
-                      ),
+                      // Now using value instead of InitialValue
+                      value: controller.sleekCircularSliderPosition.value,
+                      onChange: (value) {
+                        if (value < 0) {
+                          return;
+                        } else {
+                          audioPlayer.seek(Duration(seconds: value.toInt()));
+                        }
+
+                        // callback providing a value while its being changed (with a pan gesture)
+                      },
+                      // onChangeStart: (double startValue) {
+                      //   // callback providing a starting value (when a pan gesture starts)
+                      // },
+                      // onChangeEnd: (double endValue) {
+                      //   // callback providing an ending value (when a pan gesture ends)
+                      // },
                     ),
                   ),
                 ),
+                // ),
               ],
             ),
             const SizedBox(
@@ -127,7 +135,7 @@ class MainPlayerView extends StatelessWidget {
             ),
             Obx(
               () => Text(
-                "${formatDuration(controller.currentSongDurationPostion.value)} | ${formatDuration(controller.currentSongTotalDuration.value)}",
+                "${formatDuration(controller.currentSongDurationPosition.value)} | ${formatDuration(controller.currentSongTotalDuration.value)}",
                 style: TextStyle(color: TColor.secondaryText, fontSize: 15),
               ),
             ),
@@ -304,7 +312,7 @@ class MainPlayerView extends StatelessWidget {
                                   repeatMode();
                                 },
                                 icon: Image.asset(
-                                  controller.currentLoopModeIcone.value,
+                                  controller.currentLoopModeIcon.value,
                                   width: 30,
                                   height: 30,
                                   color: TColor.primaryText80,

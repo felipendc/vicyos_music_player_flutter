@@ -1,15 +1,16 @@
 import 'dart:io';
+
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
+// import 'package:flutter_media_metadata/flutter_media_metadata.dart'; ERROR
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:vicyos_music_player/app/functions/music_player.dart';
-import 'package:vicyos_music_player/app/models/audio.info.dart';
-import 'package:vicyos_music_player/app/models/folder.sources.dart';
-import 'package:volume_controller/volume_controller.dart';
 import 'package:path/path.dart' as path;
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 class HomeController extends GetxController {
   RxList<FolderSources> musicFolderPaths = <FolderSources>[].obs;
@@ -25,7 +26,7 @@ class HomeController extends GetxController {
   final RxString currentSongAlbumName = 'Unknown Album'.obs;
   final RxBool isFirstArtDemoCover = true.obs;
   //
-  final Rx<Duration> currentSongDurationPostion = Duration.zero.obs;
+  final Rx<Duration> currentSongDurationPosition = Duration.zero.obs;
   final Rx<Duration> currentSongTotalDuration = Duration.zero.obs;
   //
   final RxBool songIsPlaying = false.obs;
@@ -41,7 +42,7 @@ class HomeController extends GetxController {
   final Rx<Duration> currentPosition = Duration.zero.obs;
   final Rx<LoopMode> currentLoopMode = LoopMode.all.obs;
   final RxString currentLoopModeLabel = 'Repeat: All'.obs;
-  final RxString currentLoopModeIcone = 'assets/img/repeat_all.png'.obs;
+  final RxString currentLoopModeIcon = 'assets/img/repeat_all.png'.obs;
   final Rx<Duration> songTotalDuration = Duration.zero.obs;
   //
   final RxDouble sleekCircularSliderPosition = 0.0.obs;
@@ -63,7 +64,7 @@ class HomeController extends GetxController {
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.all);
     playlist = ConcatenatingAudioSource(
-      useLazyPreparation: false,
+      useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
       children: audioSources,
     );
@@ -74,11 +75,11 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    VolumeController().removeListener();
+    VolumeController.instance.removeListener();
     super.dispose();
   }
 
-  Future<void> setFolderAsPlaylist(currentFolder, currenIndex) async {
+  Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
     // controller.folderSongList.clear();
     stopSong();
     await playlist.clear();
@@ -88,25 +89,25 @@ class HomeController extends GetxController {
       String fileNameWithoutExtension =
           path.basenameWithoutExtension(filePath.path);
       String filePathAsId = audioFile.absolute.path;
-      Metadata? metadata;
+      // Metadata? metadata;
 
-      try {
-        metadata = await MetadataRetriever.fromFile(audioFile);
-      } catch (e) {
-        print('Failed to extract metadata: $e');
-      }
+      // try {
+      //   metadata = await MetadataRetriever.fromFile(audioFile);
+      // } catch (e) {
+      //   print('Failed to extract metadata: $e');
+      // }
 
       final mediaItem = MediaItem(
         id: filePathAsId,
-        album: metadata?.albumName ?? 'Unknown Album',
+        // album: metadata?.albumName ?? 'Unknown Album',
 
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
-        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        // artist: metadata?.albumArtistName ?? 'Unknown Artist',
         artUri: Uri.file(defaultalbumArt.path),
       );
 
-      playlist.add(
+      await playlist.add(
         AudioSource.uri(
           Uri.file(filePath.path),
           tag: mediaItem,
@@ -116,7 +117,7 @@ class HomeController extends GetxController {
     }
 
     audioPlayer.setAudioSource(playlist,
-        initialIndex: currenIndex, preload: false);
+        initialIndex: currentIndex, preload: false);
     playlistIsEmpty.value = false;
     firstSongIndex.value = true;
     preLoadSongName();
@@ -131,25 +132,25 @@ class HomeController extends GetxController {
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(filePath.path);
         String filePathAsId = audioFile.absolute.path;
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: filePathAsId,
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 
-        playlist.add(
+        await playlist.add(
           AudioSource.uri(
             Uri.file(filePath.path),
             tag: mediaItem,
@@ -171,25 +172,25 @@ class HomeController extends GetxController {
         String fileNameWithoutExtension =
             path.basenameWithoutExtension(filePath.path);
         String filePathAsId = audioFile.absolute.path;
-        Metadata? metadata;
+        // Metadata? metadata;
 
-        try {
-          metadata = await MetadataRetriever.fromFile(audioFile);
-        } catch (e) {
-          print('Failed to extract metadata: $e');
-        }
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   print('Failed to extract metadata: $e');
+        // }
 
         final mediaItem = MediaItem(
           id: filePathAsId,
-          album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? 'Unknown Album',
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
           artUri: Uri.file(defaultalbumArt.path),
         );
 
-        playlist.add(
+        await playlist.add(
           AudioSource.uri(
             Uri.file(filePath.path),
             tag: mediaItem,
@@ -207,25 +208,25 @@ class HomeController extends GetxController {
       File audioFile = File(songPath);
       String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
       String filePathAsId = audioFile.absolute.path;
-      Metadata? metadata;
+      // Metadata? metadata;
 
-      try {
-        metadata = await MetadataRetriever.fromFile(audioFile);
-      } catch (e) {
-        print('Failed to extract metadata: $e');
-      }
+      // try {
+      //   metadata = await MetadataRetriever.fromFile(audioFile);
+      // } catch (e) {
+      //   print('Failed to extract metadata: $e');
+      // }
 
       final mediaItem = MediaItem(
         id: filePathAsId,
-        album: metadata?.albumName ?? 'Unknown Album',
+        // album: metadata?.albumName ?? 'Unknown Album',
 
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
-        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        // artist: metadata?.albumArtistName ?? 'Unknown Artist',
         artUri: Uri.file(defaultalbumArt.path),
       );
 
-      playlist.add(
+      await playlist.add(
         AudioSource.uri(
           Uri.file(songPath),
           tag: mediaItem,
@@ -244,25 +245,25 @@ class HomeController extends GetxController {
       File audioFile = File(songPath);
       String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
       String filePathAsId = audioFile.absolute.path;
-      Metadata? metadata;
+      // Metadata? metadata;
 
-      try {
-        metadata = await MetadataRetriever.fromFile(audioFile);
-      } catch (e) {
-        print('Failed to extract metadata: $e');
-      }
+      // try {
+      //   metadata = await MetadataRetriever.fromFile(audioFile);
+      // } catch (e) {
+      //   print('Failed to extract metadata: $e');
+      // }
 
       final mediaItem = MediaItem(
         id: filePathAsId,
-        album: metadata?.albumName ?? 'Unknown Album',
+        // album: metadata?.albumName ?? 'Unknown Album',
 
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
-        artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        // artist: metadata?.albumArtistName ?? 'Unknown Artist',
         artUri: Uri.file(defaultalbumArt.path),
       );
 
-      playlist.add(
+      await playlist.add(
         AudioSource.uri(
           Uri.file(songPath),
           tag: mediaItem,
