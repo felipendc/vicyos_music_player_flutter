@@ -172,7 +172,7 @@ class BottomPlayer extends StatelessWidget {
                                                 currentSongName,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.center,
+                                                textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                     color: TColor.primaryText
                                                         .withOpacity(0.9),
