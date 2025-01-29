@@ -100,7 +100,7 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                           height: 35,
                           color: TColor.focus,
                         ),
-                        title: (index == 6)
+                        title: (speedRates[index] == "1.0")
                             ? Text("${speedRates[index]}  -  Default",
                                 style: TextStyle(
                                   color: TColor.primaryText80,
@@ -115,7 +115,18 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                               ),
                         onTap: () {
                           audioPlayer.setSpeed(speedRatestoDouble[index]);
+                          setState(() {});
                         },
+                        trailing:
+                            (audioPlayer.speed == speedRatestoDouble[index])
+                                ? Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Icon(
+                                      Icons.check,
+                                      color: TColor.green,
+                                    ),
+                                  )
+                                : null,
                       ),
                     );
                   },

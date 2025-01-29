@@ -11,6 +11,7 @@ class TColor {
   static Color get secondaryEnd => const Color(0xff657DDF);
 
   static Color get org => const Color(0xffE1914B);
+  static Color get green => const Color(0xff4BE04B);
 
   static Color get primaryText => const Color(0xffFFFFFF);
   static Color get primaryText80 => const Color(0xffFFFFFF).withOpacity(0.8);
