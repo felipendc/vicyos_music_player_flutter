@@ -161,7 +161,7 @@ void setVolumeJustAudio(value) {
 Future<void> defaultAlbumArt() async {
   // Load the image asset as a Uri
   final ByteData imageData =
-      await rootBundle.load('assets/img/lofi-woman-album-cover-art_10.png');
+      await rootBundle.load('assets/img/lofi-woman-album-cover-art_11.png');
   final Uint8List bytes = imageData.buffer.asUint8List();
 
   // Save the image to a temporary directory
