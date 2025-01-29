@@ -181,9 +181,9 @@ class MainPlayerView extends StatelessWidget {
             ),
             Obx(
               () => Padding(
-                padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                 child: Text(
-                  controller.currentSongAlbumName.value,
+                  controller.currentFolderPath.value,
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

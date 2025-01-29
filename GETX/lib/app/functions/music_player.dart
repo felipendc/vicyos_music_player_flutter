@@ -59,7 +59,7 @@ void setVolumeJustAudio(value) {
 
 // This func should be used on a flutter.initState or GetX.onInit();
 void playerEventStateStreamListener() {
-  // I will need to use another state listener otherthan!
+  // I will need to use another state listener other than!
   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
     controller.currentSongDurationPosition.value = position;
@@ -98,6 +98,45 @@ void playerEventStateStreamListener() {
   audioPlayer.playbackEventStream.listen((event) {
     controller.currentIndex.value = event.currentIndex!;
   });
+
+  audioPlayer.sequenceStateStream.listen((sequenceState) {
+    final currentSource = sequenceState?.currentSource;
+    if (currentSource is UriAudioSource) {
+      controller.currentFolderPath.value =
+          getCurrentSongFolder(currentSource.uri.toString());
+
+      //   print(
+      //       'Música atual CORTADA: ${getCurrentSongFolder(currentSource.uri.toString())}');
+      //   print('Música atual: ${currentSource.uri}');
+    }
+  });
+}
+
+String getCurrentSongFolder(String songPath) {
+// ------ Get  current folder -----
+  // Decode special characters like %20
+  String decodedPath = Uri.decodeFull(songPath);
+
+  // Get the part before the last "/" (directory path)
+  String folderPath = decodedPath.substring(0, decodedPath.lastIndexOf('/'));
+
+  // Extract the last folder name
+  return folderPath.substring(folderPath.lastIndexOf('/') + 1).toUpperCase();
+// ----------------------------------
+
+// ------ Get full folder path -----
+//   // Decode special characters like %20
+//   String decodedPath = Uri.decodeFull(songPath);
+//
+//   // Remove the "/storage/emulated/X/" part from the path
+//   String relativePath = decodedPath.replaceFirst(RegExp(r'^file:///storage/emulated/[^/]+/'), '');
+//
+//   // Get the part before the last "/"
+//   String folderPath = relativePath.substring(0, relativePath.lastIndexOf('/'));
+//
+//   // Replace "/" with " > "
+//   return folderPath.replaceAll("/", " > ");
+// ---------------------------------
 }
 
 // This function will update the display the song title one the audio or folder is imported
@@ -138,6 +177,8 @@ Future<void> cleanPlaylist() async {
   controller.currentSongAlbumName.value = "Unknown Album";
   // print('CLEAN LIST!!! IS SONG PLAYING? ${controller.songIsPlaying.value}');
   // }
+  controller.currentFolderPath.value =
+      'The song folder will be displayed here...';
 }
 
 void playOrPause() {

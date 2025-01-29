@@ -15,6 +15,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+String currentFolderPath = 'The song folder will be displayed here...';
 int playlistLengths = 0;
 bool isFirstArtDemoCover = true;
 String currentLoopModeIcone = 'assets/img/repeat_all.png';
@@ -49,6 +50,9 @@ List<AudioSource> audioSources = <AudioSource>[];
 late ConcatenatingAudioSource playlist;
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
+
+StreamController<String> getCurrentSongFolderStreamController =
+    StreamController<String>.broadcast();
 
 StreamController<int> playlistLenghtStreamController =
     StreamController<int>.broadcast();
@@ -108,6 +112,10 @@ void albumArtStreamControllerStreamListener(value) {
   albumArtStreamController.sink.add(value);
 }
 
+void getCurrentSongFolderStreamControllerListener(value) {
+  getCurrentSongFolderStreamController.sink.add(value);
+}
+
 Future<void> onInitPlayer() async {
   initVolumeControl();
   // Inform the operating system of our app's audio attributes etc.
@@ -164,7 +172,7 @@ Future<void> defaultAlbumArt() async {
 
 // This func should be used on a flutter.initState or GetX.onInit();
 void playerEventStateStreamListener() {
-  // I will need to use another state listener otherthan!
+  // I will need to use another state listener other than!
   // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
     currentSongDurationPostion = position;
@@ -220,9 +228,47 @@ void preLoadSongName() {
     currentSongArtistName = currentMediaItem.artist!;
     currentSongAlbumStreamListener(
         currentSongAlbumName = currentMediaItem.album!);
-
     currentIndex = index;
   });
+
+  audioPlayer.sequenceStateStream.listen((sequenceState) {
+    final currentSource = sequenceState?.currentSource;
+    if (currentSource is UriAudioSource) {
+      getCurrentSongFolderStreamControllerListener(currentFolderPath =
+          getCurrentSongFolder(currentSource.uri.toString()));
+
+      //   print(
+      //       'Música atual CORTADA: ${getCurrentSongFolder(currentSource.uri.toString())}');
+      //   print('Música atual: ${currentSource.uri}');
+    }
+  });
+}
+
+String getCurrentSongFolder(String songPath) {
+// ------ Get  current folder -----
+  // Decode special characters like %20
+  String decodedPath = Uri.decodeFull(songPath);
+
+  // Get the part before the last "/" (directory path)
+  String folderPath = decodedPath.substring(0, decodedPath.lastIndexOf('/'));
+
+  // Extract the last folder name
+  return folderPath.substring(folderPath.lastIndexOf('/') + 1).toUpperCase();
+// ----------------------------------
+
+// ------ Get full folder path -----
+//   // Decode special characters like %20
+//   String decodedPath = Uri.decodeFull(songPath);
+//
+//   // Remove the "/storage/emulated/X/" part from the path
+//   String relativePath = decodedPath.replaceFirst(RegExp(r'^file:///storage/emulated/[^/]+/'), '');
+//
+//   // Get the part before the last "/"
+//   String folderPath = relativePath.substring(0, relativePath.lastIndexOf('/'));
+//
+//   // Replace "/" with " > "
+//   return folderPath.replaceAll("/", " > ");
+// ---------------------------------
 }
 
 // Format song duration.
@@ -257,6 +303,9 @@ Future<void> cleanPlaylist() async {
   currentSongAlbumStreamListener(currentSongAlbumName = "Unknown Album");
   // print('CLEAN LIST!!! IS SONG PLAYING? ${songIsPlaying}');
   // }
+
+  getCurrentSongFolderStreamControllerListener(
+      currentFolderPath = 'The song folder will be displayed here...');
 }
 
 void playOrPause() {

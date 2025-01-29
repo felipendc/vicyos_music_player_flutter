@@ -253,9 +253,9 @@ class MainPlayerView extends StatelessWidget {
                             height: 10,
                           ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                            padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                             child: Text(
-                              currentSongAlbumName,
+                              currentFolderPath,
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

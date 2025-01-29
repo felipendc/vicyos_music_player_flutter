@@ -13,6 +13,8 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 class HomeController extends GetxController {
+  final RxString currentFolderPath =
+      'The song folder will be displayed here...'.obs;
   RxList<FolderSources> musicFolderPaths = <FolderSources>[].obs;
   RxList<AudioInfo> folderSongList = <AudioInfo>[].obs;
   var volumeSliderValue = 50.0.obs;
