@@ -138,7 +138,7 @@ class BottomPlayer extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
                                     onTap: () {
@@ -159,17 +159,18 @@ class BottomPlayer extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: media.width * 0.30,
-                                    // color: Colors.amber,
-                                    child: Text(
-                                      controller.currentSongAlbumName.value,
-                                      maxLines: 1,
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: TColor.secondaryText,
-                                        fontSize: 14,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SizedBox(
+                                      width: media.width * 0.30,
+                                      // color: Colors.amber,
+                                      child: Obx(
+                                        () => Text(
+                                          "${controller.audioSources.isEmpty ? controller.currentIndex.value : controller.currentIndex.value == controller.audioSources.length ? controller.currentIndex.value : controller.currentIndex.value + 1} of ${controller.playlistLength.value}",
+                                          style: TextStyle(
+                                              color: TColor.secondaryText,
+                                              fontSize: 15),
+                                        ),
                                       ),
                                     ),
                                   ),

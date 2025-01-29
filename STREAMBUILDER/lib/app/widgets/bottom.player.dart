@@ -146,7 +146,7 @@ class BottomPlayer extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GestureDetector(
                                   onTap: () {
@@ -163,6 +163,8 @@ class BottomPlayer extends StatelessWidget {
                                           .stream,
                                       builder: (context, snapshot) {
                                         return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: media.width * 0.35,
@@ -179,17 +181,67 @@ class BottomPlayer extends StatelessWidget {
                                                         FontWeight.w600),
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: media.width * 0.30,
-                                              // color: Colors.amber,
-                                              child: Text(
-                                                currentSongAlbumName,
-                                                maxLines: 1,
-                                                textAlign: TextAlign.center,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: TColor.secondaryText,
-                                                  fontSize: 14,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3.0),
+                                              child: SizedBox(
+                                                width: media.width * 0.30,
+                                                // color: Colors.amber,
+                                                child: Row(
+                                                  children: [
+                                                    StreamBuilder<
+                                                            PlaybackEvent>(
+                                                        stream: audioPlayer
+                                                            .playbackEventStream,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Check if snapshot has data
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                                  color: TColor
+                                                                      .secondaryText,
+                                                                  fontSize: 15),
+                                                            );
+                                                          }
+                                                          final eventState =
+                                                              snapshot.data!;
+                                                          final index =
+                                                              eventState
+                                                                  .currentIndex;
+                                                          final playerState =
+                                                              audioPlayer
+                                                                  .processingState;
+
+                                                          return Text(
+                                                            (playerState ==
+                                                                    ProcessingState
+                                                                        .idle)
+                                                                ? '0'
+                                                                : "${index! + 1}",
+                                                            style: TextStyle(
+                                                                color: TColor
+                                                                    .secondaryText,
+                                                                fontSize: 15),
+                                                          );
+                                                        }),
+                                                    StreamBuilder<int>(
+                                                        stream:
+                                                            playlistLenghtStreamController
+                                                                .stream,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return Text(
+                                                            " of $playlistLengths",
+                                                            style: TextStyle(
+                                                                color: TColor
+                                                                    .secondaryText,
+                                                                fontSize: 15),
+                                                          );
+                                                        }),
+                                                  ],
                                                 ),
                                               ),
                                             ),
