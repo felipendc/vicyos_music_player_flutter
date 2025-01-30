@@ -64,6 +64,9 @@ double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 //
 
+StreamController<void> miniPlayerStreamController =
+    StreamController<void>.broadcast();
+
 StreamController<String> getCurrentSongFolderStreamController =
     StreamController<String>.broadcast();
 
@@ -93,6 +96,10 @@ StreamController<double> systemVolumeStreamController =
 
 StreamController<bool> albumArtStreamController =
     StreamController<bool>.broadcast();
+
+void miniPlayerStreamControllerListener() {
+  miniPlayerStreamController.sink;
+}
 
 void listPlaylistFolderStreamListener() {
   listPlaylistFolderStreamController.sink
