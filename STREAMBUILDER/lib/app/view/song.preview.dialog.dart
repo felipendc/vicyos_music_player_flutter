@@ -29,6 +29,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
 
   @override
   void dispose() {
+    miniPlayerStreamControllerListener();
     audioPlayerPreview.stop();
     playlistPreview.clear();
     if (audioPlayerWasPlaying) {

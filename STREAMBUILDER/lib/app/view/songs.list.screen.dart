@@ -155,10 +155,14 @@ class SongsListScreen extends StatelessWidget {
                   }),
             ],
           ),
-          const Positioned(
+          Positioned(
             bottom: 6,
             right: 11,
-            child: BottomPlayer(),
+            child: StreamBuilder<Object>(
+                stream: null,
+                builder: (context, snapshot) {
+                  return BottomPlayer();
+                }),
           ),
         ],
       ),
