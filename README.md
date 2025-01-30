@@ -89,7 +89,7 @@ Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
 
 This project uses the following dependencies:
 
-- `just_audio: 0.9.42` - A powerful audio player for Flutter applications.
+- `just_audio: 0.9.44` - A powerful audio player for Flutter applications.
 - `audio_session: 0.1.23` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
 - `just_audio_background: 0.0.1-beta.14` An add-on for just_audio that supports background playback and media notifications
 - `audio_service: 0.18.15` Flutter plugin to play audio in the background while the screen is off
@@ -99,8 +99,8 @@ This project uses the following dependencies:
 <!-- - `media_info: 0.12.0+2` Platform services exposed to Flutter apps. -->
 - `sleek_circular_slider: 2.0.1` A highly customizable circular slider/progress bar & spinner for Flutter.
 <!-- - `flutter_media_metadata: 1.0.0+1` A Flutter plugin to read metadata of media files. -->
-- `volume_controller: 3.1.0` A Flutter volume plugin for ios and android control system volume.
-- `file_picker: 8.0.6` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
+- `volume_controller: 3.2.0` A Flutter volume plugin for ios and android control system volume.
+- `file_picker: 8.3.1` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
 - `permission_handler: 11.3.1` - Handles runtime permissions for accessing device features.
 - `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
