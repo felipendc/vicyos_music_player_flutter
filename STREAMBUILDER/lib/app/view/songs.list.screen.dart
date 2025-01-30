@@ -160,8 +160,6 @@ class SongsListScreen extends StatelessWidget {
             right: 11,
             child: StreamBuilder<void>(
                 stream: miniPlayerStreamController.stream,
-            child: StreamBuilder<Object>(
-                stream: null,
                 builder: (context, snapshot) {
                   return BottomPlayer();
                 }),
