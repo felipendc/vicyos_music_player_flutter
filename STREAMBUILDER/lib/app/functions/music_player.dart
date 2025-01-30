@@ -16,6 +16,7 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 String currentFolderPath = 'The song folder will be displayed here...';
+String currentSongFullPath = '';
 int playlistLengths = 0;
 bool isFirstArtDemoCover = true;
 String currentLoopModeIcone = 'assets/img/repeat_all.png';
@@ -52,6 +53,9 @@ late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 
 StreamController<String> getCurrentSongFolderStreamController =
+    StreamController<String>.broadcast();
+
+StreamController<String> getCurrentSongFullPathStreamController =
     StreamController<String>.broadcast();
 
 StreamController<int> playlistLenghtStreamController =
@@ -116,6 +120,10 @@ void getCurrentSongFolderStreamControllerListener(value) {
   getCurrentSongFolderStreamController.sink.add(value);
 }
 
+void getCurrentSongFullPathStreamControllerListener(value) {
+  getCurrentSongFullPathStreamController.sink.add(value);
+}
+
 Future<void> onInitPlayer() async {
   initVolumeControl();
   // Inform the operating system of our app's audio attributes etc.
@@ -132,6 +140,24 @@ Future<void> onInitPlayer() async {
   );
   playerEventStateStreamListener();
   await defaultAlbumArt();
+
+  audioPlayer.sequenceStateStream.listen((sequenceState) {
+    final currentSource = sequenceState?.currentSource;
+    if (currentSource is UriAudioSource) {
+      getCurrentSongFolderStreamControllerListener(currentFolderPath =
+          getCurrentSongFolder(currentSource.uri.toString()));
+
+      getCurrentSongFullPathStreamControllerListener(currentSongFullPath =
+          getCurrentSongFullPath(currentSource.uri.toString()));
+
+      print(
+          "FUUUULL PATH dir: ${getCurrentSongFullPath(currentSource.uri.toString())}");
+
+      //   print(
+      //       'Música atual CORTADA: ${getCurrentSongFolder(currentSource.uri.toString())}');
+      //   print('Música atual: ${currentSource.uri}');
+    }
+  });
 }
 
 void initVolumeControl() async {
@@ -230,22 +256,53 @@ void preLoadSongName() {
         currentSongAlbumName = currentMediaItem.album!);
     currentIndex = index;
   });
+}
 
-  audioPlayer.sequenceStateStream.listen((sequenceState) {
-    final currentSource = sequenceState?.currentSource;
-    if (currentSource is UriAudioSource) {
-      getCurrentSongFolderStreamControllerListener(currentFolderPath =
-          getCurrentSongFolder(currentSource.uri.toString()));
+String getCurrentSongFullPath(String songPath) {
+  // Try to correctly interpret the path
+  Uri uri = Uri.parse(songPath);
+  songPath = uri.toString();
 
-      //   print(
-      //       'Música atual CORTADA: ${getCurrentSongFolder(currentSource.uri.toString())}');
-      //   print('Música atual: ${currentSource.uri}');
-    }
-  });
+  // Decode special characters like %20
+  String decodedPath = Uri.decodeFull(songPath);
+
+  // Check if the string starts with "file:///" and remove it
+  if (decodedPath.startsWith("file:///")) {
+    return decodedPath.substring(7);
+  }
+
+  return decodedPath;
+}
+
+String getCurrentSongParentFolder(String songPath) {
+  // Try to correctly interpret the path
+  Uri uri = Uri.parse(songPath);
+  songPath = uri.toString();
+
+  // Decode special characters like %20
+  String decodedPath = Uri.decodeFull(songPath);
+
+  // Remove "file:///" if present
+  if (decodedPath.startsWith("file:///")) {
+    decodedPath = decodedPath.substring(7);
+  }
+
+  // Find the last slash and get only the folder path
+  int lastSlashIndex = decodedPath.lastIndexOf("/");
+  if (lastSlashIndex != -1) {
+    return decodedPath.substring(
+        0, lastSlashIndex); // Keep everything before the last slash
+  }
+
+  return decodedPath; // Return original if no slash is found
 }
 
 String getCurrentSongFolder(String songPath) {
 // ------ Get  current folder -----
+  // Try to correctly interpret the path
+  Uri uri = Uri.parse(songPath);
+  songPath = uri.toString();
+
   // Decode special characters like %20
   String decodedPath = Uri.decodeFull(songPath);
 
@@ -257,6 +314,10 @@ String getCurrentSongFolder(String songPath) {
 // ----------------------------------
 
 // ------ Get full folder path -----
+//   Try to correctly interpret the path
+//   Uri uri = Uri.parse(songPath);
+//   songPath = uri.toString();
+//
 //   // Decode special characters like %20
 //   String decodedPath = Uri.decodeFull(songPath);
 //
