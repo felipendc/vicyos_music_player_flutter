@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await JustAudioBackground.init(
   //   androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-  //   androidNotificationChannelName: 'Audio playback',
+  //   androidNotificationChannelName: 'Vicyos Muzic',
   //   androidNotificationOngoing: true,
   // );
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vicyos Music Player',
+      title: 'Vicyos Music',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Circular Std",

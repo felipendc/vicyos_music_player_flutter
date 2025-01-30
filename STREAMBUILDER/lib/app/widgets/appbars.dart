@@ -107,7 +107,7 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "Vicyos Music Player",
+      "Vicyos Music",
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(

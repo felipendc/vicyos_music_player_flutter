@@ -50,7 +50,12 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_native_splash: ^2.4.1
   uuid: ^4.4.2
+  flutter_launcher_icons: ^0.14.3
 
+flutter_icons:
+  android: true
+  image_path: "assets/img/vicyos_logos/vicyos_music_icon_only.png"
+  #  flutter pub run flutter_launcher_icons
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -111,6 +116,10 @@ flutter:
     # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_native_splash:
+  # dart flutter_native_splash:remove
   # dart run flutter_native_splash:create
+
   color: "#181B2C"
-  image: assets/img/app_logo.png
+  image: assets/img/vicyos_logos/vicyos_music_icon_lable_transparent.png
+  android: true
+  android_gravity: center
