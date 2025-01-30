@@ -71,20 +71,19 @@ These instructions will help you get a copy of this project up and running on yo
 
 Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git` <br />
 Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
-Choose the one you want "GetX" or "StreamBuilder" UI state management. <br />
+<!-- Choose the one you want "GetX" or "StreamBuilder" UI state management. <br /> -->
 
-### Installing
+### Installing or Compiling
 
 0. Open VS Code Editor
 1. Run `flutter clean` to make a clean build and avoid potential build errors.
 2. Run `flutter pub get` to install the required dependencies.
 3. Connect your device to the PC or start an emulator.
-4. Run `flutter run` to launch the app.
-5. Or build the App APK: `flutter clean; flutter pub get; flutter build apk --split-per-abi`
-6. Or build the App APK: `flutter clean; flutter pub get; flutter build apk`
-7. or Just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
-8. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
-9. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
+4. Run `flutter run` to launch the app as Debug Mode.
+5. Or better yet! Build the App APK: `flutter clean; flutter pub get; flutter build apk --release`
+6. or Just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
+7. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
+8. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
 
 ### Dependencies
 
@@ -105,7 +104,7 @@ This project uses the following dependencies:
 - `permission_handler: 11.3.1` - Handles runtime permissions for accessing device features.
 - `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
-- `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX.
+<!-- - `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX. -->
 - `uuid: 4.4.2` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
 
 
