@@ -532,6 +532,7 @@ class MainPlayerView extends StatelessWidget {
                           onPressed: () {
                             if (playlist.children.isNotEmpty) {
                               audioPlayer.play();
+                              audioPlayerPreview.stop();
                             }
                           },
                           icon: Image.asset(

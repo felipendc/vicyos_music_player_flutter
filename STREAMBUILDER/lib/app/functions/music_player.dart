@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
-import 'package:audio_session/audio_session.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,9 +47,22 @@ LoopMode currentLoopMode = LoopMode.all;
 String currentLoopModeLabel = 'Repeat: All';
 Duration songTotalDuration = Duration.zero;
 List<AudioSource> audioSources = <AudioSource>[];
+
 late ConcatenatingAudioSource playlist;
 late AudioPlayer audioPlayer;
+
 late final MediaItem mediaItem;
+
+// Player for Preview
+late AudioPlayer audioPlayerPreview;
+late ConcatenatingAudioSource playlistPreview;
+List<AudioSource> audioSourcesPreview = <AudioSource>[];
+
+Duration currentSongDurationPositionPreview = Duration.zero;
+Duration currentSongTotalDurationPreview = Duration.zero;
+double sleekCircularSliderPositionPreview = 0.0;
+double sleekCircularSliderDurationPreview = 100.0;
+//
 
 StreamController<String> getCurrentSongFolderStreamController =
     StreamController<String>.broadcast();
@@ -128,8 +140,16 @@ Future<void> onInitPlayer() async {
   initVolumeControl();
   // Inform the operating system of our app's audio attributes etc.
   // We pick a reasonable default for an app that plays speech.
-  final session = await AudioSession.instance;
-  await session.configure(const AudioSessionConfiguration.music());
+  // final session = await AudioSession.instance;
+  // await session.configure(const AudioSessionConfiguration.music());
+
+  // Player for previewing the songs.
+  audioPlayerPreview = AudioPlayer();
+  audioPlayerPreview.setLoopMode(LoopMode.off);
+  playlistPreview = ConcatenatingAudioSource(
+    useLazyPreparation: true,
+    children: audioSourcesPreview,
+  );
 
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
@@ -139,6 +159,7 @@ Future<void> onInitPlayer() async {
     children: audioSources,
   );
   playerEventStateStreamListener();
+  playerPreviewEventStateStreamListener();
   await defaultAlbumArt();
 
   audioPlayer.sequenceStateStream.listen((sequenceState) {
@@ -194,6 +215,31 @@ Future<void> defaultAlbumArt() async {
   final tempDir = await getTemporaryDirectory();
   defaultalbumArt =
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
+}
+
+// This func should be used on a flutter.initState or GetX.onInit();
+void playerPreviewEventStateStreamListener() {
+  audioPlayerPreview.positionStream.listen((position) {
+    currentSongDurationPositionPreview = position;
+    sleekCircularSliderPositionPreview = position.inSeconds.toDouble();
+  });
+
+  // Get the duration and the full duration of the song for the sleekCircularSlider
+  audioPlayerPreview.durationStream.listen((duration) {
+    currentSongTotalDurationPreview = duration ?? Duration.zero;
+    sleekCircularSliderDurationPreview =
+        duration?.inSeconds.toDouble() ?? 100.0;
+  });
+  audioPlayerPreview.playerStateStream.listen((playerState) {
+    if (playerState.processingState == ProcessingState.completed &&
+        audioPlayerPreview.loopMode == LoopMode.off) {
+      audioPlayerPreview.setAudioSource(
+          preload: true,
+          playlistPreview,
+          initialIndex: audioPlayerPreview.currentIndex);
+      audioPlayerPreview.pause();
+    }
+  });
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
@@ -438,13 +484,15 @@ Future<void> previousSong() async {
 }
 
 void forward() {
-  audioPlayer.seek(audioPlayer.position + const Duration(seconds: 5));
+  audioPlayer.position + Duration(seconds: 5) > audioPlayer.duration!
+      ? audioPlayer.seek(audioPlayer.duration)
+      : audioPlayer.seek(audioPlayer.position + const Duration(seconds: 5));
 }
 
 void rewind() {
-  audioPlayer.position > const Duration(seconds: 5)
-      ? audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5))
-      : audioPlayer.seek(Duration.zero);
+  audioPlayer.position - Duration(seconds: 5) < Duration.zero
+      ? audioPlayer.seek(Duration.zero)
+      : audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
 }
 
 void repeatMode() {
@@ -829,8 +877,6 @@ Future<void> addSongToPlaylist(songPath) async {
       ),
     );
 
-    playlistLenghtStreamListener();
-
     audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
     playlistIsEmpty = false;
     firstSongIndex = true;
@@ -868,4 +914,39 @@ Future<void> addSongToPlaylist(songPath) async {
 
     playlistIsEmpty = false;
   }
+}
+
+Future<void> previewSong(songPath) async {
+  playlistPreview.clear();
+
+  // File audioFile = File(songPath);
+  String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+  // String filePathAsId = audioFile.absolute.path;
+  // Metadata? metadata;
+
+  // try {
+  //   metadata = await MetadataRetriever.fromFile(audioFile);
+  // } catch (e) {
+  //   print('Failed to extract metadata: $e');
+  // }
+
+  final mediaItem = MediaItem(
+    id: const Uuid().v4(),
+    // album: metadata?.albumName ?? 'Unknown Album',
+
+    // Using the name of the file as the title by default
+    title: fileNameWithoutExtension,
+    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    artUri: Uri.file(defaultalbumArt.path),
+  );
+
+  playlistPreview.add(
+    AudioSource.uri(
+      Uri.file(songPath),
+      tag: mediaItem,
+    ),
+  );
+
+  audioPlayerPreview.setAudioSource(playlistPreview,
+      initialIndex: 0, preload: true);
 }
