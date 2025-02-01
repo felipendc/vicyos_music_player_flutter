@@ -9,6 +9,7 @@ import 'package:vicyos_music/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:volume_controller/volume_controller.dart';
+import 'package:wave_progress_widget/wave_progress.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -60,6 +61,16 @@ class MainPlayerView extends StatelessWidget {
                         );
                       }),
                 ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(media.width * 0.7),
+                  child: WaveProgress(
+                    size: 235.0,
+                    borderColor: Colors.transparent,
+                    fillColor: Colors.blueAccent,
+                    progress: 9.0,
+                  ),
+                ),
+
                 // GestureDetector(
                 //   onTapCancel: () {
                 //     print(isFirstArtDemoCover);

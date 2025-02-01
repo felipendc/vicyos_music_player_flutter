@@ -4,6 +4,7 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:wave_progress_widget/wave_progress.dart';
 
 late bool audioPlayerWasPlaying;
 
@@ -82,6 +83,15 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                           fit: BoxFit.cover,
                         );
                       }),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(media.width * 0.5),
+                  child: WaveProgress(
+                    size: 163.9,
+                    borderColor: Colors.transparent,
+                    fillColor: Colors.blueAccent,
+                    progress: 9.0,
+                  ),
                 ),
                 // GestureDetector(
                 //   onTapCancel: () {

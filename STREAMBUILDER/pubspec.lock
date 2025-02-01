@@ -525,8 +525,8 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "5c2a2288bf0b25786d6b607ff6985f6e4c977172"
-      url: "https://github.com/felipendc/stateless_sleek_circular_slider.git"
+      resolved-ref: "22584a57cf9a0f64d90b646f5a73d48e4cf936e9"
+      url: "https://github.com/felipendc/vicyos_music_stateless_sleek_circular_slider_flutter.git"
     source: git
     version: "2.0.1"
   source_span:
@@ -649,6 +649,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  wave_progress_widget:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "1fc8c83e7e2e032925ef00633483f85f77119cb9"
+      url: "https://github.com/felipendc/vicyos_music_wave_progress_flutter.git"
+    source: git
+    version: "0.0.1"
   web:
     dependency: transitive
     description:

@@ -135,7 +135,7 @@ class BottomPlayer extends StatelessWidget {
                                           //   // callback providing a starting value (when a pan gesture starts)
                                           // },
                                           // onChangeEnd: (double endValue) {
-                                          //   // ucallback providing an ending value (when a pan gesture ends)
+                                          //   // callback providing an ending value (when a pan gesture ends)
                                           // },
                                         ),
                                       );

@@ -31,10 +31,17 @@ dependencies:
   flutter:
     sdk: flutter
 
+
   sleek_circular_slider:
     git:
-      url: https://github.com/felipendc/stateless_sleek_circular_slider.git
+      url: https://github.com/felipendc/vicyos_music_stateless_sleek_circular_slider_flutter.git
       ref: master
+
+  wave_progress_widget:
+    git:
+      url: https://github.com/felipendc/vicyos_music_wave_progress_flutter.git
+      ref: master
+
   audioplayers: ^6.1.1
   just_audio: ^0.9.44
   audio_session: ^0.1.23
@@ -51,6 +58,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   uuid: ^4.4.2
   flutter_launcher_icons: ^0.14.3
+
 
 flutter_icons:
   android: true
