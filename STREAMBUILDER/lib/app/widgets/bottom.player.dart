@@ -209,7 +209,7 @@ class BottomPlayer extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 3.0),
+                                                  left: 0.0),
                                               child: SizedBox(
                                                 width: media.width * 0.30,
                                                 // color: Colors.amber,
