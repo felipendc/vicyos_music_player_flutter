@@ -240,7 +240,7 @@ class MainPlayerView extends StatelessWidget {
             ),
 
             const SizedBox(
-              height: 17,
+              height: 15,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
@@ -261,7 +261,10 @@ class MainPlayerView extends StatelessWidget {
                           //       fontSize: 19,
                           //       fontWeight: FontWeight.w600),
                           // ),
-                          Expanded(
+                          Container(
+                            // color: Colors.grey,
+                            width: media.width * 0.9,
+                            height: media.width * 0.07,
                             child:
                                 LayoutBuilder(builder: (context, constraints) {
                               // Gets the width of Expanded
@@ -314,7 +317,7 @@ class MainPlayerView extends StatelessWidget {
             // ),
 
             const SizedBox(
-              height: 25,
+              height: 28,
             ),
             // SizedBox(
             //   height: 90,

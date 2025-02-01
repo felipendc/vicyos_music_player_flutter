@@ -218,7 +218,10 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                 height: 45,
                 child: Column(
                   children: [
-                    Expanded(
+                    Container(
+                      // color: Colors.grey,
+                      width: media.width * 0.9,
+                      height: media.width * 0.07,
                       child: LayoutBuilder(builder: (context, constraints) {
                         // Gets the width of Expanded
                         final double width = constraints.maxWidth;
