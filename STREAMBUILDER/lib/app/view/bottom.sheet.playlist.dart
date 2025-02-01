@@ -168,7 +168,7 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                                       if (currentIndex == index) {
                                         preLoadSongName();
                                       }
-                                      playlistLenghtStreamListener();
+                                      playlistLengthStreamListener();
                                     },
                                   ),
                                   onTap: () async {

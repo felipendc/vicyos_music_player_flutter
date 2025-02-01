@@ -1,5 +1,5 @@
+import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
@@ -29,12 +29,14 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
 
   @override
   void dispose() {
-    miniPlayerStreamControllerListener();
     audioPlayerPreview.stop();
-    playlistPreview.clear();
+    audioPlayerPreview.release();
     if (audioPlayerWasPlaying) {
-      audioPlayer.play();
+      Future.microtask(() async {
+        await audioPlayer.play();
+      });
     }
+
     super.dispose();
   }
 
@@ -44,7 +46,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),
-        bottom: Radius.circular(25),
+        bottom: Radius.circular(0),
       ),
       child: Container(
         color: TColor.bg,
@@ -92,9 +94,8 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   width: media.width * 0.42,
                   height: media.width * 0.42,
                   child: StreamBuilder<Duration>(
-                      stream: audioPlayerPreview.positionStream,
+                      stream: audioPlayerPreview.onPositionChanged,
                       builder: (context, snapshot) {
-                        final duration = snapshot.data ?? Duration.zero;
                         return SleekCircularSlider(
                           appearance: CircularSliderAppearance(
                               customWidths: CustomSliderWidths(
@@ -139,8 +140,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                           max: sleekCircularSliderDurationPreview,
 
                           // The initValue has been renamed to value.
-                          value:
-                              audioPlayerPreview.position.inSeconds.toDouble(),
+                          value: sleekCircularSliderPositionPreview,
                           onChange: (value) {
                             if (value < 0) {
                               return;
@@ -169,12 +169,12 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 StreamBuilder<Duration>(
-                    stream: audioPlayerPreview.positionStream,
+                    stream: audioPlayerPreview.onPositionChanged,
                     builder: (context, snapshot) {
                       final position = snapshot.data ?? Duration.zero;
                       return Text(
-                        (audioPlayerPreview.processingState !=
-                                ProcessingState.idle)
+                        (audio_players.PlayerState.completed != false ||
+                                audio_players.PlayerState.disposed != false)
                             ? formatDuration(position)
                             : formatDuration(Duration.zero),
                         style: TextStyle(
@@ -186,9 +186,10 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                 ),
                 StreamBuilder<Duration?>(
-                    stream: audioPlayerPreview.durationStream,
+                    stream: audioPlayerPreview.onDurationChanged,
                     builder: (context, snapshot) {
                       final duration = snapshot.data ?? Duration.zero;
+
                       return Text(
                         formatDuration(duration),
                         style: TextStyle(
@@ -228,13 +229,11 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   height: 55,
                   child: IconButton(
                     iconSize: 10,
-                    onPressed: () {
-                      audioPlayerPreview.position - Duration(seconds: 5) <
-                              Duration.zero
-                          ? audioPlayerPreview.seek(Duration.zero)
-                          : audioPlayerPreview.seek(
-                              audioPlayerPreview.position -
-                                  const Duration(seconds: 5));
+                    onPressed: () async {
+                      audioPlayerPreview.seek(
+                          (await audioPlayerPreview.getCurrentPosition() ??
+                                  Duration.zero) -
+                              Duration(seconds: 5));
                     },
                     icon: Image.asset(
                       "assets/img/backward-5-seconds.png",
@@ -245,13 +244,16 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                 const SizedBox(
                   width: 0,
                 ),
-                StreamBuilder<PlayerState>(
-                  stream: audioPlayerPreview.playerStateStream,
+                StreamBuilder<audio_players.PlayerState>(
+                  stream: audioPlayerPreview.onPlayerStateChanged,
                   builder: (context, snapshot) {
                     final playerState = snapshot.data;
 
-                    final playing = playerState?.playing;
-                    if (playing != true) {
+                    // final playing = playerState?.playing;
+                    if (playerState == audio_players.PlayerState.stopped ||
+                        playerState == audio_players.PlayerState.paused ||
+                        playerState == audio_players.PlayerState.completed ||
+                        playerState == null) {
                       return SizedBox(
                         width: 62,
                         height: 62,
@@ -261,7 +263,23 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                             if (audioPlayerWasPlaying) {
                               await audioPlayer.pause();
                             }
-                            audioPlayerPreview.play();
+                            if (playerState ==
+                                    audio_players.PlayerState.stopped ||
+                                playerState ==
+                                    audio_players.PlayerState.completed ||
+                                playerState == null) {
+                              if (audioPlayer.playing == true) {
+                                audioPlayer.pause();
+                              }
+                              audioPlayerPreview.resume();
+                            } else if (playerState ==
+                                audio_players.PlayerState.paused) {
+                              if (audioPlayer.playing == true) {
+                                audioPlayer.pause();
+                              }
+                              audioPlayerPreview.resume();
+                            }
+                            ;
                           },
                           icon: Image.asset(
                             "assets/img/play.png",
@@ -294,13 +312,11 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   height: 55,
                   child: IconButton(
                     iconSize: 10,
-                    onPressed: () {
-                      audioPlayerPreview.position + Duration(seconds: 5) >
-                              audioPlayerPreview.duration!
-                          ? audioPlayerPreview.seek(audioPlayerPreview.duration)
-                          : audioPlayerPreview.seek(
-                              audioPlayerPreview.position +
-                                  const Duration(seconds: 5));
+                    onPressed: () async {
+                      audioPlayerPreview.seek(
+                          (await audioPlayerPreview.getCurrentPosition() ??
+                                  Duration.zero) +
+                              Duration(seconds: 5));
                     },
                     icon: Image.asset(
                       "assets/img/forward-5-seconds.png",
@@ -327,7 +343,6 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   ),
                   onPressed: () {
                     addSongToPlaylist(widget.songPath);
-                    Navigator.pop(context);
                   },
                   backgroundColor: TColor.darkGray,
                 ),
@@ -339,3 +354,27 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
     );
   }
 }
+
+// Como executar o código assíncrono antes de chamar super.dispose()
+//
+// @override
+// void dispose() {
+//   if (audioPlayerWasPlaying) {
+//     Future.microtask(() async {
+//       await audioPlayer.play();
+//     });
+//   }
+//   super.dispose();
+// }
+//
+// Future<void> _handleAudio() async {
+//   if (audioPlayerWasPlaying) {
+//     await audioPlayer.play();
+//   }
+// }
+//
+// @override
+// void dispose() {
+//   _handleAudio(); // Chama a função assíncrona sem `await`
+//   super.dispose();
+// }

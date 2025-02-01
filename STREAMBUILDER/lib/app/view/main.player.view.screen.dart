@@ -216,7 +216,7 @@ class MainPlayerView extends StatelessWidget {
                       );
                     }),
                 StreamBuilder<int>(
-                    stream: playlistLenghtStreamController.stream,
+                    stream: playlistLengthStreamController.stream,
                     builder: (context, snapshot) {
                       return Text(
                         " of $playlistLengths",
@@ -392,7 +392,7 @@ class MainPlayerView extends StatelessWidget {
                                   stream: repeatModeStreamController.stream,
                                   builder: (context, snapshot) {
                                     return Image.asset(
-                                      currentLoopModeIcone,
+                                      currentLoopModeIcon,
                                       width: 30,
                                       height: 30,
                                       color: TColor.primaryText80,

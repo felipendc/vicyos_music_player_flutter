@@ -164,10 +164,6 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                             ),
                                           );
                                           // Handle tile tap
-                                          print(
-                                              'Tapped on ${musicFolderPaths[index].path}');
-                                          print(
-                                              "ESSEEE: ${getCurrentSongParentFolder(currentSongFullPath)}");
                                         },
                                       ),
                                     );

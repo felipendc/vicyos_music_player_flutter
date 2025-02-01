@@ -229,7 +229,7 @@ class BottomPlayer extends StatelessWidget {
                                                         }),
                                                     StreamBuilder<int>(
                                                         stream:
-                                                            playlistLenghtStreamController
+                                                            playlistLengthStreamController
                                                                 .stream,
                                                         builder: (context,
                                                             snapshot) {

@@ -1,0 +1,32 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:async/async.dart';
+
+class MyWidget extends StatelessWidget {
+  final Stream<int> stream1; // First stream of integers
+  final Stream<String> stream2; // Second stream of strings
+
+  MyWidget({required this.stream1, required this.stream2});
+
+  @override
+  Widget build(BuildContext context) {
+    // Combines both streams into a single stream
+    final combinedStream = StreamGroup.merge([stream1, stream2]);
+
+    return StreamBuilder(
+      stream: combinedStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return CircularProgressIndicator(); // Show loading indicator if no data
+
+        if (snapshot.data is int) {
+          return Text("Stream 1: ${snapshot.data}"); // Display integer data
+        } else if (snapshot.data is String) {
+          return Text("Stream 2: ${snapshot.data}"); // Display string data
+        } else {
+          return Text("No data"); // Fallback if unexpected data type
+        }
+      },
+    );
+  }
+}

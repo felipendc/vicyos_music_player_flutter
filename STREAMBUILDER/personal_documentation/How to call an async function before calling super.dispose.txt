@@ -1,0 +1,23 @@
+How to call an async function before calling super.dispose().
+
+@override
+void dispose() {
+  if (audioPlayerWasPlaying) {
+    Future.microtask(() async {
+      await audioPlayer.play();
+    });
+  }
+  super.dispose();
+}
+
+Future<void> _handleAudio() async {
+  if (audioPlayerWasPlaying) {
+    await audioPlayer.play();
+  }
+}
+
+@override
+void dispose() {
+  _handleAudio(); // Call an async function without `await`
+  super.dispose();
+}
