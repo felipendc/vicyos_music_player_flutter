@@ -12,7 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Vicyos Muzic',
+    androidNotificationChannelName: 'Vicyos Music',
     androidNotificationOngoing: true,
   );
 
