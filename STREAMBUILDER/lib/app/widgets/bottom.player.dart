@@ -4,6 +4,7 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
@@ -166,20 +167,45 @@ class BottomPlayer extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(
+                                            Container(
+                                              // color: Colors.grey,
                                               width: media.width * 0.35,
-                                              child: Text(
-                                                currentSongName,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
+                                              height: media.width * 0.06,
+                                              // height: 25,
+                                              child: LayoutBuilder(builder:
+                                                  (context, constraints) {
+                                                // Gets the width of Expanded
+                                                final double width =
+                                                    constraints.maxWidth;
+                                                return MarqueeText(
+                                                  centerText: false,
+                                                  // Forces rebuild when song changes
+                                                  key:
+                                                      ValueKey(currentSongName),
+                                                  // Set dynamically based on layout
+                                                  maxWidth: width,
+                                                  text: currentSongName,
+                                                  style: TextStyle(
                                                     color: TColor.primaryText
                                                         .withOpacity(0.9),
                                                     fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                );
+                                              }),
+
+                                              // Text(
+                                              //   currentSongName,
+                                              //   maxLines: 1,
+                                              //   overflow: TextOverflow.ellipsis,
+                                              //   textAlign: TextAlign.start,
+                                              //   style: TextStyle(
+                                              //       color: TColor.primaryText
+                                              //           .withOpacity(0.9),
+                                              //       fontSize: 16,
+                                              //       fontWeight:
+                                              //           FontWeight.w600),
+                                              // ),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(

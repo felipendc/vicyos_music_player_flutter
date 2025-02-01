@@ -4,6 +4,7 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 late bool audioPlayerWasPlaying;
@@ -209,7 +210,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
               ],
             ),
             const SizedBox(
-              height: 7,
+              height: 1,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
@@ -217,19 +218,42 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                 height: 45,
                 child: Column(
                   children: [
-                    Text(
-                      songName(widget.songPath),
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: TColor.primaryText.withOpacity(0.9),
-                          fontSize: 19,
-                          fontWeight: FontWeight.w600),
+                    Expanded(
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        // Gets the width of Expanded
+                        final double width = constraints.maxWidth;
+                        return MarqueeText(
+                          centerText: true,
+                          // Forces rebuild when song changes
+                          key: ValueKey(songName(widget.songPath)),
+                          // Set dynamically based on layout
+                          maxWidth: width,
+                          text: songName(widget.songPath),
+                          style: TextStyle(
+                            color: TColor.primaryText.withOpacity(0.9),
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
+                      }),
                     ),
+
+                    // Text(
+                    //   songName(widget.songPath),
+                    //   maxLines: 1,
+                    //   textAlign: TextAlign.center,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: TextStyle(
+                    //       color: TColor.primaryText.withOpacity(0.9),
+                    //       fontSize: 19,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
                   ],
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 3,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

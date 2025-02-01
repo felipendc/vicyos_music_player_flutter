@@ -7,6 +7,7 @@ import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
+import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
@@ -250,15 +251,35 @@ class MainPlayerView extends StatelessWidget {
                     builder: (context, snapshot) {
                       return Column(
                         children: [
-                          Text(
-                            currentSongName,
-                            maxLines: 1,
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: TColor.primaryText.withOpacity(0.9),
-                                fontSize: 19,
-                                fontWeight: FontWeight.w600),
+                          // Text(
+                          //   currentSongName,
+                          //   maxLines: 1,
+                          //   textAlign: TextAlign.center,
+                          //   overflow: TextOverflow.ellipsis,
+                          //   style: TextStyle(
+                          //       color: TColor.primaryText.withOpacity(0.9),
+                          //       fontSize: 19,
+                          //       fontWeight: FontWeight.w600),
+                          // ),
+                          Expanded(
+                            child:
+                                LayoutBuilder(builder: (context, constraints) {
+                              // Gets the width of Expanded
+                              final double width = constraints.maxWidth;
+                              return MarqueeText(
+                                centerText: true,
+                                // Forces rebuild when song changes
+                                key: ValueKey(currentSongName),
+                                // Set dynamically based on layout
+                                maxWidth: width,
+                                text: currentSongName,
+                                style: TextStyle(
+                                  color: TColor.primaryText.withOpacity(0.9),
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              );
+                            }),
                           ),
                           const SizedBox(
                             height: 10,

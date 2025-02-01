@@ -107,6 +107,9 @@ This project uses the following dependencies:
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
 <!-- - `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX. -->
 - `uuid: 4.4.2` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
+- `flutter_launcher_icons: 0.14.3` A package which simplifies the task of updating your Flutter app's launcher icon.
+- `marquee: 2.3.0` A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
+
 
 
 ### Submit a pull request
