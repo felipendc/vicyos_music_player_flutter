@@ -6,8 +6,6 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
-import '../navigation_animation/main.player.navitation.animation.dart';
-
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
 
@@ -153,15 +151,20 @@ class BottomPlayer extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    mainPlayerIsOpen = true;
+
                                     Navigator.push(
                                       context,
-                                      slideUpDownTransition(
-                                          const MainPlayerView()),
-                                      // MaterialPageRoute(
-                                      //   builder: (context) =>
-                                      //       const MainPlayerView(),
-                                      // ),
-                                    );
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MainPlayerView(),
+                                      ),
+                                    ).whenComplete(() {
+                                      if (mainPlayerIsOpen) {
+                                        mainPlayerIsOpen = false;
+                                      }
+                                      hideButtonSheetStreamListener(false);
+                                    });
                                   },
                                   child: StreamBuilder<String>(
                                       stream: currentSongNameStreamController

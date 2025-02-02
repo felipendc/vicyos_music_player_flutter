@@ -137,6 +137,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                             color: TColor.focusSecondary,
                                           ),
                                           onPressed: () {
+                                            hideButtonSheetStreamListener(true);
                                             showModalBottomSheet<void>(
                                               backgroundColor:
                                                   Colors.transparent,
@@ -147,7 +148,11 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                                         musicFolderPaths[index]
                                                             .path);
                                               },
-                                            );
+                                            ).whenComplete(() {
+                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                              hideButtonSheetStreamListener(
+                                                  false);
+                                            });
                                           },
                                         ),
 
@@ -191,31 +196,31 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                       ],
                     ),
                   ]),
-            floatingActionButton: musicFolderPaths.isNotEmpty
-                ? Stack(
-                    children: [
-                      Positioned(
-                        bottom: 100,
-                        right: 4,
-                        child: SizedBox(
-                          height: 55,
-                          child: FloatingActionButton(
-                            backgroundColor: TColor.darkGray,
-                            heroTag: "fab2",
-                            onPressed: () {
-                              musicFolderPaths.clear();
-                              listPlaylistFolderStreamListener();
-                            },
-                            child: Icon(
-                              Icons.sync_rounded,
-                              color: TColor.focusStart,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                : Container(),
+            // floatingActionButton: musicFolderPaths.isNotEmpty
+            //     ? Stack(
+            //         children: [
+            //           Positioned(
+            //             bottom: 100,
+            //             right: 4,
+            //             child: SizedBox(
+            //               height: 55,
+            //               child: FloatingActionButton(
+            //                 backgroundColor: TColor.darkGray,
+            //                 heroTag: "fab2",
+            //                 onPressed: () {
+            //                   musicFolderPaths.clear();
+            //                   listPlaylistFolderStreamListener();
+            //                 },
+            //                 child: Icon(
+            //                   Icons.sync_rounded,
+            //                   color: TColor.focusStart,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       )
+            //     : Container(),
           );
         });
   }

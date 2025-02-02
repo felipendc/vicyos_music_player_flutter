@@ -40,6 +40,7 @@ class SongsListScreen extends StatelessWidget {
                             // margin: const EdgeInsets.all(10),
                             child: GestureDetector(
                               onLongPress: () {
+                                hideButtonSheetStreamListener(true);
                                 showModalBottomSheet<void>(
                                   backgroundColor: Colors.transparent,
                                   context: context,
@@ -47,7 +48,10 @@ class SongsListScreen extends StatelessWidget {
                                     return SongPreviewDialog(
                                         songPath: folderSongList[index].path);
                                   },
-                                );
+                                ).whenComplete(() {
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideButtonSheetStreamListener(false);
+                                });
                               },
                               child: ListTile(
                                 leading: (folderSongList[index].path ==

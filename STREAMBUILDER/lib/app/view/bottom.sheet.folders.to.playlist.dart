@@ -112,6 +112,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
+                          mainPlayerIsOpen = true;
                           Navigator.pop(context);
                           setFolderAsPlaylist(folderSongList, 0);
 
@@ -120,7 +121,12 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => const MainPlayerView(),
                             ),
-                          );
+                          ).whenComplete(() {
+                            if (mainPlayerIsOpen) {
+                              mainPlayerIsOpen = false;
+                            }
+                            hideButtonSheetStreamListener(false);
+                          });
                         },
                       ),
                     ),

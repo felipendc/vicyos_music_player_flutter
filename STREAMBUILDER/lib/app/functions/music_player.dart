@@ -15,6 +15,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+bool mainPlayerIsOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';
 int playlistLengths = 0;
@@ -92,6 +93,13 @@ StreamController<double> systemVolumeStreamController =
 
 StreamController<bool> albumArtStreamController =
     StreamController<bool>.broadcast();
+
+StreamController<bool> hideButtonSheetStreamController =
+    StreamController<bool>.broadcast();
+
+Future<void> hideButtonSheetStreamListener(bool value) async {
+  hideButtonSheetStreamController.sink.add(value);
+}
 
 void listPlaylistFolderStreamListener() {
   listPlaylistFolderStreamController.sink

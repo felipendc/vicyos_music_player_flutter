@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
 
 AppBar homePageAppBar() {
@@ -12,15 +13,23 @@ AppBar homePageAppBar() {
     elevation: 0,
     backgroundColor: TColor.bg, // TColor.darkGray,
     title: Center(
-      child: Text(
-        ' MUSIC FOLDERS ',
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-          color: TColor.org,
-          // color: TColor.lightGray,
-          fontSize: 20,
+      child: GestureDetector(
+        onTap: () {
+          musicFolderPaths.clear();
+          listMusicFolders();
+          listPlaylistFolderStreamListener();
+        },
+        child: Text(
+          textAlign: TextAlign.center,
+          ' SCAN MUSIC FOLDERS ',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: TColor.org,
+            // color: TColor.lightGray,
+            fontSize: 20,
+          ),
         ),
       ),
     ),
@@ -70,13 +79,21 @@ AppBar songsListAppBar(
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
+            hideButtonSheetStreamListener(true);
             showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               context: context,
               builder: (BuildContext context) {
                 return FolderToPlaylistBottomSheet(folderPath: folderPath);
               },
-            );
+            ).whenComplete(() {
+              if (mainPlayerIsOpen) {
+                hideButtonSheetStreamListener(true);
+              } else {
+                // "When the bottom sheet is closed, send a signal to show the mini player again."
+                hideButtonSheetStreamListener(false);
+              }
+            });
           },
         ),
       )

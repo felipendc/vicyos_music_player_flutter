@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
-import 'package:vicyos_music/app/widgets/bottom.player.dart';
+
+import '../functions/music_player.dart';
+import '../widgets/bottom.player.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -33,10 +35,31 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            const Positioned(
-              bottom: 6,
-              right: 11,
-              child: BottomPlayer(),
+            StreamBuilder<bool>(
+              stream: hideButtonSheetStreamController.stream,
+              builder: (context, snapshot) {
+                final hideMiniPlayer = snapshot.data ?? false;
+                if (hideMiniPlayer) {
+                  return Container();
+                } else {
+                  return FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 1)),
+                    builder: (context, futureSnapshot) {
+                      if (futureSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Container(); //Return a loader o an empty container.
+                      } else {
+                        // After one second, it will return the BottomPlayer.
+                        return Positioned(
+                          bottom: 6,
+                          right: 11,
+                          child: BottomPlayer(),
+                        );
+                      }
+                    },
+                  );
+                }
+              },
             ),
           ],
         ),
