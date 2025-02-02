@@ -4,6 +4,8 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 
+import '../navigation_animation/main.player.navitation.animation.dart';
+
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
   const FolderToPlaylistBottomSheet({super.key, required this.folderPath});
@@ -118,8 +120,8 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
 
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainPlayerView(),
+                            mainPlayerSlideUpDownTransition(
+                              const MainPlayerView(),
                             ),
                           ).whenComplete(() {
                             if (mainPlayerIsOpen) {

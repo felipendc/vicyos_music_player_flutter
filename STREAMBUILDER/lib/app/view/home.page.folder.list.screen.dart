@@ -149,9 +149,13 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                                             .path);
                                               },
                                             ).whenComplete(() {
+                                              if (mainPlayerIsOpen) {
+                                                mainPlayerIsOpen = false;
+                                              } else {
+                                                hideButtonSheetStreamListener(
+                                                    false);
+                                              }
                                               // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                              hideButtonSheetStreamListener(
-                                                  false);
                                             });
                                           },
                                         ),
