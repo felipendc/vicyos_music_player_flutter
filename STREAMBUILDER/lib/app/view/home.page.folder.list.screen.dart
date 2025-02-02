@@ -3,11 +3,11 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/view/main.sync.screen.dart';
 import 'package:vicyos_music/app/view/songs.list.screen.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
-import 'package:vicyos_music/app/widgets/bottom.player.dart';
 
 import '../widgets/music_visualizer.dart';
 
@@ -154,14 +154,21 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                         onTap: () {
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SongsListScreen(
-                                                      folderPath:
-                                                          musicFolderPaths[
-                                                                  index]
-                                                              .path),
+                                            slideRightLeftTransition(
+                                              SongsListScreen(
+                                                  folderPath:
+                                                      musicFolderPaths[index]
+                                                          .path),
                                             ),
+                                            // MaterialPageRoute(
+                                            //   builder: (context) =>
+                                            //       SongsListScreen(
+                                            //           folderPath:
+                                            //               musicFolderPaths[
+                                            //                       index]
+                                            //                   .path),
+                                            //
+                                            // ),
                                           );
                                           // Handle tile tap
                                         },
@@ -182,11 +189,6 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                               );
                             }),
                       ],
-                    ),
-                    const Positioned(
-                      bottom: 6,
-                      right: 11,
-                      child: BottomPlayer(),
                     ),
                   ]),
             floatingActionButton: musicFolderPaths.isNotEmpty

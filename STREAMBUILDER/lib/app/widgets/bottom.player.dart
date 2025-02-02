@@ -6,6 +6,8 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
+import '../navigation_animation/main.player.navitation.animation.dart';
+
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
 
@@ -153,10 +155,12 @@ class BottomPlayer extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MainPlayerView(),
-                                      ),
+                                      slideUpDownTransition(
+                                          const MainPlayerView()),
+                                      // MaterialPageRoute(
+                                      //   builder: (context) =>
+                                      //       const MainPlayerView(),
+                                      // ),
                                     );
                                   },
                                   child: StreamBuilder<String>(

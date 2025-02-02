@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
+import 'package:vicyos_music/app/view/home.screen.dart';
 
 import 'app/functions/music_player.dart';
 
@@ -32,22 +32,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vicyos Music',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: "Circular Std",
-        scaffoldBackgroundColor: TColor.bg,
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: TColor.primaryText,
-              displayColor: TColor.primaryText,
-            ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: TColor.primary,
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && navigatorKey.currentState!.canPop()) {
+          navigatorKey.currentState!.pop();
+        }
+      },
+      child: MaterialApp(
+        title: 'Vicyos Music',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: "Circular Std",
+          scaffoldBackgroundColor: TColor.bg,
+          textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: TColor.primaryText,
+                displayColor: TColor.primaryText,
+              ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: TColor.primary,
+          ),
+          useMaterial3: false,
         ),
-        useMaterial3: false,
+        home: HomeScreen(),
       ),
-      home: const HomePageFolderList(),
     );
   }
 }

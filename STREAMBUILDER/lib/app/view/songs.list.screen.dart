@@ -5,7 +5,6 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/song.preview.dialog.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
-import 'package:vicyos_music/app/widgets/bottom.player.dart';
 
 import '../widgets/music_visualizer.dart';
 
@@ -154,11 +153,6 @@ class SongsListScreen extends StatelessWidget {
                     );
                   }),
             ],
-          ),
-          Positioned(
-            bottom: 6,
-            right: 11,
-            child: BottomPlayer(),
           ),
         ],
       ),
