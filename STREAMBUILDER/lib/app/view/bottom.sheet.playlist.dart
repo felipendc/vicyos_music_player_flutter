@@ -13,6 +13,8 @@ class PlaylistBottomSheet extends StatefulWidget {
 }
 
 class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
+  late ScrollController _scrollController;
+
   Future<void> _onReorder(int oldIndex, int newIndex) async {
     if (newIndex > oldIndex) {
       newIndex -= 1;
@@ -20,6 +22,26 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
     playlist.move(oldIndex, newIndex);
     audioPlayer.currentIndexStream.listen((index) {
       currentIndex = audioPlayer.sequence![index!] as int;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController(); //
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      double scrollPadding = 60;
+      double tileHeight = 72; //
+      double scrollOffset = currentIndex * tileHeight - scrollPadding;
+
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          scrollOffset,
+          duration: Duration(seconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
     });
   }
 
@@ -59,10 +81,10 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                       fontSize: 17,
                     ),
                   ),
-                  onPressed: () async {
+                  onPressed: () {
+                    cleanPlaylist();
                     setState(() {
                       // Clean playlist and rebuild the entire screen to clean the listview
-                      cleanPlaylist();
                     });
                   },
                   backgroundColor: TColor.darkGray,
@@ -72,10 +94,12 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
             const SizedBox(height: 15),
             Expanded(
               child: ReorderableListView.builder(
+                scrollController: _scrollController,
                 itemCount: playlist.children.length,
                 onReorder: _onReorder,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
+                    height: 72,
                     color: TColor.bg,
                     key: ValueKey(
                       '${songFullPath(index: index)}-$index',

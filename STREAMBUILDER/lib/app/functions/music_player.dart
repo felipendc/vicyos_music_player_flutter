@@ -101,6 +101,10 @@ Future<void> hideButtonSheetStreamListener(bool value) async {
   hideButtonSheetStreamController.sink.add(value);
 }
 
+void clearCurrentPlaylistStreamListener() {
+  clearCurrentPlaylistStreamController.sink.add(playlist.clear());
+}
+
 void listPlaylistFolderStreamListener() {
   listPlaylistFolderStreamController.sink
       .add(playlistLength = musicFolderPaths.length);
@@ -382,11 +386,10 @@ Future<void> cleanPlaylist() async {
   // if (audioPlayer.playerState.playing == false) {
   //   clearCurrentPlaylistStreamListener();
   // }
-  getCurrentSongFullPathStreamControllerListener(currentSongFullPath = "");
+
   audioPlayer.stop();
   songIsPlaying = false;
-  // await playlist.clear();
-  playlist.clear();
+  await playlist.clear();
   playlistLengthStreamListener();
 
   currentIndex = 0;
@@ -394,11 +397,14 @@ Future<void> cleanPlaylist() async {
   currentSongDurationPosition = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
+
   currentSongNameStreamListener(currentSongName = "The playlist is empty");
   currentSongAlbumStreamListener(currentSongAlbumName = "Unknown Album");
 
   getCurrentSongFolderStreamControllerListener(
       currentFolderPath = 'The song folder will be displayed here...');
+  clearCurrentPlaylistStreamListener();
+  getCurrentSongFullPathStreamControllerListener(currentSongFullPath = "");
 }
 
 void playOrPause() {

@@ -188,6 +188,7 @@ class MainPlayerView extends StatelessWidget {
                     stream: audioPlayer.durationStream,
                     builder: (context, snapshot) {
                       final duration = snapshot.data ?? Duration.zero;
+
                       return Text(
                         formatDuration(duration),
                         style: TextStyle(
@@ -196,7 +197,6 @@ class MainPlayerView extends StatelessWidget {
                     }),
               ],
             ),
-
             const SizedBox(
               height: 1,
             ),
@@ -207,7 +207,6 @@ class MainPlayerView extends StatelessWidget {
                 StreamBuilder<PlaybackEvent>(
                     stream: audioPlayer.playbackEventStream,
                     builder: (context, snapshot) {
-                      print("DLLLLLLLLLL ${snapshot.hasData}");
                       // Check if snapshot has data
                       if (!snapshot.hasData) {
                         return Text(

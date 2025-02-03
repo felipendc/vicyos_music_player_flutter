@@ -36,13 +36,13 @@ class SpeedRateBottomSheet extends StatefulWidget {
 }
 
 class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
-  late ScrollController scrollController;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     // Initialize the ScrollController
-    scrollController = ScrollController(
+    _scrollController = ScrollController(
       // Set the initial scroll offset to the height of 4 tiles
       initialScrollOffset: 4 * 53.0,
     );
@@ -88,7 +88,7 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
                 color: TColor.bg,
                 // width: media.width * 0.9,
                 child: ListView.separated(
-                  controller: scrollController,
+                  controller: _scrollController,
                   itemCount: speedRates.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Material(
