@@ -14,10 +14,14 @@ class TColor {
   static Color get green => const Color(0xff4BE04B);
 
   static Color get primaryText => const Color(0xffFFFFFF);
-  static Color get primaryText80 => const Color(0xffFFFFFF).withOpacity(0.8);
-  static Color get primaryText60 => const Color(0xffFFFFFF).withOpacity(0.6);
-  static Color get primaryText35 => const Color(0xffFFFFFF).withOpacity(0.35);
-  static Color get primaryText28 => const Color(0xffFFFFFF).withOpacity(0.28);
+  static Color get primaryText80 =>
+      const Color(0xffFFFFFF).withValues(alpha: 0.8);
+  static Color get primaryText60 =>
+      const Color(0xffFFFFFF).withValues(alpha: 0.6);
+  static Color get primaryText35 =>
+      const Color(0xffFFFFFF).withValues(alpha: 0.35);
+  static Color get primaryText28 =>
+      const Color(0xffFFFFFF).withValues(alpha: 0.28);
   static Color get secondaryText => const Color.fromARGB(255, 128, 131, 150);
   static Color get thirdText => const Color(0xff585A66);
 

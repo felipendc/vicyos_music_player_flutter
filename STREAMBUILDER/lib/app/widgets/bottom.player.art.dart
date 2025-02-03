@@ -32,7 +32,7 @@
 //                       trackWidth: 3.5, progressBarWidth: 3.5, shadowWidth: 10),
 //                   customColors: CustomSliderColors(
 //                       dotFillColor: const Color(0xffFFB1B2),
-//                       trackColor: const Color(0xffffffff).withOpacity(0.3),
+//                       trackColor: const Color(0xffffffff).withValues(alpha: 0.3),
 //                       progressBarColors: [TColor.focusStart, TColor.focusStart],
 //                       shadowColor: const Color(0xffFFB1B2),
 //                       shadowMaxOpacity: 0.05),

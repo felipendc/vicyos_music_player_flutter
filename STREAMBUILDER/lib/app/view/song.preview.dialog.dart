@@ -115,8 +115,8 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                                   shadowWidth: 30),
                               customColors: CustomSliderColors(
                                   dotFillColor: const Color(0xffFFB1B2),
-                                  trackColor:
-                                      const Color(0xffffffff).withOpacity(0.3),
+                                  trackColor: const Color(0xffffffff)
+                                      .withValues(alpha: 0.3),
                                   progressBarColors: [
                                     const Color(0xffFB9967),
                                     const Color(0xffE9585A)
@@ -233,7 +233,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                           maxWidth: width,
                           text: songName(widget.songPath),
                           style: TextStyle(
-                            color: TColor.primaryText.withOpacity(0.9),
+                            color: TColor.primaryText.withValues(alpha: 0.9),
                             fontSize: 19,
                             fontWeight: FontWeight.w600,
                           ),
@@ -247,7 +247,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                     //   textAlign: TextAlign.center,
                     //   overflow: TextOverflow.ellipsis,
                     //   style: TextStyle(
-                    //       color: TColor.primaryText.withOpacity(0.9),
+                    //       color: TColor.primaryText.withValues(alpha: 0.9),
                     //       fontSize: 19,
                     //       fontWeight: FontWeight.w600),
                     // ),

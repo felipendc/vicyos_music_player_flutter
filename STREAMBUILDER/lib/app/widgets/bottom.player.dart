@@ -27,7 +27,8 @@ class BottomPlayer extends StatelessWidget {
                 color: TColor.darkGraySecond,
                 boxShadow: [
                   BoxShadow(
-                    color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                    color: const Color.fromARGB(255, 0, 0, 0)
+                        .withValues(alpha: 0.2),
                     spreadRadius: 1,
                     blurRadius: 4,
                     offset: const Offset(0, 0), // changes position of shadow
@@ -82,7 +83,8 @@ class BottomPlayer extends StatelessWidget {
                                                       const Color(0xffFFB1B2),
                                                   trackColor:
                                                       const Color(0xffffffff)
-                                                          .withOpacity(0.3),
+                                                          .withValues(
+                                                              alpha: 0.3),
                                                   progressBarColors: [
                                                     TColor.focusStart,
                                                     TColor.focusStart
@@ -208,7 +210,7 @@ class BottomPlayer extends StatelessWidget {
                                                   text: currentSongName,
                                                   style: TextStyle(
                                                     color: TColor.primaryText
-                                                        .withOpacity(0.9),
+                                                        .withValues(alpha: 0.9),
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -222,7 +224,7 @@ class BottomPlayer extends StatelessWidget {
                                               //   textAlign: TextAlign.start,
                                               //   style: TextStyle(
                                               //       color: TColor.primaryText
-                                              //           .withOpacity(0.9),
+                                              //           .withValues(alpha: 0.9),
                                               //       fontSize: 16,
                                               //       fontWeight:
                                               //           FontWeight.w600),
