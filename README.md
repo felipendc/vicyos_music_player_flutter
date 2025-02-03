@@ -28,7 +28,7 @@ These instructions will help you get a copy of this project up and running on yo
 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like.png">
 
-### This project is only compatible with:
+### This project is currently compatible with:
 
 #### Android Studio:
 - Android Studio Ladybug Feature Drop | `2024.2.2 RC 2 December 16, 2024`
