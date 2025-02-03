@@ -61,9 +61,9 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                   ),
                   onPressed: () async {
                     setState(() {
-                      // rebuild the entiry screen to clean the listview
+                      // Clean playlist and rebuild the entire screen to clean the listview
+                      cleanPlaylist();
                     });
-                    await cleanPlaylist();
                   },
                   backgroundColor: TColor.darkGray,
                 ),
@@ -78,7 +78,7 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                   return Container(
                     color: TColor.bg,
                     key: ValueKey(
-                      songFullPath(index: index),
+                      '${songFullPath(index: index)}-$index',
                     ),
                     child: Column(
                       children: [
@@ -88,9 +88,9 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
                               stream: audioPlayer.playbackEventStream,
                               builder: (context, snapshot) {
                                 return ListTile(
-                                  key: Key(
-                                    songFullPath(index: index),
-                                  ),
+                                  // key: Key(
+                                  //   songFullPath(index: index),
+                                  // ),
                                   leading: currentIndex == index
                                       ? SizedBox(
                                           height: 30,

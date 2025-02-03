@@ -119,10 +119,6 @@ void currentSongAlbumStreamListener(value) {
   currentSongAlbumStreamController.sink.add(value);
 }
 
-void clearCurrentPlaylistStreamListener() {
-  clearCurrentPlaylistStreamController.sink.add(playlist.clear());
-}
-
 void repeatModeStreamListener(value) {
   repeatModeStreamController.sink.add(value);
 }
@@ -383,12 +379,14 @@ String formatDuration(Duration duration) {
 }
 
 Future<void> cleanPlaylist() async {
-  if (audioPlayer.playerState.playing == false) {
-    clearCurrentPlaylistStreamListener();
-  }
+  // if (audioPlayer.playerState.playing == false) {
+  //   clearCurrentPlaylistStreamListener();
+  // }
+  getCurrentSongFullPathStreamControllerListener(currentSongFullPath = "");
   audioPlayer.stop();
   songIsPlaying = false;
-  await playlist.clear();
+  // await playlist.clear();
+  playlist.clear();
   playlistLengthStreamListener();
 
   currentIndex = 0;

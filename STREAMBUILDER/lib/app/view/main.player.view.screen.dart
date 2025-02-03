@@ -207,6 +207,7 @@ class MainPlayerView extends StatelessWidget {
                 StreamBuilder<PlaybackEvent>(
                     stream: audioPlayer.playbackEventStream,
                     builder: (context, snapshot) {
+                      print("DLLLLLLLLLL ${snapshot.hasData}");
                       // Check if snapshot has data
                       if (!snapshot.hasData) {
                         return Text(
@@ -220,7 +221,8 @@ class MainPlayerView extends StatelessWidget {
                       final playerState = audioPlayer.processingState;
 
                       return Text(
-                        (playerState == ProcessingState.idle)
+                        (playerState == ProcessingState.idle ||
+                                playlist.children.isEmpty)
                             ? '0'
                             : "${index! + 1}",
                         style: TextStyle(
