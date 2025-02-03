@@ -6,7 +6,7 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
-import '../navigation_animation/main.player.navitation.animation.dart';
+import '../navigation_animation/main.player.navigation.animation.dart';
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
@@ -24,14 +24,13 @@ class BottomPlayer extends StatelessWidget {
               margin: const EdgeInsets.only(top: 0, bottom: 18),
               height: 72,
               decoration: BoxDecoration(
-                color: TColor.darkGraySecond,
+                color: Color(0xff2A2D40),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color.fromARGB(255, 0, 0, 0)
-                        .withValues(alpha: 0.2),
-                    spreadRadius: 1,
-                    blurRadius: 4,
-                    offset: const Offset(0, 0), // changes position of shadow
+                    color: Color(0xff000000).withValues(alpha: 0.5),
+                    spreadRadius: 0.4,
+                    blurRadius: 12,
+                    offset: Offset(1, 1),
                   ),
                 ],
                 borderRadius: BorderRadius.circular(20),
@@ -210,7 +209,8 @@ class BottomPlayer extends StatelessWidget {
                                                   text: currentSongName,
                                                   style: TextStyle(
                                                     color: TColor.primaryText
-                                                        .withValues(alpha: 0.9),
+                                                        .withValues(
+                                                            alpha: 0.84),
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -304,19 +304,21 @@ class BottomPlayer extends StatelessWidget {
                         ],
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             width: 40,
                             height: 40,
                             child: IconButton(
                               splashRadius: 20,
-
-                              // iconSize: 10,
+                              iconSize: 10,
                               onPressed: () async {
                                 await previousSong();
                               },
                               icon: Image.asset(
-                                "assets/img/prev_small.png",
+                                "assets/img/bottom_player/skip_previous.png",
+                                // "assets/img/bottom_player/chevron_left.png",
                                 color: TColor.lightGray,
                               ),
                             ),
@@ -333,14 +335,14 @@ class BottomPlayer extends StatelessWidget {
                                   height: 45,
                                   child: IconButton(
                                     splashRadius: 20,
-                                    iconSize: 45,
                                     onPressed: () {
                                       if (playlist.children.isNotEmpty) {
                                         audioPlayer.play();
                                       }
                                     },
                                     icon: Image.asset(
-                                      "assets/img/play.png",
+                                      "assets/img/bottom_player/motion_play.png",
+                                      color: TColor.lightGray,
                                     ),
                                   ),
                                 );
@@ -350,13 +352,12 @@ class BottomPlayer extends StatelessWidget {
                                   height: 45,
                                   child: IconButton(
                                     splashRadius: 20,
-                                    iconSize: 45,
                                     onPressed: () {
                                       audioPlayer.pause();
                                     },
                                     icon: Image.asset(
-                                      "assets/img/round-pause-button_icon.png",
-                                      color: TColor.primaryText80,
+                                      "assets/img/bottom_player/motion_paused.png",
+                                      color: TColor.lightGray,
                                     ),
                                   ),
                                 );
@@ -367,12 +368,15 @@ class BottomPlayer extends StatelessWidget {
                             width: 40,
                             height: 40,
                             child: IconButton(
+                              iconSize: 10,
                               splashRadius: 20,
                               onPressed: () async {
                                 await nextSong();
                               },
                               icon: Image.asset(
-                                "assets/img/next_small.png",
+                                // "assets/img/bottom_player/skip_next.png",
+
+                                "assets/img/bottom_player/skip_next.png",
                                 color: TColor.lightGray,
                               ),
                             ),

@@ -4,7 +4,7 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
 
-import '../navigation_animation/main.player.navitation.animation.dart';
+import '../navigation_animation/main.player.navigation.animation.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
