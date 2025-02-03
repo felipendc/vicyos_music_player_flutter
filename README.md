@@ -37,6 +37,7 @@ These instructions will help you get a copy of this project up and running on yo
 - Mac (Intel): `android-studio-2024.2.2.12-mac.dmg (1.3 GB)`
 - Windows (64-bit): `android-studio-2024.2.2.12-windows.exe (1.2 GB)`
 - LINK: https://developer.android.com/studio/archive
+- Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
 
 
