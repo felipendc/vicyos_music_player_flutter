@@ -145,10 +145,6 @@ void getCurrentSongFullPathStreamControllerListener(value) {
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
-  // Inform the operating system of our app's audio attributes etc.
-  // We pick a reasonable default for an app that plays speech.
-  // final session = await AudioSession.instance;
-  // await session.configure(const AudioSessionConfiguration.music());
 
   // Player for previewing the songs.
   audioPlayerPreview = audio_players.AudioPlayer();
@@ -183,6 +179,9 @@ void initVolumeControl() async {
   });
   double currentVolume = await VolumeController.instance.getVolume();
   volumeSliderValue = (currentVolume * 100);
+
+  // Set the volume system volume UI to be hidden
+  VolumeController.instance.showSystemUI = false;
 }
 
 void setVolume(double value) {

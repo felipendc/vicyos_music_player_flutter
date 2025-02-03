@@ -9,7 +9,6 @@ import 'package:vicyos_music/app/view/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
-import 'package:volume_controller/volume_controller.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 final List<Color> colors = [
@@ -28,9 +27,6 @@ class MainPlayerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Set the volume and keep the system volume UI hidden
-    VolumeController.instance.showSystemUI = false;
-
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
