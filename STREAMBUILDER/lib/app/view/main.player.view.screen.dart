@@ -361,12 +361,12 @@ class MainPlayerView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 12, 3),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),
                       child: SizedBox(
                         width: 45,
                         height: 45,
                         child: IconButton(
-                          iconSize: 26,
+                          iconSize: 25,
                           onPressed: () {
                             showModalBottomSheet<void>(
                               backgroundColor: Colors.transparent,
@@ -457,12 +457,20 @@ class MainPlayerView extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(7, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: SizedBox(
                         width: 45,
                         height: 45,
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const PlaylistBottomSheet();
+                              },
+                            );
+                          },
                           icon: Icon(Icons.share),
                           color: TColor.primaryText80,
                         ),
