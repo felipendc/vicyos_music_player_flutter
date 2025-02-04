@@ -102,7 +102,7 @@ AppBar songsListAppBar(
   );
 }
 
-AppBar mainPlayerViewAppBar(BuildContext context, String filePath) {
+AppBar mainPlayerViewAppBar(BuildContext context) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -164,7 +164,7 @@ AppBar mainPlayerViewAppBar(BuildContext context, String filePath) {
                     context: context,
                     builder: (BuildContext context) {
                       return PlayersAppBarActionsBottomSheet(
-                        fullFilePath: filePath,
+                        fullFilePath: currentSongFullPath,
                       );
                     },
                   );

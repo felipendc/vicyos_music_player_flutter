@@ -76,7 +76,9 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                           ),
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                        onTap: () {},
+                        onTap: () {
+                          print("SHAREEE ${fullFilePath}");
+                        },
                       ),
                     ),
                     // const Divider(
