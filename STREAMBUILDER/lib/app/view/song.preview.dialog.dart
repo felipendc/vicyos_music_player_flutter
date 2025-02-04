@@ -7,8 +7,6 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
-import 'delete.song.confirmation.dialog.dart';
-
 late bool audioPlayerWasPlaying;
 
 class SongPreviewDialog extends StatefulWidget {
@@ -267,29 +265,6 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   width: 55,
                   height: 55,
                   child: IconButton(
-                    iconSize: 25,
-                    onPressed: () async {
-                      showModalBottomSheet<void>(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const DeleteSongConfirmationDialog(
-                              songPath: "");
-                        },
-                      );
-                      // audioPlayerPreview.seek(
-                      //     (await audioPlayerPreview.getCurrentPosition() ??
-                      //             Duration.zero) +
-                      //         Duration(seconds: 5));
-                    },
-                    icon: Icon(Icons.delete_forever),
-                    color: TColor.primaryText80,
-                  ),
-                ),
-                SizedBox(
-                  width: 55,
-                  height: 55,
-                  child: IconButton(
                     iconSize: 10,
                     onPressed: () async {
                       audioPlayerPreview.seek(
@@ -344,7 +319,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                             ;
                           },
                           icon: Image.asset(
-                            "assets/img/round-play-button_icon.png",
+                            "assets/img/play.png",
                           ),
                         ),
                       );
@@ -386,21 +361,6 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 55,
-                  height: 55,
-                  child: IconButton(
-                    iconSize: 25,
-                    onPressed: () async {
-                      audioPlayerPreview.seek(
-                          (await audioPlayerPreview.getCurrentPosition() ??
-                                  Duration.zero) +
-                              Duration(seconds: 5));
-                    },
-                    icon: Icon(Icons.share),
-                    color: TColor.primaryText80,
-                  ),
-                ),
               ],
             ),
             SizedBox(
@@ -410,15 +370,12 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatingActionButton.extended(
-                  label: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: Text(
-                      'ADD TO PLAYLIST',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: TColor.focusStart,
-                        fontSize: 17,
-                      ),
+                  label: Text(
+                    'ADD TO PLAYLIST',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: TColor.focusStart,
+                      fontSize: 17,
                     ),
                   ),
                   onPressed: () {

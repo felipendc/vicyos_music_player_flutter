@@ -11,8 +11,6 @@ import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
-import 'delete.song.confirmation.dialog.dart';
-
 final List<Color> colors = [
   TColor.focus,
   TColor.secondaryEnd,
@@ -361,53 +359,35 @@ class MainPlayerView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 0),
-                      child: SizedBox(
-                        width: 45,
-                        height: 45,
-                        child: IconButton(
-                          iconSize: 25,
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const DeleteSongConfirmationDialog(
-                                    songPath: "");
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 45,
+                            height: 45,
+                            child: IconButton(
+                              onPressed: () {
+                                showModalBottomSheet<void>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const PlaylistBottomSheet();
+                                  },
+                                );
                               },
-                            );
-                          },
-                          icon: Icon(Icons.delete_forever),
-                          color: TColor.primaryText80,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-                      child: SizedBox(
-                        width: 45,
-                        height: 45,
-                        child: IconButton(
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const PlaylistBottomSheet();
-                              },
-                            );
-                          },
-                          icon: Image.asset(
-                            "assets/img/playlist.png",
-                            // width: 60,
-                            // height: 60,
-                            color: TColor.primaryText80,
+                              icon: Image.asset(
+                                "assets/img/playlist.png",
+                                // width: 60,
+                                // height: 60,
+                                color: TColor.primaryText80,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
                         children: [
                           IconButton(
@@ -431,7 +411,7 @@ class MainPlayerView extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Column(
                         children: [
                           SizedBox(
@@ -454,26 +434,6 @@ class MainPlayerView extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      child: SizedBox(
-                        width: 45,
-                        height: 45,
-                        child: IconButton(
-                          onPressed: () {
-                            showModalBottomSheet<void>(
-                              backgroundColor: Colors.transparent,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const PlaylistBottomSheet();
-                              },
-                            );
-                          },
-                          icon: Icon(Icons.share),
-                          color: TColor.primaryText80,
-                        ),
                       ),
                     ),
                   ],
@@ -608,7 +568,7 @@ class MainPlayerView extends StatelessWidget {
                             }
                           },
                           icon: Image.asset(
-                            "assets/img/round-play-button_icon.png",
+                            "assets/img/play.png",
                           ),
                         ),
                       );
