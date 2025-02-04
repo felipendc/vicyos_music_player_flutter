@@ -3,6 +3,7 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.players.appbar.actions.dart';
 
 AppBar homePageAppBar() {
   return AppBar(
@@ -101,24 +102,30 @@ AppBar songsListAppBar(
   );
 }
 
-AppBar mainPlayerViewAppBar(BuildContext context) {
+AppBar mainPlayerViewAppBar(BuildContext context, String filePath) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
     toolbarHeight: 60,
     elevation: 0,
     automaticallyImplyLeading: false,
-    leading: Padding(
-      padding: const EdgeInsets.only(left: 14),
-      child: IconButton(
-        splashRadius: 20,
-        icon: Icon(
-          Icons.arrow_back,
-          color: TColor.primaryText80,
+    leading: SizedBox(
+      width: 45,
+      height: 45,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: IconButton(
+          splashRadius: 20,
+          icon: Image.asset("assets/img/keyboard_arrow_down.png"),
+
+          // Icon(
+          //   Icons.arrow_back,
+          //   color: TColor.primaryText80,
+          // ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     ),
     centerTitle: true,
@@ -133,5 +140,115 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
         fontSize: 23,
       ),
     ),
+    actions: [
+      Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: IconButton(
+              splashRadius: 20,
+              icon: Image.asset("assets/img/more_horiz.png"),
+
+              // Icon(
+              //   Icons.arrow_back,
+              //   color: TColor.primaryText80,
+              // ),
+              onPressed: () {
+                if (playlist.children.isEmpty) {
+                } else {
+                  showModalBottomSheet<void>(
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return PlayersAppBarActionsBottomSheet(
+                        fullFilePath: filePath,
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
+  return AppBar(
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5))),
+    toolbarHeight: 60,
+    elevation: 0,
+    automaticallyImplyLeading: false,
+    leading: SizedBox(
+      width: 45,
+      height: 45,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: IconButton(
+          splashRadius: 20,
+          icon: Image.asset("assets/img/keyboard_arrow_down.png"),
+
+          // Icon(
+          //   Icons.arrow_back,
+          //   color: TColor.primaryText80,
+          // ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    ),
+    centerTitle: true,
+    backgroundColor: TColor.bg,
+    title: Text(
+      "SONG PREVIEW",
+      style: TextStyle(
+        fontWeight: FontWeight.w900,
+        color: TColor.org,
+        fontSize: 19,
+      ),
+    ),
+    actions: [
+      Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: SizedBox(
+            width: 50,
+            height: 50,
+            child: IconButton(
+              splashRadius: 20,
+              icon: Image.asset("assets/img/more_horiz.png"),
+
+              // Icon(
+              //   Icons.arrow_back,
+              //   color: TColor.primaryText80,
+              // ),
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return PlayersAppBarActionsBottomSheet(
+                      fullFilePath: filePath,
+                    );
+                  },
+                ).whenComplete(() {
+                  //TODO
+
+                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    ],
   );
 }
