@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 
 import 'delete.song.confirmation.dialog.dart';
 
 class PlayersAppBarActionsBottomSheet extends StatelessWidget {
-  final String fullFilePath;
+  final dynamic fullFilePath;
   const PlayersAppBarActionsBottomSheet(
       {super.key, required this.fullFilePath});
 
@@ -76,8 +77,22 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                           ),
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                        onTap: () {
-                          print("SHAREEE ${fullFilePath}");
+                        onTap: () async {
+                          Navigator.pop(context);
+
+                          if (fullFilePath is String) {
+                            await Share.shareXFiles([XFile(fullFilePath)],
+                                text:
+                                    'This file was shared using the Vicyos Music app.');
+                          } else if (fullFilePath is List) {
+                            //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
+                            List<XFile> files = fullFilePath
+                                .map((path) => XFile(path))
+                                .toList();
+                            await Share.shareXFiles(files,
+                                text:
+                                    "These ${fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.");
+                          }
                         },
                       ),
                     ),
