@@ -73,12 +73,15 @@ class _PlaylistBottomSheetState extends State<PlaylistBottomSheet> {
               ),
               child: Center(
                 child: FloatingActionButton.extended(
-                  label: Text(
-                    'CLEAR PLAYLIST',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: TColor.org,
-                      fontSize: 17,
+                  label: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Text(
+                      'CLEAR PLAYLIST',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: TColor.org,
+                        fontSize: 17,
+                      ),
                     ),
                   ),
                   onPressed: () {
