@@ -1,44 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/functions/music_player.dart';
 
 late bool audioPlayerWasPlaying;
 
-class DeleteSongConfirmationDialog extends StatefulWidget {
+class DeleteSongConfirmationDialog extends StatelessWidget {
   final String songPath;
+
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
-
-  @override
-  State<DeleteSongConfirmationDialog> createState() =>
-      _DeleteSongConfirmationDialogState();
-}
-
-class _DeleteSongConfirmationDialogState
-    extends State<DeleteSongConfirmationDialog> {
-  @override
-  void initState() {
-    super.initState();
-    previewSong(widget.songPath);
-    if (audioPlayer.playerState.playing) {
-      audioPlayerWasPlaying = true;
-    } else {
-      audioPlayerWasPlaying = false;
-    }
-  }
-
-  @override
-  void dispose() {
-    audioPlayerPreview.stop();
-    audioPlayerPreview.release();
-    if (audioPlayerWasPlaying) {
-      Future.microtask(() async {
-        await audioPlayer.play();
-      });
-    }
-    // hideButtonSheetStreamListener(false);
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -126,27 +94,3 @@ class _DeleteSongConfirmationDialogState
     );
   }
 }
-
-// Como executar o código assíncrono antes de chamar super.dispose()
-//
-// @override
-// void dispose() {
-//   if (audioPlayerWasPlaying) {
-//     Future.microtask(() async {
-//       await audioPlayer.play();
-//     });
-//   }
-//   super.dispose();
-// }
-//
-// Future<void> _handleAudio() async {
-//   if (audioPlayerWasPlaying) {
-//     await audioPlayer.play();
-//   }
-// }
-//
-// @override
-// void dispose() {
-//   _handleAudio(); // Chama a função assíncrona sem `await`
-//   super.dispose();
-// }

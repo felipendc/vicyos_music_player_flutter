@@ -113,7 +113,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                                   songPath: fullFilePath);
                             },
                           ).whenComplete(() {
-                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                            // "When the bottom sheet is closed"
                             //TODO
                             Navigator.pop(context);
                           });
