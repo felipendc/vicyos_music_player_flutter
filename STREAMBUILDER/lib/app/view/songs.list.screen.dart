@@ -8,28 +8,41 @@ import 'package:vicyos_music/app/widgets/appbars.dart';
 
 import '../widgets/music_visualizer.dart';
 
-class SongsListScreen extends StatelessWidget {
+class SongsListScreen extends StatefulWidget {
   final String folderPath;
   const SongsListScreen({super.key, required this.folderPath});
 
   @override
+  State<SongsListScreen> createState() => _SongsListScreenState();
+}
+
+class _SongsListScreenState extends State<SongsListScreen> {
+  @override
   Widget build(BuildContext context) {
     // Filter all songs from folderPath and add them to folderSongList
-    filterSongsOnlyToList(folderPath: folderPath);
+    filterSongsOnlyToList(folderPath: widget.folderPath);
 
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
-    return Scaffold(
-      appBar: songsListAppBar(folderPath: folderPath, context: context),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              StreamBuilder<void>(
-                  stream: getCurrentSongFullPathStreamController.stream,
-                  builder: (context, snapshot) {
-                    return Expanded(
+    // Filter all songs from folderPath and add them to folderSongList
+    filterSongsOnlyToList(folderPath: widget.folderPath);
+
+    // Set the preferred orientations to portrait mode when this screen is built
+    screenOrientationPortrait();
+
+    return StreamBuilder<void>(
+        stream: getCurrentSongFullPathStreamController.stream,
+        builder: (context, snapshot) {
+          print("REBUILD LIST SONG: ${widget.folderPath}");
+          return Scaffold(
+            appBar: songsListAppBar(
+                folderPath: widget.folderPath, context: context),
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    Expanded(
                       child: ListView.separated(
                         padding: const EdgeInsets.only(bottom: 130),
                         itemCount: folderSongList.length,
@@ -49,11 +62,13 @@ class SongsListScreen extends StatelessWidget {
                                         songPath: folderSongList[index].path);
                                   },
                                 ).whenComplete(() {
+                                  setState(() {});
                                   // "When the bottom sheet is closed, send a signal to show the mini player again."
                                   hideButtonSheetStreamListener(false);
                                 });
                               },
                               child: ListTile(
+                                key: ValueKey(folderSongList[index].path),
                                 leading: (folderSongList[index].path ==
                                         currentSongFullPath)
                                     ? Padding(
@@ -154,12 +169,12 @@ class SongsListScreen extends StatelessWidget {
                           // );
                         },
                       ),
-                    );
-                  }),
-            ],
-          ),
-        ],
-      ),
-    );
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

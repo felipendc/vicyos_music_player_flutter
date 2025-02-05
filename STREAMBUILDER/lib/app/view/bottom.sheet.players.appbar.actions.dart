@@ -12,7 +12,6 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("GTGTGTGT ${fullFilePath}");
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),
@@ -121,19 +120,22 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                           ),
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                        onTap: () {
-                          showModalBottomSheet<void>(
+                        onTap: () async {
+                          final result = await showModalBottomSheet<String>(
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (BuildContext context) {
                               return DeleteSongConfirmationDialog(
                                   songPath: fullFilePath);
                             },
-                          ).whenComplete(() {
-                            // "When the bottom sheet is closed"
-                            //TODO
+                          );
+
+                          if (result == "close_song_preview_bottom_sheet") {
+                            Navigator.pop(
+                                context, "close_song_preview_bottom_sheet");
+                          } else {
                             Navigator.pop(context);
-                          });
+                          }
                         },
                       ),
                     ),

@@ -243,7 +243,7 @@ class MainPlayerView extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
               child: SizedBox(
                 height: 65,
-                child: StreamBuilder<String>(
+                child: StreamBuilder<void>(
                     stream: currentSongNameStreamController.stream,
                     builder: (context, snapshot) {
                       return Column(

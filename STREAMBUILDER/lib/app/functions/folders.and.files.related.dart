@@ -1,11 +1,11 @@
 import 'dart:io';
+
 import 'package:just_audio/just_audio.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
-
 // String internalStorage = '/storage/emulated/0/Music/';
 
 Future<void> requestStoragePermission() async {
@@ -68,6 +68,9 @@ Future<String> getMusicFolderPath() async {
 }
 
 Future<void> listMusicFolders() async {
+  musicFolderPaths.clear();
+  folderSongList.clear();
+
   String folderPath;
   int totalSongs;
 
@@ -87,7 +90,7 @@ Future<void> listMusicFolders() async {
 
   for (var folder in await audioFolder()) {
     folderPath = folder;
-    totalSongs = folderLenght(folder);
+    totalSongs = folderLength(folder);
     musicFolderPaths.add(FolderSources(path: folderPath, songs: totalSongs));
     print(musicFolderPaths
         .map((index) => index)
@@ -99,7 +102,7 @@ Future<void> listMusicFolders() async {
   // print(audioFolders);
 }
 
-int folderLenght(String folderPath) {
+int folderLength(String folderPath) {
   final Set<String> audioExtensions = {
     '.mp3',
     '.m4a',

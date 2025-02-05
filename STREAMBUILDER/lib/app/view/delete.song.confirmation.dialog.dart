@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_media_delete/flutter_media_delete.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
 
 late bool audioPlayerWasPlaying;
 
@@ -78,9 +82,59 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onPressed: () {
-                        // TODO: Delete song from device
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        Future.microtask(() async {
+                          final wasDeleted =
+                              await FlutterMediaDelete.deleteMediaFile(
+                                  songPath);
+
+                          if (wasDeleted == "Files deleted successfully") {
+                            // ----------------------------------------------------------
+                            musicFolderPaths.clear();
+                            folderSongList.clear();
+
+                            // Re sync the folder list
+                            await listMusicFolders();
+
+                            // Check if the file is present on the playlist...
+                            // If it is, remove it from the playlist.
+                            final int index = playlist.children.indexWhere(
+                                (audio) =>
+                                    (audio as UriAudioSource)
+                                        .uri
+                                        .toFilePath() ==
+                                    songPath);
+
+                            if (index != -1) {
+                              await playlist.removeAt(index);
+                              // Update the playlist length...
+                              await playlistLengthStreamListener();
+
+                              // Update get the name of the song from the current index
+                              // And update the screen
+                              await getCurrentSongFullPathStreamControllerListener(
+                                  "");
+
+                              // Get the name of the current playlist index
+                              String newCurrentSongFullPath = Uri.decodeFull(
+                                  ((playlist.children[index] as UriAudioSource)
+                                      .uri
+                                      .toString()));
+
+                              // Update the current song name
+                              currentSongName =
+                                  await songName(newCurrentSongFullPath);
+
+                              // Send a signal to the stream builders to update the screen
+                              await currentSongNameStreamListener("update");
+                            }
+
+                            // ----------------------------------------------------------
+
+                            Navigator.pop(
+                                context, "close_song_preview_bottom_sheet");
+                          }
+                        });
                       },
                       backgroundColor: TColor.darkGray,
                     ),

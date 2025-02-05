@@ -181,7 +181,7 @@ class BottomPlayer extends StatelessWidget {
                                     //   hideButtonSheetStreamListener(false);
                                     // });
                                   },
-                                  child: StreamBuilder<String>(
+                                  child: StreamBuilder<void>(
                                       stream: currentSongNameStreamController
                                           .stream,
                                       builder: (context, snapshot) {

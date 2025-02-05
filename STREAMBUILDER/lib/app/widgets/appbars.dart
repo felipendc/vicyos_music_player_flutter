@@ -230,8 +230,8 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
               //   Icons.arrow_back,
               //   color: TColor.primaryText80,
               // ),
-              onPressed: () {
-                showModalBottomSheet<void>(
+              onPressed: () async {
+                final result = await showModalBottomSheet<String>(
                   backgroundColor: Colors.transparent,
                   context: context,
                   builder: (BuildContext context) {
@@ -239,11 +239,12 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
                       fullFilePath: filePath,
                     );
                   },
-                ).whenComplete(() {
-                  //TODO
-
-                  // "When the bottom sheet is closed, send a signal to show the mini player again."
-                });
+                );
+                if (result == "close_song_preview_bottom_sheet") {
+                  Navigator.pop(context);
+                } else {
+                  // Do not close the Player Preview bottom sheet
+                }
               },
             ),
           ),

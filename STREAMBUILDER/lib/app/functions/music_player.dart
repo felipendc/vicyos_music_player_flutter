@@ -76,8 +76,8 @@ StreamController<int> playlistLengthStreamController =
 StreamController<String> currentSongAlbumStreamController =
     StreamController<String>.broadcast();
 
-StreamController<String> currentSongNameStreamController =
-    StreamController<String>.broadcast();
+StreamController<void> currentSongNameStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<int> listPlaylistFolderStreamController =
     StreamController<int>.broadcast();
@@ -105,17 +105,17 @@ void clearCurrentPlaylistStreamListener() {
   clearCurrentPlaylistStreamController.sink.add(playlist.clear());
 }
 
-void listPlaylistFolderStreamListener() {
+void listPlaylistFolderStreamListener() async {
   listPlaylistFolderStreamController.sink
       .add(playlistLength = musicFolderPaths.length);
 }
 
-void playlistLengthStreamListener() {
+Future<void> playlistLengthStreamListener() async {
   playlistLengthStreamController.sink
       .add(playlistLengths = playlist.children.length);
 }
 
-void currentSongNameStreamListener(value) {
+Future<void> currentSongNameStreamListener(value) async {
   currentSongNameStreamController.sink.add(value);
 }
 
@@ -139,7 +139,7 @@ void getCurrentSongFolderStreamControllerListener(value) {
   getCurrentSongFolderStreamController.sink.add(value);
 }
 
-void getCurrentSongFullPathStreamControllerListener(value) {
+Future<void> getCurrentSongFullPathStreamControllerListener(value) async {
   getCurrentSongFullPathStreamController.sink.add(value);
 }
 
