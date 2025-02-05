@@ -110,7 +110,8 @@ This project uses the following dependencies:
 - `uuid: 4.4.2` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
 - `flutter_launcher_icons: 0.14.3` A package which simplifies the task of updating your Flutter app's launcher icon.
 - `marquee: 2.3.0` A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
-
+- `share_plus 10.1.4` Flutter plugin for sharing content via the platform share UI, using the ACTION_SEND intent on Android and UIActivityViewController on iOS.
+- `flutter_media_delete 1.0.1` TA Flutter plugin designed for deleting media files using scoped storage on Android versions Q (API 29) and above.
 
 
 ### Submit a pull request
