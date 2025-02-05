@@ -8,6 +8,9 @@ import 'package:vicyos_music/app/widgets/appbars.dart';
 
 import '../widgets/music_visualizer.dart';
 
+final GlobalKey<_SongsListScreenState> songsListScreenKey =
+    GlobalKey<_SongsListScreenState>();
+
 class SongsListScreen extends StatefulWidget {
   final String folderPath;
   const SongsListScreen({super.key, required this.folderPath});
@@ -151,7 +154,7 @@ class _SongsListScreenState extends State<SongsListScreen> {
                                 onTap: () {
                                   setFolderAsPlaylist(folderSongList, index);
                                   print(
-                                      "DIRETORIO DA MUSICA: ${getCurrentSongParentFolder(currentSongFullPath)}");
+                                      "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                                   print(
                                       'Tapped on ${(folderSongList[index].path)}');
                                 },

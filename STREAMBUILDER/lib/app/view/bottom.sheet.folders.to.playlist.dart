@@ -121,12 +121,16 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           Navigator.push(
                             context,
                             mainPlayerSlideUpDownTransition(
-                              const MainPlayerView(),
+                              MainPlayerView(
+                                key: mainPlayerViewKey,
+                              ),
                             ),
                           ).whenComplete(() {
                             if (mainPlayerIsOpen) {
                               mainPlayerIsOpen = false;
                             }
+                            getCurrentSongFullPathStreamControllerListener('');
+                            listPlaylistFolderStreamListener();
                             hideButtonSheetStreamListener(false);
                           });
                         },

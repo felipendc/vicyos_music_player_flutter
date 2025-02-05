@@ -11,6 +11,9 @@ import 'package:vicyos_music/app/widgets/appbars.dart';
 
 import '../widgets/music_visualizer.dart';
 
+final GlobalKey<_HomePageFolderListState> homePageFolderListScreenKey =
+    GlobalKey<_HomePageFolderListState>();
+
 class HomePageFolderList extends StatefulWidget {
   const HomePageFolderList({super.key});
 
@@ -167,6 +170,7 @@ class _HomePageFolderListState extends State<HomePageFolderList> {
                                             context,
                                             slideRightLeftTransition(
                                               SongsListScreen(
+                                                  key: songsListScreenKey,
                                                   folderPath:
                                                       musicFolderPaths[index]
                                                           .path),

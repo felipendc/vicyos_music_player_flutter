@@ -4,13 +4,21 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/view/songs.list.screen.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
 import '../navigation_animation/main.player.navigation.animation.dart';
 
-class BottomPlayer extends StatelessWidget {
+final GlobalKey bottomPlayerKey = GlobalKey();
+
+class BottomPlayer extends StatefulWidget {
   const BottomPlayer({super.key});
 
+  @override
+  State<BottomPlayer> createState() => _BottomPlayerState();
+}
+
+class _BottomPlayerState extends State<BottomPlayer> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
@@ -159,12 +167,18 @@ class BottomPlayer extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       mainPlayerSlideUpDownTransition(
-                                        const MainPlayerView(),
+                                        MainPlayerView(
+                                          key: mainPlayerViewKey,
+                                        ),
                                       ),
                                     ).whenComplete(() {
                                       if (mainPlayerIsOpen) {
                                         mainPlayerIsOpen = false;
                                       }
+
+                                      songsListScreenKey.currentState!
+                                          .setState(() {});
+
                                       hideButtonSheetStreamListener(false);
                                     });
 

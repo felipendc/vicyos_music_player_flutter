@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
+import 'package:vicyos_music/app/view/songs.list.screen.dart';
 
 import '../functions/music_player.dart';
 import '../widgets/bottom.player.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -20,6 +26,13 @@ class HomeScreen extends StatelessWidget {
         } else {
           // Otherwise, just go back to the previous screen
           navigatorKey.currentState!.pop();
+
+          if (songsListScreenKey.currentState != null) {
+            songsListScreenKey.currentState!.setState(() {});
+          }
+          if (homePageFolderListScreenKey.currentState != null) {
+            homePageFolderListScreenKey.currentState!.setState(() {});
+          }
         }
       },
       child: Scaffold(
@@ -30,7 +43,9 @@ class HomeScreen extends StatelessWidget {
               onGenerateRoute: (RouteSettings settings) {
                 return MaterialPageRoute(
                   builder: (context) {
-                    return const HomePageFolderList();
+                    return HomePageFolderList(
+                      key: homePageFolderListScreenKey,
+                    );
                   },
                 );
               },
@@ -53,7 +68,9 @@ class HomeScreen extends StatelessWidget {
                         return Positioned(
                           bottom: 6,
                           right: 11,
-                          child: BottomPlayer(),
+                          child: BottomPlayer(
+                            key: bottomPlayerKey,
+                          ),
                         );
                       }
                     },
