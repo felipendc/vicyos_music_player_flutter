@@ -68,7 +68,11 @@ class _SongsListScreenState extends State<SongsListScreen> {
                                 ).whenComplete(() {
                                   setState(() {});
                                   // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                  hideButtonSheetStreamListener(false);
+                                  if (isSongPreviewBottomSheetOpen) {
+                                    hideButtonSheetStreamListener(true);
+                                  } else {
+                                    hideButtonSheetStreamListener(false);
+                                  }
                                 });
                               },
                               child: ListTile(

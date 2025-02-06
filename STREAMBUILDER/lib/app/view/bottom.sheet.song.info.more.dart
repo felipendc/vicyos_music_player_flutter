@@ -84,8 +84,9 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
+                          isSongPreviewBottomSheetOpen = true;
+                          hideButtonSheetStreamListener(true);
                           Navigator.pop(context);
-                          // hideButtonSheetStreamListener(true);
 
                           showModalBottomSheet<String>(
                               backgroundColor: Colors.transparent,
@@ -94,7 +95,12 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
                                 return SongPreviewDialog(
                                     songPath: widget.fullFilePath);
                               }).whenComplete(() {
-                            hideButtonSheetStreamListener(false);
+                            if (isSongPreviewBottomSheetOpen) {
+                              hideButtonSheetStreamListener(true);
+                            } else {
+                              hideButtonSheetStreamListener(false);
+                            }
+
                             Navigator.pop(context);
                           });
 

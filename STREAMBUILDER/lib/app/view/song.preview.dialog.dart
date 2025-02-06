@@ -22,6 +22,8 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
   @override
   void initState() {
     super.initState();
+    isSongPreviewBottomSheetOpen = true;
+    hideButtonSheetStreamListener(true);
     previewSong(widget.songPath);
     if (audioPlayer.playerState.playing) {
       audioPlayerWasPlaying = true;
@@ -32,6 +34,8 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
 
   @override
   void dispose() {
+    isSongPreviewBottomSheetOpen = false;
+    hideButtonSheetStreamListener(false);
     audioPlayerPreview.stop();
     audioPlayerPreview.release();
     if (audioPlayerWasPlaying) {

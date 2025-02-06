@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               stream: hideButtonSheetStreamController.stream,
               builder: (context, snapshot) {
                 final hideMiniPlayer = snapshot.data ?? false;
-                if (hideMiniPlayer) {
+                if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
                   return Container();
                 } else {
                   return FutureBuilder(
