@@ -3,6 +3,7 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/view/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/song.preview.dialog.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
 
@@ -135,19 +136,41 @@ class _SongsListScreenState extends State<SongsListScreen> {
                                 trailing: IconButton(
                                   splashRadius: 24,
                                   iconSize: 28,
-                                  icon: Icon(
-                                    Icons.playlist_add_rounded,
+                                  icon: Image.asset(
+                                    "assets/img/more_horiz.png",
                                     color: TColor.focusSecondary,
                                   ),
-                                  onPressed: () {
-                                    addSongToPlaylist(
-                                        folderSongList[index].path);
+                                  onPressed: () async {
+                                    await hideButtonSheetStreamListener(true);
+                                    showModalBottomSheet<String>(
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return SongInfoMoreBottomSheet(
+                                          fullFilePath:
+                                              folderSongList[index].path,
+                                        );
+                                      },
+                                    ).whenComplete(() {
+                                      if (!Navigator.canPop(context)) {
+                                        print("No other screen is open.");
+                                      } else {
+                                        hideButtonSheetStreamListener(false);
+                                        print(
+                                            " There are other open screens .");
+                                      }
+                                    });
+                                    ;
 
-                                    // addPlaylistSnackbar(
-                                    //   title: folderSongList[index].name,
-                                    //   message:
-                                    //       'This song has been added to the playlist',
-                                    // );
+                                    // print("lololol  ${result}");
+                                    // if (result ==
+                                    //     "close_song_preview_bottom_sheet") {
+                                    //
+                                    //   songsListScreenKey.currentState!
+                                    //       .setState(() {});
+                                    //   homePageFolderListScreenKey.currentState!
+                                    //       .setState(() {});
+                                    // }
                                   },
                                 ),
 

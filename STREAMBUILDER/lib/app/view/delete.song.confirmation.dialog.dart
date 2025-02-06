@@ -4,13 +4,24 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/view/songs.list.screen.dart';
+
+import 'home.page.folder.list.screen.dart';
 
 late bool audioPlayerWasPlaying;
 
-class DeleteSongConfirmationDialog extends StatelessWidget {
+class DeleteSongConfirmationDialog extends StatefulWidget {
   final String songPath;
 
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
+
+  @override
+  State<DeleteSongConfirmationDialog> createState() =>
+      _DeleteSongConfirmationDialogState();
+}
+
+class _DeleteSongConfirmationDialogState
+    extends State<DeleteSongConfirmationDialog> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -65,7 +76,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, "canceled");
                       },
                       backgroundColor: TColor.darkGray,
                     ),
@@ -84,56 +95,57 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                       ),
                       onPressed: () async {
                         Future.microtask(() async {
-                          final wasDeleted =
-                              await FlutterMediaDelete.deleteMediaFile(
-                                  songPath);
+                          FlutterMediaDelete.deleteMediaFile(widget.songPath)
+                              .then((wasDeleted) async {
+                            if (wasDeleted == "Files deleted successfully") {
+                              // ----------------------------------------------------------
+                              musicFolderPaths.clear();
+                              folderSongList.clear();
 
-                          if (wasDeleted == "Files deleted successfully") {
-                            // ----------------------------------------------------------
-                            musicFolderPaths.clear();
-                            folderSongList.clear();
+                              // Re sync the folder list
+                              await listMusicFolders();
 
-                            // Re sync the folder list
-                            await listMusicFolders();
+                              // Check if the file is present on the playlist...
+                              final int index = playlist.children.indexWhere(
+                                  (audio) =>
+                                      (audio as UriAudioSource)
+                                          .uri
+                                          .toFilePath() ==
+                                      widget.songPath);
 
-                            // Check if the file is present on the playlist...
-                            // If it is, remove it from the playlist.
-                            final int index = playlist.children.indexWhere(
-                                (audio) =>
-                                    (audio as UriAudioSource)
-                                        .uri
-                                        .toFilePath() ==
-                                    songPath);
+                              if (index != -1) {
+                                await playlist.removeAt(index);
+                                await playlistLengthStreamListener();
+                                await getCurrentSongFullPathStreamControllerListener(
+                                    "");
 
-                            if (index != -1) {
-                              await playlist.removeAt(index);
-                              // Update the playlist length...
-                              await playlistLengthStreamListener();
+                                // Update the current song name
+                                if (index < playlist.children.length) {
+                                  String newCurrentSongFullPath =
+                                      Uri.decodeFull((playlist.children[index]
+                                              as UriAudioSource)
+                                          .uri
+                                          .toString());
+                                  currentSongName =
+                                      await songName(newCurrentSongFullPath);
+                                } else {
+                                  currentSongName = "";
+                                }
 
-                              // Update get the name of the song from the current index
-                              // And update the screen
-                              await getCurrentSongFullPathStreamControllerListener(
-                                  "");
+                                await currentSongNameStreamListener("update");
+                              }
 
-                              // Get the name of the current playlist index
-                              String newCurrentSongFullPath = Uri.decodeFull(
-                                  ((playlist.children[index] as UriAudioSource)
-                                      .uri
-                                      .toString()));
-
-                              // Update the current song name
-                              currentSongName =
-                                  await songName(newCurrentSongFullPath);
-
-                              // Send a signal to the stream builders to update the screen
-                              await currentSongNameStreamListener("update");
+                              // ----------------------------------------------------------
+                              songsListScreenKey.currentState!.setState(() {});
+                              homePageFolderListScreenKey.currentState!
+                                  .setState(() {});
+                              Navigator.pop(
+                                  context, "close_song_preview_bottom_sheet");
+                            } else if (wasDeleted !=
+                                "Files deleted successfully") {
+                              Navigator.pop(context);
                             }
-
-                            // ----------------------------------------------------------
-
-                            Navigator.pop(
-                                context, "close_song_preview_bottom_sheet");
-                          }
+                          });
                         });
                       },
                       backgroundColor: TColor.darkGray,

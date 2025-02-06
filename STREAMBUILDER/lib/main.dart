@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    clearCache(); // Clears the cache when the app starts
+    // clearCache(); // Clears the cache when the app starts
   }
 
   @override
