@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/view/home.screen.dart';
@@ -96,7 +97,56 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ),
           useMaterial3: false,
         ),
-        home: HomeScreen(),
+        home: SplashScreen(),
+      ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/img/vicyos_logos/vicyos_music_icon_lable_transparent_bigger.png",
+              width: 200,
+              height: 200,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                size: 60,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -6,7 +6,6 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
-import 'package:vicyos_music/app/view/main.sync.screen.dart';
 import 'package:vicyos_music/app/view/songs.list.screen.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
 
@@ -40,7 +39,8 @@ class HomePageFolderList extends StatelessWidget {
           return Scaffold(
             appBar: homePageAppBar(),
             body: musicFolderPaths.isEmpty
-                ? const MainSyncScreen()
+                ? Container()
+                // ? const MainSyncScreen()
                 : Stack(
                     children: [
                       Column(
