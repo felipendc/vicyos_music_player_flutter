@@ -57,7 +57,7 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
       ),
       child: Container(
         color: TColor.bg,
-        height: 400, // Adjust the height as needed
+        height: 400, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,11 +82,10 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            // Content
+
             Expanded(
               child: Container(
                 color: TColor.bg,
-                // width: media.width * 0.9,
                 child: ListView.separated(
                   controller: _scrollController,
                   itemCount: speedRates.length,

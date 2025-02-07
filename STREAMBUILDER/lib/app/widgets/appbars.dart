@@ -10,15 +10,14 @@ AppBar homePageAppBar() {
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
     toolbarHeight: 60,
-
     elevation: 0,
-    backgroundColor: TColor.bg, // TColor.darkGray,
+    backgroundColor: TColor.bg,
     title: Center(
       child: GestureDetector(
         onTap: () {
           musicFolderPaths.clear();
           listMusicFolders();
-          listPlaylistFolderStreamListener();
+          listPlaylistFolderStreamNotifier();
         },
         child: Text(
           textAlign: TextAlign.center,
@@ -28,7 +27,6 @@ AppBar homePageAppBar() {
           style: TextStyle(
             fontWeight: FontWeight.w600,
             color: TColor.org,
-            // color: TColor.lightGray,
             fontSize: 20,
           ),
         ),
@@ -59,7 +57,7 @@ AppBar songsListAppBar(
     ),
     elevation: 0,
     centerTitle: true,
-    backgroundColor: TColor.bg, // TColor.darkGray,
+    backgroundColor: TColor.bg,
     title: Text(
       folderName(folderPath),
       maxLines: 1,
@@ -80,7 +78,7 @@ AppBar songsListAppBar(
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
-            hideButtonSheetStreamListener(true);
+            hideButtonSheetStreamNotifier(true);
             showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               context: context,
@@ -89,10 +87,10 @@ AppBar songsListAppBar(
               },
             ).whenComplete(() {
               if (mainPlayerIsOpen) {
-                hideButtonSheetStreamListener(true);
+                hideButtonSheetStreamNotifier(true);
               } else {
                 // "When the bottom sheet is closed, send a signal to show the mini player again."
-                hideButtonSheetStreamListener(false);
+                hideButtonSheetStreamNotifier(false);
               }
             });
           },
@@ -117,11 +115,6 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
         child: IconButton(
           splashRadius: 20,
           icon: Image.asset("assets/img/keyboard_arrow_down.png"),
-
-          // Icon(
-          //   Icons.arrow_back,
-          //   color: TColor.primaryText80,
-          // ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -151,11 +144,6 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
             child: IconButton(
               splashRadius: 20,
               icon: Image.asset("assets/img/more_horiz.png"),
-
-              // Icon(
-              //   Icons.arrow_back,
-              //   color: TColor.primaryText80,
-              // ),
               onPressed: () {
                 if (playlist.children.isEmpty) {
                 } else {
@@ -193,11 +181,6 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
         child: IconButton(
           splashRadius: 20,
           icon: Image.asset("assets/img/keyboard_arrow_down.png"),
-
-          // Icon(
-          //   Icons.arrow_back,
-          //   color: TColor.primaryText80,
-          // ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -225,11 +208,6 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
             child: IconButton(
               splashRadius: 20,
               icon: Image.asset("assets/img/more_horiz.png"),
-
-              // Icon(
-              //   Icons.arrow_back,
-              //   color: TColor.primaryText80,
-              // ),
               onPressed: () async {
                 final result = await showModalBottomSheet<String>(
                   backgroundColor: Colors.transparent,

@@ -53,7 +53,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
             Expanded(
               child: Container(
                 color: TColor.bg,
-                // width: media.width * 0.9,
                 child: ListView(
                   children: [
                     Material(
@@ -98,13 +97,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             size: 40,
                           ),
                         ),
-
-                        // Image.asset(
-                        //   "assets/img/audio_file.png",
-                        //   width: 43,
-                        //   height: 43,
-                        //   color: TColor.focus,
-                        // ),
                         title: Text(
                           "Play all the songs from this folder",
                           style: TextStyle(
@@ -129,9 +121,9 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             if (mainPlayerIsOpen) {
                               mainPlayerIsOpen = false;
                             }
-                            getCurrentSongFullPathStreamControllerListener('');
-                            listPlaylistFolderStreamListener();
-                            hideButtonSheetStreamListener(false);
+                            getCurrentSongFullPathStreamControllerNotifier('');
+                            listPlaylistFolderStreamNotifier();
+                            hideButtonSheetStreamNotifier(false);
                           });
                         },
                       ),

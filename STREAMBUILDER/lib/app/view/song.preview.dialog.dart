@@ -23,7 +23,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
   void initState() {
     super.initState();
     isSongPreviewBottomSheetOpen = true;
-    hideButtonSheetStreamListener(true);
+    hideButtonSheetStreamNotifier(true);
     previewSong(widget.songPath);
     if (audioPlayer.playerState.playing) {
       audioPlayerWasPlaying = true;
@@ -35,7 +35,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
   @override
   void dispose() {
     isSongPreviewBottomSheetOpen = false;
-    hideButtonSheetStreamListener(false);
+    hideButtonSheetStreamNotifier(false);
     audioPlayerPreview.stop();
     audioPlayerPreview.release();
     if (audioPlayerWasPlaying) {
@@ -43,7 +43,6 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
         await audioPlayer.play();
       });
     }
-    // hideButtonSheetStreamListener(false);
     super.dispose();
   }
 
@@ -59,7 +58,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
         appBar: previewPlayerViewAppBar(context, widget.songPath),
         body: Container(
           color: TColor.bg,
-          height: media.height * 0.6, // Adjust the height as needed
+          height: media.height * 0.6, // Adjust the height
           padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,10 +72,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                         stream: albumArtStreamController.stream,
                         builder: (context, snapshot) {
                           return Image.asset(
-                            // isFirstArtDemoCover
-                            //     ?
                             "assets/img/lofi-woman-album-cover-art_10.png",
-                            // : "assets/img/lofi-woman-album-cover-art.png",
                             width: media.width * 0.42,
                             height: media.width * 0.42,
                             fit: BoxFit.cover,
@@ -92,82 +88,63 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                       progress: 9.0,
                     ),
                   ),
-                  // GestureDetector(
-                  //   onTapCancel: () {
-                  //     print(isFirstArtDemoCover);
-                  //     albumArtStreamControllerStreamListener(
-                  //         isFirstArtDemoCover = !isFirstArtDemoCover);
-                  //   },
-                  //   child:
                   SizedBox(
                     width: media.width * 0.42,
                     height: media.width * 0.42,
                     child: StreamBuilder<Duration>(
-                        stream: audioPlayerPreview.onPositionChanged,
-                        builder: (context, snapshot) {
-                          return SleekCircularSlider(
-                            appearance: CircularSliderAppearance(
-                                customWidths: CustomSliderWidths(
-                                    trackWidth: 4,
-                                    progressBarWidth: 6,
-                                    shadowWidth: 30),
-                                customColors: CustomSliderColors(
-                                    dotFillColor: const Color(0xffFFB1B2),
-                                    trackColor: const Color(0xffffffff)
-                                        .withValues(alpha: 0.3),
-                                    progressBarColors: [
-                                      const Color(0xffFB9967),
-                                      const Color(0xffE9585A)
-                                    ],
-                                    shadowColor: const Color(0xffFFB1B2),
-                                    shadowMaxOpacity: 0.05),
-                                infoProperties: InfoProperties(
-                                  topLabelStyle: const TextStyle(
-                                      color: Colors.transparent,
-                                      fontSize: 0,
-                                      fontWeight: FontWeight.w400),
-                                  topLabelText: 'Elapsed',
-                                  bottomLabelStyle: const TextStyle(
-                                      color: Colors.transparent,
-                                      fontSize: 0,
-                                      fontWeight: FontWeight.w400),
-                                  bottomLabelText: 'time',
-                                  mainLabelStyle: const TextStyle(
-                                      color: Colors.transparent,
-                                      fontSize: 0,
-                                      fontWeight: FontWeight.w600),
-                                  // modifier: (double value) {
-                                  //   final time =
-                                  //       print(Duration(seconds: value.toInt()));
-                                  //   return '$time';
-                                  // },
-                                ),
-                                startAngle: 270,
-                                angleRange: 360,
-                                size: 350.0),
-                            min: 0,
-                            max: sleekCircularSliderDurationPreview,
+                      stream: audioPlayerPreview.onPositionChanged,
+                      builder: (context, snapshot) {
+                        return SleekCircularSlider(
+                          appearance: CircularSliderAppearance(
+                              customWidths: CustomSliderWidths(
+                                  trackWidth: 4,
+                                  progressBarWidth: 6,
+                                  shadowWidth: 30),
+                              customColors: CustomSliderColors(
+                                  dotFillColor: const Color(0xffFFB1B2),
+                                  trackColor: const Color(0xffffffff)
+                                      .withValues(alpha: 0.3),
+                                  progressBarColors: [
+                                    const Color(0xffFB9967),
+                                    const Color(0xffE9585A)
+                                  ],
+                                  shadowColor: const Color(0xffFFB1B2),
+                                  shadowMaxOpacity: 0.05),
+                              infoProperties: InfoProperties(
+                                topLabelStyle: const TextStyle(
+                                    color: Colors.transparent,
+                                    fontSize: 0,
+                                    fontWeight: FontWeight.w400),
+                                topLabelText: 'Elapsed',
+                                bottomLabelStyle: const TextStyle(
+                                    color: Colors.transparent,
+                                    fontSize: 0,
+                                    fontWeight: FontWeight.w400),
+                                bottomLabelText: 'time',
+                                mainLabelStyle: const TextStyle(
+                                    color: Colors.transparent,
+                                    fontSize: 0,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              startAngle: 270,
+                              angleRange: 360,
+                              size: 350.0),
+                          min: 0,
+                          max: sleekCircularSliderDurationPreview,
 
-                            // The initValue has been renamed to value.
-                            value: sleekCircularSliderPositionPreview,
-                            onChange: (value) {
-                              if (value < 0) {
-                                return;
-                              } else {
-                                audioPlayerPreview
-                                    .seek(Duration(seconds: value.toInt()));
-                              }
-
-                              // callback providing a value while its being changed (with a pan gesture)
-                            },
-                            // onChangeStart: (double startValue) {
-                            //   // callback providing a starting value (when a pan gesture starts)
-                            // },
-                            // onChangeEnd: (double endValue) {
-                            //   // ucallback providing an ending value (when a pan gesture ends)
-                            // },
-                          );
-                        }),
+                          // The initValue has been renamed to value.
+                          value: sleekCircularSliderPositionPreview,
+                          onChange: (value) {
+                            if (value < 0) {
+                              return;
+                            } else {
+                              audioPlayerPreview
+                                  .seek(Duration(seconds: value.toInt()));
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -178,33 +155,35 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   StreamBuilder<Duration>(
-                      stream: audioPlayerPreview.onPositionChanged,
-                      builder: (context, snapshot) {
-                        final position = snapshot.data ?? Duration.zero;
-                        return Text(
-                          (audio_players.PlayerState.completed != false ||
-                                  audio_players.PlayerState.disposed != false)
-                              ? formatDuration(position)
-                              : formatDuration(Duration.zero),
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 15),
-                        );
-                      }),
+                    stream: audioPlayerPreview.onPositionChanged,
+                    builder: (context, snapshot) {
+                      final position = snapshot.data ?? Duration.zero;
+                      return Text(
+                        (audio_players.PlayerState.completed != false ||
+                                audio_players.PlayerState.disposed != false)
+                            ? formatDuration(position)
+                            : formatDuration(Duration.zero),
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    },
+                  ),
                   Text(
                     " | ",
                     style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                   ),
                   StreamBuilder<Duration?>(
-                      stream: audioPlayerPreview.onDurationChanged,
-                      builder: (context, snapshot) {
-                        final duration = snapshot.data ?? Duration.zero;
+                    stream: audioPlayerPreview.onDurationChanged,
+                    builder: (context, snapshot) {
+                      final duration = snapshot.data ?? Duration.zero;
 
-                        return Text(
-                          formatDuration(duration),
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 15),
-                        );
-                      }),
+                      return Text(
+                        formatDuration(duration),
+                        style: TextStyle(
+                            color: TColor.secondaryText, fontSize: 15),
+                      );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(
@@ -217,38 +196,29 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                   child: Column(
                     children: [
                       Container(
-                        // color: Colors.grey,
                         width: media.width * 0.9,
                         height: media.width * 0.07,
-                        child: LayoutBuilder(builder: (context, constraints) {
-                          // Gets the width of Expanded
-                          final double width = constraints.maxWidth;
-                          return MarqueeText(
-                            centerText: true,
-                            // Forces rebuild when song changes
-                            key: ValueKey(songName(widget.songPath)),
-                            // Set dynamically based on layout
-                            maxWidth: width,
-                            text: songName(widget.songPath),
-                            style: TextStyle(
-                              color: TColor.primaryText.withValues(alpha: 0.9),
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          );
-                        }),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            // Gets the width of Expanded
+                            final double width = constraints.maxWidth;
+                            return MarqueeText(
+                              centerText: true,
+                              // Forces rebuild when song changes
+                              key: ValueKey(songName(widget.songPath)),
+                              maxWidth:
+                                  width, // Set dynamically based on layout
+                              text: songName(widget.songPath),
+                              style: TextStyle(
+                                color:
+                                    TColor.primaryText.withValues(alpha: 0.9),
+                                fontSize: 19,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            );
+                          },
+                        ),
                       ),
-
-                      // Text(
-                      //   songName(widget.songPath),
-                      //   maxLines: 1,
-                      //   textAlign: TextAlign.center,
-                      //   overflow: TextOverflow.ellipsis,
-                      //   style: TextStyle(
-                      //       color: TColor.primaryText.withValues(alpha: 0.9),
-                      //       fontSize: 19,
-                      //       fontWeight: FontWeight.w600),
-                      // ),
                     ],
                   ),
                 ),
@@ -284,7 +254,6 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                     builder: (context, snapshot) {
                       final playerState = snapshot.data;
 
-                      // final playing = playerState?.playing;
                       if (playerState == audio_players.PlayerState.stopped ||
                           playerState == audio_players.PlayerState.paused ||
                           playerState == audio_players.PlayerState.completed ||
@@ -390,27 +359,3 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
     );
   }
 }
-
-// Como executar o código assíncrono antes de chamar super.dispose()
-//
-// @override
-// void dispose() {
-//   if (audioPlayerWasPlaying) {
-//     Future.microtask(() async {
-//       await audioPlayer.play();
-//     });
-//   }
-//   super.dispose();
-// }
-//
-// Future<void> _handleAudio() async {
-//   if (audioPlayerWasPlaying) {
-//     await audioPlayer.play();
-//   }
-// }
-//
-// @override
-// void dispose() {
-//   _handleAudio(); // Chama a função assíncrona sem `await`
-//   super.dispose();
-// }

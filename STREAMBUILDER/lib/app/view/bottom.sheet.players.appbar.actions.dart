@@ -19,21 +19,11 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 230, // Adjust the height as needed
+        height: 230, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Top button indicator
-            // Container(
-            //   width: 100,
-            //   margin: const EdgeInsets.only(top: 10, bottom: 10),
-            //   height: 5,
-            //   decoration: BoxDecoration(
-            //     color: TColor.secondaryText,
-            //     borderRadius: BorderRadius.circular(20),
-            //   ),
-            // ),
             const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.only(left: 21, right: 21),
@@ -48,13 +38,10 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
-
             const SizedBox(height: 20),
-            // Content
             Expanded(
               child: Container(
                 color: TColor.bg,
-                // width: media.width * 0.9,
                 child: ListView(
                   children: [
                     Material(
@@ -95,12 +82,6 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                         },
                       ),
                     ),
-                    // const Divider(
-                    //   color: Colors.white12,
-                    //   indent: 70,
-                    //   endIndent: 25,
-                    //   height: 1,
-                    // ),
                     Material(
                       color: Colors.transparent,
                       child: ListTile(
@@ -139,13 +120,6 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                         },
                       ),
                     ),
-                    // const Divider(
-                    //   color: Colors.white12,
-                    //   indent: 70,
-                    //   endIndent: 25,
-                    //   height: 1,
-                    // ),
-                    // TODO copy and paste tiles
                     const SizedBox(
                       height: 30,
                     ),

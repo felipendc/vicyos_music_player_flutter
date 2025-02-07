@@ -12,8 +12,6 @@ Future<void> requestStoragePermission() async {
   var status = await Permission.storage.status;
   if (!status.isGranted) {
     await Permission.storage.request();
-  } else {
-    // openAppSettings();
   }
 }
 
@@ -98,8 +96,7 @@ Future<void> listMusicFolders() async {
         .toString()
         .toString());
   }
-  listPlaylistFolderStreamListener();
-  // print(audioFolders);
+  listPlaylistFolderStreamNotifier();
 }
 
 int folderLength(String folderPath) {

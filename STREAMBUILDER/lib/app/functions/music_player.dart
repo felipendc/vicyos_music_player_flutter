@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 // import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -19,24 +18,19 @@ bool isSongPreviewBottomSheetOpen = false;
 bool mainPlayerIsOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';
-int playlistLengths = 0;
-bool isFirstArtDemoCover = true;
+int playlistCurrentLength = 0;
 String currentLoopModeIcon = 'assets/img/repeat_all.png';
-var volumeSliderValue = 50.0;
+late double volumeSliderValue;
 String currentSongAlbumName = 'Unknown Album';
 String currentSongName = 'The playlist is empty';
-Duration currentSongDurationPosition = Duration.zero; //temp
-Duration currentSongTotalDuration = Duration.zero; //temp
-double sleekCircularSliderPosition = 0.0; //temp
-double sleekCircularSliderDuration = 100.0; //temp
-bool playlistIsEmpty = true; //temp
+Duration currentSongDurationPosition = Duration.zero;
+Duration currentSongTotalDuration = Duration.zero;
+double sleekCircularSliderPosition = 0.0;
+double sleekCircularSliderDuration = 100.0;
 List<FolderSources> musicFolderPaths = <FolderSources>[];
 List<AudioInfo> folderSongList = <AudioInfo>[];
-String volumeSliderStatus = 'idle';
-MaterialColor volumeSliderStatusColor = Colors.amber;
 String currentSongArtistName = 'Unknown Artist';
 late final File notificationPlayerAlbumArt;
-
 bool songIsPlaying = false;
 bool isStopped = false;
 int playlistLength = 0;
@@ -44,27 +38,22 @@ int currentIndex = 0;
 bool firstSongIndex = true;
 bool lastSongIndex = false;
 bool penultimateSongIndex = false;
-bool playlistTrailingIndex = false;
 Duration currentPosition = Duration.zero;
 LoopMode currentLoopMode = LoopMode.all;
 String currentLoopModeLabel = 'Repeat: All';
-Duration songTotalDuration = Duration.zero;
 List<AudioSource> audioSources = <AudioSource>[];
-
 late ConcatenatingAudioSource playlist;
 late AudioPlayer audioPlayer;
-
 late final MediaItem mediaItem;
 
 // Player for Preview
 late audio_players.AudioPlayer audioPlayerPreview;
-
 Duration currentSongDurationPositionPreview = Duration.zero;
 Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
-//
 
+// Stream controllers
 StreamController<String> getCurrentSongFolderStreamController =
     StreamController<String>.broadcast();
 
@@ -98,49 +87,50 @@ StreamController<bool> albumArtStreamController =
 StreamController<bool> hideButtonSheetStreamController =
     StreamController<bool>.broadcast();
 
-Future<void> hideButtonSheetStreamListener(bool value) async {
+// Streams Notifiers
+Future<void> hideButtonSheetStreamNotifier(bool value) async {
   hideButtonSheetStreamController.sink.add(value);
 }
 
-void clearCurrentPlaylistStreamListener() {
+void clearCurrentPlaylistStreamNotifier() {
   clearCurrentPlaylistStreamController.sink.add(playlist.clear());
 }
 
-void listPlaylistFolderStreamListener() async {
+void listPlaylistFolderStreamNotifier() async {
   listPlaylistFolderStreamController.sink
       .add(playlistLength = musicFolderPaths.length);
 }
 
-Future<void> playlistLengthStreamListener() async {
+Future<void> playlistLengthStreamNotifier() async {
   playlistLengthStreamController.sink
-      .add(playlistLengths = playlist.children.length);
+      .add(playlistCurrentLength = playlist.children.length);
 }
 
-Future<void> currentSongNameStreamListener(value) async {
+Future<void> currentSongNameStreamNotifier(value) async {
   currentSongNameStreamController.sink.add(value);
 }
 
-void currentSongAlbumStreamListener(value) {
+void currentSongAlbumStreamNotifier(value) {
   currentSongAlbumStreamController.sink.add(value);
 }
 
-void repeatModeStreamListener(value) {
+void repeatModeStreamNotifier(value) {
   repeatModeStreamController.sink.add(value);
 }
 
-void systemVolumeStreamListener(value) {
+void systemVolumeStreamNotifier(value) {
   systemVolumeStreamController.sink.add(value);
 }
 
-void albumArtStreamControllerStreamListener(value) {
+void albumArtStreamControllerStreamNotifier(value) {
   albumArtStreamController.sink.add(value);
 }
 
-void getCurrentSongFolderStreamControllerListener(value) {
+void getCurrentSongFolderStreamControllerNotifier(value) {
   getCurrentSongFolderStreamController.sink.add(value);
 }
 
-Future<void> getCurrentSongFullPathStreamControllerListener(value) async {
+Future<void> getCurrentSongFullPathStreamControllerNotifier(value) async {
   getCurrentSongFullPathStreamController.sink.add(value);
 }
 
@@ -158,17 +148,17 @@ Future<void> onInitPlayer() async {
     shuffleOrder: DefaultShuffleOrder(),
     children: audioSources,
   );
-  playerEventStateStreamListener();
-  playerPreviewEventStateStreamListener();
+  playerEventStateStreamNotifier();
+  playerPreviewEventStateStreamNotifier();
   await defaultAlbumArt();
 
   audioPlayer.sequenceStateStream.listen((sequenceState) {
     final currentSource = sequenceState?.currentSource;
     if (currentSource is UriAudioSource) {
-      getCurrentSongFolderStreamControllerListener(currentFolderPath =
+      getCurrentSongFolderStreamControllerNotifier(currentFolderPath =
           getCurrentSongFolder(currentSource.uri.toString()));
 
-      getCurrentSongFullPathStreamControllerListener(currentSongFullPath =
+      getCurrentSongFullPathStreamControllerNotifier(currentSongFullPath =
           getCurrentSongFullPath(currentSource.uri.toString()));
     }
   });
@@ -176,7 +166,7 @@ Future<void> onInitPlayer() async {
 
 void initVolumeControl() async {
   VolumeController.instance.addListener((volume) {
-    systemVolumeStreamListener(volumeSliderValue = volume * 100);
+    systemVolumeStreamNotifier(volumeSliderValue = volume * 100);
   });
   double currentVolume = await VolumeController.instance.getVolume();
   volumeSliderValue = (currentVolume * 100);
@@ -195,7 +185,6 @@ void setVolume(double value) {
 void setVolumeJustAudio(value) {
   // Set the volume and keep the system volume UI hidden
   // VolumeController.instance.showSystemUI = false;
-
   double volume = value / 100;
   audioPlayer.setVolume(volume);
   VolumeController.instance.setVolume(audioPlayer.volume);
@@ -214,7 +203,7 @@ Future<void> defaultAlbumArt() async {
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
-void playerPreviewEventStateStreamListener() {
+void playerPreviewEventStateStreamNotifier() {
   audioPlayerPreview.onPositionChanged.listen((position) {
     currentSongDurationPositionPreview = position;
     sleekCircularSliderPositionPreview = position.inSeconds.toDouble();
@@ -228,9 +217,8 @@ void playerPreviewEventStateStreamListener() {
 }
 
 // This func should be used on a flutter.initState or GetX.onInit();
-void playerEventStateStreamListener() {
+void playerEventStateStreamNotifier() {
   // I will need to use another state listener other than!
-  // To display on a widget: Text('Current Time: ${formatDuration(currentPosition)} / ${formatDuration(songTotalDuration)}'),
   audioPlayer.positionStream.listen((position) {
     currentSongDurationPosition = position;
     sleekCircularSliderPosition = position.inSeconds.toDouble();
@@ -287,10 +275,10 @@ void playerEventStateStreamListener() {
 void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
-    currentSongNameStreamListener(currentSongName = currentMediaItem.title);
+    currentSongNameStreamNotifier(currentSongName = currentMediaItem.title);
 
     currentSongArtistName = currentMediaItem.artist!;
-    currentSongAlbumStreamListener(
+    currentSongAlbumStreamNotifier(
         currentSongAlbumName = currentMediaItem.album!);
     currentIndex = index;
   });
@@ -390,7 +378,7 @@ Future<void> cleanPlaylist() async {
   audioPlayer.stop();
   songIsPlaying = false;
   await playlist.clear();
-  playlistLengthStreamListener();
+  playlistLengthStreamNotifier();
 
   currentIndex = 0;
   playlistLength = playlist.children.length;
@@ -398,13 +386,13 @@ Future<void> cleanPlaylist() async {
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
 
-  currentSongNameStreamListener(currentSongName = "The playlist is empty");
-  currentSongAlbumStreamListener(currentSongAlbumName = "Unknown Album");
+  currentSongNameStreamNotifier(currentSongName = "The playlist is empty");
+  currentSongAlbumStreamNotifier(currentSongAlbumName = "Unknown Album");
 
-  getCurrentSongFolderStreamControllerListener(
+  getCurrentSongFolderStreamControllerNotifier(
       currentFolderPath = 'The song folder will be displayed here...');
-  clearCurrentPlaylistStreamListener();
-  getCurrentSongFullPathStreamControllerListener(currentSongFullPath = "");
+  clearCurrentPlaylistStreamNotifier();
+  getCurrentSongFullPathStreamControllerNotifier(currentSongFullPath = "");
 }
 
 void playOrPause() {
@@ -486,19 +474,19 @@ void rewind() {
 
 void repeatMode() {
   if (currentLoopMode == LoopMode.all) {
-    repeatModeStreamListener(currentLoopMode = LoopMode.one);
+    repeatModeStreamNotifier(currentLoopMode = LoopMode.one);
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_one.png";
 
     print("Repeat: One");
   } else if (currentLoopMode == LoopMode.one) {
-    repeatModeStreamListener(currentLoopMode = LoopMode.off);
+    repeatModeStreamNotifier(currentLoopMode = LoopMode.off);
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_none.png";
 
     print("Repeat: Off");
   } else if (currentLoopMode == LoopMode.off) {
-    repeatModeStreamListener(currentLoopMode = LoopMode.all);
+    repeatModeStreamNotifier(currentLoopMode = LoopMode.all);
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_all.png";
   }
@@ -558,7 +546,6 @@ Future<void> pickFolder() async {
       }
       await audioPlayer.setAudioSource(playlist,
           initialIndex: 0, preload: true);
-      playlistIsEmpty = false;
       firstSongIndex = true;
       preLoadSongName();
 
@@ -654,7 +641,6 @@ Future<void> pickAndPlayAudio() async {
       }
 
       audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: true);
-      playlistIsEmpty = false;
       firstSongIndex = true;
       preLoadSongName();
     } else {
@@ -730,12 +716,11 @@ Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
         tag: mediaItem,
       ),
     );
-    playlistLengthStreamListener();
+    playlistLengthStreamNotifier();
   }
 
   audioPlayer.setAudioSource(playlist,
       initialIndex: currentIndex, preload: false);
-  playlistIsEmpty = false;
   firstSongIndex = true;
   preLoadSongName();
   playOrPause();
@@ -772,11 +757,10 @@ Future<void> addFolderToPlaylist(currentFolder) async {
           tag: mediaItem,
         ),
       );
-      playlistLengthStreamListener();
+      playlistLengthStreamNotifier();
     }
 
     audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
-    playlistIsEmpty = false;
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
@@ -810,10 +794,8 @@ Future<void> addFolderToPlaylist(currentFolder) async {
           tag: mediaItem,
         ),
       );
-      playlistLengthStreamListener();
+      playlistLengthStreamNotifier();
     }
-
-    playlistIsEmpty = false;
   }
 }
 
@@ -848,7 +830,6 @@ Future<void> addSongToPlaylist(songPath) async {
     );
 
     audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
-    playlistIsEmpty = false;
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
@@ -880,9 +861,7 @@ Future<void> addSongToPlaylist(songPath) async {
         tag: mediaItem,
       ),
     );
-    playlistLengthStreamListener();
-
-    playlistIsEmpty = false;
+    playlistLengthStreamNotifier();
   }
 }
 

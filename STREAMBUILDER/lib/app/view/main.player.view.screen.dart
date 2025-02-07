@@ -16,8 +16,6 @@ final List<Color> colors = [
   TColor.secondaryEnd,
   TColor.focusStart,
   Colors.blue[900]!,
-  // TColor.lightGray,
-  // TColor.bgMiniPlayer
 ];
 
 final List<int> duration = [900, 700, 600, 800, 500];
@@ -47,18 +45,16 @@ class MainPlayerView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
                   child: StreamBuilder<bool>(
-                      stream: albumArtStreamController.stream,
-                      builder: (context, snapshot) {
-                        return Image.asset(
-                          // isFirstArtDemoCover
-                          //     ?
-                          "assets/img/lofi-woman-album-cover-art_10.png",
-                          // : "assets/img/lofi-woman-album-cover-art.png",
-                          width: media.width * 0.6,
-                          height: media.width * 0.6,
-                          fit: BoxFit.cover,
-                        );
-                      }),
+                    stream: albumArtStreamController.stream,
+                    builder: (context, snapshot) {
+                      return Image.asset(
+                        "assets/img/lofi-woman-album-cover-art_10.png",
+                        width: media.width * 0.6,
+                        height: media.width * 0.6,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
@@ -69,95 +65,74 @@ class MainPlayerView extends StatelessWidget {
                     progress: 9.0,
                   ),
                 ),
-
-                // GestureDetector(
-                //   onTapCancel: () {
-                //     print(isFirstArtDemoCover);
-                //     albumArtStreamControllerStreamListener(
-                //         isFirstArtDemoCover = !isFirstArtDemoCover);
-                //   },
-                //   child:
                 SizedBox(
                   width: media.width * 0.6,
                   height: media.width * 0.6,
                   child: StreamBuilder<void>(
-                      stream: clearCurrentPlaylistStreamController.stream,
-                      builder: (context, snapshot) {
-                        return StreamBuilder<Duration>(
-                            stream: audioPlayer.positionStream,
-                            builder: (context, snapshot) {
-                              return SleekCircularSlider(
-                                appearance: CircularSliderAppearance(
-                                    customWidths: CustomSliderWidths(
-                                        trackWidth: 4,
-                                        progressBarWidth: 6,
-                                        shadowWidth: 30),
-                                    customColors: CustomSliderColors(
-                                        dotFillColor: const Color(0xffFFB1B2),
-                                        trackColor: const Color(0xffffffff)
-                                            .withValues(alpha: 0.3),
-                                        progressBarColors: [
-                                          const Color(0xffFB9967),
-                                          const Color(0xffE9585A)
-                                        ],
-                                        shadowColor: const Color(0xffFFB1B2),
-                                        shadowMaxOpacity: 0.05),
-                                    infoProperties: InfoProperties(
-                                      topLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      topLabelText: 'Elapsed',
-                                      bottomLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                      bottomLabelText: 'time',
-                                      mainLabelStyle: const TextStyle(
-                                          color: Colors.transparent,
-                                          fontSize: 50.0,
-                                          fontWeight: FontWeight.w600),
-                                      // modifier: (double value) {
-                                      //   final time =
-                                      //       print(Duration(seconds: value.toInt()));
-                                      //   return '$time';
-                                      // },
-                                    ),
-                                    startAngle: 270,
-                                    angleRange: 360,
-                                    size: 350.0),
-                                min: 0,
-                                max: sleekCircularSliderDuration,
+                    stream: clearCurrentPlaylistStreamController.stream,
+                    builder: (context, snapshot) {
+                      return StreamBuilder<Duration>(
+                        stream: audioPlayer.positionStream,
+                        builder: (context, snapshot) {
+                          return SleekCircularSlider(
+                            appearance: CircularSliderAppearance(
+                                customWidths: CustomSliderWidths(
+                                    trackWidth: 4,
+                                    progressBarWidth: 6,
+                                    shadowWidth: 30),
+                                customColors: CustomSliderColors(
+                                    dotFillColor: const Color(0xffFFB1B2),
+                                    trackColor: const Color(0xffffffff)
+                                        .withValues(alpha: 0.3),
+                                    progressBarColors: [
+                                      const Color(0xffFB9967),
+                                      const Color(0xffE9585A)
+                                    ],
+                                    shadowColor: const Color(0xffFFB1B2),
+                                    shadowMaxOpacity: 0.05),
+                                infoProperties: InfoProperties(
+                                  topLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  topLabelText: 'Elapsed',
+                                  bottomLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  bottomLabelText: 'time',
+                                  mainLabelStyle: const TextStyle(
+                                      color: Colors.transparent,
+                                      fontSize: 50.0,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                startAngle: 270,
+                                angleRange: 360,
+                                size: 350.0),
+                            min: 0,
+                            max: sleekCircularSliderDuration,
 
-                                // The initValue has been renamed to value.
-                                value: sleekCircularSliderPosition,
-                                onChange: (value) {
-                                  if (value < 0) {
-                                    return;
-                                  } else {
-                                    audioPlayer
-                                        .seek(Duration(seconds: value.toInt()));
-                                  }
-
-                                  // callback providing a value while its being changed (with a pan gesture)
-                                },
-                                // onChangeStart: (double startValue) {
-                                //   // callback providing a starting value (when a pan gesture starts)
-                                // },
-                                // onChangeEnd: (double endValue) {
-                                //   // ucallback providing an ending value (when a pan gesture ends)
-                                // },
-                              );
-                            });
-                      }),
+                            // The initValue has been renamed to value.
+                            value: sleekCircularSliderPosition,
+                            onChange: (value) {
+                              if (value < 0) {
+                                return;
+                              } else {
+                                audioPlayer
+                                    .seek(Duration(seconds: value.toInt()));
+                              }
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-                // ),
               ],
             ),
             const SizedBox(
               height: 15,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -183,22 +158,22 @@ class MainPlayerView extends StatelessWidget {
                   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                 ),
                 StreamBuilder<Duration?>(
-                    stream: audioPlayer.durationStream,
-                    builder: (context, snapshot) {
-                      final duration = snapshot.data ?? Duration.zero;
+                  stream: audioPlayer.durationStream,
+                  builder: (context, snapshot) {
+                    final duration = snapshot.data ?? Duration.zero;
 
-                      return Text(
-                        formatDuration(duration),
-                        style: TextStyle(
-                            color: TColor.secondaryText, fontSize: 15),
-                      );
-                    }),
+                    return Text(
+                      formatDuration(duration),
+                      style:
+                          TextStyle(color: TColor.secondaryText, fontSize: 15),
+                    );
+                  },
+                ),
               ],
             ),
             const SizedBox(
               height: 1,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -227,17 +202,17 @@ class MainPlayerView extends StatelessWidget {
                       );
                     }),
                 StreamBuilder<int>(
-                    stream: playlistLengthStreamController.stream,
-                    builder: (context, snapshot) {
-                      return Text(
-                        " of $playlistLengths",
-                        style: TextStyle(
-                            color: TColor.secondaryText, fontSize: 15),
-                      );
-                    }),
+                  stream: playlistLengthStreamController.stream,
+                  builder: (context, snapshot) {
+                    return Text(
+                      " of $playlistCurrentLength",
+                      style:
+                          TextStyle(color: TColor.secondaryText, fontSize: 15),
+                    );
+                  },
+                ),
               ],
             ),
-
             const SizedBox(
               height: 15,
             ),
@@ -250,39 +225,29 @@ class MainPlayerView extends StatelessWidget {
                     builder: (context, snapshot) {
                       return Column(
                         children: [
-                          // Text(
-                          //   currentSongName,
-                          //   maxLines: 1,
-                          //   textAlign: TextAlign.center,
-                          //   overflow: TextOverflow.ellipsis,
-                          //   style: TextStyle(
-                          //       color: TColor.primaryText.withValues(alpha: 0.9),
-                          //       fontSize: 19,
-                          //       fontWeight: FontWeight.w600),
-                          // ),
                           Container(
-                            // color: Colors.grey,
                             width: media.width * 0.9,
                             height: media.width * 0.07,
-                            child:
-                                LayoutBuilder(builder: (context, constraints) {
-                              // Gets the width of Expanded
-                              final double width = constraints.maxWidth;
-                              return MarqueeText(
-                                centerText: true,
-                                // Forces rebuild when song changes
-                                key: ValueKey(currentSongName),
-                                // Set dynamically based on layout
-                                maxWidth: width,
-                                text: currentSongName,
-                                style: TextStyle(
-                                  color:
-                                      TColor.primaryText.withValues(alpha: 0.9),
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              );
-                            }),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                // Gets the width of Expanded
+                                final double width = constraints.maxWidth;
+                                return MarqueeText(
+                                  centerText: true,
+                                  // Forces rebuild when song changes
+                                  key: ValueKey(currentSongName),
+                                  // Set dynamically based on layout
+                                  maxWidth: width,
+                                  text: currentSongName,
+                                  style: TextStyle(
+                                    color: TColor.primaryText
+                                        .withValues(alpha: 0.9),
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -305,36 +270,9 @@ class MainPlayerView extends StatelessWidget {
                     }),
               ),
             ),
-
-            // Text(
-            //   currentSongName.length > 29
-            //       ? "${currentSongName.substring(0, 28)}..."
-            //       : currentSongName,
-            //   style: TextStyle(
-            //       color: TColor.primaryText.withValues(alpha: 0.9),
-            //       fontSize: 19,
-            //       fontWeight: FontWeight.w600),
-            // ),
-
             const SizedBox(
               height: 28,
             ),
-            // SizedBox(
-            //   height: 90,
-            //   width: media.width * 0.6,
-            //   child: MusicVisualizer(
-            //     barCount: 30,
-            //     colors: colors,
-            //     duration: duration,
-            //   ),
-            // ),
-
-            // Image.asset(
-            //   "assets/img/eq_display.png",
-            //   height: 60,
-            //   fit: BoxFit.fitHeight,
-            // ),
-
             SizedBox(
               height: 50,
               width: media.width * 0.5,
@@ -345,8 +283,6 @@ class MainPlayerView extends StatelessWidget {
                   TColor.secondaryEnd,
                   TColor.focusStart,
                   Colors.blue[900]!,
-                  // TColor.lightGray,
-                  // TColor.bgMiniPlayer
                 ],
                 duration: const [900, 700, 600, 800, 500],
               ),
@@ -379,8 +315,6 @@ class MainPlayerView extends StatelessWidget {
                               },
                               icon: Image.asset(
                                 "assets/img/playlist.png",
-                                // width: 60,
-                                // height: 60,
                                 color: TColor.primaryText80,
                               ),
                             ),
@@ -424,15 +358,16 @@ class MainPlayerView extends StatelessWidget {
                                 repeatMode();
                               },
                               icon: StreamBuilder<LoopMode>(
-                                  stream: repeatModeStreamController.stream,
-                                  builder: (context, snapshot) {
-                                    return Image.asset(
-                                      currentLoopModeIcon,
-                                      width: 30,
-                                      height: 30,
-                                      color: TColor.primaryText80,
-                                    );
-                                  }),
+                                stream: repeatModeStreamController.stream,
+                                builder: (context, snapshot) {
+                                  return Image.asset(
+                                    currentLoopModeIcon,
+                                    width: 30,
+                                    height: 30,
+                                    color: TColor.primaryText80,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -453,66 +388,49 @@ class MainPlayerView extends StatelessWidget {
                     bottom: 2,
                   ),
                   child: StreamBuilder<Object>(
-                      stream: systemVolumeStreamController.stream,
-                      builder: (context, snapshot) {
-                        return SliderTheme(
-                          data: SliderTheme.of(context).copyWith(
-                            trackHeight: 5,
-                            trackShape: const RoundedRectSliderTrackShape(),
-                            activeTrackColor: Colors.purple.shade800,
-                            inactiveTrackColor: Colors.purple.shade200,
-                            thumbShape: const RoundSliderThumbShape(
-                              elevation: BorderSide.strokeAlignOutside,
-                              enabledThumbRadius: 5.0,
-                              pressedElevation: 8.0,
-                            ),
-                            thumbColor: Colors.pinkAccent,
-                            overlayColor: Colors.pinkAccent,
-                            overlayShape: const RoundSliderOverlayShape(
-                                overlayRadius: 15),
-                            tickMarkShape: const RoundSliderTickMarkShape(),
-                            activeTickMarkColor: Colors.purple.shade800,
-                            // activeTickMarkColor: Colors.pinkAccent,
-                            inactiveTickMarkColor: Colors.purple.shade200,
-                            // inactiveTickMarkColor: Colors.white,
-                            valueIndicatorShape:
-                                const PaddleSliderValueIndicatorShape(),
-                            valueIndicatorColor: Colors.black,
-
-                            valueIndicatorTextStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            ),
+                    stream: systemVolumeStreamController.stream,
+                    builder: (context, snapshot) {
+                      return SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          trackHeight: 5,
+                          trackShape: const RoundedRectSliderTrackShape(),
+                          activeTrackColor: Colors.purple.shade800,
+                          inactiveTrackColor: Colors.purple.shade200,
+                          thumbShape: const RoundSliderThumbShape(
+                            elevation: BorderSide.strokeAlignOutside,
+                            enabledThumbRadius: 5.0,
+                            pressedElevation: 8.0,
                           ),
-                          child: Slider(
-                            min: 0.0,
-                            max: 100.0,
-                            value: volumeSliderValue,
-                            divisions: 20,
-                            label: '${volumeSliderValue.round()}',
-                            onChanged: (value) {
-                              systemVolumeStreamListener(value);
-                              setVolumeJustAudio(value);
-                              // setVolume(value);
-                            },
+                          thumbColor: Colors.pinkAccent,
+                          overlayColor: Colors.pinkAccent,
+                          overlayShape:
+                              const RoundSliderOverlayShape(overlayRadius: 15),
+                          tickMarkShape: const RoundSliderTickMarkShape(),
+                          activeTickMarkColor: Colors.purple.shade800,
+                          inactiveTickMarkColor: Colors.purple.shade200,
+                          valueIndicatorShape:
+                              const PaddleSliderValueIndicatorShape(),
+                          valueIndicatorColor: Colors.black,
+                          valueIndicatorTextStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
                           ),
+                        ),
+                        child: Slider(
+                          min: 0.0,
+                          max: 100.0,
+                          value: volumeSliderValue,
+                          divisions: 20,
+                          label: '${volumeSliderValue.round()}',
+                          onChanged: (value) {
+                            systemVolumeStreamNotifier(value);
 
-                          // Slider(
-                          //   min: 0.0,
-                          //   max: 100.0,
-                          //   value: volumeSliderValue,
-                          //   divisions: 20,
-                          //   label: '${volumeSliderValue.round()}',
-                          //   onChanged: (value) {
-                          //     systemVolumeStreamListener(
-                          //         volumeSliderValue = value);
-
-                          //     // setVolume(value);
-                          //     setVolume(value);
-                          //   },
-                          // ),
-                        );
-                      }),
+                            setVolume(value);
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),

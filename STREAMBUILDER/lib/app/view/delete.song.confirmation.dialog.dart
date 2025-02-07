@@ -115,8 +115,8 @@ class _DeleteSongConfirmationDialogState
 
                               if (index != -1) {
                                 await playlist.removeAt(index);
-                                await playlistLengthStreamListener();
-                                await getCurrentSongFullPathStreamControllerListener(
+                                await playlistLengthStreamNotifier();
+                                await getCurrentSongFullPathStreamControllerNotifier(
                                     "");
 
                                 // Update the current song name
@@ -132,7 +132,7 @@ class _DeleteSongConfirmationDialogState
                                   currentSongName = "";
                                 }
 
-                                await currentSongNameStreamListener("update");
+                                await currentSongNameStreamNotifier("update");
                               }
 
                               // ----------------------------------------------------------

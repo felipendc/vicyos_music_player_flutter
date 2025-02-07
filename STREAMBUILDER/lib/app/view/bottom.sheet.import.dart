@@ -39,11 +39,10 @@ class ImportFilesBottomSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Content
+
             Expanded(
               child: Container(
                 color: TColor.bg,
-                // width: media.width * 0.9,
                 child: ListView(
                   children: [
                     Material(
@@ -57,13 +56,6 @@ class ImportFilesBottomSheet extends StatelessWidget {
                             size: 38,
                           ),
                         ),
-
-                        // Image.asset(
-                        //   "assets/img/add_folder_icon.png",
-                        //   width: 35,
-                        //   height: 35,
-                        //   color: TColor.focus,
-                        // ),
                         title: Text(
                           "Import folder",
                           style: TextStyle(
@@ -73,7 +65,6 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          // Get.back();
                           await pickFolder();
                         },
                       ),
@@ -95,13 +86,6 @@ class ImportFilesBottomSheet extends StatelessWidget {
                             size: 40,
                           ),
                         ),
-
-                        // Image.asset(
-                        //   "assets/img/audio_file.png",
-                        //   width: 43,
-                        //   height: 43,
-                        //   color: TColor.focus,
-                        // ),
                         title: Text(
                           "Add songs",
                           style: TextStyle(
@@ -111,7 +95,6 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          // Get.back();
                           await pickAndPlayAudio();
                         },
                       ),
