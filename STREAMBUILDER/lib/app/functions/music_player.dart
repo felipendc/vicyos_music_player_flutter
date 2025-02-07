@@ -96,7 +96,13 @@ StreamController<bool> rebuildSongsListScreenStreamController =
 StreamController<bool> rebuildHomePageFolderListStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<bool> rebuildSpeedRateBottomSheetStreamController =
+    StreamController<bool>.broadcast();
+
 // Streams Notifiers Functions
+void rebuildSpeedRateBottomSheetStreamNotifier(bool value) {
+  rebuildSpeedRateBottomSheetStreamController.sink.add(value);
+}
 
 void rebuildHomePageFolderListStreamNotifier(bool value) {
   rebuildHomePageFolderListStreamController.sink.add(value);

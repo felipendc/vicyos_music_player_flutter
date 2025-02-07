@@ -7,16 +7,10 @@ import 'package:vicyos_music/app/view/song.preview.dialog.dart';
 
 import 'delete.song.confirmation.dialog.dart';
 
-class SongInfoMoreBottomSheet extends StatefulWidget {
+class SongInfoMoreBottomSheet extends StatelessWidget {
   final dynamic fullFilePath;
   const SongInfoMoreBottomSheet({super.key, required this.fullFilePath});
 
-  @override
-  State<SongInfoMoreBottomSheet> createState() =>
-      _SongInfoMoreBottomSheetState();
-}
-
-class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -35,7 +29,7 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
             Padding(
               padding: const EdgeInsets.only(left: 21, right: 21),
               child: Text(
-                songName(widget.fullFilePath).toUpperCase(),
+                songName(fullFilePath).toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -80,7 +74,7 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
                               context: context,
                               builder: (BuildContext context) {
                                 return SongPreviewDialog(
-                                    songPath: widget.fullFilePath);
+                                    songPath: fullFilePath);
                               }).whenComplete(
                             () {
                               if (isSongPreviewBottomSheetOpen) {
@@ -117,19 +111,18 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
                         onTap: () async {
                           Navigator.pop(context);
 
-                          if (widget.fullFilePath is String) {
-                            await Share.shareXFiles(
-                                [XFile(widget.fullFilePath)],
+                          if (fullFilePath is String) {
+                            await Share.shareXFiles([XFile(fullFilePath)],
                                 text:
                                     'This file was shared using the Vicyos Music app.');
-                          } else if (widget.fullFilePath is List) {
+                          } else if (fullFilePath is List) {
                             //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
-                            List<XFile> files = widget.fullFilePath
+                            List<XFile> files = fullFilePath
                                 .map((path) => XFile(path))
                                 .toList();
                             await Share.shareXFiles(files,
                                 text:
-                                    "These ${widget.fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.");
+                                    "These ${fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.");
                           }
 
                           hideButtonSheetStreamNotifier(false);
@@ -161,7 +154,7 @@ class _SongInfoMoreBottomSheetState extends State<SongInfoMoreBottomSheet> {
                             context: context,
                             builder: (BuildContext context) {
                               return DeleteSongConfirmationDialog(
-                                  songPath: widget.fullFilePath);
+                                  songPath: fullFilePath);
                             },
                           );
 

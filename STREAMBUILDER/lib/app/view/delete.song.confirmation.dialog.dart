@@ -7,18 +7,10 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 
 late bool audioPlayerWasPlaying;
 
-class DeleteSongConfirmationDialog extends StatefulWidget {
-  final String songPath;
-
+class DeleteSongConfirmationDialog extends StatelessWidget {
+  final songPath;
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
 
-  @override
-  State<DeleteSongConfirmationDialog> createState() =>
-      _DeleteSongConfirmationDialogState();
-}
-
-class _DeleteSongConfirmationDialogState
-    extends State<DeleteSongConfirmationDialog> {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -92,7 +84,7 @@ class _DeleteSongConfirmationDialogState
                       ),
                       onPressed: () async {
                         Future.microtask(() async {
-                          FlutterMediaDelete.deleteMediaFile(widget.songPath)
+                          FlutterMediaDelete.deleteMediaFile(songPath)
                               .then((wasDeleted) async {
                             if (wasDeleted == "Files deleted successfully") {
                               // ----------------------------------------------------------
@@ -108,7 +100,7 @@ class _DeleteSongConfirmationDialogState
                                       (audio as UriAudioSource)
                                           .uri
                                           .toFilePath() ==
-                                      widget.songPath);
+                                      songPath);
 
                               if (index != -1) {
                                 await playlist.removeAt(index);
@@ -131,7 +123,6 @@ class _DeleteSongConfirmationDialogState
 
                                 await currentSongNameStreamNotifier("update");
                               }
-
                               // ----------------------------------------------------------
                               rebuildSongsListScreenStreamNotifier(true);
                               rebuildHomePageFolderListStreamNotifier(true);

@@ -3,6 +3,10 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 
 List<String> speedRates = [
+  "2.0",
+  "1.9",
+  "1.8",
+  "1.7",
   "1.6",
   "1.5",
   "1.4",
@@ -19,37 +23,54 @@ List<String> speedRates = [
   "0.93",
   "0.92",
   "0.91",
-  "0.90"
+  "0.90",
+  "0.89",
+  "0.88",
+  "0.87",
+  "0.86",
+  "0.85",
+  "0.84",
+  "0.83",
+  "0.82",
+  "0.81",
+  "0.80",
+  "0.79",
+  "0.78",
+  "0.77",
+  "0.76",
+  "0.75",
 ];
 
-List speedRatestoDouble = speedRates
+List speedRatesToDouble = speedRates
     .map(
       (speed) => double.parse(speed),
     )
     .toList();
 
-class SpeedRateBottomSheet extends StatefulWidget {
+class SpeedRateBottomSheet extends StatelessWidget {
   const SpeedRateBottomSheet({super.key});
 
   @override
-  State<SpeedRateBottomSheet> createState() => _SpeedRateBottomSheetState();
-}
-
-class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
-  late ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the ScrollController
-    _scrollController = ScrollController(
-      // Set the initial scroll offset to the height of 4 tiles
-      initialScrollOffset: 4 * 53.0,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    late ScrollController _scrollController;
+
+    _scrollController = ScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      double scrollPadding = 90;
+      double tileHeight = 56;
+      int defaultSpeedRate = speedRates.indexOf("1.0");
+      double scrollOffset = defaultSpeedRate * tileHeight - scrollPadding;
+
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          scrollOffset,
+          duration: Duration(seconds: 1),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),
@@ -84,61 +105,85 @@ class _SpeedRateBottomSheetState extends State<SpeedRateBottomSheet> {
             const SizedBox(height: 20),
 
             Expanded(
-              child: Container(
-                color: TColor.bg,
-                child: ListView.separated(
-                  controller: _scrollController,
-                  itemCount: speedRates.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Material(
-                      color: Colors.transparent,
-                      child: ListTile(
-                        leading: Image.asset(
-                          "assets/img/speed-fast.png",
-                          width: 35,
-                          height: 35,
-                          color: TColor.focus,
-                        ),
-                        title: (speedRates[index] == "1.0")
-                            ? Text("${speedRates[index]}  -  Default",
-                                style: TextStyle(
-                                  color: TColor.primaryText80,
-                                  fontSize: 19,
-                                ))
-                            : Text(
-                                speedRates[index],
-                                style: TextStyle(
-                                  color: TColor.primaryText80,
-                                  fontSize: 19,
-                                ),
+              child: StreamBuilder<bool>(
+                  stream: rebuildSpeedRateBottomSheetStreamController.stream,
+                  builder: (context, snapshot) {
+                    return Container(
+                      color: TColor.bg,
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        itemCount: speedRates.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 56,
+                            child: Material(
+                              color: Colors.transparent,
+                              child: ListTile(
+                                leading: index > speedRates.indexOf("1.0")
+                                    ? Image.asset(
+                                        "assets/img/slug.png",
+                                        width: 30,
+                                        height: 30,
+                                        color: TColor.focus,
+                                      )
+                                    : index < speedRates.indexOf("1.0")
+                                        ? Image.asset(
+                                            "assets/img/rocket_launch.png",
+                                            width: 30,
+                                            height: 30,
+                                            color: TColor.focus,
+                                          )
+                                        : Image.asset(
+                                            "assets/img/speed-fast.png", //NORMALLLLL
+                                            width: 35,
+                                            height: 35,
+                                            color: TColor.focus,
+                                          ),
+                                title: (speedRates[index] == "1.0")
+                                    ? Text("${speedRates[index]}x  -  Default",
+                                        style: TextStyle(
+                                          color: TColor.primaryText80,
+                                          fontSize: 19,
+                                        ))
+                                    : Text(
+                                        "${speedRates[index]}x",
+                                        style: TextStyle(
+                                          color: TColor.primaryText80,
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                onTap: () {
+                                  audioPlayer
+                                      .setSpeed(speedRatesToDouble[index]);
+                                  rebuildSpeedRateBottomSheetStreamNotifier(
+                                      true);
+                                },
+                                trailing: (audioPlayer.speed ==
+                                        speedRatesToDouble[index])
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: TColor.green,
+                                        ),
+                                      )
+                                    : null,
                               ),
-                        onTap: () {
-                          audioPlayer.setSpeed(speedRatestoDouble[index]);
-                          setState(() {});
+                            ),
+                          );
                         },
-                        trailing:
-                            (audioPlayer.speed == speedRatestoDouble[index])
-                                ? Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      Icons.check,
-                                      color: TColor.green,
-                                    ),
-                                  )
-                                : null,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider(
+                            color: Colors.white12,
+                            indent: 70,
+                            endIndent: 25,
+                            height: 1,
+                          );
+                        },
                       ),
                     );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(
-                      color: Colors.white12,
-                      indent: 70,
-                      endIndent: 25,
-                      height: 1,
-                    );
-                  },
-                ),
-              ),
+                  }),
             ),
           ],
         ),

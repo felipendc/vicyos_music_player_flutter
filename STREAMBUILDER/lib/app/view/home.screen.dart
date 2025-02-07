@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
-import 'package:vicyos_music/app/view/songs.list.screen.dart';
 
 import '../functions/music_player.dart';
 import '../widgets/bottom.player.dart';
@@ -26,13 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
         } else {
           // Otherwise, just go back to the previous screen
           navigatorKey.currentState!.pop();
-
-          if (songsListScreenKey.currentState != null) {
-            songsListScreenKey.currentState!.setState(() {});
-          }
-          if (homePageFolderListScreenKey.currentState != null) {
-            homePageFolderListScreenKey.currentState!.setState(() {});
-          }
         }
       },
       child: Scaffold(
