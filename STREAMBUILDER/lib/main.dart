@@ -5,6 +5,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/view/home.screen.dart';
 
 import 'app/functions/music_player.dart';
@@ -103,30 +104,20 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 }
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          splashFadeTransition(context, HomeScreen()),
         );
       });
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(

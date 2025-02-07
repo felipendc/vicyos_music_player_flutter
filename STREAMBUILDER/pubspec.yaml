@@ -75,7 +75,7 @@ dependencies:
   marquee: ^2.3.0
   share_plus: ^10.1.4
   flutter_media_delete: ^1.0.1
-
+  flutter_native_splash: ^2.4.1
 
 flutter_icons:
   android: true
@@ -142,3 +142,9 @@ flutter:
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/custom-fonts/#from-packages
 
+
+flutter_native_splash:
+  # dart flutter_native_splash:remove
+  # dart run flutter_native_splash:create
+  color: "#181B2C"
+  android: true
