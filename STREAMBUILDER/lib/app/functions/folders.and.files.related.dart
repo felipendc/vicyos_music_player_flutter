@@ -96,7 +96,7 @@ Future<void> listMusicFolders() async {
         .toString()
         .toString());
   }
-  listPlaylistFolderStreamNotifier();
+  rebuildHomePageFolderListStreamNotifier(true);
 }
 
 int folderLength(String folderPath) {

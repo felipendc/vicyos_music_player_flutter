@@ -4,9 +4,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
-import 'package:vicyos_music/app/view/songs.list.screen.dart';
-
-import 'home.page.folder.list.screen.dart';
 
 late bool audioPlayerWasPlaying;
 
@@ -136,9 +133,8 @@ class _DeleteSongConfirmationDialogState
                               }
 
                               // ----------------------------------------------------------
-                              songsListScreenKey.currentState!.setState(() {});
-                              homePageFolderListScreenKey.currentState!
-                                  .setState(() {});
+                              rebuildSongsListScreenStreamNotifier(true);
+                              rebuildHomePageFolderListStreamNotifier(true);
                               Navigator.pop(
                                   context, "close_song_preview_bottom_sheet");
                             } else if (wasDeleted !=

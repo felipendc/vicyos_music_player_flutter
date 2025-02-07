@@ -11,30 +11,21 @@ import 'package:vicyos_music/app/widgets/appbars.dart';
 
 import '../widgets/music_visualizer.dart';
 
-final GlobalKey<_HomePageFolderListState> homePageFolderListScreenKey =
-    GlobalKey<_HomePageFolderListState>();
+final GlobalKey homePageFolderListScreenKey = GlobalKey();
 
-class HomePageFolderList extends StatefulWidget {
+class HomePageFolderList extends StatelessWidget {
   const HomePageFolderList({super.key});
-
-  @override
-  State<HomePageFolderList> createState() => _HomePageFolderListState();
-}
-
-class _HomePageFolderListState extends State<HomePageFolderList> {
-  @override
-  void initState() {
-    super.initState();
-    listMusicFolders();
-  }
 
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
-    return StreamBuilder<int>(
-      stream: listPlaylistFolderStreamController.stream,
+    // Fetch the songs folders
+    listMusicFolders();
+
+    return StreamBuilder<bool>(
+      stream: rebuildHomePageFolderListStreamController.stream,
       builder: (context, snapshot) {
         return Scaffold(
           appBar: homePageAppBar(),

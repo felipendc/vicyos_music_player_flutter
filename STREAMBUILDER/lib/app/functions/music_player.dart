@@ -90,7 +90,22 @@ StreamController<bool> hideButtonSheetStreamController =
 StreamController<bool> rebuildPlaylistBottomSheet =
     StreamController<bool>.broadcast();
 
+StreamController<bool> rebuildSongsListScreenStreamController =
+    StreamController<bool>.broadcast();
+
+StreamController<bool> rebuildHomePageFolderListStreamController =
+    StreamController<bool>.broadcast();
+
 // Streams Notifiers Functions
+
+void rebuildHomePageFolderListStreamNotifier(bool value) {
+  rebuildHomePageFolderListStreamController.sink.add(value);
+}
+
+void rebuildSongsListScreenStreamNotifier(bool value) {
+  rebuildSongsListScreenStreamController.sink.add(value);
+}
+
 void rebuildPlaylistBottomSheetStreamNotifier(bool value) {
   rebuildPlaylistBottomSheet.sink.add(value);
 }
