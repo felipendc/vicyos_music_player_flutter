@@ -60,7 +60,6 @@ dependencies:
   volume_controller: ^3.2.0
   file_picker: ^8.3.1
   permission_handler: ^11.3.1
-  flutter_native_splash: ^2.4.1
   uuid: ^4.4.2
   flutter_launcher_icons: ^0.14.3
   marquee: ^2.3.0
@@ -132,11 +131,3 @@ flutter:
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/custom-fonts/#from-packages
 
-flutter_native_splash:
-  # dart flutter_native_splash:remove
-  # dart run flutter_native_splash:create
-
-  color: "#181B2C"
-  image: assets/img/vicyos_logos/vicyos_music_icon_lable_transparent.png
-  android: true
-  android_gravity: center

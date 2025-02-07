@@ -5,12 +5,8 @@ import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
 import '../functions/music_player.dart';
 import '../widgets/bottom.player.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
