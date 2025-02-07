@@ -309,7 +309,7 @@ class MainPlayerView extends StatelessWidget {
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return const PlaylistBottomSheet();
+                                    return PlaylistBottomSheet();
                                   },
                                 );
                               },

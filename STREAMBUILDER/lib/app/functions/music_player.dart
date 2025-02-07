@@ -87,7 +87,14 @@ StreamController<bool> albumArtStreamController =
 StreamController<bool> hideButtonSheetStreamController =
     StreamController<bool>.broadcast();
 
-// Streams Notifiers
+StreamController<bool> rebuildPlaylistBottomSheet =
+    StreamController<bool>.broadcast();
+
+// Streams Notifiers Functions
+void rebuildPlaylistBottomSheetStreamNotifier(bool value) {
+  rebuildPlaylistBottomSheet.sink.add(value);
+}
+
 Future<void> hideButtonSheetStreamNotifier(bool value) async {
   hideButtonSheetStreamController.sink.add(value);
 }
