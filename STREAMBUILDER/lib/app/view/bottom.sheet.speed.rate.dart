@@ -121,9 +121,9 @@ class SpeedRateBottomSheet extends StatelessWidget {
                               child: ListTile(
                                 leading: index > speedRates.indexOf("1.0")
                                     ? Image.asset(
-                                        "assets/img/slug.png",
-                                        width: 30,
-                                        height: 30,
+                                        "assets/img/turtle_64.png",
+                                        width: 33,
+                                        height: 33,
                                         color: TColor.focus,
                                       )
                                     : index < speedRates.indexOf("1.0")
@@ -134,7 +134,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                                             color: TColor.focus,
                                           )
                                         : Image.asset(
-                                            "assets/img/speed-fast.png", //NORMALLLLL
+                                            "assets/img/speed-fast.png",
                                             width: 35,
                                             height: 35,
                                             color: TColor.focus,

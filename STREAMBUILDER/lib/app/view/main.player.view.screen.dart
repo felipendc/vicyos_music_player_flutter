@@ -488,7 +488,7 @@ class MainPlayerView extends StatelessWidget {
                             }
                           },
                           icon: Image.asset(
-                            "assets/img/play.png",
+                            "assets/img/round-play-button_icon.png",
                           ),
                         ),
                       );

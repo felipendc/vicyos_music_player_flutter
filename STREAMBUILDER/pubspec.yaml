@@ -42,6 +42,11 @@ dependencies:
       url: https://github.com/felipendc/vicyos_music_wave_progress_flutter.git
       ref: master
 
+  loading_animation_widget:
+    git:
+      url: https://github.com/felipendc/vicyos_music_loading_animation_widget.git
+      ref: main
+
   audioplayers: ^6.1.1
   just_audio: ^0.9.46
   audio_session: ^0.1.25

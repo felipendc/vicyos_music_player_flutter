@@ -66,6 +66,7 @@ Future<String> getMusicFolderPath() async {
 }
 
 Future<void> listMusicFolders() async {
+  rebuildHomePageFolderListStreamNotifier(false);
   musicFolderPaths.clear();
   folderSongList.clear();
 
