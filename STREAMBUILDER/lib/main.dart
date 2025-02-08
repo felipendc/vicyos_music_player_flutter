@@ -107,6 +107,8 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var media = MediaQuery.sizeOf(context);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(

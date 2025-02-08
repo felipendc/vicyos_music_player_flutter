@@ -27,28 +27,127 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Top button indicator
-            Container(
-              width: 100,
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              height: 5,
-              decoration: BoxDecoration(
-                color: TColor.secondaryText,
-                borderRadius: BorderRadius.circular(20),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.grey,
+                  color: Color(0xff181B2C),
+                ),
+                height: 73, // Loading enabled
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Folder Name...",
+                                style: TextStyle(
+                                  color: TColor.primaryText28
+                                      .withValues(alpha: 0.84),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                  shadows: [
+                                    Shadow(
+                                      color:
+                                          Colors.black.withValues(alpha: 0.2),
+                                      offset: Offset(1, 1),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 270,
+                                // color: Colors.grey,
+                                child: Text(
+                                  folderName(folderPath),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: TColor.primaryText
+                                        .withValues(alpha: 0.84),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    shadows: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.black.withValues(alpha: 0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 4),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Material(
+                                  color: Colors.transparent,
+                                  child: SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: IconButton(
+                                      splashRadius: 20,
+                                      iconSize: 10,
+                                      onPressed: () async {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Image.asset(
+                                        "assets/img/close.png",
+                                        color: TColor.lightGray,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              folderName(folderPath),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: TColor.org,
-                fontSize: 19,
-              ),
-            ),
-            const SizedBox(height: 20),
+
+            // // Top button indicator
+            // Container(
+            //   width: 100,
+            //   margin: const EdgeInsets.only(top: 10, bottom: 10),
+            //   height: 5,
+            //   decoration: BoxDecoration(
+            //     color: TColor.secondaryText,
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+
+            // ------------------------
+            // Text(
+            //   folderName(folderPath),
+            //   maxLines: 1,
+            //   overflow: TextOverflow.ellipsis,
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.w900,
+            //     color: TColor.org,
+            //     fontSize: 19,
+            //   ),
+            // ),
+            // --------------------------------
+
             // Content
             Expanded(
               child: Container(
