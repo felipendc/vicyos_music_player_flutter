@@ -896,3 +896,50 @@ Future<void> addSongToPlaylist(songPath) async {
 Future<void> previewSong(songPath) async {
   await audioPlayerPreview.setSourceDeviceFile(songPath);
 }
+
+void addToPlayNext(playNextFilePath) {
+  File audioFile = File(playNextFilePath);
+  String fileNameWithoutExtension =
+      path.basenameWithoutExtension(playNextFilePath);
+  String filePathAsId = audioFile.absolute.path;
+  // Metadata? metadata;
+
+  // try {
+  //   metadata = await MetadataRetriever.fromFile(audioFile);
+  // } catch (e) {
+  //   print('Failed to extract metadata: $e');
+  // }
+
+  final mediaItem = MediaItem(
+    id: filePathAsId,
+    // album: metadata?.albumName ?? 'Unknown Album',
+
+    // Using the name of the file as the title by default
+    title: fileNameWithoutExtension,
+    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    artUri: Uri.file(notificationPlayerAlbumArt.path),
+  );
+
+  if (playlist.children.isEmpty) {
+    playlist.add(
+      AudioSource.uri(
+        Uri.file(playNextFilePath),
+        tag: mediaItem,
+      ),
+    );
+
+    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    firstSongIndex = true;
+    preLoadSongName();
+    playOrPause();
+  } else {
+    playlist.insert(
+      currentIndex.toInt() + 1,
+      AudioSource.uri(
+        Uri.file(playNextFilePath),
+        tag: mediaItem,
+      ),
+    );
+  }
+  playlistLengthStreamNotifier();
+}

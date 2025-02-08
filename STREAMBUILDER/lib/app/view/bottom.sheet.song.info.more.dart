@@ -20,7 +20,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 290, // Adjust the height
+        height: 360, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,6 +86,32 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               Navigator.pop(context);
                             },
                           );
+                        },
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: ImageIcon(
+                            AssetImage(
+                                "assets/img/bottom_player/skip_next.png"),
+                            color: TColor.focus,
+                            size: 32,
+                          ),
+                        ),
+                        title: Text(
+                          "Add to Play Next",
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () {
+                          addToPlayNext(fullFilePath);
+                          Navigator.pop(context);
                         },
                       ),
                     ),
