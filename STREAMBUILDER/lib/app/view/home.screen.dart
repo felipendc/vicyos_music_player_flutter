@@ -54,8 +54,8 @@ class HomeScreen extends StatelessWidget {
                       } else {
                         // After one second, it will return the BottomPlayer.
                         return Positioned(
-                          bottom: 6,
-                          right: 11,
+                          bottom: 0, // Default 6
+                          right: 11, // Default 11
                           child: BottomPlayer(
                             key: bottomPlayerKey,
                           ),

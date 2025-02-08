@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/status_bar_theme/status.bar.theme.color.matching.dart';
 import 'package:vicyos_music/app/view/home.screen.dart';
 
 import 'app/functions/music_player.dart';
@@ -24,11 +24,8 @@ void main() async {
 
   runApp(const MyApp());
 
-  // Set the status bar color to match the app theme
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors
-        .transparent, // Set to transparent if you want the status bar to blend with the app
-  ));
+// Set the status bar and system navigation bar color to match the app theme
+  statusBarMainTheme();
 }
 
 class MyApp extends StatefulWidget {
@@ -94,6 +91,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 displayColor: TColor.primaryText,
               ),
           colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.dark,
             seedColor: TColor.primary,
           ),
           useMaterial3: false,
