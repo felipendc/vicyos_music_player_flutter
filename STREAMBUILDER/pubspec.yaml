@@ -114,6 +114,7 @@ flutter:
     - assets/img/
     - assets/img/bottom_player/
     - assets/img/vicyos_logos/
+    - assets/img/pics/
     #   - images/a_dot_ham.jpeg
 
     # An image asset can refer to one or more resolution-specific "variants", see

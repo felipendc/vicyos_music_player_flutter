@@ -25,7 +25,7 @@ void main() async {
   runApp(const MyApp());
 
 // Set the status bar and system navigation bar color to match the app theme
-  statusBarMainTheme();
+  systemStatusAndNavigationBarMainTheme();
 }
 
 class MyApp extends StatefulWidget {
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // clearCache(); // Clears the cache when the app starts
+    clearCache(); // Clears the cache when the app starts
   }
 
   @override
