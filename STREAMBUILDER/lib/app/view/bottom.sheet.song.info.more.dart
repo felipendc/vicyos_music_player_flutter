@@ -47,7 +47,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Song Name...",
+                                "Song Name:",
                                 style: TextStyle(
                                   color: TColor.primaryText28
                                       .withValues(alpha: 0.84),

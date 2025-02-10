@@ -62,7 +62,7 @@ class SongsListScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Folder...",
+                                    "Folder:",
                                     style: TextStyle(
                                       color: TColor.primaryText28
                                           .withValues(alpha: 0.84),

@@ -22,7 +22,7 @@ class LoadingScreen extends StatelessWidget {
                   // color: Colors.grey,
                   color: Color(0xff181B2C),
                 ),
-                height: 73, // Loading enabled
+                height: 130, // Loading enabled
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,60 +94,108 @@ class LoadingScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Material(
-                                color: Colors.transparent,
-                                child: SizedBox(
-                                  width: 38,
-                                  height: 38,
-                                  child: IconButton(
-                                    splashRadius: 20,
-                                    iconSize: 10,
-                                    onPressed: () async {
-                                      //TODO
-                                    },
-                                    icon: Image.asset(
-                                      "assets/img/search.png",
-                                      color: TColor.lightGray,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Material(
+                              //   color: Colors.transparent,
+                              //   child: SizedBox(
+                              //     width: 38,
+                              //     height: 38,
+                              //     child: IconButton(
+                              //       splashRadius: 20,
+                              //       iconSize: 10,
+                              //       onPressed: () async {
+                              //         //TODO
+                              //         Navigator.push(
+                              //           context,
+                              //           slideRightLeftTransition(
+                              //             const SearchScreen(),
+                              //           ),
+                              //         );
+                              //       },
+                              //       icon: Image.asset(
+                              //         "assets/img/search.png",
+                              //         color: TColor.lightGray,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        media.width * 0.2),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            Colors.black.withValues(alpha: 0.2),
-                                        spreadRadius: 5,
-                                        blurRadius: 8,
-                                        offset: Offset(2, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        media.width * 0.2),
-                                    child: StreamBuilder<bool>(
-                                      stream: albumArtStreamController.stream,
-                                      builder: (context, snapshot) {
-                                        return Image.asset(
-                                          "assets/img/pics/default.png",
-                                          width: media.width * 0.13,
-                                          height: media.width * 0.13,
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
+                                  padding:
+                                      const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          media.width * 0.2),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black
+                                              .withValues(alpha: 0.2),
+                                          spreadRadius: 5,
+                                          blurRadius: 8,
+                                          offset: Offset(2, 4),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          media.width * 0.2),
+                                      child: StreamBuilder<bool>(
+                                        stream: albumArtStreamController.stream,
+                                        builder: (context, snapshot) {
+                                          return Image.asset(
+                                            "assets/img/pics/default.png",
+                                            width: media.width * 0.13,
+                                            height: media.width * 0.13,
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )),
                             ],
                           ),
                         ],
+                      ),
+                    ),
+
+                    // Search Box
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                      child: GestureDetector(
+                        onTap: () async {
+                          // Do nothing...
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: const Color(
+                                0xff24273A), // Background color of the container
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TextField(
+                            // Attach FocusNode to the TextField
+                            autofocus:
+                                false, // Ensure the TextField doesn't autofocus
+                            enabled:
+                                false, // Disable the TextField to avoid interaction
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintText: 'Search...',
+                              hintStyle: const TextStyle(color: Colors.white60),
+                              filled: false,
+                              fillColor: Colors
+                                  .transparent, // Transparent background for TextField
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 0),
+                              border: InputBorder
+                                  .none, // Removing border from TextField
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.only(left: 50),
+                                child: const Icon(Icons.search,
+                                    color: Colors.white70),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

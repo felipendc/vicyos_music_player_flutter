@@ -48,7 +48,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Folder Name...",
+                                "Folder Name:",
                                 style: TextStyle(
                                   color: TColor.primaryText28
                                       .withValues(alpha: 0.84),
