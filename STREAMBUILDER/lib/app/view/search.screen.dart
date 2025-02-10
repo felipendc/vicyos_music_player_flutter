@@ -10,6 +10,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode(); // Criando o FocusNode
   bool _isTyping = false;
 
   void _onTextChanged(String text) {
@@ -22,6 +23,15 @@ class _SearchScreenState extends State<SearchScreen> {
     _controller.clear();
     setState(() {
       _isTyping = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Solicita o foco assim que a tela for carregada
+    Future.delayed(Duration(milliseconds: 100), () {
+      FocusScope.of(context).requestFocus(_focusNode);
     });
   }
 
@@ -49,29 +59,31 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         title: TextField(
           controller: _controller,
-          onChanged: _onTextChanged, // Detect text change
+          focusNode: _focusNode, // Associando o FocusNode ao TextField
+          onChanged: _onTextChanged, // Detecta mudanças no texto
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Search...',
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
-            fillColor: const Color(0xff24273A), // TextField background
+            fillColor: const Color(0xff24273A), // Background do TextField
             contentPadding: const EdgeInsets.only(
-                left: 16, right: 48, top: 12, bottom: 12), // Adjust padding
+                left: 16, right: 48, top: 12, bottom: 12), // Ajuste de padding
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide.none,
             ),
             suffixIcon: Padding(
-              padding:
-                  const EdgeInsets.only(right: 8), // Small space for the icon
+              padding: const EdgeInsets.only(
+                  right: 8), // Espaço pequeno para o ícone
               child: _isTyping
                   ? IconButton(
                       icon: const Icon(Icons.close, color: Colors.white70),
-                      onPressed: _clearSearch, // Clear text when "X" is pressed
+                      onPressed:
+                          _clearSearch, // Limpa o texto quando o "X" é pressionado
                     )
                   : const Icon(Icons.search,
-                      color: Colors.white70), // Search icon when empty
+                      color: Colors.white70), // Ícone de pesquisa quando vazio
             ),
           ),
         ),
@@ -79,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: const Center(
         child: Text('Screen content',
             style: TextStyle(
-                color: Colors.white)), // Placeholder for screen content
+                color: Colors.white)), // Placeholder para o conteúdo da tela
       ),
     );
   }
