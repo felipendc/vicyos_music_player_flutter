@@ -16,10 +16,8 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchBoxController = TextEditingController();
-    final FocusNode _focusNode = FocusNode();
-    bool _isTyping = false;
+    FocusNode searchBarKeyboardFocusNode = FocusNode();
     // Ensure the search runs only once
-    bool _isSearching = false;
 
     Timer? _debounce;
 
@@ -30,12 +28,10 @@ class SearchScreen extends StatelessWidget {
       String trimmedText = text.trim();
 
       if (trimmedText.isEmpty) {
-        _isTyping = false;
         foundSongs.clear();
         isSearchingSongsStreamNotifier("");
         isSearchingSongsStreamNotifier("");
         //
-        _isTyping = false;
         isSearchTypingStreamNotifier(false);
         return;
       }
@@ -48,16 +44,9 @@ class SearchScreen extends StatelessWidget {
         foundSongs.clear();
         print("🔎 Searching for: '$trimmedText'");
 
-        _isTyping = true;
         isSearchTypingStreamNotifier(true);
 
-        _isSearching = true;
-
         await searchFilesByName(musicFolderPaths, trimmedText);
-
-        // setState(() {
-        _isSearching = false;
-        // });
       });
     }
 
@@ -67,18 +56,16 @@ class SearchScreen extends StatelessWidget {
       isSearchingSongsStreamNotifier("");
 
       //
-      _isTyping = false;
       isSearchTypingStreamNotifier(false);
       //
       foundSongs.clear();
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Opens the keyboard automatically when the screen is built
-      Future.delayed(Duration(milliseconds: 100), () {
-        FocusScope.of(context).requestFocus(_focusNode);
-      });
-    });
+    // void openKeyboard() {
+    //   Future.delayed(Duration(milliseconds: 100), () {
+    //     FocusScope.of(context).requestFocus(searchBarKeyboardFocusNode);
+    //   });
+    // }
 
     return Scaffold(
       backgroundColor: const Color(0xff181B2C), // Dark background
@@ -102,7 +89,8 @@ class SearchScreen extends StatelessWidget {
         ),
         title: TextField(
           controller: searchBoxController,
-          focusNode: _focusNode, // Linking the FocusNode to the TextField
+          focusNode:
+              searchBarKeyboardFocusNode, // Linking the FocusNode to the TextField
           onChanged: _onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
@@ -245,6 +233,7 @@ class SearchScreen extends StatelessWidget {
                         ),
                         onPressed: () async {
                           await hideButtonSheetStreamNotifier(true);
+
                           showModalBottomSheet<String>(
                             backgroundColor: Colors.transparent,
                             context: context,
