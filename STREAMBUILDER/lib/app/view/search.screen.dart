@@ -1,42 +1,85 @@
-import 'package:flutter/material.dart';
-import 'package:vicyos_music/app/common/color_extension.dart';
+import 'dart:async';
 
-class SearchScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/view/song.preview.dialog.dart';
+
+import '../functions/search.songs.dart';
+import '../widgets/music_visualizer.dart';
+import 'bottom.sheet.song.info.more.dart';
+
+class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode(); // Criando o FocusNode
-  bool _isTyping = false;
-
-  void _onTextChanged(String text) {
-    setState(() {
-      _isTyping = text.isNotEmpty;
-    });
-  }
-
-  void _clearSearch() {
-    _controller.clear();
-    setState(() {
-      _isTyping = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Solicita o foco assim que a tela for carregada
-    Future.delayed(Duration(milliseconds: 100), () {
-      FocusScope.of(context).requestFocus(_focusNode);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    TextEditingController searchBoxController = TextEditingController();
+    final FocusNode _focusNode = FocusNode();
+    bool _isTyping = false;
+    // Ensure the search runs only once
+    bool _isSearching = false;
+
+    Timer? _debounce;
+
+    void _onTextChanged(String text) {
+      // If there is a previous timer, cancel it to avoid multiple concurrent searches
+      _debounce?.cancel();
+
+      String trimmedText = text.trim();
+
+      if (trimmedText.isEmpty) {
+        _isTyping = false;
+        foundSongs.clear();
+        isSearchingSongsStreamNotifier("");
+        isSearchingSongsStreamNotifier("");
+        //
+        _isTyping = false;
+        isSearchTypingStreamNotifier(false);
+        return;
+      }
+
+      // Create a new timer that will execute the search after 800ms
+      // This will fix the issue where the function returns wrong results
+      //  This is because the function didn't even had time to clear the
+      //  foundSongs and foundFilesPaths lists
+      _debounce = Timer(Duration(milliseconds: 800), () async {
+        foundSongs.clear();
+        print("🔎 Searching for: '$trimmedText'");
+
+        _isTyping = true;
+        isSearchTypingStreamNotifier(true);
+
+        _isSearching = true;
+
+        await searchFilesByName(musicFolderPaths, trimmedText);
+
+        // setState(() {
+        _isSearching = false;
+        // });
+      });
+    }
+
+    void _clearSearch() {
+      searchBoxController.clear();
+      foundSongs.clear();
+      isSearchingSongsStreamNotifier("");
+
+      //
+      _isTyping = false;
+      isSearchTypingStreamNotifier(false);
+      //
+      foundSongs.clear();
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Opens the keyboard automatically when the screen is built
+      Future.delayed(Duration(milliseconds: 100), () {
+        FocusScope.of(context).requestFocus(_focusNode);
+      });
+    });
+
     return Scaffold(
       backgroundColor: const Color(0xff181B2C), // Dark background
       appBar: AppBar(
@@ -58,40 +101,202 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         title: TextField(
-          controller: _controller,
-          focusNode: _focusNode, // Associando o FocusNode ao TextField
-          onChanged: _onTextChanged, // Detecta mudanças no texto
+          controller: searchBoxController,
+          focusNode: _focusNode, // Linking the FocusNode to the TextField
+          onChanged: _onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Search...',
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
-            fillColor: const Color(0xff24273A), // Background do TextField
+            fillColor: const Color(0xff24273A), // TextField background color
             contentPadding: const EdgeInsets.only(
-                left: 16, right: 48, top: 12, bottom: 12), // Ajuste de padding
+                left: 16, right: 48, top: 12, bottom: 12), // Padding adjustment
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide.none,
             ),
-            suffixIcon: Padding(
-              padding: const EdgeInsets.only(
-                  right: 8), // Espaço pequeno para o ícone
-              child: _isTyping
-                  ? IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white70),
-                      onPressed:
-                          _clearSearch, // Limpa o texto quando o "X" é pressionado
-                    )
-                  : const Icon(Icons.search,
-                      color: Colors.white70), // Ícone de pesquisa quando vazio
-            ),
+            suffixIcon: StreamBuilder<bool>(
+                stream: isSearchTypingStreamController.stream,
+                builder: (context, snapshot) {
+                  bool _isNowTyping = snapshot.data ?? false;
+                  if (_isNowTyping == true) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          right: 8), // Small space for the icon
+                      child: IconButton(
+                        icon: const Icon(Icons.close, color: Colors.white70),
+                        onPressed:
+                            _clearSearch, // Clears the text when "X" is pressed
+                      ),
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          right: 8), // Small space for the icon
+                      child: const Icon(Icons.search,
+                          color: Colors.white70), // Search icon when empty
+                    );
+                  }
+                }),
           ),
         ),
       ),
-      body: const Center(
-        child: Text('Screen content',
-            style: TextStyle(
-                color: Colors.white)), // Placeholder para o conteúdo da tela
+      body: StreamBuilder<String>(
+        stream: isSearchingSongsStreamController.stream,
+        builder: (context, snapshot) {
+          String? _isSearching = snapshot.data;
+          if (_isSearching == "searching") {
+            return Column(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    size: 40,
+                  ),
+                ),
+                Text("Just a sec..."),
+              ],
+            );
+          } else if (_isSearching == "finished") {
+            return ListView.separated(
+              padding: const EdgeInsets.only(bottom: 112),
+              itemCount: foundSongs.length,
+              itemBuilder: (context, index) {
+                return SizedBox(
+                  height: 67,
+                  child: GestureDetector(
+                    onLongPress: () {
+                      hideButtonSheetStreamNotifier(true);
+                      showModalBottomSheet<void>(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SongPreviewDialog(
+                              songPath: foundSongs[index].path);
+                        },
+                      ).whenComplete(() {
+                        rebuildSongsListScreenStreamNotifier(true);
+                        // "When the bottom sheet is closed, send a signal to show the mini player again."
+                        if (isSongPreviewBottomSheetOpen) {
+                          hideButtonSheetStreamNotifier(true);
+                        } else {
+                          hideButtonSheetStreamNotifier(false);
+                        }
+                      });
+                    },
+                    child: ListTile(
+                      key: ValueKey(foundSongs[index].path),
+                      leading: (foundSongs[index].path == currentSongFullPath)
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10.0, left: 5.0, bottom: 10.0),
+                              child: SizedBox(
+                                height: 27,
+                                width: 30,
+                                child: MusicVisualizer(
+                                  barCount: 6,
+                                  colors: [
+                                    TColor.focus,
+                                    TColor.secondaryEnd,
+                                    TColor.focusStart,
+                                    Colors.blue[900]!,
+                                  ],
+                                  duration: const [900, 700, 600, 800, 500],
+                                ),
+                              ),
+                            )
+                          : Icon(
+                              Icons.music_note_rounded,
+                              color: TColor.focus,
+                              size: 36,
+                            ),
+                      title: Text(
+                        foundSongs[index].name,
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: TColor.lightGray,
+                          fontSize: 18,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "${foundSongs[index].size!} MB  |  ${foundSongs[index].format!}",
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: TColor.secondaryText,
+                          fontSize: 15,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        splashRadius: 24,
+                        iconSize: 20,
+                        icon: Image.asset(
+                          "assets/img/more_vert.png",
+                          color: TColor.lightGray,
+                        ),
+                        onPressed: () async {
+                          await hideButtonSheetStreamNotifier(true);
+                          showModalBottomSheet<String>(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SongInfoMoreBottomSheet(
+                                fullFilePath: foundSongs[index].path,
+                              );
+                            },
+                          ).whenComplete(
+                            () {
+                              if (!Navigator.canPop(context)) {
+                                print("No other screen is open.");
+                              } else {
+                                hideButtonSheetStreamNotifier(false);
+                                print(" There are other open screens .");
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        setFolderAsPlaylist(foundSongs, index);
+                        print(
+                            "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
+                        print('Tapped on ${(foundSongs[index].path)}');
+                      },
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Container();
+              },
+            );
+          } else if (_isSearching == "nothing_found") {
+            return Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: const Center(
+                    child: Text('No search results',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }

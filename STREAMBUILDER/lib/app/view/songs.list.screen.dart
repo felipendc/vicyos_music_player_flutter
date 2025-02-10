@@ -206,13 +206,14 @@ class SongsListScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
-                              //TODO
                               Navigator.push(
-                                context,
-                                slideRightLeftTransition(
-                                  const SearchScreen(),
-                                ),
-                              );
+                                  context,
+                                  slideRightLeftTransition(
+                                    const SearchScreen(),
+                                  )).whenComplete(() {
+                                searchBoxController.dispose();
+                                searchBoxController.dispose();
+                              });
                             },
                             child: Container(
                               padding:

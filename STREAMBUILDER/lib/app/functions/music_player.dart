@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 // import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -14,6 +15,8 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+late final TextEditingController searchBoxController;
+List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
 bool mainPlayerIsOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
@@ -99,7 +102,21 @@ StreamController<bool> rebuildHomePageFolderListStreamController =
 StreamController<bool> rebuildSpeedRateBottomSheetStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<String> isSearchingSongsStreamController =
+    StreamController<String>.broadcast();
+
+StreamController<bool> isSearchTypingStreamController =
+    StreamController<bool>.broadcast();
+
 // Streams Notifiers Functions
+void isSearchTypingStreamNotifier(bool value) {
+  isSearchTypingStreamController.sink.add(value);
+}
+
+void isSearchingSongsStreamNotifier(String value) {
+  isSearchingSongsStreamController.sink.add(value);
+}
+
 void rebuildSpeedRateBottomSheetStreamNotifier(bool value) {
   rebuildSpeedRateBottomSheetStreamController.sink.add(value);
 }
