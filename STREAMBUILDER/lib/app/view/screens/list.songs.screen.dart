@@ -4,12 +4,12 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
-import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
-import 'package:vicyos_music/app/view/bottom.sheet.song.info.more.dart';
-import 'package:vicyos_music/app/view/search.screen.dart';
-import 'package:vicyos_music/app/view/song.preview.dialog.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 
-import '../widgets/music_visualizer.dart';
+import '../../widgets/music_visualizer.dart';
 
 final GlobalKey songsListScreenKey = GlobalKey();
 

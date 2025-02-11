@@ -4,12 +4,12 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
-import 'package:vicyos_music/app/view/bottom.sheet.folders.to.playlist.dart';
-import 'package:vicyos_music/app/view/loading.screen.dart';
-import 'package:vicyos_music/app/view/search.screen.dart';
-import 'package:vicyos_music/app/view/songs.list.screen.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music/app/view/screens/loading.screen.dart';
+import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
+import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
 
-import '../widgets/music_visualizer.dart';
+import '../../widgets/music_visualizer.dart';
 
 final GlobalKey homePageFolderListScreenKey = GlobalKey();
 
@@ -122,30 +122,6 @@ class HomePageFolderList extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          // Material(
-                                          //   color: Colors.transparent,
-                                          //   child: SizedBox(
-                                          //     width: 38,
-                                          //     height: 38,
-                                          //     child: IconButton(
-                                          //       splashRadius: 20,
-                                          //       iconSize: 10,
-                                          //       onPressed: () async {
-                                          //         //TODO
-                                          //         Navigator.push(
-                                          //           context,
-                                          //           slideRightLeftTransition(
-                                          //             const SearchScreen(),
-                                          //           ),
-                                          //         );
-                                          //       },
-                                          //       icon: Image.asset(
-                                          //         "assets/img/search.png",
-                                          //         color: TColor.lightGray,
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
                                           Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(

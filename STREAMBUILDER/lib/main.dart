@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/status_bar_theme/status.bar.theme.color.matching.dart';
-import 'package:vicyos_music/app/view/splash.screen.dart';
+import 'package:vicyos_music/app/view/screens/splash.screen.dart';
 
 import 'app/common/scroll.behavior.dart';
 import 'app/functions/music_player.dart';

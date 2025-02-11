@@ -5,11 +5,11 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
-import 'package:vicyos_music/app/view/song.preview.dialog.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 
-import '../functions/search.songs.dart';
-import '../widgets/music_visualizer.dart';
-import 'bottom.sheet.song.info.more.dart';
+import '../../functions/search.songs.dart';
+import '../../widgets/music_visualizer.dart';
+import '../bottomsheet/bottom.sheet.song.info.more.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

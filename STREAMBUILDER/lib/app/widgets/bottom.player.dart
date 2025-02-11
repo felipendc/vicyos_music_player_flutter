@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
-import 'package:vicyos_music/app/view/main.player.view.screen.dart';
+import 'package:vicyos_music/app/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
 import '../navigation_animation/main.player.navigation.animation.dart';

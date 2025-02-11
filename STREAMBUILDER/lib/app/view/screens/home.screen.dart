@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
-import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
+import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
 
-import '../functions/music_player.dart';
-import '../widgets/bottom.player.dart';
+import '../../functions/music_player.dart';
+import '../../widgets/bottom.player.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});

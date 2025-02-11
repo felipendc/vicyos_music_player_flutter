@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
-import 'package:vicyos_music/app/view/home.screen.dart';
+import 'package:vicyos_music/app/view/screens/home.screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

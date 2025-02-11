@@ -3,7 +3,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 
-import 'delete.song.confirmation.dialog.dart';
+import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayersAppBarActionsBottomSheet extends StatelessWidget {
   final dynamic fullFilePath;
