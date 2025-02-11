@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/status_bar_theme/status.bar.theme.color.matching.dart';
@@ -36,38 +34,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    clearCache(); // Clears the cache when the app starts
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      clearCache(); // Clears the cache when the app goes to the background
-    } else if (state == AppLifecycleState.resumed) {
-      clearCache(); // Clears the cache when the app comes back to the foreground
-    } else if (state == AppLifecycleState.detached) {
-      clearCache(); // Clears the cache when the app is closed (detached)
-    }
-  }
-
-  Future<void> clearCache() async {
-    await DefaultCacheManager().emptyCache();
-    final tempDir = await getTemporaryDirectory();
-    if (tempDir.existsSync()) {
-      tempDir.deleteSync(recursive: true);
-      print("Cache cleared!");
-    }
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addObserver(this);
+  //   clearCache(); // Clears the cache when the app starts
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.dispose();
+  // }
+  //
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.paused) {
+  //     clearCache(); // Clears the cache when the app goes to the background
+  //   } else if (state == AppLifecycleState.resumed) {
+  //     clearCache(); // Clears the cache when the app comes back to the foreground
+  //   } else if (state == AppLifecycleState.detached) {
+  //     clearCache(); // Clears the cache when the app is closed (detached)
+  //   }
+  // }
+  //
+  // Future<void> clearCache() async {
+  //   await DefaultCacheManager().emptyCache();
+  //   final tempDir = await getTemporaryDirectory();
+  //   if (tempDir.existsSync()) {
+  //     tempDir.deleteSync(recursive: true);
+  //     print("Cache cleared!");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
