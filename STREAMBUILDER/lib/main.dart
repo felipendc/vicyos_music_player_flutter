@@ -28,48 +28,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-//
-// class MyApp extends StatefulWidget {
-//   const MyApp({super.key});
-//
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addObserver(this);
-  //   clearCache(); // Clears the cache when the app starts
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   WidgetsBinding.instance.removeObserver(this);
-  //   super.dispose();
-  // }
-  //
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   if (state == AppLifecycleState.paused) {
-  //     clearCache(); // Clears the cache when the app goes to the background
-  //   } else if (state == AppLifecycleState.resumed) {
-  //     clearCache(); // Clears the cache when the app comes back to the foreground
-  //   } else if (state == AppLifecycleState.detached) {
-  //     clearCache(); // Clears the cache when the app is closed (detached)
-  //   }
-  // }
-  //
-  // Future<void> clearCache() async {
-  //   await DefaultCacheManager().emptyCache();
-  //   final tempDir = await getTemporaryDirectory();
-  //   if (tempDir.existsSync()) {
-  //     tempDir.deleteSync(recursive: true);
-  //     print("Cache cleared!");
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
