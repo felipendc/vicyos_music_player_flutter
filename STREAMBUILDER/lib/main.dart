@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/status_bar_theme/status.bar.theme.color.matching.dart';
-import 'package:vicyos_music/app/view/home.screen.dart';
+import 'package:vicyos_music/app/view/splash.screen.dart';
 
 import 'app/functions/music_player.dart';
 
@@ -99,47 +97,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: false,
         ),
         home: SplashScreen(),
-      ),
-    );
-  }
-}
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pushReplacement(
-          context,
-          splashFadeTransition(context, HomeScreen()),
-        );
-      });
-    });
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/img/vicyos_logos/vicyos_music_icon_lable_transparent_bigger.png",
-              width: 200,
-              height: 200,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
-                size: 60,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

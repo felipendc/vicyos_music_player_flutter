@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
+import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/song.preview.dialog.dart';
 
 import '../functions/search.songs.dart';
@@ -15,6 +16,9 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Set the preferred orientations to portrait mode when this screen is built
+    screenOrientationPortrait();
+
     TextEditingController searchBoxController = TextEditingController();
     FocusNode searchBarKeyboardFocusNode = FocusNode();
     // Ensure the search runs only once
