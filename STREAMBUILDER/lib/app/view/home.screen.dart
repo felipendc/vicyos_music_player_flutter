@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/home.page.folder.list.screen.dart';
 
 import '../functions/music_player.dart';
@@ -11,6 +12,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Set the preferred orientations to portrait mode when this screen is built
+    screenOrientationPortrait();
+
     return PopScope(
       canPop: false, // Prevents back navigation
       onPopInvokedWithResult: (_, __) async {
