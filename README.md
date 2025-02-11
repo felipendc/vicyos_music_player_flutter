@@ -30,7 +30,8 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
 
 ### This project is currently compatible with:
 
@@ -45,11 +46,11 @@ These instructions will help you get a copy of this project up and running on yo
 
 
 
-#### Flutter 3.27.3:
-
-- Flutter version: `3.27.3 x64`
-- Dart version: `3.6.1 (stable) (Tue Jan 7 09:50:00 2025 -0800) on "windows_x64"`
-- File name:  `flutter_windows_3.27.3-stable.zip` 
+#### Flutter 3.27.4:
+- Channel: `Stable`
+- Flutter version: `3.27.4 x64`
+- Dart version: `3.6.2 (stable) (05/02/2025) for "windows_x64"`
+- File name:  `flutter_windows_3.27.4-stable.zip` 
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
 
