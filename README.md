@@ -9,11 +9,22 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/1.png">
 
+ <br />
+ 
+### What motivated me to create the Vicyos Music app?  <br />
+- `Vicyos Music` was inspired by the features of `Oto Music` and `Miui Music version 5.3.37i`. <br />
+- The main reason I decided to create the Vicyos Music app was my need for a Playback Speed feature  <br />
+with a step size of 0.1x instead of the 0.5x found in most apps.  <br />
 
-### Recent screenshots of the Vicoys Music app:
-- You can find them here: `https://github.com/felipendc/vicyos_music_player_flutter/tree/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS`
+ <br />
 
+ ### Vicyos Music App related links:
+ - Video demonstration: `https://youtu.be/kRfaoKFbTm4`
+ - How to grant permissions: `https://youtube.com/shorts/eTfI_sFM0Xc?feature=share`
+ - Download the Vicyos Music Apk: `https://github.com/felipendc/vicyos_music_player_flutter/releases`
 
+ <br />
+ 
 ### Features
 
 - Display all the folders containing audio files in '/storage/emulated/0/Music/'.
@@ -21,9 +32,9 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 - Animations to enhance the user experience.
 - Play a song from a folder, play all the from a folder, or add a folder to the current playlist.
 - Play, pause, skip, rewind 5 or go forward 5 seconds, control volume from the player screen, or even seek to a specific part of the song.
+- Search for songs, add to play next, delete files, share songs, preview a song, and more!
 - Minimalistic and intuitive user interface.
 
-## 
 
 ### Getting Started
 
@@ -131,10 +142,13 @@ This project uses the following dependencies:
 
 ### Acknowledgments
 
+- [Google Fonts:](https://fonts.google.com/icons) for the volume slider theme.
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Shoutout to the Flutter community for their support and resources.
-- [svgrepo:](https://www.svgrepo.com/) and [flaticon:](https://www.flaticon.com/) for the Icons. 
+- [svgrepo:](https://www.svgrepo.com/), [flaticon:](https://www.flaticon.com/), and [icons8:](https://icons8.com.br/) for the Icons.
 - [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
+
+
 
 ### Vicyos Music Player Screenshots 
 
