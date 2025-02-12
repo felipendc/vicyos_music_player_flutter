@@ -15,6 +15,8 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 - `Vicyos Music` was inspired by the features of `Oto Music` and `Miui Music version 5.3.37i`. <br />
 - The main reason I decided to create the Vicyos Music app was my need for a Playback Speed feature  <br />
 with a step size of 0.1x instead of the 0.5x found in most apps.  <br />
+- `As I'm learning English`, having a Playback Speed with a `step size of 0.1x` allows me to slow down <br />
+some podcasts `more precisely` for practicing English Listening.
 
  <br />
 
