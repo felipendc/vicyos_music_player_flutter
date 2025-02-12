@@ -144,10 +144,9 @@ This project uses the following dependencies:
 
 ### Acknowledgments
 
-- [Google Fonts:](https://fonts.google.com/icons) for the volume slider theme.
 - The Dark UI theme is based on [CodeForAny - Music App Tutorial](https://youtube.com/playlist?list=PLzcRC7PA0xWRXGSJZOyD5_SXyGIRt6VFr)
 - Shoutout to the Flutter community for their support and resources.
-- [svgrepo:](https://www.svgrepo.com/), [flaticon:](https://www.flaticon.com/), and [icons8:](https://icons8.com.br/) for the Icons.
+- [svgrepo:](https://www.svgrepo.com/), [flaticon:](https://www.flaticon.com/), [Google Fonts:](https://fonts.google.com/icons), and [icons8:](https://icons8.com.br/) for the Icons.
 - [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
 
 
