@@ -18,7 +18,7 @@ with a step size of 0.1x instead of the 0.5x found in most apps.  <br />
 
  <br />
 
- ### Vicyos Music App related links:
+ ### Vicyos Music app related links:
  - Video demonstration: `https://youtu.be/kRfaoKFbTm4`
  - How to grant permissions: `https://youtube.com/shorts/eTfI_sFM0Xc?feature=share`
  - Download the Vicyos Music Apk: `https://github.com/felipendc/vicyos_music_player_flutter/releases`
