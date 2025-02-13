@@ -46,7 +46,7 @@ android {
 
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    def outputFileName = "vicyos_music_stream_builder.apk"
+                    def outputFileName = "vicyos_music.apk"
                     output.outputFileName = outputFileName
                 }
             }
