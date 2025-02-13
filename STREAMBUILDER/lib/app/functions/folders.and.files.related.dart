@@ -9,14 +9,28 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 // String internalStorage = '/storage/emulated/0/Music/';
 
 Future<void> requestStoragePermission() async {
+  late bool _isPermissionDenied;
   var status = await Permission.storage.status;
+
   if (!status.isGranted) {
     await Permission.storage.request();
+    status = await Permission.storage.status;
   }
+
+  if (status.isGranted) {
+    _isPermissionDenied = false;
+    print("Permission denied? ${_isPermissionDenied}");
+  } else {
+    _isPermissionDenied = true;
+    print("Permission denied? ${_isPermissionDenied}");
+  }
+
+  IsInternalStoragePermissionDenied = _isPermissionDenied;
 }
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestStoragePermission();
+
   final audioExtensions = {'.mp3', '.m4a', '.ogg', '.wav', '.aac', '.midi'};
   final foldersWithAudio = <String>{};
   final deviceMusicFolder = Directory(rootDir);
@@ -109,12 +123,16 @@ Future<void> listMusicFolders() async {
         .toString());
   }
 
+  // if (IsInternalStoragePermissionDenied == true && musicFolderPaths.isEmpty) {
+  //   rebuildHomePageFolderListStreamNotifier("Null");
+  // } else
+
   if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
     rebuildHomePageFolderListStreamNotifier("there_is_no_music_folder");
-  } else if (musicFolderPaths.isEmpty && noDeviceMusicFolderFound == false) {
-    rebuildHomePageFolderListStreamNotifier("fetching_files_nothing_found");
-  } else {
+  } else if (!musicFolderPaths.isEmpty) {
     rebuildHomePageFolderListStreamNotifier("fetching_files_done");
+  } else {
+    rebuildHomePageFolderListStreamNotifier("Null");
   }
 }
 

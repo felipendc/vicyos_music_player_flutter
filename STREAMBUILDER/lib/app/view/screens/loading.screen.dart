@@ -193,9 +193,11 @@ class LoadingScreen extends StatelessWidget {
                     ),
                   )
                 else if (currentStatus == "fetching_files_nothing_found")
-                  Container(
-                    child: Center(
-                      child: Expanded(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      color: TColor.bg,
+                      child: Center(
                         child: Text(
                           "No songs were found in the music folder.",
                           softWrap: true,
@@ -205,9 +207,11 @@ class LoadingScreen extends StatelessWidget {
                     ),
                   )
                 else if (currentStatus == "there_is_no_music_folder")
-                  Container(
-                    child: Center(
-                      child: Expanded(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: Container(
+                      color: TColor.bg,
+                      child: Center(
                         child: Text(
                           "There is no music folder on your device.",
                           softWrap: true,
@@ -218,15 +222,7 @@ class LoadingScreen extends StatelessWidget {
                   )
                 else if (currentStatus == "Null")
                   Container(
-                    child: Center(
-                      child: Expanded(
-                        child: Text(
-                          "Error! The rebuildHomePageFolderListStreamNotifier is a Null string ''.",
-                          softWrap: true,
-                          overflow: TextOverflow.visible,
-                        ),
-                      ),
-                    ),
+                    color: TColor.bg,
                   ),
               ],
             ),
