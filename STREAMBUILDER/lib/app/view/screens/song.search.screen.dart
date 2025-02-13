@@ -162,9 +162,9 @@ class SearchScreen extends StatelessWidget {
                 return SizedBox(
                   height: 67,
                   child: GestureDetector(
-                    onLongPress: () {
+                    onLongPress: () async {
                       hideButtonSheetStreamNotifier(true);
-                      showModalBottomSheet<void>(
+                      final result = await showModalBottomSheet<String>(
                         backgroundColor: Colors.transparent,
                         context: context,
                         builder: (BuildContext context) {
@@ -180,6 +180,13 @@ class SearchScreen extends StatelessWidget {
                           hideButtonSheetStreamNotifier(false);
                         }
                       });
+
+                      if (result == "close_song_preview_bottom_sheet") {
+                        foundSongs.clear();
+                        isSearchingSongsStreamNotifier("nothing_found");
+                      } else {
+                        // Do not close the Player Preview bottom sheet
+                      }
                     },
                     child: ListTile(
                       key: ValueKey(foundSongs[index].path),
@@ -238,7 +245,7 @@ class SearchScreen extends StatelessWidget {
                         onPressed: () async {
                           await hideButtonSheetStreamNotifier(true);
 
-                          showModalBottomSheet<String>(
+                          final result = await showModalBottomSheet<String>(
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (BuildContext context) {
@@ -256,6 +263,13 @@ class SearchScreen extends StatelessWidget {
                               }
                             },
                           );
+
+                          if (result == "close_song_preview_bottom_sheet") {
+                            foundSongs.clear();
+                            isSearchingSongsStreamNotifier("nothing_found");
+                          } else {
+                            // Do not close the Player Preview bottom sheet
+                          }
                         },
                       ),
                       onTap: () {
