@@ -393,7 +393,7 @@ class HomePageFolderList extends StatelessWidget {
         } else if (_fetchingResult == "there_is_no_music_folder") {
           return LoadingScreen(currentStatus: "there_is_no_music_folder");
         } else {
-          return LoadingScreen(currentStatus: "Null");
+          return Container();
         }
       },
     );
