@@ -19,16 +19,27 @@ Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestStoragePermission();
   final audioExtensions = {'.mp3', '.m4a', '.ogg', '.wav', '.aac', '.midi'};
   final foldersWithAudio = <String>{};
+  final deviceMusicFolder = Directory(rootDir);
 
-  await for (var entity
-      in Directory(rootDir).list(recursive: true, followLinks: false)) {
-    if (entity is File) {
-      final extension = entity.path.split('.').last.toLowerCase();
-      if (audioExtensions.contains('.$extension')) {
-        foldersWithAudio.add(entity.parent.path);
+  if (await deviceMusicFolder.exists()) {
+    noDeviceMusicFolderFound = false;
+    if (await deviceMusicFolder.list().isEmpty) {
+      // The device music folder is empty!
+    } else {
+      await for (var entity
+          in Directory(rootDir).list(recursive: true, followLinks: false)) {
+        if (entity is File) {
+          final extension = entity.path.split('.').last.toLowerCase();
+          if (audioExtensions.contains('.$extension')) {
+            foldersWithAudio.add(entity.parent.path);
+          }
+        }
       }
     }
+  } else {
+    noDeviceMusicFolderFound = true;
   }
+
   return foldersWithAudio.toList();
 }
 
@@ -66,7 +77,7 @@ Future<String> getMusicFolderPath() async {
 }
 
 Future<void> listMusicFolders() async {
-  rebuildHomePageFolderListStreamNotifier(false);
+  rebuildHomePageFolderListStreamNotifier("fetching_files");
   musicFolderPaths.clear();
   folderSongList.clear();
 
@@ -97,7 +108,14 @@ Future<void> listMusicFolders() async {
         .toString()
         .toString());
   }
-  rebuildHomePageFolderListStreamNotifier(true);
+
+  if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
+    rebuildHomePageFolderListStreamNotifier("there_is_no_music_folder");
+  } else if (musicFolderPaths.isEmpty && noDeviceMusicFolderFound == false) {
+    rebuildHomePageFolderListStreamNotifier("fetching_files_nothing_found");
+  } else {
+    rebuildHomePageFolderListStreamNotifier("fetching_files_done");
+  }
 }
 
 int folderLength(String folderPath) {
@@ -112,7 +130,7 @@ int folderLength(String folderPath) {
 
   Directory? folderDirectory = Directory(folderPath);
   final directorySongList = folderDirectory.listSync();
-  final folderLenght = directorySongList
+  final folderLength = directorySongList
       .where((entity) {
         if (entity is File) {
           String extension =
@@ -124,7 +142,7 @@ int folderLength(String folderPath) {
       .map((entity) => entity.path)
       .toList();
 
-  return folderLenght.length;
+  return folderLength.length;
 }
 
 void filterSongsOnlyToList({required String folderPath}) {

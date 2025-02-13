@@ -125,7 +125,8 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                               }
                               // ----------------------------------------------------------
                               rebuildSongsListScreenStreamNotifier(true);
-                              rebuildHomePageFolderListStreamNotifier(true);
+                              rebuildHomePageFolderListStreamNotifier(
+                                  "fetching_files_done");
                               Navigator.pop(
                                   context, "close_song_preview_bottom_sheet");
                             } else if (wasDeleted !=

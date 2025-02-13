@@ -15,6 +15,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+bool noDeviceMusicFolderFound = false;
 late final TextEditingController searchBoxController;
 List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
@@ -96,8 +97,8 @@ StreamController<bool> rebuildPlaylistBottomSheet =
 StreamController<bool> rebuildSongsListScreenStreamController =
     StreamController<bool>.broadcast();
 
-StreamController<bool> rebuildHomePageFolderListStreamController =
-    StreamController<bool>.broadcast();
+StreamController<String> rebuildHomePageFolderListStreamController =
+    StreamController<String>.broadcast();
 
 StreamController<bool> rebuildSpeedRateBottomSheetStreamController =
     StreamController<bool>.broadcast();
@@ -121,7 +122,7 @@ void rebuildSpeedRateBottomSheetStreamNotifier(bool value) {
   rebuildSpeedRateBottomSheetStreamController.sink.add(value);
 }
 
-void rebuildHomePageFolderListStreamNotifier(bool value) {
+void rebuildHomePageFolderListStreamNotifier(String value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 

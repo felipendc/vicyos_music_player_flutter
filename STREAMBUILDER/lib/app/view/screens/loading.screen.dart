@@ -5,7 +5,8 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 
 class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
+  final String currentStatus;
+  const LoadingScreen({super.key, required this.currentStatus});
 
   @override
   Widget build(BuildContext context) {
@@ -94,30 +95,6 @@ class LoadingScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // Material(
-                              //   color: Colors.transparent,
-                              //   child: SizedBox(
-                              //     width: 38,
-                              //     height: 38,
-                              //     child: IconButton(
-                              //       splashRadius: 20,
-                              //       iconSize: 10,
-                              //       onPressed: () async {
-                              //         //TODO
-                              //         Navigator.push(
-                              //           context,
-                              //           slideRightLeftTransition(
-                              //             const SearchScreen(),
-                              //           ),
-                              //         );
-                              //       },
-                              //       icon: Image.asset(
-                              //         "assets/img/search.png",
-                              //         color: TColor.lightGray,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
                               Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(9, 0, 8, 0),
@@ -209,11 +186,48 @@ class LoadingScreen extends StatelessWidget {
                 const SizedBox(
                   height: 300,
                 ),
-                Center(
-                  child: LoadingAnimationWidget.staggeredDotsWave(
-                    size: 40,
+                if (currentStatus == "fetching_files")
+                  Center(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
+                      size: 40,
+                    ),
+                  )
+                else if (currentStatus == "fetching_files_nothing_found")
+                  Container(
+                    child: Center(
+                      child: Expanded(
+                        child: Text(
+                          "No songs were found in the music folder.",
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ),
+                  )
+                else if (currentStatus == "there_is_no_music_folder")
+                  Container(
+                    child: Center(
+                      child: Expanded(
+                        child: Text(
+                          "There is no music folder on your device.",
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ),
+                  )
+                else if (currentStatus == "Null")
+                  Container(
+                    child: Center(
+                      child: Expanded(
+                        child: Text(
+                          "Error! The rebuildHomePageFolderListStreamNotifier is a Null string ''.",
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
               ],
             ),
           ],
