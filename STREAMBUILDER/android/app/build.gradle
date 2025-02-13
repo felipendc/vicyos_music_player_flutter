@@ -44,10 +44,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "bool", "enable_deferred_component_support", "false"
 
-            applicationVariants.all { variant ->
+            // Set the output file name for the release build.
+            android.applicationVariants.all { variant ->
                 variant.outputs.all { output ->
-                    def outputFileName = "vicyos_music.apk"
-                    output.outputFileName = outputFileName
+                    if (variant.buildType.name == "release") {
+                        def versionName = variant.versionName
+                        def appName = "vicyos_music"
+                        def outputFileName = "${appName}_v${versionName}_release.apk"
+                        output.outputFileName = outputFileName
+                    }
                 }
             }
         }
