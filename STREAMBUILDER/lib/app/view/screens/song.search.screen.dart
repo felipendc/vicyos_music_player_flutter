@@ -155,137 +155,151 @@ class SearchScreen extends StatelessWidget {
               ],
             );
           } else if (_isSearching == "finished") {
-            return ListView.separated(
-              padding: const EdgeInsets.only(bottom: 112),
-              itemCount: foundSongs.length,
-              itemBuilder: (context, index) {
-                return SizedBox(
-                  height: 67,
-                  child: GestureDetector(
-                    onLongPress: () async {
-                      hideButtonSheetStreamNotifier(true);
-                      final result = await showModalBottomSheet<String>(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SongPreviewDialog(
-                              songPath: foundSongs[index].path);
-                        },
-                      ).whenComplete(() {
-                        rebuildSongsListScreenStreamNotifier(true);
-                        // "When the bottom sheet is closed, send a signal to show the mini player again."
-                        if (isSongPreviewBottomSheetOpen) {
-                          hideButtonSheetStreamNotifier(true);
-                        } else {
-                          hideButtonSheetStreamNotifier(false);
-                        }
-                      });
-
-                      if (result == "close_song_preview_bottom_sheet") {
-                        foundSongs.clear();
-                        isSearchingSongsStreamNotifier("nothing_found");
-                      } else {
-                        // Do not close the Player Preview bottom sheet
-                      }
-                    },
-                    child: ListTile(
-                      key: ValueKey(foundSongs[index].path),
-                      leading: (foundSongs[index].path == currentSongFullPath)
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 10.0, left: 5.0, bottom: 10.0),
-                              child: SizedBox(
-                                height: 27,
-                                width: 30,
-                                child: MusicVisualizer(
-                                  barCount: 6,
-                                  colors: [
-                                    TColor.focus,
-                                    TColor.secondaryEnd,
-                                    TColor.focusStart,
-                                    Colors.blue[900]!,
-                                  ],
-                                  duration: const [900, 700, 600, 800, 500],
-                                ),
-                              ),
-                            )
-                          : Icon(
-                              Icons.music_note_rounded,
-                              color: TColor.focus,
-                              size: 36,
-                            ),
-                      title: Text(
-                        foundSongs[index].name,
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: TColor.lightGray,
-                          fontSize: 18,
-                        ),
-                      ),
-                      subtitle: Text(
-                        "${foundSongs[index].size!} MB  |  ${foundSongs[index].format!}",
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: TColor.secondaryText,
-                          fontSize: 15,
-                        ),
-                      ),
-                      trailing: IconButton(
-                        splashRadius: 24,
-                        iconSize: 20,
-                        icon: Image.asset(
-                          "assets/img/more_vert.png",
-                          color: TColor.lightGray,
-                        ),
-                        onPressed: () async {
-                          await hideButtonSheetStreamNotifier(true);
-
-                          final result = await showModalBottomSheet<String>(
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SongInfoMoreBottomSheet(
-                                fullFilePath: foundSongs[index].path,
-                              );
-                            },
-                          ).whenComplete(
-                            () {
-                              if (!Navigator.canPop(context)) {
-                                print("No other screen is open.");
+            return StreamBuilder<void>(
+                stream: getCurrentSongFullPathStreamController.stream,
+                builder: (context, snapshot) {
+                  return ListView.separated(
+                    padding: const EdgeInsets.only(bottom: 112),
+                    itemCount: foundSongs.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        height: 67,
+                        child: GestureDetector(
+                          onLongPress: () async {
+                            hideButtonSheetStreamNotifier(true);
+                            final result = await showModalBottomSheet<String>(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SongPreviewDialog(
+                                    songPath: foundSongs[index].path);
+                              },
+                            ).whenComplete(() {
+                              rebuildSongsListScreenStreamNotifier(true);
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              if (isSongPreviewBottomSheetOpen) {
+                                hideButtonSheetStreamNotifier(true);
                               } else {
                                 hideButtonSheetStreamNotifier(false);
-                                print(" There are other open screens .");
                               }
-                            },
-                          );
+                            });
 
-                          if (result == "close_song_preview_bottom_sheet") {
-                            foundSongs.clear();
-                            isSearchingSongsStreamNotifier("nothing_found");
-                          } else {
-                            // Do not close the Player Preview bottom sheet
-                          }
-                        },
-                      ),
-                      onTap: () {
-                        setFolderAsPlaylist(foundSongs, index);
-                        print(
-                            "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                        print('Tapped on ${(foundSongs[index].path)}');
-                      },
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Container();
-              },
-            );
+                            if (result == "close_song_preview_bottom_sheet") {
+                              foundSongs.clear();
+                              isSearchingSongsStreamNotifier("nothing_found");
+                            } else {
+                              // Do not close the Player Preview bottom sheet
+                            }
+                          },
+                          child: ListTile(
+                            key: ValueKey(foundSongs[index].path),
+                            leading:
+                                (foundSongs[index].path == currentSongFullPath)
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 5.0, bottom: 10.0),
+                                        child: SizedBox(
+                                          height: 27,
+                                          width: 30,
+                                          child: MusicVisualizer(
+                                            barCount: 6,
+                                            colors: [
+                                              TColor.focus,
+                                              TColor.secondaryEnd,
+                                              TColor.focusStart,
+                                              Colors.blue[900]!,
+                                            ],
+                                            duration: const [
+                                              900,
+                                              700,
+                                              600,
+                                              800,
+                                              500
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.music_note_rounded,
+                                        color: TColor.focus,
+                                        size: 36,
+                                      ),
+                            title: Text(
+                              foundSongs[index].name,
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: TColor.lightGray,
+                                fontSize: 18,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "${foundSongs[index].size!} MB  |  ${foundSongs[index].format!}",
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: TColor.secondaryText,
+                                fontSize: 15,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              splashRadius: 24,
+                              iconSize: 20,
+                              icon: Image.asset(
+                                "assets/img/more_vert.png",
+                                color: TColor.lightGray,
+                              ),
+                              onPressed: () async {
+                                await hideButtonSheetStreamNotifier(true);
+
+                                final result =
+                                    await showModalBottomSheet<String>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SongInfoMoreBottomSheet(
+                                      fullFilePath: foundSongs[index].path,
+                                    );
+                                  },
+                                ).whenComplete(
+                                  () {
+                                    if (!Navigator.canPop(context)) {
+                                      print("No other screen is open.");
+                                    } else {
+                                      hideButtonSheetStreamNotifier(false);
+                                      print(" There are other open screens .");
+                                    }
+                                  },
+                                );
+
+                                if (result ==
+                                    "close_song_preview_bottom_sheet") {
+                                  foundSongs.clear();
+                                  isSearchingSongsStreamNotifier(
+                                      "nothing_found");
+                                } else {
+                                  // Do not close the Player Preview bottom sheet
+                                }
+                              },
+                            ),
+                            onTap: () {
+                              setFolderAsPlaylist(foundSongs, index);
+                              print(
+                                  "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
+                              print('Tapped on ${(foundSongs[index].path)}');
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Container();
+                    },
+                  );
+                });
           } else if (_isSearching == "nothing_found") {
             return Column(
               children: [
