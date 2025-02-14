@@ -4,7 +4,6 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/status_bar_theme/status.bar.theme.color.matching.dart';
 import 'package:vicyos_music/app/view/screens/splash.screen.dart';
 
-import 'app/common/scroll.behavior.dart';
 import 'app/functions/music_player.dart';
 
 // flutter clean; flutter pub get; flutter build apk --release
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
         }
       },
       child: MaterialApp(
-        scrollBehavior: MyCustomScrollBehavior(),
         title: 'Vicyos Music',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
