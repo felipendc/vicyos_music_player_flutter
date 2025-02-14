@@ -59,11 +59,11 @@ These instructions will help you get a copy of this project up and running on yo
 
 
 
-#### Flutter 3.27.4:
+#### Flutter 3.29.0:
 - Channel: `Stable`
-- Flutter version: `3.27.4 x64`
-- Dart version: `3.6.2 (stable) (05/02/2025) for "windows_x64"`
-- File name:  `flutter_windows_3.27.4-stable.zip` 
+- Flutter version: `3.29.0 x64`
+- Dart version: `3.7.0 (stable) (12/02/2025) for "windows_x64"`
+- File name:  `flutter_windows_3.29.0-stable.zip` 
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
 
