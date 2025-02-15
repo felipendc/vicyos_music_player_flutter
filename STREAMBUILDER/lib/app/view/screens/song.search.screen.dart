@@ -166,21 +166,33 @@ class SearchScreen extends StatelessWidget {
                         height: 67,
                         child: GestureDetector(
                           onLongPress: () async {
+                            if (audioPlayer.playerState.playing) {
+                              audioPlayerWasPlaying = true;
+                            } else {
+                              audioPlayerWasPlaying = false;
+                            }
+                            isSongPreviewBottomSheetOpen = true;
                             hideButtonSheetStreamNotifier(true);
+
                             final result = await showModalBottomSheet<String>(
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (BuildContext context) {
-                                return SongPreviewDialog(
+                                return SongPreviewBottomSheet(
                                     songPath: foundSongs[index].path);
                               },
                             ).whenComplete(() {
-                              rebuildSongsListScreenStreamNotifier();
+                              isSongPreviewBottomSheetOpen = false;
+
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              if (isSongPreviewBottomSheetOpen) {
-                                hideButtonSheetStreamNotifier(true);
-                              } else {
-                                hideButtonSheetStreamNotifier(false);
+                              hideButtonSheetStreamNotifier(false);
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(() async {
+                                  await audioPlayer.play();
+                                });
                               }
                             });
 

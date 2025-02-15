@@ -8,46 +8,13 @@ import 'package:vicyos_music/app/widgets/appbars.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
-late bool audioPlayerWasPlaying;
-
-class SongPreviewDialog extends StatefulWidget {
+class SongPreviewBottomSheet extends StatelessWidget {
   final String songPath;
-  const SongPreviewDialog({super.key, required this.songPath});
-
-  @override
-  State<SongPreviewDialog> createState() => _SongPreviewDialogState();
-}
-
-class _SongPreviewDialogState extends State<SongPreviewDialog> {
-  @override
-  void initState() {
-    super.initState();
-    isSongPreviewBottomSheetOpen = true;
-    hideButtonSheetStreamNotifier(true);
-    previewSong(widget.songPath);
-    if (audioPlayer.playerState.playing) {
-      audioPlayerWasPlaying = true;
-    } else {
-      audioPlayerWasPlaying = false;
-    }
-  }
-
-  @override
-  void dispose() {
-    isSongPreviewBottomSheetOpen = false;
-    hideButtonSheetStreamNotifier(false);
-    audioPlayerPreview.stop();
-    audioPlayerPreview.release();
-    if (audioPlayerWasPlaying) {
-      Future.microtask(() async {
-        await audioPlayer.play();
-      });
-    }
-    super.dispose();
-  }
+  const SongPreviewBottomSheet({super.key, required this.songPath});
 
   @override
   Widget build(BuildContext context) {
+    previewSong(songPath);
     var media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
@@ -55,7 +22,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
         bottom: Radius.circular(0),
       ),
       child: Scaffold(
-        appBar: previewPlayerViewAppBar(context, widget.songPath),
+        appBar: previewPlayerViewAppBar(context, songPath),
         body: Container(
           color: TColor.bg,
           height: media.height * 0.6, // Adjust the height
@@ -205,10 +172,10 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                             return MarqueeText(
                               centerText: true,
                               // Forces rebuild when song changes
-                              key: ValueKey(songName(widget.songPath)),
+                              key: ValueKey(songName(songPath)),
                               maxWidth:
                                   width, // Set dynamically based on layout
-                              text: songName(widget.songPath),
+                              text: songName(songPath),
                               style: TextStyle(
                                 color:
                                     TColor.primaryText.withValues(alpha: 0.9),
@@ -346,7 +313,7 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                       ),
                     ),
                     onPressed: () {
-                      addSongToPlaylist(widget.songPath);
+                      addSongToPlaylist(songPath);
                     },
                     backgroundColor: TColor.darkGray,
                   ),

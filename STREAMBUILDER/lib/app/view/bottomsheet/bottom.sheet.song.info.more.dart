@@ -149,27 +149,38 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
+                          if (audioPlayer.playerState.playing) {
+                            audioPlayerWasPlaying = true;
+                          } else {
+                            audioPlayerWasPlaying = false;
+                          }
                           isSongPreviewBottomSheetOpen = true;
                           hideButtonSheetStreamNotifier(true);
+
                           Navigator.pop(context);
 
                           showModalBottomSheet<String>(
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (BuildContext context) {
-                                return SongPreviewDialog(
+                                return SongPreviewBottomSheet(
                                     songPath: fullFilePath);
-                              }).whenComplete(
-                            () {
-                              if (isSongPreviewBottomSheetOpen) {
-                                hideButtonSheetStreamNotifier(true);
-                              } else {
-                                hideButtonSheetStreamNotifier(false);
-                              }
+                              }).whenComplete(() {
+                            isSongPreviewBottomSheetOpen = false;
 
-                              Navigator.pop(context);
-                            },
-                          );
+                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                            hideButtonSheetStreamNotifier(false);
+                            audioPlayerPreview.stop();
+                            audioPlayerPreview.release();
+
+                            if (audioPlayerWasPlaying) {
+                              Future.microtask(() async {
+                                await audioPlayer.play();
+                              });
+                            }
+
+                            Navigator.pop(context);
+                          });
                         },
                       ),
                     ),

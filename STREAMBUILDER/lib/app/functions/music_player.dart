@@ -15,6 +15,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+late bool audioPlayerWasPlaying;
 late bool isInternalStoragePermissionDenied;
 bool noDeviceMusicFolderFound = false;
 late final TextEditingController searchBoxController;
