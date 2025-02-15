@@ -326,29 +326,6 @@ class HomePageFolderList extends StatelessWidget {
                                                           .path),
                                             ),
                                           );
-
-                                          //----------- BACKUP -----------
-                                          // hideButtonSheetStreamNotifier(true);
-                                          // showModalBottomSheet<void>(
-                                          //   backgroundColor: Colors.transparent,
-                                          //   context: context,
-                                          //   builder: (BuildContext context) {
-                                          //     return FolderToPlaylistBottomSheet(
-                                          //         folderPath:
-                                          //         musicFolderPaths[index]
-                                          //             .path);
-                                          //   },
-                                          // ).whenComplete(() {
-                                          //   if (mainPlayerIsOpen) {
-                                          //     mainPlayerIsOpen = false;
-                                          //   } else {
-                                          //     hideButtonSheetStreamNotifier(
-                                          //         false);
-                                          //   }
-                                          //
-                                          //   // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                          // });
-                                          //------------------------------
                                         },
                                         icon: Image.asset(
                                           "assets/img/arrow_forward_ios.png",
