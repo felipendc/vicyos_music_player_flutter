@@ -35,9 +35,7 @@ class HomeScreen extends StatelessWidget {
               onGenerateRoute: (RouteSettings settings) {
                 return MaterialPageRoute(
                   builder: (context) {
-                    return HomePageFolderList(
-                      key: homePageFolderListScreenKey,
-                    );
+                    return HomePageFolderList();
                   },
                 );
               },
@@ -60,9 +58,7 @@ class HomeScreen extends StatelessWidget {
                         return Positioned(
                           bottom: 0, // Default 6
                           right: 11, // Default 11
-                          child: BottomPlayer(
-                            key: bottomPlayerKey,
-                          ),
+                          child: BottomPlayer(),
                         );
                       }
                     },

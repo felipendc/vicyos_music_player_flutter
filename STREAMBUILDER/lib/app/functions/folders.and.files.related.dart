@@ -19,10 +19,8 @@ Future<void> requestStoragePermission() async {
 
   if (status.isGranted) {
     _isPermissionDenied = false;
-    print("Permission denied? ${_isPermissionDenied}");
   } else {
     _isPermissionDenied = true;
-    print("Permission denied? ${_isPermissionDenied}");
   }
 
   IsInternalStoragePermissionDenied = _isPermissionDenied;

@@ -11,8 +11,6 @@ import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 
 import '../../widgets/music_visualizer.dart';
 
-final GlobalKey songsListScreenKey = GlobalKey();
-
 class SongsListScreen extends StatelessWidget {
   final String folderPath;
   const SongsListScreen({super.key, required this.folderPath});

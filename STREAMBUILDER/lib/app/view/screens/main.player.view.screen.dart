@@ -20,8 +20,6 @@ final List<Color> colors = [
 
 final List<int> duration = [900, 700, 600, 800, 500];
 
-final GlobalKey mainPlayerViewKey = GlobalKey();
-
 class MainPlayerView extends StatelessWidget {
   const MainPlayerView({super.key});
 

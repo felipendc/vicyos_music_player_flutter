@@ -314,7 +314,7 @@ void playerEventStateStreamNotifier() {
 
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
-    currentIndex = event.currentIndex!;
+    currentIndex = event.currentIndex ?? 0;
   });
 }
 

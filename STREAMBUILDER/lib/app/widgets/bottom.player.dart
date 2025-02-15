@@ -8,8 +8,6 @@ import 'package:vicyos_music/app/widgets/marquee.text.dart';
 
 import '../navigation_animation/main.player.navigation.animation.dart';
 
-final GlobalKey bottomPlayerKey = GlobalKey();
-
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
 
@@ -141,9 +139,7 @@ class BottomPlayer extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       mainPlayerSlideUpDownTransition(
-                                        MainPlayerView(
-                                          key: mainPlayerViewKey,
-                                        ),
+                                        MainPlayerView(),
                                       ),
                                     ).whenComplete(
                                       () {
