@@ -218,7 +218,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             if (mainPlayerIsOpen) {
                               mainPlayerIsOpen = false;
                             }
-                            getCurrentSongFullPathStreamControllerNotifier('');
+                            getCurrentSongFullPathStreamControllerNotifier();
                             listPlaylistFolderStreamNotifier();
                             hideButtonSheetStreamNotifier(false);
                           });

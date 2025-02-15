@@ -52,8 +52,8 @@ class BottomPlayer extends StatelessWidget {
                                 ClipRRect(
                                   borderRadius:
                                       BorderRadius.circular(media.width * 0.7),
-                                  child: StreamBuilder<bool>(
-                                      stream: albumArtStreamController.stream,
+                                  child: StreamBuilder<void>(
+                                      stream: null,
                                       builder: (context, snapshot) {
                                         return Image.asset(
                                           "assets/img/lofi-woman-album-cover-art_10.png",
@@ -158,7 +158,7 @@ class BottomPlayer extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: media.width * 0.35,
                                             height: media.width * 0.06,
                                             child: LayoutBuilder(
@@ -227,7 +227,7 @@ class BottomPlayer extends StatelessWidget {
                                                               fontSize: 15),
                                                         );
                                                       }),
-                                                  StreamBuilder<int>(
+                                                  StreamBuilder<void>(
                                                     stream:
                                                         playlistLengthStreamController
                                                             .stream,

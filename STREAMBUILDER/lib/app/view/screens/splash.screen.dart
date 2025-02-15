@@ -12,8 +12,6 @@ class SplashScreen extends StatelessWidget {
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
 
-    var media = MediaQuery.sizeOf(context);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.pushReplacement(

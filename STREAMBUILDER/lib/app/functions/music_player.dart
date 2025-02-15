@@ -15,7 +15,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
 
-late bool IsInternalStoragePermissionDenied;
+late bool isInternalStoragePermissionDenied;
 bool noDeviceMusicFolderFound = false;
 late final TextEditingController searchBoxController;
 List<AudioInfo> foundSongs = <AudioInfo>[];
@@ -59,50 +59,47 @@ double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 
 // Stream controllers
-StreamController<String> getCurrentSongFolderStreamController =
-    StreamController<String>.broadcast();
+StreamController<void> getCurrentSongFolderStreamController =
+    StreamController<void>.broadcast();
 
-StreamController<String> getCurrentSongFullPathStreamController =
-    StreamController<String>.broadcast();
+StreamController<void> getCurrentSongFullPathStreamController =
+    StreamController<void>.broadcast();
 
-StreamController<int> playlistLengthStreamController =
-    StreamController<int>.broadcast();
+StreamController<void> playlistLengthStreamController =
+    StreamController<void>.broadcast();
 
-StreamController<String> currentSongAlbumStreamController =
-    StreamController<String>.broadcast();
+StreamController<void> currentSongAlbumStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<void> currentSongNameStreamController =
     StreamController<void>.broadcast();
 
-StreamController<int> listPlaylistFolderStreamController =
-    StreamController<int>.broadcast();
+StreamController<void> listPlaylistFolderStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<void> clearCurrentPlaylistStreamController =
     StreamController<void>.broadcast();
 
-StreamController<LoopMode> repeatModeStreamController =
-    StreamController<LoopMode>.broadcast();
+StreamController<void> repeatModeStreamController =
+    StreamController<void>.broadcast();
 
-StreamController<double> systemVolumeStreamController =
-    StreamController<double>.broadcast();
-
-StreamController<bool> albumArtStreamController =
-    StreamController<bool>.broadcast();
+StreamController<void> systemVolumeStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<bool> hideButtonSheetStreamController =
     StreamController<bool>.broadcast();
 
-StreamController<bool> rebuildPlaylistBottomSheet =
-    StreamController<bool>.broadcast();
+StreamController<void> rebuildPlaylistBottomSheet =
+    StreamController<void>.broadcast();
 
-StreamController<bool> rebuildSongsListScreenStreamController =
-    StreamController<bool>.broadcast();
+StreamController<void> rebuildSongsListScreenStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<String> rebuildHomePageFolderListStreamController =
     StreamController<String>.broadcast();
 
-StreamController<bool> rebuildSpeedRateBottomSheetStreamController =
-    StreamController<bool>.broadcast();
+StreamController<void> rebuildSpeedRateBottomSheetStreamController =
+    StreamController<void>.broadcast();
 
 StreamController<String> isSearchingSongsStreamController =
     StreamController<String>.broadcast();
@@ -119,20 +116,20 @@ void isSearchingSongsStreamNotifier(String value) {
   isSearchingSongsStreamController.sink.add(value);
 }
 
-void rebuildSpeedRateBottomSheetStreamNotifier(bool value) {
-  rebuildSpeedRateBottomSheetStreamController.sink.add(value);
+void rebuildSpeedRateBottomSheetStreamNotifier() {
+  rebuildSpeedRateBottomSheetStreamController.sink.add(null);
 }
 
 void rebuildHomePageFolderListStreamNotifier(String value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 
-void rebuildSongsListScreenStreamNotifier(bool value) {
-  rebuildSongsListScreenStreamController.sink.add(value);
+void rebuildSongsListScreenStreamNotifier() {
+  rebuildSongsListScreenStreamController.sink.add(null);
 }
 
-void rebuildPlaylistBottomSheetStreamNotifier(bool value) {
-  rebuildPlaylistBottomSheet.sink.add(value);
+void rebuildPlaylistBottomSheetStreamNotifier() {
+  rebuildPlaylistBottomSheet.sink.add(null);
 }
 
 Future<void> hideButtonSheetStreamNotifier(bool value) async {
@@ -140,45 +137,42 @@ Future<void> hideButtonSheetStreamNotifier(bool value) async {
 }
 
 void clearCurrentPlaylistStreamNotifier() {
-  clearCurrentPlaylistStreamController.sink.add(playlist.clear());
+  playlist.clear();
+  clearCurrentPlaylistStreamController.sink.add(null);
 }
 
 void listPlaylistFolderStreamNotifier() async {
-  listPlaylistFolderStreamController.sink
-      .add(playlistLength = musicFolderPaths.length);
+  playlistLength = musicFolderPaths.length;
+  listPlaylistFolderStreamController.sink.add(null);
 }
 
 Future<void> playlistLengthStreamNotifier() async {
-  playlistLengthStreamController.sink
-      .add(playlistCurrentLength = playlist.children.length);
+  playlistCurrentLength = playlist.children.length;
+  playlistLengthStreamController.sink.add(null);
 }
 
-Future<void> currentSongNameStreamNotifier(value) async {
-  currentSongNameStreamController.sink.add(value);
+void currentSongNameStreamNotifier() {
+  currentSongNameStreamController.sink.add(null);
 }
 
-void currentSongAlbumStreamNotifier(value) {
-  currentSongAlbumStreamController.sink.add(value);
+void currentSongAlbumStreamNotifier() {
+  currentSongAlbumStreamController.sink.add(null);
 }
 
-void repeatModeStreamNotifier(value) {
-  repeatModeStreamController.sink.add(value);
+void repeatModeStreamNotifier() {
+  repeatModeStreamController.sink.add(null);
 }
 
-void systemVolumeStreamNotifier(value) {
-  systemVolumeStreamController.sink.add(value);
+void systemVolumeStreamNotifier() {
+  systemVolumeStreamController.sink.add(null);
 }
 
-void albumArtStreamControllerStreamNotifier(value) {
-  albumArtStreamController.sink.add(value);
+void getCurrentSongFolderStreamControllerNotifier() {
+  getCurrentSongFolderStreamController.sink.add(null);
 }
 
-void getCurrentSongFolderStreamControllerNotifier(value) {
-  getCurrentSongFolderStreamController.sink.add(value);
-}
-
-Future<void> getCurrentSongFullPathStreamControllerNotifier(value) async {
-  getCurrentSongFullPathStreamController.sink.add(value);
+Future<void> getCurrentSongFullPathStreamControllerNotifier() async {
+  getCurrentSongFullPathStreamController.sink.add(null);
 }
 
 Future<void> onInitPlayer() async {
@@ -202,18 +196,20 @@ Future<void> onInitPlayer() async {
   audioPlayer.sequenceStateStream.listen((sequenceState) {
     final currentSource = sequenceState?.currentSource;
     if (currentSource is UriAudioSource) {
-      getCurrentSongFolderStreamControllerNotifier(currentFolderPath =
-          getCurrentSongFolder(currentSource.uri.toString()));
+      currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
+      getCurrentSongFolderStreamControllerNotifier();
 
-      getCurrentSongFullPathStreamControllerNotifier(currentSongFullPath =
-          getCurrentSongFullPath(currentSource.uri.toString()));
+      currentSongFullPath =
+          getCurrentSongFullPath(currentSource.uri.toString());
+      getCurrentSongFullPathStreamControllerNotifier();
     }
   });
 }
 
 void initVolumeControl() async {
   VolumeController.instance.addListener((volume) {
-    systemVolumeStreamNotifier(volumeSliderValue = volume * 100);
+    volumeSliderValue = volume * 100;
+    systemVolumeStreamNotifier();
   });
   double currentVolume = await VolumeController.instance.getVolume();
   volumeSliderValue = (currentVolume * 100);
@@ -322,11 +318,12 @@ void playerEventStateStreamNotifier() {
 void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
     final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
-    currentSongNameStreamNotifier(currentSongName = currentMediaItem.title);
+    currentSongName = currentMediaItem.title;
+    currentSongNameStreamNotifier();
 
     currentSongArtistName = currentMediaItem.artist!;
-    currentSongAlbumStreamNotifier(
-        currentSongAlbumName = currentMediaItem.album!);
+    currentSongAlbumName = currentMediaItem.album!;
+    currentSongAlbumStreamNotifier();
     currentIndex = index;
   });
 }
@@ -433,13 +430,17 @@ Future<void> cleanPlaylist() async {
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
 
-  currentSongNameStreamNotifier(currentSongName = "The playlist is empty");
-  currentSongAlbumStreamNotifier(currentSongAlbumName = "Unknown Album");
+  currentSongName = "The playlist is empty";
+  currentSongNameStreamNotifier();
+  currentSongAlbumName = "Unknown Album";
+  currentSongAlbumStreamNotifier();
 
-  getCurrentSongFolderStreamControllerNotifier(
-      currentFolderPath = 'The song folder will be displayed here...');
+  currentFolderPath = 'The song folder will be displayed here...';
+  getCurrentSongFolderStreamControllerNotifier();
   clearCurrentPlaylistStreamNotifier();
-  getCurrentSongFullPathStreamControllerNotifier(currentSongFullPath = "");
+
+  currentSongFullPath = "";
+  getCurrentSongFullPathStreamControllerNotifier();
 }
 
 void playOrPause() {
@@ -521,19 +522,22 @@ void rewind() {
 
 void repeatMode() {
   if (currentLoopMode == LoopMode.all) {
-    repeatModeStreamNotifier(currentLoopMode = LoopMode.one);
+    currentLoopMode = LoopMode.one;
+    repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_one.png";
 
     print("Repeat: One");
   } else if (currentLoopMode == LoopMode.one) {
-    repeatModeStreamNotifier(currentLoopMode = LoopMode.off);
+    currentLoopMode = LoopMode.off;
+    repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_none.png";
 
     print("Repeat: Off");
   } else if (currentLoopMode == LoopMode.off) {
-    repeatModeStreamNotifier(currentLoopMode = LoopMode.all);
+    currentLoopMode = LoopMode.all;
+    repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_all.png";
   }

@@ -68,8 +68,8 @@ class _SongPreviewDialogState extends State<SongPreviewDialog> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(media.width * 0.5),
-                    child: StreamBuilder<bool>(
-                        stream: albumArtStreamController.stream,
+                    child: StreamBuilder<void>(
+                        stream: null,
                         builder: (context, snapshot) {
                           return Image.asset(
                             "assets/img/lofi-woman-album-cover-art_10.png",

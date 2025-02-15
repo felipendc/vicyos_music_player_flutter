@@ -175,7 +175,7 @@ class SearchScreen extends StatelessWidget {
                                     songPath: foundSongs[index].path);
                               },
                             ).whenComplete(() {
-                              rebuildSongsListScreenStreamNotifier(true);
+                              rebuildSongsListScreenStreamNotifier();
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
                               if (isSongPreviewBottomSheetOpen) {
                                 hideButtonSheetStreamNotifier(true);

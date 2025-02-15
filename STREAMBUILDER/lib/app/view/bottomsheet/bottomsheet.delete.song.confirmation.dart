@@ -105,8 +105,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                               if (index != -1) {
                                 await playlist.removeAt(index);
                                 await playlistLengthStreamNotifier();
-                                await getCurrentSongFullPathStreamControllerNotifier(
-                                    "");
+                                await getCurrentSongFullPathStreamControllerNotifier();
 
                                 // Update the current song name
                                 if (index < playlist.children.length) {
@@ -121,10 +120,10 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                   currentSongName = "";
                                 }
 
-                                await currentSongNameStreamNotifier("update");
+                                currentSongNameStreamNotifier();
                               }
                               // ----------------------------------------------------------
-                              rebuildSongsListScreenStreamNotifier(true);
+                              rebuildSongsListScreenStreamNotifier();
                               rebuildHomePageFolderListStreamNotifier(
                                   "fetching_files_done");
                               Navigator.pop(

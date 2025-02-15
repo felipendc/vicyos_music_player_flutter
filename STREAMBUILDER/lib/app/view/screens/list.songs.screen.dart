@@ -24,7 +24,6 @@ class SongsListScreen extends StatelessWidget {
 
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
-      // stream: getCurrentSongFullPathStreamController.stream,
       builder: (context, snapshot) {
         // Filter all songs from folderPath and add them to folderSongList
         filterSongsOnlyToList(folderPath: folderPath);
@@ -35,7 +34,7 @@ class SongsListScreen extends StatelessWidget {
         // Set the preferred orientations to portrait mode when this screen is built
         screenOrientationPortrait();
 
-        print("REBUILD LIST SONG: ${folderPath}");
+        print("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             // appBar: songsListAppBar(folderPath: folderPath, context: context),
@@ -180,9 +179,8 @@ class SongsListScreen extends StatelessWidget {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(
                                               media.width * 0.2),
-                                          child: StreamBuilder<bool>(
-                                            stream:
-                                                albumArtStreamController.stream,
+                                          child: StreamBuilder<void>(
+                                            stream: null,
                                             builder: (context, snapshot) {
                                               return Image.asset(
                                                 "assets/img/pics/default.png",
@@ -274,7 +272,7 @@ class SongsListScreen extends StatelessWidget {
                                           songPath: folderSongList[index].path);
                                     },
                                   ).whenComplete(() {
-                                    rebuildSongsListScreenStreamNotifier(true);
+                                    rebuildSongsListScreenStreamNotifier();
                                     // "When the bottom sheet is closed, send a signal to show the mini player again."
                                     if (isSongPreviewBottomSheetOpen) {
                                       hideButtonSheetStreamNotifier(true);

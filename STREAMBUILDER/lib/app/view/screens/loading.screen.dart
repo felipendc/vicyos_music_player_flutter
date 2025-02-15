@@ -115,8 +115,8 @@ class LoadingScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(
                                           media.width * 0.2),
-                                      child: StreamBuilder<bool>(
-                                        stream: albumArtStreamController.stream,
+                                      child: StreamBuilder<void>(
+                                        stream: null,
                                         builder: (context, snapshot) {
                                           return Image.asset(
                                             "assets/img/pics/default.png",

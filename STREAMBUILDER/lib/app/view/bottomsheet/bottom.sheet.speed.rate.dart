@@ -105,7 +105,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
             const SizedBox(height: 20),
 
             Expanded(
-              child: StreamBuilder<bool>(
+              child: StreamBuilder<void>(
                   stream: rebuildSpeedRateBottomSheetStreamController.stream,
                   builder: (context, snapshot) {
                     return Container(
@@ -155,8 +155,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                                 onTap: () {
                                   audioPlayer
                                       .setSpeed(speedRatesToDouble[index]);
-                                  rebuildSpeedRateBottomSheetStreamNotifier(
-                                      true);
+                                  rebuildSpeedRateBottomSheetStreamNotifier();
                                 },
                                 trailing: (audioPlayer.speed ==
                                         speedRatesToDouble[index])

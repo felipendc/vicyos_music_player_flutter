@@ -20,7 +20,7 @@ class PlaylistBottomSheet extends StatelessWidget {
       audioPlayer.currentIndexStream.listen((index) {
         currentIndex = audioPlayer.sequence![index!] as int;
       });
-      rebuildPlaylistBottomSheetStreamNotifier(true);
+      rebuildPlaylistBottomSheetStreamNotifier();
     }
 
     _scrollController = ScrollController();
@@ -75,14 +75,14 @@ class PlaylistBottomSheet extends StatelessWidget {
                   onPressed: () {
                     // Clean playlist and rebuild the entire screen to clean the listview
                     cleanPlaylist();
-                    rebuildPlaylistBottomSheetStreamNotifier(true);
+                    rebuildPlaylistBottomSheetStreamNotifier();
                   },
                   backgroundColor: TColor.darkGray,
                 ),
               ),
             ),
             const SizedBox(height: 15),
-            StreamBuilder<bool>(
+            StreamBuilder<void>(
                 stream: rebuildPlaylistBottomSheet.stream,
                 builder: (context, snapshot) {
                   return Expanded(
@@ -159,8 +159,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                         color: TColor.focusSecondary,
                                         onPressed: () {
                                           playlist.removeAt(index);
-                                          rebuildPlaylistBottomSheetStreamNotifier(
-                                              true);
+                                          rebuildPlaylistBottomSheetStreamNotifier();
 
                                           playlistLength =
                                               playlist.children.length;
@@ -185,8 +184,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                               preload: false);
 
                                           audioPlayer.play();
-                                          rebuildPlaylistBottomSheetStreamNotifier(
-                                              true);
+                                          rebuildPlaylistBottomSheetStreamNotifier();
 
                                           songIsPlaying = true;
                                         }

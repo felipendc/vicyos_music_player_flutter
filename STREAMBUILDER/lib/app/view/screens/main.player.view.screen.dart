@@ -42,8 +42,8 @@ class MainPlayerView extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: StreamBuilder<bool>(
-                    stream: albumArtStreamController.stream,
+                  child: StreamBuilder<void>(
+                    stream: null,
                     builder: (context, snapshot) {
                       return Image.asset(
                         "assets/img/lofi-woman-album-cover-art_10.png",
@@ -199,7 +199,7 @@ class MainPlayerView extends StatelessWidget {
                             color: TColor.secondaryText, fontSize: 15),
                       );
                     }),
-                StreamBuilder<int>(
+                StreamBuilder<void>(
                   stream: playlistLengthStreamController.stream,
                   builder: (context, snapshot) {
                     return Text(
@@ -355,7 +355,7 @@ class MainPlayerView extends StatelessWidget {
                               onPressed: () {
                                 repeatMode();
                               },
-                              icon: StreamBuilder<LoopMode>(
+                              icon: StreamBuilder<void>(
                                 stream: repeatModeStreamController.stream,
                                 builder: (context, snapshot) {
                                   return Image.asset(
@@ -385,7 +385,7 @@ class MainPlayerView extends StatelessWidget {
                     top: 2,
                     bottom: 2,
                   ),
-                  child: StreamBuilder<Object>(
+                  child: StreamBuilder<void>(
                     stream: systemVolumeStreamController.stream,
                     builder: (context, snapshot) {
                       return SliderTheme(
@@ -421,7 +421,7 @@ class MainPlayerView extends StatelessWidget {
                           divisions: 20,
                           label: '${volumeSliderValue.round()}',
                           onChanged: (value) {
-                            systemVolumeStreamNotifier(value);
+                            systemVolumeStreamNotifier();
 
                             setVolume(value);
                           },

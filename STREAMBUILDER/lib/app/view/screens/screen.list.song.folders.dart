@@ -27,13 +27,13 @@ class HomePageFolderList extends StatelessWidget {
     return StreamBuilder<String>(
       stream: rebuildHomePageFolderListStreamController.stream,
       builder: (context, snapshot) {
-        final String? _fetchingResult = snapshot.data;
+        final String? fetchingResult = snapshot.data;
 
-        if (_fetchingResult == "fetching_files") {
+        if (fetchingResult == "fetching_files") {
           return LoadingScreen(
             currentStatus: "fetching_files",
           );
-        } else if (_fetchingResult == "fetching_files_done") {
+        } else if (fetchingResult == "fetching_files_done") {
           return SafeArea(
             child: Scaffold(
               body: Column(
@@ -137,9 +137,8 @@ class HomePageFolderList extends StatelessWidget {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(
                                                 media.width * 0.2),
-                                            child: StreamBuilder<bool>(
-                                              stream: albumArtStreamController
-                                                  .stream,
+                                            child: StreamBuilder<void>(
+                                              stream: null,
                                               builder: (context, snapshot) {
                                                 return Image.asset(
                                                   "assets/img/pics/default.png",
@@ -384,9 +383,9 @@ class HomePageFolderList extends StatelessWidget {
               ),
             ),
           );
-        } else if (_fetchingResult == "fetching_files_nothing_found") {
+        } else if (fetchingResult == "fetching_files_nothing_found") {
           return LoadingScreen(currentStatus: "fetching_files_nothing_found");
-        } else if (_fetchingResult == "there_is_no_music_folder") {
+        } else if (fetchingResult == "there_is_no_music_folder") {
           return LoadingScreen(currentStatus: "there_is_no_music_folder");
         } else {
           return LoadingScreen(currentStatus: "Null");

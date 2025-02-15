@@ -23,7 +23,7 @@ Future<void> requestStoragePermission() async {
     _isPermissionDenied = true;
   }
 
-  IsInternalStoragePermissionDenied = _isPermissionDenied;
+  isInternalStoragePermissionDenied = _isPermissionDenied;
 }
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {

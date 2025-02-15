@@ -9,12 +9,12 @@ class MarqueeText extends StatelessWidget {
   final double maxWidth;
 
   const MarqueeText({
-    Key? key,
+    super.key,
     required this.centerText,
     required this.text,
     required this.style,
     required this.maxWidth,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
