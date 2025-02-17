@@ -13,7 +13,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
+    // var media = MediaQuery.sizeOf(context);
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),
@@ -63,7 +63,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 30,
                                 width: 270,
                                 // color: Colors.grey,

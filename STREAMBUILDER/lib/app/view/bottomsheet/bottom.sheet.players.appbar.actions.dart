@@ -3,6 +3,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 
+import '../../functions/music_player.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayersAppBarActionsBottomSheet extends StatelessWidget {
@@ -19,7 +20,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 230, // Adjust the height
+        height: isSongPreviewBottomSheetOpen ? 300 : 230, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +62,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 30,
                                 width: 270,
                                 // color: Colors.grey,
@@ -125,6 +126,33 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
+                    if (isSongPreviewBottomSheetOpen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 17),
+                            child: ImageIcon(
+                              AssetImage(
+                                  "assets/img/bottom_player/skip_next.png"),
+                              color: TColor.focus,
+                              size: 32,
+                            ),
+                          ),
+                          title: Text(
+                            "Add to Play Next",
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () {
+                            addToPlayNext(fullFilePath);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
                     Material(
                       color: Colors.transparent,
                       child: ListTile(

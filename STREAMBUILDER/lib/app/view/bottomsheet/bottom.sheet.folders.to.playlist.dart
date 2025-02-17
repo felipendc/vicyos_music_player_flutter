@@ -64,7 +64,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 30,
                                 width: 270,
                                 // color: Colors.grey,

@@ -114,7 +114,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                         controller: _scrollController,
                         itemCount: speedRates.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
+                          return SizedBox(
                             height: 56,
                             child: Material(
                               color: Colors.transparent,

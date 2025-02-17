@@ -113,7 +113,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                           .uri
                                           .toString());
                                   currentSongName =
-                                      await songName(newCurrentSongFullPath);
+                                      songName(newCurrentSongFullPath);
                                 } else {
                                   currentSongName = "";
                                 }

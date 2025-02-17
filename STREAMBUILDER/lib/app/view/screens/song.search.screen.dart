@@ -318,11 +318,9 @@ class SearchScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  child: const Center(
-                    child: Text('No search results',
-                        style: TextStyle(color: Colors.white)),
-                  ),
+                const Center(
+                  child: Text('No search results',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             );

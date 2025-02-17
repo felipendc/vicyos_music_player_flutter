@@ -77,7 +77,7 @@ class SongsListScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     height: 30,
                                     width: 180,
                                     // color: Colors.grey,
@@ -382,11 +382,22 @@ class SongsListScreen extends StatelessWidget {
                                     },
                                   ),
                                   onTap: () {
-                                    setFolderAsPlaylist(folderSongList, index);
-                                    print(
-                                        "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                                    print(
-                                        'Tapped on ${(folderSongList[index].path)}');
+                                    if (currentIndex == index) {
+                                      if (songIsPlaying) {
+                                        audioPlayer.pause();
+                                        songIsPlaying = false;
+                                      } else {
+                                        audioPlayer.play();
+                                        songIsPlaying = true;
+                                      }
+                                    } else {
+                                      setFolderAsPlaylist(
+                                          folderSongList, index);
+                                      print(
+                                          "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
+                                      print(
+                                          'Tapped on ${(folderSongList[index].path)}');
+                                    }
                                   },
                                 ),
                               ),

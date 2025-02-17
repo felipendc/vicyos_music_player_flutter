@@ -6,7 +6,7 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
-  PlaylistBottomSheet({super.key});
+  const PlaylistBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
