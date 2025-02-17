@@ -9,7 +9,7 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 // String internalStorage = '/storage/emulated/0/Music/';
 
 Future<void> requestStoragePermission() async {
-  late bool _isPermissionDenied;
+  late bool isPermissionDenied;
   var status = await Permission.storage.status;
 
   if (!status.isGranted) {
@@ -18,12 +18,12 @@ Future<void> requestStoragePermission() async {
   }
 
   if (status.isGranted) {
-    _isPermissionDenied = false;
+    isPermissionDenied = false;
   } else {
-    _isPermissionDenied = true;
+    isPermissionDenied = true;
   }
 
-  isInternalStoragePermissionDenied = _isPermissionDenied;
+  isInternalStoragePermissionDenied = isPermissionDenied;
 }
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {

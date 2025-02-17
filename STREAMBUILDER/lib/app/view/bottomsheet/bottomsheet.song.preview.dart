@@ -126,10 +126,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     builder: (context, snapshot) {
                       final position = snapshot.data ?? Duration.zero;
                       return Text(
-                        (audio_players.PlayerState.completed != false ||
-                                audio_players.PlayerState.disposed != false)
-                            ? formatDuration(position)
-                            : formatDuration(Duration.zero),
+                        formatDuration(position),
                         style: TextStyle(
                             color: TColor.secondaryText, fontSize: 15),
                       );
