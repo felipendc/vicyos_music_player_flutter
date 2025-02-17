@@ -127,7 +127,7 @@ Future<void> listMusicFolders() async {
 
   if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
     rebuildHomePageFolderListStreamNotifier("there_is_no_music_folder");
-  } else if (!musicFolderPaths.isEmpty) {
+  } else if (musicFolderPaths.isNotEmpty) {
     rebuildHomePageFolderListStreamNotifier("fetching_files_done");
   } else {
     rebuildHomePageFolderListStreamNotifier("Null");

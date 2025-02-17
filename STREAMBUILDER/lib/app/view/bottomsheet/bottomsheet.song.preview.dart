@@ -162,7 +162,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                   height: 45,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: media.width * 0.9,
                         height: media.width * 0.07,
                         child: LayoutBuilder(
@@ -250,7 +250,6 @@ class SongPreviewBottomSheet extends StatelessWidget {
                                 }
                                 audioPlayerPreview.resume();
                               }
-                              ;
                             },
                             icon: Image.asset(
                               "assets/img/play.png",

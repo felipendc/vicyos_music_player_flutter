@@ -223,7 +223,7 @@ class MainPlayerView extends StatelessWidget {
                     builder: (context, snapshot) {
                       return Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: media.width * 0.9,
                             height: media.width * 0.07,
                             child: LayoutBuilder(
