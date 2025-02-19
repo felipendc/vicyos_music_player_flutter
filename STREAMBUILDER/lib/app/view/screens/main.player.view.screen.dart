@@ -36,7 +36,7 @@ class MainPlayerView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 20,
+              height: 15,
             ),
             Stack(
               children: [
@@ -539,6 +539,66 @@ class MainPlayerView extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 15,
+            ),
+            StreamBuilder<PlayerState>(
+                stream: audioPlayer.playerStateStream,
+                builder: (context, snapshot) {
+                  return FutureBuilder<Map<String, String>>(
+                      future: getAudioMetadata(currentSongFullPath),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+                        final metadata = snapshot.data!;
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${metadata['fileFormat']}",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: TColor.secondaryText,
+                              ),
+                            ),
+                            (metadata['fileFormat'] == "")
+                                ? Text("")
+                                : Text(
+                                    " • ",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: TColor.secondaryText,
+                                    ),
+                                  ),
+                            Text(
+                              "${metadata['bitrate']}",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: TColor.secondaryText,
+                              ),
+                            ),
+                            (metadata['bitrate'] == "")
+                                ? Text("")
+                                : Text(
+                                    " • ",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: TColor.secondaryText,
+                                    ),
+                                  ),
+                            Text(
+                              "${metadata['sampleRate']}",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: TColor.secondaryText,
+                              ),
+                            ),
+                          ],
+                        );
+                      });
+                }),
           ],
         ),
       ),

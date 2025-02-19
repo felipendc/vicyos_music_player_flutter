@@ -15,3 +15,7 @@
 -keepnames class * {
     public <init>(...);
 }
+
+# Try to shrink the app but keeping important classes
+-keep class com.arthenica.** { *; }
+-dontwarn com.arthenica.**

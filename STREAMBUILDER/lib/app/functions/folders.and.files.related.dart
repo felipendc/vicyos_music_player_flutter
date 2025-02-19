@@ -161,7 +161,7 @@ int folderLength(String folderPath) {
   return folderLength.length;
 }
 
-void filterSongsOnlyToList({required String folderPath}) {
+Future<void> filterSongsOnlyToList({required String folderPath}) async {
   folderSongList.clear();
   final Set<String> audioExtensions = {
     '.mp3',
@@ -189,12 +189,15 @@ void filterSongsOnlyToList({required String folderPath}) {
       .toList();
 
   for (var songPath in audioFiles) {
+    // final String duration = await getAudioMetadataDuration(songPath);
+    // print(duration);
     folderSongList.add(
       AudioInfo(
         name: songName(songPath),
         path: songPath,
         size: getFileSize(songPath),
         format: getFileExtension(songPath),
+        // duration: duration,
       ),
     );
   }
@@ -227,7 +230,7 @@ String getFileSize(filePath) {
 String getFileExtension(filePath) {
   final file = File(filePath);
   String fileExtension =
-  file.path.substring(file.path.lastIndexOf('.') + 1).toUpperCase();
+      file.path.substring(file.path.lastIndexOf('.') + 1).toUpperCase();
 
   return fileExtension;
 }
