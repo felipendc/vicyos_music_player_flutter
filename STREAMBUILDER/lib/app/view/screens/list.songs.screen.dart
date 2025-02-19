@@ -382,8 +382,8 @@ class SongsListScreen extends StatelessWidget {
                                     },
                                   ),
                                   onTap: () {
-                                    if (currentIndex == index &&
-                                        playlist.children.isNotEmpty) {
+                                    if (folderSongList[index].path ==
+                                        currentSongFullPath) {
                                       if (songIsPlaying) {
                                         audioPlayer.pause();
                                         songIsPlaying = false;
