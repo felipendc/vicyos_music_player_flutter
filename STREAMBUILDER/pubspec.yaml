@@ -76,10 +76,6 @@ dependencies:
   share_plus: ^10.1.4
   flutter_media_delete: ^1.0.1
   flutter_native_splash: ^2.4.1
-  ffmpeg_kit_flutter_audio: ^6.0.3
-
-
-
 
 flutter_icons:
   android: true

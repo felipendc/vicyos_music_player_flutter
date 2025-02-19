@@ -3,15 +3,14 @@ import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart' as audio_players;
-import 'package:ffmpeg_kit_flutter_audio/ffprobe_kit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
+// import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -279,7 +278,6 @@ void playerEventStateStreamNotifier() {
   // to avoid simultaneous audio playback
   audioPlayer.playerStateStream.listen(
     (playerState) {
-      print("evento ${playerState}");
       if (audioPlayerPreview.state.toString() == "PlayerState.playing" &&
           playerState.playing == true) {
         audioPlayerPreview.pause();
@@ -968,57 +966,4 @@ void addToPlayNext(playNextFilePath) {
     );
   }
   playlistLengthStreamNotifier();
-}
-
-Future<Map<String, String>> getAudioMetadata(String filePath) async {
-  // This FFmpegKit.execute will increase the apk
-  // because it uses all of the library of the pkg
-  // final session = await FFmpegKit.execute('-i "$filePath"');
-
-  // This FFprobeKit.execute will decrease the apk because its more light and faster
-  final session = await FFprobeKit.execute('-i "$filePath"');
-  final logs = await session.getOutput();
-
-  final Map<String, String> metadata = {
-    'sampleRate': '',
-    'bitrate': '',
-    'fileFormat': '',
-  };
-
-  metadata['fileFormat'] = getFileExtension(filePath);
-
-  final sampleRateMatch = RegExp(r'(\d+) Hz').firstMatch(logs ?? '');
-  if (sampleRateMatch != null) {
-    final int rate = int.parse(sampleRateMatch.group(1)!);
-    metadata['sampleRate'] = '${(rate / 1000).toStringAsFixed(1)} kHz';
-  }
-
-  final bitrateMatch = RegExp(r'bitrate: (\d+) kb/s').firstMatch(logs ?? '');
-  if (bitrateMatch != null) {
-    metadata['bitrate'] = '${bitrateMatch.group(1)} kb/s';
-  }
-
-  return metadata;
-}
-
-Future<String> getAudioMetadataDuration(String filePath) async {
-  final session = await FFprobeKit.execute('-i "$filePath"');
-  final logs = await session.getOutput();
-
-  final durationMatch = RegExp(r'Duration: (\d{2}):(\d{2}):(\d{2})\.(\d{2}),')
-      .firstMatch(logs ?? '');
-
-  if (durationMatch != null) {
-    final hours = int.parse(durationMatch.group(1)!);
-    final minutes = durationMatch.group(2);
-    final seconds = durationMatch.group(3);
-
-    if (hours > 0) {
-      return '$hours:$minutes:$seconds';
-    } else {
-      return '$minutes:$seconds';
-    }
-  }
-
-  return '';
 }
