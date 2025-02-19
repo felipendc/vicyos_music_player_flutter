@@ -340,7 +340,7 @@ class SongsListScreen extends StatelessWidget {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    "${folderSongList[index].size!} MB  |  ${folderSongList[index].format!}",
+                                    "${folderSongList[index].size!} MB  •  ${folderSongList[index].format!}",
                                     textAlign: TextAlign.start,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

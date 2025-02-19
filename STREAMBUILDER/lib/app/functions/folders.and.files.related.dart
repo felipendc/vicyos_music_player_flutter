@@ -227,7 +227,7 @@ String getFileSize(filePath) {
 String getFileExtension(filePath) {
   final file = File(filePath);
   String fileExtension =
-      file.path.substring(file.path.lastIndexOf('.')).toUpperCase();
+  file.path.substring(file.path.lastIndexOf('.') + 1).toUpperCase();
 
   return fileExtension;
 }
