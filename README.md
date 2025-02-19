@@ -131,6 +131,9 @@ This project uses the following dependencies:
 - `share_plus 10.1.4` Flutter plugin for sharing content via the platform share UI, using the ACTION_SEND intent on Android and UIActivityViewController on iOS.
 - `flutter_media_delete 1.0.1` TA Flutter plugin designed for deleting media files using scoped storage on Android versions Q (API 29) and above.
 - `loading_animation_widget 1.3.0` Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
+- `ffmpeg_kit_flutter_audio 6.0.3` FFmpeg Kit for Flutter.
+
+
 
 
 ### Submit a pull request
