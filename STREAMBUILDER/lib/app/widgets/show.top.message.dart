@@ -6,8 +6,8 @@ void showLoopMode(BuildContext context, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
       top: 40,
-      left: 20,
-      right: 20,
+      left: 10,
+      right: 10,
       child: Material(
         color: Colors.transparent,
         child: Container(
@@ -22,8 +22,7 @@ void showLoopMode(BuildContext context, String message) {
                 width: audioPlayer.shuffleModeEnabled ? 45 : 45,
                 height: 40,
                 child: IconButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   icon: Image.asset(
                     currentLoopModeIcon,
                     width: 30,
@@ -46,6 +45,7 @@ void showLoopMode(BuildContext context, String message) {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
+                    SizedBox(height: 2),
                     Text(
                       message,
                       style: TextStyle(color: Colors.white, fontSize: 16),
@@ -68,13 +68,13 @@ void showLoopMode(BuildContext context, String message) {
   });
 }
 
-
-void showAddedToPlaylist(BuildContext context, String type, String folderName, String message) {
+void showAddedToPlaylist(
+    BuildContext context, String type, String folderName, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
       top: 40,
-      left: 20,
-      right: 20,
+      left: 10,
+      right: 10,
       child: Material(
         color: Colors.transparent,
         child: Container(
@@ -85,36 +85,34 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
           ),
           child: Row(
             children: [
-              (type == "Folder") ?
-              Padding(
-                padding: const EdgeInsets.only(bottom: 7.0),
-                child: SizedBox(
-                  width:  45,
-                  height: 40,
-                  child: IconButton(
-                    onPressed: () {
-                    },
-                    icon: Icon(
-                      Icons.create_new_folder_outlined,
-                      size: 30,
+              (type == "Folder")
+                  ? Padding(
+                      padding: const EdgeInsets.only(bottom: 7.0),
+                      child: SizedBox(
+                        width: 45,
+                        height: 40,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.create_new_folder_outlined,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(
+                      width: 45,
+                      height: 45,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          "assets/img/sound_sampler.png",
+                          width: 30,
+                          height: 30,
+                          color: TColor.primaryText80,
+                        ),
+                      ),
                     ),
-                            ),
-                ),
-              ) :
-              SizedBox(
-                width:  45,
-                height: 45,
-                child: IconButton(
-                  onPressed: () {
-                  },
-                  icon: Image.asset(
-                      "assets/img/sound_sampler.png",
-                    width: 30,
-                    height: 30,
-                    color: TColor.primaryText80,
-                  ),
-                ),
-              ),
               SizedBox(width: 5),
               Expanded(
                 child: Column(
@@ -129,16 +127,15 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-
                       ),
                     ),
+                    SizedBox(height: 2),
                     Text(
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       message,
                       style: TextStyle(color: Colors.white, fontSize: 16),
-
                     ),
                   ],
                 ),
@@ -150,7 +147,6 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
     ),
   );
 
-
   Overlay.of(context).insert(overlayEntry);
 
   Future.delayed(Duration(seconds: 3), () {
@@ -158,12 +154,13 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
   });
 }
 
-void showFileDeletedMessage(BuildContext context, String fileName, String message) {
+void showFileDeletedMessage(
+    BuildContext context, String fileName, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
       top: 40,
-      left: 20,
-      right: 20,
+      left: 10,
+      right: 10,
       child: Material(
         color: Colors.transparent,
         child: Container(
@@ -174,15 +171,13 @@ void showFileDeletedMessage(BuildContext context, String fileName, String messag
           ),
           child: Row(
             children: [
-
               Padding(
                 padding: const EdgeInsets.only(bottom: 7.0),
                 child: SizedBox(
-                  width:  40,
+                  width: 40,
                   height: 40,
                   child: IconButton(
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.delete_forever_outlined,
                       size: 30,
@@ -204,16 +199,15 @@ void showFileDeletedMessage(BuildContext context, String fileName, String messag
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-
                       ),
                     ),
+                    SizedBox(height: 2),
                     Text(
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      message ,
+                      message,
                       style: TextStyle(color: Colors.white, fontSize: 16),
-
                     ),
                   ],
                 ),
