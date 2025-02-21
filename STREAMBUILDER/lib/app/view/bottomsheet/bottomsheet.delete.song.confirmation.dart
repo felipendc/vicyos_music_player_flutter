@@ -5,6 +5,8 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 
+import '../../widgets/show.top.message.dart';
+
 class DeleteSongConfirmationDialog extends StatelessWidget {
   final songPath;
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
@@ -130,6 +132,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                 "Files deleted successfully") {
                               Navigator.pop(context);
                             }
+                            showFileDeletedMessage(context, songName(songPath));
                           });
                         });
                       },

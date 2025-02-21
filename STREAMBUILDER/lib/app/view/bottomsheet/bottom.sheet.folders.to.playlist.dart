@@ -3,6 +3,7 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/screens/main.player.view.screen.dart';
+import 'package:vicyos_music/app/widgets/show.top.message.dart';
 
 import '../../navigation_animation/main.player.navigation.animation.dart';
 
@@ -176,6 +177,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(folderSongList);
+                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Added to the current playlist");
                         },
                       ),
                     ),
@@ -214,6 +216,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             mainPlayerSlideUpDownTransition(
                               MainPlayerView(),
                             ),
+
                           ).whenComplete(() {
                             if (mainPlayerIsOpen) {
                               mainPlayerIsOpen = false;
@@ -222,6 +225,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             listPlaylistFolderStreamNotifier();
                             hideButtonSheetStreamNotifier(false);
                           });
+                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
                         },
                       ),
                     ),

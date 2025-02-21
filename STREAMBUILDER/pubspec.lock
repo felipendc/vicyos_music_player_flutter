@@ -420,8 +420,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: d8429950f40a8d8e65e5c547e448e95270d81318
+      ref: vicyos_main
+      resolved-ref: d83b457a234add9f8732c040df486685f3ccbb4c
       url: "https://github.com/felipendc/vicyos_music_loading_animation_widget.git"
     source: git
     version: "1.3.0"
@@ -650,8 +650,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: "22584a57cf9a0f64d90b646f5a73d48e4cf936e9"
+      ref: vicyos_main
+      resolved-ref: b1e73d3faa257d3214226e26fd91d7091b7a86e2
       url: "https://github.com/felipendc/vicyos_music_stateless_sleek_circular_slider_flutter.git"
     source: git
     version: "2.0.1"
@@ -843,7 +843,7 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
+      ref: vicyos_main
       resolved-ref: "1fc8c83e7e2e032925ef00633483f85f77119cb9"
       url: "https://github.com/felipendc/vicyos_music_wave_progress_flutter.git"
     source: git

@@ -45,17 +45,17 @@ dependencies:
   sleek_circular_slider:
     git:
       url: https://github.com/felipendc/vicyos_music_stateless_sleek_circular_slider_flutter.git
-      ref: master
+      ref: vicyos_main
 
   wave_progress_widget:
     git:
       url: https://github.com/felipendc/vicyos_music_wave_progress_flutter.git
-      ref: master
+      ref: vicyos_main
 
   loading_animation_widget:
     git:
       url: https://github.com/felipendc/vicyos_music_loading_animation_widget.git
-      ref: main
+      ref: vicyos_main
 
   audioplayers: ^6.1.1
   just_audio: ^0.9.46

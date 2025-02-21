@@ -7,13 +7,20 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
+
 // import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
+
+enum CurrentLoopMode { all, one, shuffle, off }
+
+CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 
 late bool audioPlayerWasPlaying;
 late bool isInternalStoragePermissionDenied;
@@ -45,7 +52,6 @@ bool firstSongIndex = true;
 bool lastSongIndex = false;
 bool penultimateSongIndex = false;
 Duration currentPosition = Duration.zero;
-LoopMode currentLoopMode = LoopMode.all;
 String currentLoopModeLabel = 'Repeat: All';
 List<AudioSource> audioSources = <AudioSource>[];
 late ConcatenatingAudioSource playlist;
@@ -521,26 +527,41 @@ void rewind() {
       : audioPlayer.seek(audioPlayer.position - const Duration(seconds: 5));
 }
 
-void repeatMode() {
-  if (currentLoopMode == LoopMode.all) {
-    currentLoopMode = LoopMode.one;
+void repeatMode(BuildContext context) {
+  if (currentLoopMode == CurrentLoopMode.all) {
+    currentLoopMode = CurrentLoopMode.one;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_one.png";
-
     print("Repeat: One");
-  } else if (currentLoopMode == LoopMode.one) {
-    currentLoopMode = LoopMode.off;
+    showLoopMode(context, "Repeating one");
+  }
+  else if (currentLoopMode == CurrentLoopMode.one) {
+    currentLoopMode = CurrentLoopMode.shuffle;
     repeatModeStreamNotifier();
+    audioPlayer.setLoopMode(LoopMode.all);
+    audioPlayer.setShuffleModeEnabled(true);
+    currentLoopModeIcon = "assets/img/shuffle_1.png";
+    print("Repeat: Shuffle");
+    showLoopMode(context, "Playback is shuffled");
+
+  }
+  else if (currentLoopMode == CurrentLoopMode.shuffle) {
+    currentLoopMode = CurrentLoopMode.off;
+    repeatModeStreamNotifier();
+    audioPlayer.setShuffleModeEnabled(false);
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_none.png";
-
     print("Repeat: Off");
-  } else if (currentLoopMode == LoopMode.off) {
-    currentLoopMode = LoopMode.all;
+    showLoopMode(context, "Repeating off");
+  }
+  else if (currentLoopMode == CurrentLoopMode.off) {
+    currentLoopMode = CurrentLoopMode.all;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_all.png";
+    print("Repeat: All");
+    showLoopMode(context, "Repeating all");
   }
 }
 
@@ -967,3 +988,4 @@ void addToPlayNext(playNextFilePath) {
   }
   playlistLengthStreamNotifier();
 }
+

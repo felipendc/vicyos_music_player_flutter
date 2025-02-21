@@ -4,6 +4,7 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/app/widgets/show.top.message.dart';
 
 import 'bottomsheet.delete.song.confirmation.dart';
 
@@ -68,7 +69,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 width: 270,
                                 // color: Colors.grey,
                                 child: Text(
-                                  folderName(fullFilePath),
+                                  songName(fullFilePath),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -207,6 +208,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () {
                           addToPlayNext(fullFilePath);
                           Navigator.pop(context);
+                          showAddedToPlaylist(context, "Song", songName(fullFilePath), "Added to play next");
                         },
                       ),
                     ),

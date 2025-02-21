@@ -345,28 +345,28 @@ class MainPlayerView extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(6, 0, 8, 0),
                       child: Column(
                         children: [
-                          SizedBox(
-                            width: 45,
-                            height: 40,
-                            child: IconButton(
-                              onPressed: () {
-                                repeatMode();
-                              },
-                              icon: StreamBuilder<void>(
-                                stream: repeatModeStreamController.stream,
-                                builder: (context, snapshot) {
-                                  return Image.asset(
+                          StreamBuilder<void>(
+                              stream: repeatModeStreamController.stream,
+                              builder: (context, snapshot) {
+                              return SizedBox(
+                                width: audioPlayer.shuffleModeEnabled ? 45 : 45,
+                                height: (currentLoopMode == CurrentLoopMode.shuffle ) ? 48 : 40,
+                                child: IconButton(
+                                  onPressed: () {
+                                    repeatMode(context);
+                                  },
+                                  icon: Image.asset(
                                     currentLoopModeIcon,
                                     width: 30,
                                     height: 30,
                                     color: TColor.primaryText80,
-                                  );
-                                },
-                              ),
-                            ),
+                                  ),
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),
