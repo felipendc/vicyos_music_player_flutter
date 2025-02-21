@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/widgets/show.top.message.dart';
 
 import '../../functions/music_player.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
@@ -150,6 +151,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                           onTap: () {
                             addToPlayNext(fullFilePath);
                             Navigator.pop(context);
+                            showAddedToPlaylist(context, "Song", songName(fullFilePath), "Added to play next");
                           },
                         ),
                       ),
