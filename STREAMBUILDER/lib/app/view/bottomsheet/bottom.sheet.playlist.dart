@@ -4,6 +4,7 @@ import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
+import 'package:vicyos_music/app/widgets/show.top.message.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -158,6 +159,8 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             Icons.delete_forever_rounded),
                                         color: TColor.focusSecondary,
                                         onPressed: () {
+                                          showFileDeletedMessage(context, songName(
+                                              songFullPath(index: index)), "Has been removed from the playlist");
                                           playlist.removeAt(index);
                                           rebuildPlaylistBottomSheetStreamNotifier();
 
@@ -167,6 +170,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             preLoadSongName();
                                           }
                                           playlistLengthStreamNotifier();
+
                                         },
                                       ),
                                       onTap: () async {

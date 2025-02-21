@@ -7,12 +7,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
-
-// import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/widgets/show.top.message.dart';
@@ -328,8 +325,8 @@ void preLoadSongName() {
     currentSongName = currentMediaItem.title;
     currentSongNameStreamNotifier();
 
-    currentSongArtistName = currentMediaItem.artist!;
-    currentSongAlbumName = currentMediaItem.album!;
+    currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
+    currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
     currentSongAlbumStreamNotifier();
     currentIndex = index;
   });

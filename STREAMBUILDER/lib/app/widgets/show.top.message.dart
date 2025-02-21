@@ -150,6 +150,7 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
     ),
   );
 
+
   Overlay.of(context).insert(overlayEntry);
 
   Future.delayed(Duration(seconds: 3), () {
@@ -157,7 +158,7 @@ void showAddedToPlaylist(BuildContext context, String type, String folderName, S
   });
 }
 
-void showFileDeletedMessage(BuildContext context, String fileName) {
+void showFileDeletedMessage(BuildContext context, String fileName, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
     builder: (context) => Positioned(
       top: 40,
@@ -210,7 +211,7 @@ void showFileDeletedMessage(BuildContext context, String fileName) {
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      "Has been deleted successfully",
+                      message ,
                       style: TextStyle(color: Colors.white, fontSize: 16),
 
                     ),

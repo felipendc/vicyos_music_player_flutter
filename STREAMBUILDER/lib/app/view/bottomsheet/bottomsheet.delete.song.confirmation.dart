@@ -132,7 +132,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                 "Files deleted successfully") {
                               Navigator.pop(context);
                             }
-                            showFileDeletedMessage(context, songName(songPath));
+                            showFileDeletedMessage(context, songName(songPath), "Has been deleted successfully");
                           });
                         });
                       },

@@ -225,7 +225,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             listPlaylistFolderStreamNotifier();
                             hideButtonSheetStreamNotifier(false);
                           });
-                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
+                          // showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
                         },
                       ),
                     ),
