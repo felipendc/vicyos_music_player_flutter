@@ -6,8 +6,6 @@ import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/widgets/appbars.dart';
 import 'package:vicyos_music/app/widgets/marquee.text.dart';
-import 'package:vicyos_music/app/widgets/show.top.message.dart'
-    show showAddedToPlaylist;
 import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
@@ -311,9 +309,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      addSongToPlaylist(songPath);
-                      showAddedToPlaylist(context, "Folder", songName(songPath),
-                          "Added to the current playlist");
+                      addSongToPlaylist(context, songPath);
                     },
                     backgroundColor: TColor.darkGray,
                   ),

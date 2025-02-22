@@ -17,7 +17,7 @@ void showLoopMode(BuildContext context, String message) {
             borderRadius: BorderRadius.circular(0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 6,
                 spreadRadius: 2,
                 offset: Offset(2, 4),
@@ -92,7 +92,7 @@ void showAddedToPlaylist(
             borderRadius: BorderRadius.circular(0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 6,
                 spreadRadius: 2,
                 offset: Offset(2, 4),
@@ -189,7 +189,7 @@ void showFileDeletedMessage(
             borderRadius: BorderRadius.circular(0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 6,
                 spreadRadius: 2,
                 offset: Offset(2, 4),

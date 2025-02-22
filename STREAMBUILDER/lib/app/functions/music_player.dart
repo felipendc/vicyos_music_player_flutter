@@ -15,6 +15,8 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+import 'folders.and.files.related.dart';
+
 enum CurrentLoopMode { all, one, shuffle, off }
 
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
@@ -532,8 +534,7 @@ void repeatMode(BuildContext context) {
     currentLoopModeIcon = "assets/img/repeat_one.png";
     print("Repeat: One");
     showLoopMode(context, "Repeating one");
-  }
-  else if (currentLoopMode == CurrentLoopMode.one) {
+  } else if (currentLoopMode == CurrentLoopMode.one) {
     currentLoopMode = CurrentLoopMode.shuffle;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
@@ -541,9 +542,7 @@ void repeatMode(BuildContext context) {
     currentLoopModeIcon = "assets/img/shuffle_1.png";
     print("Repeat: Shuffle");
     showLoopMode(context, "Playback is shuffled");
-
-  }
-  else if (currentLoopMode == CurrentLoopMode.shuffle) {
+  } else if (currentLoopMode == CurrentLoopMode.shuffle) {
     currentLoopMode = CurrentLoopMode.off;
     repeatModeStreamNotifier();
     audioPlayer.setShuffleModeEnabled(false);
@@ -551,8 +550,7 @@ void repeatMode(BuildContext context) {
     currentLoopModeIcon = "assets/img/repeat_none.png";
     print("Repeat: Off");
     showLoopMode(context, "Repeating off");
-  }
-  else if (currentLoopMode == CurrentLoopMode.off) {
+  } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
@@ -869,7 +867,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
   }
 }
 
-Future<void> addSongToPlaylist(songPath) async {
+Future<void> addSongToPlaylist(BuildContext context, songPath) async {
   if (audioSources.isEmpty) {
     // File audioFile = File(songPath);
     String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
@@ -903,6 +901,8 @@ Future<void> addSongToPlaylist(songPath) async {
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
+    showAddedToPlaylist(
+        context, "Folder", songName(songPath), "Added to the playlist");
   } else {
     // File audioFile = File(songPath);
     String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
@@ -932,6 +932,8 @@ Future<void> addSongToPlaylist(songPath) async {
       ),
     );
     playlistLengthStreamNotifier();
+    showAddedToPlaylist(
+        context, "Folder", songName(songPath), "Added to the current playlist");
   }
 }
 
@@ -985,4 +987,3 @@ void addToPlayNext(playNextFilePath) {
   }
   playlistLengthStreamNotifier();
 }
-

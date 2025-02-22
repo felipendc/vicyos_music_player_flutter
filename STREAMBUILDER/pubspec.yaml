@@ -75,6 +75,7 @@ dependencies:
   flutter_media_delete: ^1.0.1
   flutter_native_splash: ^2.4.1
 
+
 flutter_icons:
   android: true
   image_path: "assets/img/vicyos_logos/vicyos_music_icon_only.png"
