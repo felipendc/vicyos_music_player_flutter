@@ -124,31 +124,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                 ),
               ),
             ),
-
-            // // Top button indicator
-            // Container(
-            //   width: 100,
-            //   margin: const EdgeInsets.only(top: 10, bottom: 10),
-            //   height: 5,
-            //   decoration: BoxDecoration(
-            //     color: TColor.secondaryText,
-            //     borderRadius: BorderRadius.circular(20),
-            //   ),
-            // ),
-
-            // ------------------------
-            // Text(
-            //   folderName(folderPath),
-            //   maxLines: 1,
-            //   overflow: TextOverflow.ellipsis,
-            //   style: TextStyle(
-            //     fontWeight: FontWeight.w900,
-            //     color: TColor.org,
-            //     fontSize: 19,
-            //   ),
-            // ),
-            // --------------------------------
-
             // Content
             Expanded(
               child: Container(

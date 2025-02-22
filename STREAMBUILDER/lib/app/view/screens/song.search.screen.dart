@@ -23,11 +23,11 @@ class SearchScreen extends StatelessWidget {
     FocusNode searchBarKeyboardFocusNode = FocusNode();
     // Ensure the search runs only once
 
-    Timer? _debounce;
+    Timer? debounce;
 
-    void _onTextChanged(String text) {
+    void onTextChanged(String text) {
       // If there is a previous timer, cancel it to avoid multiple concurrent searches
-      _debounce?.cancel();
+      debounce?.cancel();
 
       String trimmedText = text.trim();
 
@@ -44,7 +44,7 @@ class SearchScreen extends StatelessWidget {
       // This will fix the issue where the function returns wrong results
       //  This is because the function didn't even had time to clear the
       //  foundSongs and foundFilesPaths lists
-      _debounce = Timer(Duration(milliseconds: 800), () async {
+      debounce = Timer(Duration(milliseconds: 800), () async {
         foundSongs.clear();
         print("🔎 Searching for: '$trimmedText'");
 
@@ -54,7 +54,7 @@ class SearchScreen extends StatelessWidget {
       });
     }
 
-    void _clearSearch() {
+    void clearSearch() {
       searchBoxController.clear();
       foundSongs.clear();
       isSearchingSongsStreamNotifier("");
@@ -95,7 +95,7 @@ class SearchScreen extends StatelessWidget {
           controller: searchBoxController,
           focusNode:
               searchBarKeyboardFocusNode, // Linking the FocusNode to the TextField
-          onChanged: _onTextChanged, // Detects text changes
+          onChanged: onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Search...',
@@ -111,15 +111,15 @@ class SearchScreen extends StatelessWidget {
             suffixIcon: StreamBuilder<bool>(
                 stream: isSearchTypingStreamController.stream,
                 builder: (context, snapshot) {
-                  bool _isNowTyping = snapshot.data ?? false;
-                  if (_isNowTyping == true) {
+                  bool isNowTyping = snapshot.data ?? false;
+                  if (isNowTyping == true) {
                     return Padding(
                       padding: const EdgeInsets.only(
                           right: 8), // Small space for the icon
                       child: IconButton(
                         icon: const Icon(Icons.close, color: Colors.white70),
                         onPressed:
-                            _clearSearch, // Clears the text when "X" is pressed
+                            clearSearch, // Clears the text when "X" is pressed
                       ),
                     );
                   } else {
@@ -137,8 +137,8 @@ class SearchScreen extends StatelessWidget {
       body: StreamBuilder<String>(
         stream: isSearchingSongsStreamController.stream,
         builder: (context, snapshot) {
-          String? _isSearching = snapshot.data;
-          if (_isSearching == "searching") {
+          String? isSearching = snapshot.data;
+          if (isSearching == "searching") {
             return Column(
               // mainAxisAlignment: MainAxisAlignment.start,
               // crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,7 +154,7 @@ class SearchScreen extends StatelessWidget {
                 Text("Just a sec..."),
               ],
             );
-          } else if (_isSearching == "finished") {
+          } else if (isSearching == "finished") {
             return StreamBuilder<void>(
                 stream: getCurrentSongFullPathStreamController.stream,
                 builder: (context, snapshot) {
@@ -312,7 +312,7 @@ class SearchScreen extends StatelessWidget {
                     },
                   );
                 });
-          } else if (_isSearching == "nothing_found") {
+          } else if (isSearching == "nothing_found") {
             return Column(
               children: [
                 SizedBox(

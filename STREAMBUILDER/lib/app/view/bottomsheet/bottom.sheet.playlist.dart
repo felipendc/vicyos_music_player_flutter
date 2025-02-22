@@ -11,9 +11,9 @@ class PlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late ScrollController _scrollController;
+    late ScrollController scrollController;
 
-    Future<void> _onReorder(int oldIndex, int newIndex) async {
+    Future<void> onReorder(int oldIndex, int newIndex) async {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
@@ -24,15 +24,15 @@ class PlaylistBottomSheet extends StatelessWidget {
       rebuildPlaylistBottomSheetStreamNotifier();
     }
 
-    _scrollController = ScrollController();
+    scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double scrollPadding = 60;
       double tileHeight = 72;
       double scrollOffset = currentIndex * tileHeight - scrollPadding;
 
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
           scrollOffset,
           duration: Duration(seconds: 1),
           curve: Curves.easeInOut,
@@ -88,9 +88,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                 builder: (context, snapshot) {
                   return Expanded(
                     child: ReorderableListView.builder(
-                      scrollController: _scrollController,
+                      scrollController: scrollController,
                       itemCount: playlist.children.length,
-                      onReorder: _onReorder,
+                      onReorder: onReorder,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 72,

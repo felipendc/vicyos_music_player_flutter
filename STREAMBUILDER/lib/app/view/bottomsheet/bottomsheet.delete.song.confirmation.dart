@@ -8,7 +8,7 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import '../../widgets/show.top.message.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {
-  final songPath;
+  final String songPath;
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
 
   @override

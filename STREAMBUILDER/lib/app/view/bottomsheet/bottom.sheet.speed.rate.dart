@@ -52,9 +52,9 @@ class SpeedRateBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late ScrollController _scrollController;
+    late ScrollController scrollController;
 
-    _scrollController = ScrollController();
+    scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double scrollPadding = 90;
@@ -62,8 +62,8 @@ class SpeedRateBottomSheet extends StatelessWidget {
       int defaultSpeedRate = speedRates.indexOf("1.0");
       double scrollOffset = defaultSpeedRate * tileHeight - scrollPadding;
 
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
           scrollOffset,
           duration: Duration(seconds: 1),
           curve: Curves.easeInOut,
@@ -111,7 +111,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                     return Container(
                       color: TColor.bg,
                       child: ListView.separated(
-                        controller: _scrollController,
+                        controller: scrollController,
                         itemCount: speedRates.length,
                         itemBuilder: (BuildContext context, int index) {
                           return SizedBox(
