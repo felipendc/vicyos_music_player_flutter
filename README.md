@@ -55,6 +55,14 @@ These instructions will help you get a copy of this project up and running on yo
 - Azul Zulu: `21.40.17`
 - Link: https://www.azul.com/downloads/?version=java-21-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
 
+<!-- 
+> If you run flutter doctor and get this error:  <br />
+> [!] Android Studio, X Unable to determine bundled Java version. <br />
+>
+> To fix it, got to `project_folder/android/`, then open a cmd window and run: <br />
+> flutter clean <br />
+> gradlew wrapper --gradle-version 8.10.2 --distribution-type bin <br />
+-->
 
 #### Android Studio:
 - Android Studio Meerkat | `2024.3.1 RC 2 February 18, 2025`
@@ -62,7 +70,6 @@ These instructions will help you get a copy of this project up and running on yo
 - Mac (Apple Silicon): `android-studio-2024.3.1.12-mac_arm.dmg (1.3 GB)`
 - Mac (Intel): `android-studio-2024.3.1.12-mac.dmg (1.4 GB)`
 - Windows (64-bit): `android-studio-2024.3.1.12-windows.exe (1.3 GB)`
-- 
 - LINK: https://developer.android.com/studio/archive
 - Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
