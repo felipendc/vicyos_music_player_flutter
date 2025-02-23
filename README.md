@@ -46,7 +46,15 @@ These instructions will help you get a copy of this project up and running on yo
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
 
+
 ### This project is currently compatible with:
+
+
+#### Java 21 (LTS):
+- Java Version: `21.0.6+7`
+- Azul Zulu: `21.40.17`
+- Link: https://www.azul.com/downloads/?version=java-21-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
+
 
 #### Android Studio:
 - Android Studio Ladybug Feature Drop | `2024.2.2 Patch 1 February 13, 2025`
