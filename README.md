@@ -6,7 +6,6 @@ A Flutter music streaming application that allows users to play audio files from
 
 Basic screenshots of the app to give users a visual preview of the Vicyos Music Player interface.
 
-
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/1.png">
 
  <br />
@@ -20,10 +19,11 @@ some podcasts `more precisely` for practicing English Listening.
 
  <br />
 
- ### Vicyos Music app related links:
- - Video demonstration: `https://youtu.be/kRfaoKFbTm4`
- - How to grant permissions: `https://youtube.com/shorts/eTfI_sFM0Xc?feature=share`
- - Download the Vicyos Music Apk: `https://github.com/felipendc/vicyos_music_player_flutter/releases`
+### Vicyos Music app related links:
+
+- Video demonstration: `https://youtu.be/kRfaoKFbTm4`
+- How to grant permissions: `https://youtube.com/shorts/eTfI_sFM0Xc?feature=share`
+- Download the Vicyos Music Apk: `https://github.com/felipendc/vicyos_music_player_flutter/releases`
 
  <br />
  
@@ -37,25 +37,22 @@ some podcasts `more precisely` for practicing English Listening.
 - Search for songs, add to play next, delete files, share songs, preview a song, and more!
 - Minimalistic and intuitive user interface.
 
-
 ### Getting Started
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
 
-
 ### This project is currently compatible with:
 
-
 #### Java 21 (LTS):
+
 - Java Version: `21.0.6+7`
 - Azul Zulu: `21.40.17`
 - Link: https://www.azul.com/downloads/?version=java-21-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
 
-<!-- 
+<!--
 > If you run flutter doctor and get this error:  <br />
 > [!] Android Studio, X Unable to determine bundled Java version. <br />
 >
@@ -65,6 +62,7 @@ These instructions will help you get a copy of this project up and running on yo
 -->
 
 #### Android Studio:
+
 - Android Studio Meerkat | `2024.3.1 RC 2 February 18, 2025`
 - ChromeOS: `android-studio-2024.3.1.12-cros.deb (1.1 GB)`
 - Mac (Apple Silicon): `android-studio-2024.3.1.12-mac_arm.dmg (1.3 GB)`
@@ -73,32 +71,27 @@ These instructions will help you get a copy of this project up and running on yo
 - LINK: https://developer.android.com/studio/archive
 - Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
+#### Flutter 3.29.1:
 
-
-#### Flutter 3.27.4:
 - Channel: `Stable`
-- Flutter version: `3.27.4 x64`
-- Dart version: `3.6.2 (stable) (05/02/2025) for "windows_x64"`
-- File name:  `flutter_windows_3.27.4-stable.zip` 
+- Flutter version: `3.29.1 x64`
+- Dart version: `3.7.0 (stable) (2025-02-28) for "windows_x64"`
+- File name: `flutter_windows_3.29.1-stable.zip`
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
-
 
 #### Git for Windows:
 
 - Git for Windows: https://gitforwindows.org/
 
-
 #### Visual Studio Code:
 
 - Visual Studio - develop Windows apps (Visual Studio Community): https://visualstudio.microsoft.com/pt-br/
 
-
 #### VS Code:
 
 - Visual Studio Code: https://code.visualstudio.com/
-- Flutter extension for VS Code: https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter 
-
+- Flutter extension for VS Code: https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter
 
 ##
 
@@ -106,6 +99,7 @@ These instructions will help you get a copy of this project up and running on yo
 
 Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git` <br />
 Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
+
 <!-- Choose the one you want "GetX" or "StreamBuilder" UI state management. <br /> -->
 
 ### Installing or Compiling
@@ -148,15 +142,13 @@ This project uses the following dependencies:
 - `flutter_media_delete 1.0.1` TA Flutter plugin designed for deleting media files using scoped storage on Android versions Q (API 29) and above.
 - `loading_animation_widget 1.3.0` Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
 
-
 ### Submit a pull request
+
 1. Fork the project.
 2. Create your feature branch: `git checkout -b feature/new-feature`
 3. Commit your changes: `git commit -am 'Add a new feature'`
 4. Push to the branch: `git push origin feature/new-feature`
 5. Open a pull request.
-
-
 
 ### Acknowledgments
 
@@ -165,9 +157,7 @@ This project uses the following dependencies:
 - [svgrepo:](https://www.svgrepo.com/), [flaticon:](https://www.flaticon.com/), [Google Fonts:](https://fonts.google.com/icons), and [icons8:](https://icons8.com.br/) for the Icons.
 - [logrocket:](https://blog.logrocket.com/flutter-slider-widgets-deep-dive-with-examples/) for the volume slider theme.
 
-
-
-### Vicyos Music Player Screenshots 
+### Vicyos Music Player Screenshots
 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/11.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/12.png">
@@ -181,6 +171,3 @@ This project uses the following dependencies:
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/8.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/9.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/10.png">
-
-
-
