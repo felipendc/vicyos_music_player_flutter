@@ -1,0 +1,2 @@
+C:/Users/Felipe Ndc/Desktop/STREAMBUILDER/android/app/.cxx/Debug/4fq4j5r2/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Felipe Ndc/Desktop/STREAMBUILDER/android/app/.cxx/Debug/4fq4j5r2/x86_64/CMakeFiles/rebuild_cache.dir

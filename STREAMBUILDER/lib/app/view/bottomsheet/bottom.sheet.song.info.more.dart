@@ -208,7 +208,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () {
                           addToPlayNext(fullFilePath);
                           Navigator.pop(context);
-                          showAddedToPlaylist(context, "Song", songName(fullFilePath), "Added to play next");
+                          showAddedToPlaylist(context, "Song",
+                              songName(fullFilePath), "Added to play next");
                         },
                       ),
                     ),
@@ -235,19 +236,26 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           Navigator.pop(context);
 
                           if (fullFilePath is String) {
-                            await Share.shareXFiles([XFile(fullFilePath)],
+                            await SharePlus.instance.share(
+                              ShareParams(
                                 text:
-                                    'This file was shared using the Vicyos Music app.');
+                                    'This file was shared using the Vicyos Music app.',
+                                files: [XFile(fullFilePath)],
+                              ),
+                            );
                           } else if (fullFilePath is List) {
                             //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
                             List<XFile> files = fullFilePath
                                 .map((path) => XFile(path))
                                 .toList();
-                            await Share.shareXFiles(files,
+                            await SharePlus.instance.share(
+                              ShareParams(
                                 text:
-                                    "These ${fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.");
+                                    "These ${fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.",
+                                files: files,
+                              ),
+                            );
                           }
-
                           hideButtonSheetStreamNotifier(false);
                         },
                       ),
