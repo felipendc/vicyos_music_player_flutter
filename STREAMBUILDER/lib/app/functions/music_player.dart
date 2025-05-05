@@ -53,7 +53,7 @@ bool penultimateSongIndex = false;
 Duration currentPosition = Duration.zero;
 String currentLoopModeLabel = 'Repeat: All';
 List<AudioSource> audioSources = <AudioSource>[];
-late ConcatenatingAudioSource playlist;
+// late ConcatenatingAudioSource playlist;
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 
@@ -143,7 +143,9 @@ Future<void> hideButtonSheetStreamNotifier(bool value) async {
 }
 
 void clearCurrentPlaylistStreamNotifier() {
-  playlist.clear();
+  audioPlayer.stop();
+  songIsPlaying = false;
+  audioSources.clear();
   clearCurrentPlaylistStreamController.sink.add(null);
 }
 
@@ -153,7 +155,7 @@ void listPlaylistFolderStreamNotifier() async {
 }
 
 Future<void> playlistLengthStreamNotifier() async {
-  playlistCurrentLength = playlist.children.length;
+  playlistCurrentLength = audioSources.length;
   playlistLengthStreamController.sink.add(null);
 }
 
@@ -190,17 +192,18 @@ Future<void> onInitPlayer() async {
 
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
-  playlist = ConcatenatingAudioSource(
-    useLazyPreparation: true,
-    shuffleOrder: DefaultShuffleOrder(),
-    children: audioSources,
-  );
+
+  // playlist = ConcatenatingAudioSource(
+  //   useLazyPreparation: true,
+  //   shuffleOrder: DefaultShuffleOrder(),
+  //   children: audioSources,
+  // );
   playerEventStateStreamNotifier();
   playerPreviewEventStateStreamNotifier();
   await defaultAlbumArt();
 
   audioPlayer.sequenceStateStream.listen((sequenceState) {
-    final currentSource = sequenceState?.currentSource;
+    final currentSource = sequenceState.currentSource;
     if (currentSource is UriAudioSource) {
       currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
       getCurrentSongFolderStreamControllerNotifier();
@@ -294,8 +297,10 @@ void playerEventStateStreamNotifier() {
 
       if (playerState.processingState == ProcessingState.completed &&
           audioPlayer.loopMode == LoopMode.off) {
-        audioPlayer.setAudioSource(
-            preload: true, playlist, initialIndex: audioPlayer.currentIndex);
+        audioPlayer.setAudioSources(
+            preload: true,
+            audioSources,
+            initialIndex: audioPlayer.currentIndex);
         audioPlayer.pause();
       }
 
@@ -323,7 +328,7 @@ void playerEventStateStreamNotifier() {
 // This function will update the display the song title one the audio or folder is imported
 void preLoadSongName() {
   audioPlayer.currentIndexStream.listen((index) {
-    final currentMediaItem = audioPlayer.sequence![index!].tag as MediaItem;
+    final currentMediaItem = audioPlayer.sequence[index!].tag as MediaItem;
     currentSongName = currentMediaItem.title;
     currentSongNameStreamNotifier();
 
@@ -421,17 +426,13 @@ String formatDuration(Duration duration) {
 }
 
 Future<void> cleanPlaylist() async {
-  // if (audioPlayer.playerState.playing == false) {
-  //   clearCurrentPlaylistStreamListener();
-  // }
-
-  audioPlayer.stop();
+  // audioPlayer.stop();
+  audioPlayer.audioSources.clear();
+  await audioPlayer.clearAudioSources();
   songIsPlaying = false;
-  await playlist.clear();
-  playlistLengthStreamNotifier();
+  audioSources.clear();
 
-  currentIndex = 0;
-  playlistLength = playlist.children.length;
+  playlistLength = audioSources.length;
   currentSongDurationPosition = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
@@ -439,18 +440,22 @@ Future<void> cleanPlaylist() async {
   currentSongName = "The playlist is empty";
   currentSongNameStreamNotifier();
   currentSongAlbumName = "Unknown Album";
-  currentSongAlbumStreamNotifier();
 
   currentFolderPath = 'The song folder will be displayed here...';
+
+  sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
+  currentSongFullPath = "";
+  currentSongAlbumStreamNotifier();
   getCurrentSongFolderStreamControllerNotifier();
   clearCurrentPlaylistStreamNotifier();
-
-  currentSongFullPath = "";
   getCurrentSongFullPathStreamControllerNotifier();
+  rebuildSongsListScreenStreamNotifier();
+  clearCurrentPlaylistStreamController.sink.add(null);
+  playlistLengthStreamNotifier();
 }
 
 void playOrPause() {
-  if (playlist.children.isEmpty) {
+  if (audioSources.isEmpty) {
   } else {
     if (songIsPlaying == false) {
       songIsPlaying = true;
@@ -475,7 +480,7 @@ void stopSong() {
 }
 
 Future<void> nextSong() async {
-  print('LIST TOTAL ITEM.${playlist.children.length}');
+  print('LIST TOTAL ITEM.${audioSources.length}');
 
   await audioPlayer.seekToNext();
   if (currentIndex > 0) {
@@ -483,7 +488,7 @@ Future<void> nextSong() async {
     print('INDEX IS GRATER THAN 0!');
   }
 
-  if (currentIndex == playlist.children.length - 1) {
+  if (currentIndex == audioSources.length - 1) {
     lastSongIndex = true;
     print('INDEX IS THE LAST');
   } else {
@@ -492,7 +497,7 @@ Future<void> nextSong() async {
 }
 
 Future<void> previousSong() async {
-  print('LIST TOTAL ITEM.${playlist.children.length}');
+  print('LIST TOTAL ITEM.${audioSources.length}');
   if (currentIndex == 0) {
     firstSongIndex = true;
     print('INDEX IS EQUAL TO 0!');
@@ -505,7 +510,7 @@ Future<void> previousSong() async {
 
   await audioPlayer.seekToPrevious();
 
-  if (currentIndex == playlist.children.length - 2) {
+  if (currentIndex == audioSources.length - 2) {
     penultimateSongIndex = true;
     print('INDEX IS THE PENULTIMATE ####');
   } else {
@@ -577,7 +582,7 @@ Future<void> pickFolder() async {
         .toList();
 
     print(folderFileNames);
-    if (playlist.children.isEmpty) {
+    if (audioSources.isEmpty) {
       for (String filePath in folderFileNames) {
         // Try to extract metadata from the local file
         File audioFile = File(filePath);
@@ -604,15 +609,15 @@ Future<void> pickFolder() async {
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
-        playlist.add(
+        audioSources.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        playlistLength = playlist.children.length;
+        playlistLength = audioSources.length;
       }
-      await audioPlayer.setAudioSource(playlist,
+      await audioPlayer.setAudioSources(audioSources,
           initialIndex: 0, preload: true);
       firstSongIndex = true;
       preLoadSongName();
@@ -645,13 +650,13 @@ Future<void> pickFolder() async {
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
-        playlist.add(
+        audioSources.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        playlistLength = playlist.children.length;
+        playlistLength = audioSources.length;
       }
     }
   } else {
@@ -670,7 +675,7 @@ Future<void> pickAndPlayAudio() async {
     selectedSongs =
         result.paths.where((path) => path != null).cast<String>().toList();
 
-    if (playlist.children.isEmpty) {
+    if (audioSources.isEmpty) {
       for (String filePath in selectedSongs) {
         print('Processing file: $filePath');
 
@@ -699,16 +704,16 @@ Future<void> pickAndPlayAudio() async {
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
-        playlist.add(
+        audioSources.add(
           AudioSource.uri(
             Uri.file(filePath),
             tag: mediaItem,
           ),
         );
-        playlistLength = playlist.children.length;
+        playlistLength = audioSources.length;
       }
 
-      audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: true);
+      audioPlayer.setAudioSources(audioSources, initialIndex: 0, preload: true);
       firstSongIndex = true;
       preLoadSongName();
     } else {
@@ -738,11 +743,11 @@ Future<void> pickAndPlayAudio() async {
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
-        playlist.add(AudioSource.uri(
+        audioSources.add(AudioSource.uri(
           Uri.file(filePath),
           tag: mediaItem,
         ));
-        playlistLength = playlist.children.length;
+        playlistLength = audioSources.length;
         print('Processing file: $filePath');
       }
     }
@@ -753,7 +758,9 @@ Future<void> pickAndPlayAudio() async {
 
 Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
   stopSong();
-  await playlist.clear();
+  audioPlayer.audioSources.clear();
+  await audioPlayer.clearAudioSources();
+  audioSources.clear();
 
   for (AudioInfo filePath in currentFolder) {
     // File audioFile = File(filePath.path);
@@ -778,7 +785,7 @@ Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
-    playlist.add(
+    audioSources.add(
       AudioSource.uri(
         Uri.file(filePath.path),
         tag: mediaItem,
@@ -787,8 +794,12 @@ Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
     playlistLengthStreamNotifier();
   }
 
-  audioPlayer.setAudioSource(playlist,
-      initialIndex: currentIndex, preload: false);
+  audioPlayer.setAudioSources(
+    audioSources,
+    initialIndex: currentIndex,
+    initialPosition: Duration.zero,
+    preload: true,
+  );
   firstSongIndex = true;
   preLoadSongName();
   playOrPause();
@@ -819,7 +830,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
         artUri: Uri.file(notificationPlayerAlbumArt.path),
       );
 
-      playlist.add(
+      audioSources.add(
         AudioSource.uri(
           Uri.file(filePath.path),
           tag: mediaItem,
@@ -828,7 +839,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
       playlistLengthStreamNotifier();
     }
 
-    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(audioSources, initialIndex: 0, preload: false);
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
@@ -856,7 +867,7 @@ Future<void> addFolderToPlaylist(currentFolder) async {
         artUri: Uri.file(notificationPlayerAlbumArt.path),
       );
 
-      await playlist.add(
+      audioSources.add(
         AudioSource.uri(
           Uri.file(filePath.path),
           tag: mediaItem,
@@ -890,19 +901,20 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
-    playlist.add(
+    audioSources.add(
       AudioSource.uri(
         Uri.file(songPath),
         tag: mediaItem,
       ),
     );
 
-    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(audioSources, initialIndex: 0, preload: false);
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
     showAddedToPlaylist(
         context, "Folder", songName(songPath), "Added to the playlist");
+    playlistLengthStreamNotifier();
   } else {
     // File audioFile = File(songPath);
     String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
@@ -925,7 +937,7 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
-    playlist.add(
+    audioSources.add(
       AudioSource.uri(
         Uri.file(songPath),
         tag: mediaItem,
@@ -964,20 +976,22 @@ void addToPlayNext(playNextFilePath) {
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
-  if (playlist.children.isEmpty) {
-    playlist.add(
+  if (audioSources.isEmpty) {
+    audioSources.add(
       AudioSource.uri(
         Uri.file(playNextFilePath),
         tag: mediaItem,
       ),
     );
 
-    audioPlayer.setAudioSource(playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(audioSources, initialIndex: 0, preload: false);
     firstSongIndex = true;
     preLoadSongName();
+    playlistLengthStreamNotifier();
     playOrPause();
   } else {
-    playlist.insert(
+    // audioSources.insert(
+    audioPlayer.insertAudioSource(
       currentIndex.toInt() + 1,
       AudioSource.uri(
         Uri.file(playNextFilePath),

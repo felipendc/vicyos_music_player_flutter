@@ -11,28 +11,28 @@ class PlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late ScrollController _scrollController;
+    late ScrollController scrollController;
 
-    Future<void> _onReorder(int oldIndex, int newIndex) async {
+    Future<void> onReorder(int oldIndex, int newIndex) async {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      playlist.move(oldIndex, newIndex);
+      audioPlayer.moveAudioSource(oldIndex, newIndex);
       audioPlayer.currentIndexStream.listen((index) {
-        currentIndex = audioPlayer.sequence![index!] as int;
+        currentIndex = audioPlayer.sequence[index!] as int;
       });
       rebuildPlaylistBottomSheetStreamNotifier();
     }
 
-    _scrollController = ScrollController();
+    scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       double scrollPadding = 60;
       double tileHeight = 72;
       double scrollOffset = currentIndex * tileHeight - scrollPadding;
 
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
           scrollOffset,
           duration: Duration(seconds: 1),
           curve: Curves.easeInOut,
@@ -88,9 +88,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                 builder: (context, snapshot) {
                   return Expanded(
                     child: ReorderableListView.builder(
-                      scrollController: _scrollController,
-                      itemCount: playlist.children.length,
-                      onReorder: _onReorder,
+                      scrollController: scrollController,
+                      itemCount: audioSources.length,
+                      onReorder: onReorder,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 72,
@@ -159,18 +159,20 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             Icons.delete_forever_rounded),
                                         color: TColor.focusSecondary,
                                         onPressed: () {
-                                          showFileDeletedMessage(context, songName(
-                                              songFullPath(index: index)), "Has been removed from the playlist");
-                                          playlist.removeAt(index);
+                                          showFileDeletedMessage(
+                                              context,
+                                              songName(
+                                                  songFullPath(index: index)),
+                                              "Has been removed from the playlist");
+                                          audioPlayer
+                                              .removeAudioSourceAt(index);
                                           rebuildPlaylistBottomSheetStreamNotifier();
 
-                                          playlistLength =
-                                              playlist.children.length;
+                                          playlistLength = audioSources.length;
                                           if (currentIndex == index) {
                                             preLoadSongName();
                                           }
                                           playlistLengthStreamNotifier();
-
                                         },
                                       ),
                                       onTap: () async {
@@ -183,7 +185,8 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             songIsPlaying = true;
                                           }
                                         } else {
-                                          audioPlayer.setAudioSource(playlist,
+                                          audioPlayer.setAudioSources(
+                                              audioSources,
                                               initialIndex: index,
                                               preload: false);
 

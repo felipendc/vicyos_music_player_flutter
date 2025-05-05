@@ -145,7 +145,7 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
               splashRadius: 20,
               icon: Image.asset("assets/img/more_horiz.png"),
               onPressed: () {
-                if (playlist.children.isEmpty) {
+                if (audioSources.isEmpty) {
                 } else {
                   showModalBottomSheet<void>(
                     backgroundColor: Colors.transparent,

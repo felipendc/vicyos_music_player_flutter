@@ -72,6 +72,10 @@ class MainPlayerView extends StatelessWidget {
                       return StreamBuilder<Duration>(
                         stream: audioPlayer.positionStream,
                         builder: (context, snapshot) {
+                          if (audioSources.isEmpty) {
+                            sleekCircularSliderPosition =
+                                Duration.zero.inSeconds.toDouble();
+                          }
                           return SleekCircularSlider(
                             appearance: CircularSliderAppearance(
                                 customWidths: CustomSliderWidths(
@@ -142,10 +146,13 @@ class MainPlayerView extends StatelessWidget {
                           builder: (context, snapshot) {
                             final position = snapshot.data ?? Duration.zero;
                             return Text(
-                              (audioPlayer.processingState !=
-                                      ProcessingState.idle)
-                                  ? formatDuration(position)
-                                  : formatDuration(Duration.zero),
+                              // (audioPlayer.processingState !=
+                              //         ProcessingState.idle)
+                              //     ? formatDuration(position)
+                              //     :
+                              audioSources.isEmpty
+                                  ? formatDuration(Duration.zero)
+                                  : formatDuration(position),
                               style: TextStyle(
                                   color: TColor.secondaryText, fontSize: 15),
                             );
@@ -155,18 +162,24 @@ class MainPlayerView extends StatelessWidget {
                   " | ",
                   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                 ),
-                StreamBuilder<Duration?>(
-                  stream: audioPlayer.durationStream,
-                  builder: (context, snapshot) {
-                    final duration = snapshot.data ?? Duration.zero;
+                StreamBuilder(
+                    stream: clearCurrentPlaylistStreamController.stream,
+                    builder: (context, snapshot) {
+                      return StreamBuilder<Duration?>(
+                        stream: audioPlayer.durationStream,
+                        builder: (context, snapshot) {
+                          final duration = snapshot.data ?? Duration.zero;
 
-                    return Text(
-                      formatDuration(duration),
-                      style:
-                          TextStyle(color: TColor.secondaryText, fontSize: 15),
-                    );
-                  },
-                ),
+                          return Text(
+                            (audioSources.isEmpty)
+                                ? formatDuration(Duration.zero)
+                                : formatDuration(duration),
+                            style: TextStyle(
+                                color: TColor.secondaryText, fontSize: 15),
+                          );
+                        },
+                      );
+                    }),
               ],
             ),
             const SizedBox(
@@ -175,29 +188,33 @@ class MainPlayerView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StreamBuilder<PlaybackEvent>(
-                    stream: audioPlayer.playbackEventStream,
+                StreamBuilder(
+                    stream: clearCurrentPlaylistStreamController.stream,
                     builder: (context, snapshot) {
-                      // Check if snapshot has data
-                      if (!snapshot.hasData) {
-                        return Text(
-                          '0',
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 15),
-                        );
-                      }
-                      final eventState = snapshot.data!;
-                      final index = eventState.currentIndex;
-                      final playerState = audioPlayer.processingState;
+                      return StreamBuilder<PlaybackEvent>(
+                          stream: audioPlayer.playbackEventStream,
+                          builder: (context, snapshot) {
+                            // Check if snapshot has data
+                            if (!snapshot.hasData) {
+                              return Text(
+                                '0',
+                                style: TextStyle(
+                                    color: TColor.secondaryText, fontSize: 15),
+                              );
+                            }
+                            final eventState = snapshot.data!;
+                            final index = eventState.currentIndex;
+                            final playerState = audioPlayer.processingState;
 
-                      return Text(
-                        (playerState == ProcessingState.idle ||
-                                playlist.children.isEmpty)
-                            ? '0'
-                            : "${index! + 1}",
-                        style: TextStyle(
-                            color: TColor.secondaryText, fontSize: 15),
-                      );
+                            return Text(
+                              (playerState == ProcessingState.idle ||
+                                      audioSources.isEmpty)
+                                  ? '0'
+                                  : "${index! + 1}",
+                              style: TextStyle(
+                                  color: TColor.secondaryText, fontSize: 15),
+                            );
+                          });
                     }),
                 StreamBuilder<void>(
                   stream: playlistLengthStreamController.stream,
@@ -221,50 +238,60 @@ class MainPlayerView extends StatelessWidget {
                 child: StreamBuilder<void>(
                     stream: currentSongNameStreamController.stream,
                     builder: (context, snapshot) {
-                      return Column(
-                        children: [
-                          SizedBox(
-                            width: media.width * 0.9,
-                            height: media.width * 0.07,
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                // Gets the width of Expanded
-                                final double width = constraints.maxWidth;
-                                return MarqueeText(
-                                  centerText: true,
-                                  // Forces rebuild when song changes
-                                  key: ValueKey(currentSongName),
-                                  // Set dynamically based on layout
-                                  maxWidth: width,
-                                  text: currentSongName,
-                                  style: TextStyle(
-                                    color: TColor.primaryText
-                                        .withValues(alpha: 0.9),
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w600,
+                      return StreamBuilder<void>(
+                          stream: clearCurrentPlaylistStreamController.stream,
+                          builder: (context, snapshot) {
+                            if (audioSources.isEmpty) {
+                              currentSongName = "The playlist is empty";
+                              currentFolderPath =
+                                  'The song folder will be displayed here...';
+                            }
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  width: media.width * 0.9,
+                                  height: media.width * 0.07,
+                                  child: LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      // Gets the width of Expanded
+                                      final double width = constraints.maxWidth;
+                                      return MarqueeText(
+                                        centerText: true,
+                                        // Forces rebuild when song changes
+                                        key: ValueKey(currentSongName),
+                                        // Set dynamically based on layout
+                                        maxWidth: width,
+                                        text: currentSongName,
+                                        style: TextStyle(
+                                          color: TColor.primaryText
+                                              .withValues(alpha: 0.9),
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
-                            child: Text(
-                              currentFolderPath,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: TColor.secondaryText,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(35, 0, 35, 0),
+                                  child: Text(
+                                    currentFolderPath,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: TColor.secondaryText,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                     }),
               ),
             ),
@@ -351,23 +378,26 @@ class MainPlayerView extends StatelessWidget {
                           StreamBuilder<void>(
                               stream: repeatModeStreamController.stream,
                               builder: (context, snapshot) {
-                              return SizedBox(
-                                width: audioPlayer.shuffleModeEnabled ? 45 : 45,
-                                height: (currentLoopMode == CurrentLoopMode.shuffle ) ? 48 : 40,
-                                child: IconButton(
-                                  onPressed: () {
-                                    repeatMode(context);
-                                  },
-                                  icon: Image.asset(
-                                    currentLoopModeIcon,
-                                    width: 30,
-                                    height: 30,
-                                    color: TColor.primaryText80,
+                                return SizedBox(
+                                  width:
+                                      audioPlayer.shuffleModeEnabled ? 45 : 45,
+                                  height: (currentLoopMode ==
+                                          CurrentLoopMode.shuffle)
+                                      ? 48
+                                      : 40,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      repeatMode(context);
+                                    },
+                                    icon: Image.asset(
+                                      currentLoopModeIcon,
+                                      width: 30,
+                                      height: 30,
+                                      color: TColor.primaryText80,
+                                    ),
                                   ),
-                                ),
-                              );
-                            }
-                          ),
+                                );
+                              }),
                         ],
                       ),
                     ),
@@ -481,7 +511,7 @@ class MainPlayerView extends StatelessWidget {
                         child: IconButton(
                           iconSize: 45,
                           onPressed: () {
-                            if (playlist.children.isNotEmpty) {
+                            if (audioSources.isNotEmpty) {
                               audioPlayer.play();
                             }
                           },

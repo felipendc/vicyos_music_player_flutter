@@ -8,7 +8,7 @@ import 'package:vicyos_music/app/functions/music_player.dart';
 import '../../widgets/show.top.message.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {
-  final songPath;
+  final dynamic songPath;
   const DeleteSongConfirmationDialog({super.key, required this.songPath});
 
   @override
@@ -95,7 +95,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                               await listMusicFolders();
 
                               // Check if the file is present on the playlist...
-                              final int index = playlist.children.indexWhere(
+                              final int index = audioSources.indexWhere(
                                   (audio) =>
                                       (audio as UriAudioSource)
                                           .uri
@@ -103,14 +103,14 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                       songPath);
 
                               if (index != -1) {
-                                await playlist.removeAt(index);
+                                await audioSources.removeAt(index);
                                 await playlistLengthStreamNotifier();
                                 await getCurrentSongFullPathStreamControllerNotifier();
 
                                 // Update the current song name
-                                if (index < playlist.children.length) {
+                                if (index < audioSources.length) {
                                   String newCurrentSongFullPath =
-                                      Uri.decodeFull((playlist.children[index]
+                                      Uri.decodeFull((audioSources[index]
                                               as UriAudioSource)
                                           .uri
                                           .toString());
@@ -132,7 +132,8 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                 "Files deleted successfully") {
                               Navigator.pop(context);
                             }
-                            showFileDeletedMessage(context, songName(songPath), "Has been deleted successfully");
+                            showFileDeletedMessage(context, songName(songPath),
+                                "Has been deleted successfully");
                           });
                         });
                       },

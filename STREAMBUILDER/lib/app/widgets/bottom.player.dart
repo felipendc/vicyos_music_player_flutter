@@ -192,40 +192,55 @@ class BottomPlayer extends StatelessWidget {
                                               width: media.width * 0.30,
                                               child: Row(
                                                 children: [
-                                                  StreamBuilder<PlaybackEvent>(
-                                                      stream: audioPlayer
-                                                          .playbackEventStream,
+                                                  StreamBuilder(
+                                                      stream:
+                                                          clearCurrentPlaylistStreamController
+                                                              .stream,
                                                       builder:
                                                           (context, snapshot) {
-                                                        // Check if snapshot has data
-                                                        if (!snapshot.hasData) {
-                                                          return Text(
-                                                            '0',
-                                                            style: TextStyle(
-                                                                color: TColor
-                                                                    .secondaryText,
-                                                                fontSize: 15),
-                                                          );
-                                                        }
-                                                        final eventState =
-                                                            snapshot.data!;
-                                                        final index = eventState
-                                                            .currentIndex;
-                                                        final playerState =
-                                                            audioPlayer
-                                                                .processingState;
+                                                        return StreamBuilder<
+                                                                PlaybackEvent>(
+                                                            stream: audioPlayer
+                                                                .playbackEventStream,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              // Check if snapshot has data
+                                                              if (!snapshot
+                                                                  .hasData) {
+                                                                return Text(
+                                                                  '0',
+                                                                  style: TextStyle(
+                                                                      color: TColor
+                                                                          .secondaryText,
+                                                                      fontSize:
+                                                                          15),
+                                                                );
+                                                              }
+                                                              final eventState =
+                                                                  snapshot
+                                                                      .data!;
+                                                              final index =
+                                                                  eventState
+                                                                      .currentIndex;
+                                                              final playerState =
+                                                                  audioPlayer
+                                                                      .processingState;
 
-                                                        return Text(
-                                                          (playerState ==
-                                                                  ProcessingState
-                                                                      .idle)
-                                                              ? '0'
-                                                              : "${index! + 1}",
-                                                          style: TextStyle(
-                                                              color: TColor
-                                                                  .secondaryText,
-                                                              fontSize: 15),
-                                                        );
+                                                              return Text(
+                                                                (playerState ==
+                                                                            ProcessingState
+                                                                                .idle ||
+                                                                        audioSources
+                                                                            .isEmpty)
+                                                                    ? '0'
+                                                                    : "${index! + 1}",
+                                                                style: TextStyle(
+                                                                    color: TColor
+                                                                        .secondaryText,
+                                                                    fontSize:
+                                                                        15),
+                                                              );
+                                                            });
                                                       }),
                                                   StreamBuilder<void>(
                                                     stream:
@@ -287,7 +302,7 @@ class BottomPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () {
-                                      if (playlist.children.isNotEmpty) {
+                                      if (audioSources.isNotEmpty) {
                                         audioPlayer.play();
                                       }
                                     },
