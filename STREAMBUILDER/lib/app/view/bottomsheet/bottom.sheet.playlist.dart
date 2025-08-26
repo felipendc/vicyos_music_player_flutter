@@ -11,7 +11,6 @@ class PlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int tilesCount = audioPlayer.audioSources.length;
     late ScrollController scrollController;
 
     Future<void> onReorder(int oldIndex, int newIndex) async {
