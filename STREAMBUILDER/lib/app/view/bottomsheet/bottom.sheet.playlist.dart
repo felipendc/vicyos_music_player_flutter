@@ -11,6 +11,7 @@ class PlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int tilesCount = audioPlayer.audioSources.length;
     late ScrollController scrollController;
 
     Future<void> onReorder(int oldIndex, int newIndex) async {
@@ -21,7 +22,7 @@ class PlaylistBottomSheet extends StatelessWidget {
       audioPlayer.currentIndexStream.listen((index) {
         currentIndex = audioPlayer.sequence[index!] as int;
       });
-      rebuildPlaylistBottomSheetStreamNotifier();
+      rebuildPlaylistCurrentLengthStreamNotifier();
     }
 
     scrollController = ScrollController();
@@ -76,7 +77,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                   onPressed: () {
                     // Clean playlist and rebuild the entire screen to clean the listview
                     cleanPlaylist();
-                    rebuildPlaylistBottomSheetStreamNotifier();
+                    rebuildPlaylistCurrentLengthStreamNotifier();
                   },
                   backgroundColor: TColor.darkGray,
                 ),
@@ -84,12 +85,12 @@ class PlaylistBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             StreamBuilder<void>(
-                stream: rebuildPlaylistBottomSheet.stream,
+                stream: rebuildPlaylistCurrentLengthController.stream,
                 builder: (context, snapshot) {
                   return Expanded(
                     child: ReorderableListView.builder(
                       scrollController: scrollController,
-                      itemCount: audioSources.length,
+                      itemCount: audioPlayer.audioSources.length,
                       onReorder: onReorder,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
@@ -166,13 +167,14 @@ class PlaylistBottomSheet extends StatelessWidget {
                                               "Has been removed from the playlist");
                                           audioPlayer
                                               .removeAudioSourceAt(index);
-                                          rebuildPlaylistBottomSheetStreamNotifier();
+                                          rebuildPlaylistCurrentLengthStreamNotifier();
+                                          print("aaaaaaaaaaaaaaaaaaaa ${audioPlayer.audioSources.length}");
 
-                                          playlistLength = audioSources.length;
+
                                           if (currentIndex == index) {
                                             preLoadSongName();
                                           }
-                                          playlistLengthStreamNotifier();
+                                          rebuildPlaylistCurrentLengthStreamNotifier();
                                         },
                                       ),
                                       onTap: () async {
@@ -186,12 +188,12 @@ class PlaylistBottomSheet extends StatelessWidget {
                                           }
                                         } else {
                                           audioPlayer.setAudioSources(
-                                              audioSources,
+                                              audioPlayer.audioSources,
                                               initialIndex: index,
                                               preload: false);
 
                                           audioPlayer.play();
-                                          rebuildPlaylistBottomSheetStreamNotifier();
+                                          rebuildPlaylistCurrentLengthStreamNotifier();
 
                                           songIsPlaying = true;
                                         }

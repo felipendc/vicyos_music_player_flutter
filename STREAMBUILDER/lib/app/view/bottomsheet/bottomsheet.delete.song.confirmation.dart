@@ -95,7 +95,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                               await listMusicFolders();
 
                               // Check if the file is present on the playlist...
-                              final int index = audioSources.indexWhere(
+                              final int index = audioPlayer.audioSources.indexWhere(
                                   (audio) =>
                                       (audio as UriAudioSource)
                                           .uri
@@ -103,14 +103,16 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                       songPath);
 
                               if (index != -1) {
-                                await audioSources.removeAt(index);
-                                await playlistLengthStreamNotifier();
+                                await audioPlayer
+                                    .removeAudioSourceAt(index);
+                                rebuildPlaylistCurrentLengthStreamNotifier();
                                 await getCurrentSongFullPathStreamControllerNotifier();
 
+
                                 // Update the current song name
-                                if (index < audioSources.length) {
+                                if (index < audioPlayer.audioSources.length) {
                                   String newCurrentSongFullPath =
-                                      Uri.decodeFull((audioSources[index]
+                                      Uri.decodeFull((audioPlayer.audioSources[index]
                                               as UriAudioSource)
                                           .uri
                                           .toString());

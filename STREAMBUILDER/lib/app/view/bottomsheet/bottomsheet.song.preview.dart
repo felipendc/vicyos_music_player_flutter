@@ -308,8 +308,9 @@ class SongPreviewBottomSheet extends StatelessWidget {
                         fontSize: 17,
                       ),
                     ),
-                    onPressed: () {
-                      addSongToPlaylist(context, songPath);
+                    onPressed: () async {
+                      await addSongToPlaylist(context, songPath);
+                      rebuildPlaylistCurrentLengthStreamNotifier();
                     },
                     backgroundColor: TColor.darkGray,
                   ),

@@ -230,7 +230,7 @@ class BottomPlayer extends StatelessWidget {
                                                                 (playerState ==
                                                                             ProcessingState
                                                                                 .idle ||
-                                                                        audioSources
+                                                                    audioPlayer.audioSources
                                                                             .isEmpty)
                                                                     ? '0'
                                                                     : "${index! + 1}",
@@ -244,7 +244,7 @@ class BottomPlayer extends StatelessWidget {
                                                       }),
                                                   StreamBuilder<void>(
                                                     stream:
-                                                        playlistLengthStreamController
+                                                    rebuildPlaylistCurrentLengthController
                                                             .stream,
                                                     builder:
                                                         (context, snapshot) {
@@ -302,7 +302,7 @@ class BottomPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () {
-                                      if (audioSources.isNotEmpty) {
+                                      if (audioPlayer.audioSources.isNotEmpty) {
                                         audioPlayer.play();
                                       }
                                     },

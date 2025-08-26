@@ -205,7 +205,7 @@ void filterSongsOnlyToList({required String folderPath}) {
 }
 
 String songFullPath({required int index}) {
-  var fullPath = audioSources[index]
+  var fullPath = audioPlayer.audioSources[index]
       .sequence
       .map((audioSource) => Uri.decodeFull(
             (audioSource as UriAudioSource).uri.toString(),

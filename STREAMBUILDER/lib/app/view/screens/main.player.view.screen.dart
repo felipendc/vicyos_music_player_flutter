@@ -72,7 +72,7 @@ class MainPlayerView extends StatelessWidget {
                       return StreamBuilder<Duration>(
                         stream: audioPlayer.positionStream,
                         builder: (context, snapshot) {
-                          if (audioSources.isEmpty) {
+                          if (audioPlayer.audioSources.isEmpty) {
                             sleekCircularSliderPosition =
                                 Duration.zero.inSeconds.toDouble();
                           }
@@ -150,7 +150,7 @@ class MainPlayerView extends StatelessWidget {
                               //         ProcessingState.idle)
                               //     ? formatDuration(position)
                               //     :
-                              audioSources.isEmpty
+                              audioPlayer.audioSources.isEmpty
                                   ? formatDuration(Duration.zero)
                                   : formatDuration(position),
                               style: TextStyle(
@@ -171,7 +171,7 @@ class MainPlayerView extends StatelessWidget {
                           final duration = snapshot.data ?? Duration.zero;
 
                           return Text(
-                            (audioSources.isEmpty)
+                            (audioPlayer.audioSources.isEmpty)
                                 ? formatDuration(Duration.zero)
                                 : formatDuration(duration),
                             style: TextStyle(
@@ -208,7 +208,7 @@ class MainPlayerView extends StatelessWidget {
 
                             return Text(
                               (playerState == ProcessingState.idle ||
-                                      audioSources.isEmpty)
+                                  audioPlayer.audioSources.isEmpty)
                                   ? '0'
                                   : "${index! + 1}",
                               style: TextStyle(
@@ -217,7 +217,7 @@ class MainPlayerView extends StatelessWidget {
                           });
                     }),
                 StreamBuilder<void>(
-                  stream: playlistLengthStreamController.stream,
+                  stream: rebuildPlaylistCurrentLengthController.stream,
                   builder: (context, snapshot) {
                     return Text(
                       " of $playlistCurrentLength",
@@ -241,7 +241,7 @@ class MainPlayerView extends StatelessWidget {
                       return StreamBuilder<void>(
                           stream: clearCurrentPlaylistStreamController.stream,
                           builder: (context, snapshot) {
-                            if (audioSources.isEmpty) {
+                            if (audioPlayer.audioSources.isEmpty) {
                               currentSongName = "The playlist is empty";
                               currentFolderPath =
                                   'The song folder will be displayed here...';
@@ -511,7 +511,7 @@ class MainPlayerView extends StatelessWidget {
                         child: IconButton(
                           iconSize: 45,
                           onPressed: () {
-                            if (audioSources.isNotEmpty) {
+                            if (audioPlayer.audioSources.isNotEmpty) {
                               audioPlayer.play();
                             }
                           },
