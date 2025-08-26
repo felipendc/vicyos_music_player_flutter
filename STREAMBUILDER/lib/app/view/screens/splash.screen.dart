@@ -14,10 +14,12 @@ class SplashScreen extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pushReplacement(
-          context,
-          splashFadeTransition(context, HomeScreen()),
-        );
+        if (context.mounted) {
+          Navigator.pushReplacement(
+            context,
+            splashFadeTransition(context, HomeScreen()),
+          );
+        }
       });
     });
 

@@ -179,9 +179,11 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 await audioPlayer.play();
                               });
                             }
-
-                            Navigator.pop(context);
-                          });
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                           },
+                          );
                         },
                       ),
                     ),
@@ -290,11 +292,16 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           );
 
                           if (result == "close_song_preview_bottom_sheet") {
-                            Navigator.pop(
-                                context, "close_song_preview_bottom_sheet");
+                            if (context.mounted) {
+                              Navigator.pop(
+                                  context, "close_song_preview_bottom_sheet");
+                            }
                           } else if (result == "canceled") {
                             hideButtonSheetStreamNotifier(false);
-                            Navigator.pop(context);
+
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
                           }
                         },
                       ),

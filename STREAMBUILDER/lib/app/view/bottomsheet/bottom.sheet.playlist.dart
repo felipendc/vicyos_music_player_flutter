@@ -167,8 +167,6 @@ class PlaylistBottomSheet extends StatelessWidget {
                                           audioPlayer
                                               .removeAudioSourceAt(index);
                                           rebuildPlaylistCurrentLengthStreamNotifier();
-                                          print("aaaaaaaaaaaaaaaaaaaa ${audioPlayer.audioSources.length}");
-
 
                                           if (currentIndex == index) {
                                             preLoadSongName();

@@ -227,7 +227,7 @@ void setVolume(double value) {
   VolumeController.instance.setVolume(volume);
 }
 
-void setVolumeJustAudio(value) {
+void setVolumeJustAudio(double value) {
   // Set the volume and keep the system volume UI hidden
   // VolumeController.instance.showSystemUI = false;
   double volume = value / 100;
@@ -759,7 +759,7 @@ Future<void> pickAndPlayAudio() async {
 
 //
 
-Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
+Future<void> setFolderAsPlaylist(dynamic currentFolder, int currentIndex) async {
   stopSong();
   playlist.clear();
 
@@ -808,7 +808,7 @@ Future<void> setFolderAsPlaylist(currentFolder, currentIndex) async {
 
 }
 
-Future<void> addFolderToPlaylist(currentFolder) async {
+Future<void> addFolderToPlaylist(dynamic currentFolder) async {
   if (audioPlayer.audioSources.isEmpty) {
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
@@ -953,16 +953,19 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
       ),
     );
     rebuildPlaylistCurrentLengthStreamNotifier();
-    showAddedToPlaylist(
-        context, "Folder", songName(songPath), "Added to the current playlist");
+
+    if (context.mounted) {
+      showAddedToPlaylist(context, "Folder", songName(songPath),
+          "Added to the current playlist");
+    }
   }
 }
 
-Future<void> previewSong(songPath) async {
+Future<void> previewSong(String songPath) async {
   await audioPlayerPreview.setSourceDeviceFile(songPath);
 }
 
-void addToPlayNext(playNextFilePath) {
+void addToPlayNext(String playNextFilePath) {
 
   File audioFile = File(playNextFilePath);
   String fileNameWithoutExtension =

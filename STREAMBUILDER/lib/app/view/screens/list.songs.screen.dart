@@ -358,27 +358,31 @@ class SongsListScreen extends StatelessWidget {
                                     ),
                                     onPressed: () async {
                                       await hideButtonSheetStreamNotifier(true);
-                                      showModalBottomSheet<String>(
-                                        backgroundColor: Colors.transparent,
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return SongInfoMoreBottomSheet(
-                                            fullFilePath:
-                                                folderSongList[index].path,
-                                          );
-                                        },
-                                      ).whenComplete(
-                                        () {
-                                          if (!Navigator.canPop(context)) {
-                                            print("No other screen is open.");
-                                          } else {
-                                            hideButtonSheetStreamNotifier(
-                                                false);
-                                            print(
-                                                " There are other open screens .");
-                                          }
-                                        },
-                                      );
+                                      if (context.mounted) {
+                                        showModalBottomSheet<String>(
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return SongInfoMoreBottomSheet(
+                                              fullFilePath:
+                                              folderSongList[index].path,
+                                            );
+                                          },
+                                        ).whenComplete(
+                                              () {
+                                            if (context.mounted) {
+                                              if (!Navigator.canPop(context)) {
+                                                print("No other screen is open.");
+                                              } else {
+                                                hideButtonSheetStreamNotifier(
+                                                    false);
+                                                print(
+                                                    " There are other open screens .");
+                                              }
+                                            }
+                                          },
+                                        );
+                                      }
                                     },
                                   ),
                                   onTap: () {

@@ -128,15 +128,22 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                               rebuildSongsListScreenStreamNotifier();
                               rebuildHomePageFolderListStreamNotifier(
                                   "fetching_files_done");
-                              Navigator.pop(
-                                  context, "close_song_preview_bottom_sheet");
+                              if (context.mounted) {
+                                Navigator.pop(
+                                    context, "close_song_preview_bottom_sheet");
+                              }
                             } else if (wasDeleted !=
                                 "Files deleted successfully") {
-                              Navigator.pop(context);
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
                             }
-                            showFileDeletedMessage(context, songName(songPath),
-                                "Has been deleted successfully");
-                          });
+                            if (context.mounted) {
+                              showFileDeletedMessage(context, songName(songPath),
+                                  "Has been deleted successfully");
+                            }
+                          },
+                          );
                         });
                       },
                       backgroundColor: TColor.darkGray,

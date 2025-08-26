@@ -232,10 +232,14 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                           );
 
                           if (result == "close_song_preview_bottom_sheet") {
-                            Navigator.pop(
+                            if (context.mounted) {
+                              Navigator.pop(
                                 context, "close_song_preview_bottom_sheet");
+                            }
                           } else {
-                            Navigator.pop(context);
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
                           }
                         },
                       ),

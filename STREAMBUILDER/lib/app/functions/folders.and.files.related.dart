@@ -221,7 +221,7 @@ String songFullPath({required int index}) {
   return fullPath;
 }
 
-String getFileSize(filePath) {
+String getFileSize(String filePath) {
   final file = File(filePath);
   int sizeInBytes = file.lengthSync();
   double sizeInMb = sizeInBytes / (1024 * 1024);
@@ -229,7 +229,7 @@ String getFileSize(filePath) {
   return sizeInMb.toStringAsFixed(2);
 }
 
-String getFileExtension(filePath) {
+String getFileExtension(String filePath) {
   final file = File(filePath);
   String fileExtension =
       file.path.substring(file.path.lastIndexOf('.') + 1).toUpperCase();

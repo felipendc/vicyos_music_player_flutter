@@ -267,33 +267,36 @@ class SearchScreen extends StatelessWidget {
                               onPressed: () async {
                                 await hideButtonSheetStreamNotifier(true);
 
-                                final result =
-                                    await showModalBottomSheet<String>(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SongInfoMoreBottomSheet(
-                                      fullFilePath: foundSongs[index].path,
-                                    );
-                                  },
-                                ).whenComplete(
-                                  () {
-                                    if (!Navigator.canPop(context)) {
-                                      print("No other screen is open.");
-                                    } else {
-                                      hideButtonSheetStreamNotifier(false);
-                                      print(" There are other open screens .");
-                                    }
-                                  },
-                                );
-
-                                if (result ==
-                                    "close_song_preview_bottom_sheet") {
-                                  foundSongs.clear();
-                                  isSearchingSongsStreamNotifier(
-                                      "nothing_found");
-                                } else {
-                                  // Do not close the Player Preview bottom sheet
+                                if (context.mounted) {
+                                  final result =
+                                  await showModalBottomSheet<String>(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return SongInfoMoreBottomSheet(
+                                        fullFilePath: foundSongs[index].path,
+                                      );
+                                    },
+                                  ).whenComplete(
+                                        () {
+                                      if (context.mounted) {
+                                        if (!Navigator.canPop(context)) {
+                                          print("No other screen is open.");
+                                        } else {
+                                          hideButtonSheetStreamNotifier(false);
+                                          print(" There are other open screens .");
+                                        }
+                                      }
+                                    },
+                                  );
+                                  if (result ==
+                                      "close_song_preview_bottom_sheet") {
+                                    foundSongs.clear();
+                                    isSearchingSongsStreamNotifier(
+                                        "nothing_found");
+                                  } else {
+                                    // Do not close the Player Preview bottom sheet
+                                  }
                                 }
                               },
                             ),

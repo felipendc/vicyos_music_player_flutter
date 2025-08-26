@@ -219,7 +219,9 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
                   },
                 );
                 if (result == "close_song_preview_bottom_sheet") {
-                  Navigator.pop(context, "close_song_preview_bottom_sheet");
+                  if (context.mounted) {
+                    Navigator.pop(context, "close_song_preview_bottom_sheet");
+                  }
                 } else {
                   // Do not close the Player Preview bottom sheet
                 }
