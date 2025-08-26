@@ -118,24 +118,24 @@ Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
 
 This project uses the following dependencies:
 
-- `audioplayers: 6.1.1` - A Flutter plugin to play multiple simultaneously audio files, works for Android, iOS, Linux, macOS, Windows, and web.
-- `just_audio: 0.9.46` - A powerful audio player for Flutter applications.
-- `audio_session: 0.1.25` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
-- `just_audio_background: 0.0.1-beta.15` An add-on for just_audio that supports background playback and media notifications
-- `audio_service: 0.18.17` Flutter plugin to play audio in the background while the screen is off
+- `audioplayers: 6.5.0` - A Flutter plugin to play multiple simultaneously audio files, works for Android, iOS, Linux, macOS, Windows, and web.
+- `just_audio: 0.10.4` - A powerful audio player for Flutter applications.
+- `audio_session: 0.2.2` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
+- `just_audio_background: 0.0.1-beta.17` An add-on for just_audio that supports background playback and media notifications
+- `audio_service: 0.18.18` Flutter plugin to play audio in the background while the screen is off
 - `provider: 6.1.2` A wrapper around InheritedWidget to make them easier to use and more reusable.
 - `path_provider: 2.1.3` - Provides access to the device's file system paths.
 - `path: 1.9.0` - Provides utilities for handling file and directory paths.
 <!-- - `media_info: 0.12.0+2` Platform services exposed to Flutter apps. -->
 - `sleek_circular_slider: 2.0.1` A highly customizable circular slider/progress bar & spinner for Flutter.
 <!-- - `flutter_media_metadata: 1.0.0+1` A Flutter plugin to read metadata of media files. -->
-- `volume_controller: 3.2.0` A Flutter volume plugin for ios and android control system volume.
+- `volume_controller: 3.4.0` A Flutter volume plugin for ios and android control system volume.
 - `file_picker: 8.3.1` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
 - `permission_handler: 11.3.1` - Handles runtime permissions for accessing device features.
 - `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
 <!-- - `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX. -->
-- `uuid: 4.4.2` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
+- `uuid: 4.5.1` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
 - `flutter_launcher_icons: 0.14.3` A package which simplifies the task of updating your Flutter app's launcher icon.
 - `marquee: 2.3.0` A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
 - `share_plus 10.1.4` Flutter plugin for sharing content via the platform share UI, using the ACTION_SEND intent on Android and UIActivityViewController on iOS.
