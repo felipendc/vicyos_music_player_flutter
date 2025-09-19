@@ -10,6 +10,13 @@ void screenOrientationPortrait() {
   ]);
 }
 
+void screenOrientationLandscape() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+}
+
 void screenOrientationLandscapeLeft() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,

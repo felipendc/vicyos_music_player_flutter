@@ -16,8 +16,8 @@ class HomePageFolderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Set the preferred orientations to portrait mode when this screen is built
-    screenOrientationPortrait();
+    // Set the preferred orientations to landscape mode when this screen is built
+    screenOrientationLandscape();
 
     var media = MediaQuery.sizeOf(context);
 
