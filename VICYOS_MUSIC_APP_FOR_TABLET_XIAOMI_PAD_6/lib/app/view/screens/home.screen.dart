@@ -5,10 +5,12 @@ import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
 
 import '../../functions/music_player.dart';
 import '../../widgets/bottom.player.dart';
+import 'main.player.view.screen.dart' show MainPlayerView;
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey2 = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,47 +27,40 @@ class HomeScreen extends StatelessWidget {
         } else {
           // Otherwise, just go back to the previous screen
           navigatorKey.currentState!.pop();
+
         }
       },
       child: Scaffold(
-        body: Stack(
+        body: Row(
           children: [
-            Navigator(
-              key: navigatorKey,
-              onGenerateRoute: (RouteSettings settings) {
-                return MaterialPageRoute(
-                  builder: (context) {
-                    return HomePageFolderList();
-                  },
-                );
-              },
-            ),
-            StreamBuilder<bool>(
-              stream: hideButtonSheetStreamController.stream,
-              builder: (context, snapshot) {
-                final hideMiniPlayer = snapshot.data ?? false;
-                if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
-                  return Container();
-                } else {
-                  return FutureBuilder(
-                    future: Future.delayed(Duration(seconds: 1)),
-                    builder: (context, futureSnapshot) {
-                      if (futureSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return Container(); //Return a loader o an empty container.
-                      } else {
-                        // After one second, it will return the BottomPlayer.
-                        return Positioned(
-                          bottom: 0, // Default 6
-                          right: 11, // Default 11
-                          child: BottomPlayer(),
-                        );
-                      }
+            Expanded(
+              flex: 1,
+              child: Navigator(
+                key: navigatorKey,
+                onGenerateRoute: (RouteSettings settings) {
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return HomePageFolderList();
                     },
                   );
-                }
-              },
+                },
+              ),
             ),
+
+            Expanded(
+              flex: 1,
+              child: Navigator(
+                key: navigatorKey2,
+                onGenerateRoute: (RouteSettings settings) {
+                  return MaterialPageRoute(
+                    builder: (context) {
+                      return MainPlayerView();
+                    },
+                  );
+                },
+              ),
+            ),
+
           ],
         ),
       ),

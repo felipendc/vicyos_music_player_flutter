@@ -19,7 +19,7 @@ class HomePageFolderList extends StatelessWidget {
     // Set the preferred orientations to landscape mode when this screen is built
     screenOrientationLandscape();
 
-    var media = MediaQuery.sizeOf(context);
+    var media = MediaQuery.of(context).size;
 
     // Fetch the songs folders
     listMusicFolders();
@@ -45,7 +45,7 @@ class HomePageFolderList extends StatelessWidget {
                         // color: Colors.grey,
                         color: Color(0xff181B2C),
                       ),
-                      height: 130, // Loading enabled
+                      height: 135, // Loading enabled
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,8 +100,8 @@ class HomePageFolderList extends StatelessWidget {
                                     Material(
                                       color: Colors.transparent,
                                       child: SizedBox(
-                                        width: 40,
-                                        height: 40,
+                                        width: 130 * 0.32,
+                                        height:  130 * 0.32,
                                         child: IconButton(
                                           splashRadius: 20,
                                           iconSize: 10,
@@ -142,14 +142,15 @@ class HomePageFolderList extends StatelessWidget {
                                               builder: (context, snapshot) {
                                                 return Image.asset(
                                                   "assets/img/pics/default.png",
-                                                  width: media.width * 0.13,
-                                                  height: media.width * 0.13,
+                                                  width: 130 * 0.44,
+                                                  height: 130 * 0.44,
                                                   fit: BoxFit.cover,
                                                 );
                                               },
                                             ),
                                           ),
-                                        )),
+                                        ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -215,6 +216,7 @@ class HomePageFolderList extends StatelessWidget {
                     stream: getCurrentSongFullPathStreamController.stream,
                     builder: (context, snapshot) {
                       return Expanded(
+                        flex: 1,
                         child: ListView.separated(
                           padding: const EdgeInsets.only(
                             bottom: 112,

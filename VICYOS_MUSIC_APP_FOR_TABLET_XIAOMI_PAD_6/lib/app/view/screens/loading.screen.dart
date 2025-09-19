@@ -23,7 +23,7 @@ class LoadingScreen extends StatelessWidget {
                   // color: Colors.grey,
                   color: Color(0xff181B2C),
                 ),
-                height: 130, // Loading enabled
+                height: 135, // Loading enabled
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,8 +45,8 @@ class LoadingScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                   shadows: [
                                     Shadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.2),
+                                      color: Colors.black
+                                          .withValues(alpha: 0.2),
                                       offset: Offset(1, 1),
                                       blurRadius: 3,
                                     ),
@@ -62,8 +62,8 @@ class LoadingScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   shadows: [
                                     BoxShadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.2),
+                                      color: Colors.black
+                                          .withValues(alpha: 0.2),
                                       spreadRadius: 5,
                                       blurRadius: 8,
                                       offset: Offset(2, 4),
@@ -78,8 +78,8 @@ class LoadingScreen extends StatelessWidget {
                               Material(
                                 color: Colors.transparent,
                                 child: SizedBox(
-                                  width: 40,
-                                  height: 40,
+                                  width: 130 * 0.32,
+                                  height:  130 * 0.32,
                                   child: IconButton(
                                     splashRadius: 20,
                                     iconSize: 10,
@@ -96,38 +96,39 @@ class LoadingScreen extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.2),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.2),
-                                          spreadRadius: 5,
-                                          blurRadius: 8,
-                                          offset: Offset(2, 4),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.2),
-                                      child: StreamBuilder<void>(
-                                        stream: null,
-                                        builder: (context, snapshot) {
-                                          return Image.asset(
-                                            "assets/img/pics/default.png",
-                                            width: media.width * 0.13,
-                                            height: media.width * 0.13,
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
+                                padding: const EdgeInsets.fromLTRB(
+                                    9, 0, 8, 0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black
+                                            .withValues(alpha: 0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 4),
                                       ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    child: StreamBuilder<void>(
+                                      stream: null,
+                                      builder: (context, snapshot) {
+                                        return Image.asset(
+                                          "assets/img/pics/default.png",
+                                          width: 130 * 0.44,
+                                          height: 130 * 0.44,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],
