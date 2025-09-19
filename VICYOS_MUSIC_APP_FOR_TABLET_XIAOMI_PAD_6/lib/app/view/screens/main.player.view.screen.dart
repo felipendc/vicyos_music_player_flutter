@@ -35,37 +35,34 @@ class MainPlayerView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(media.width * 0.7),
+                  borderRadius: BorderRadius.circular(media.width * 0.19),
                   child: StreamBuilder<void>(
                     stream: null,
                     builder: (context, snapshot) {
                       return Image.asset(
                         "assets/img/lofi-woman-album-cover-art_10.png",
-                        width: media.width * 0.6,
-                        height: media.width * 0.6,
+                        width: media.width * 0.19,
+                        height: media.width * 0.19,
                         fit: BoxFit.cover,
                       );
                     },
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: WaveProgress(
-                    size: 235.0,
-                    borderColor: Colors.transparent,
-                    fillColor: Colors.blueAccent,
-                    progress: 9.0,
-                  ),
+                WaveProgress(
+                  size: 218.0,
+                  borderColor: Colors.transparent,
+                  fillColor: Colors.blueAccent,
+                  progress: 10.0,
                 ),
                 SizedBox(
-                  width: media.width * 0.6,
-                  height: media.width * 0.6,
+                  width: media.width * 0.19,
+                  height: media.width * 0.19,
                   child: StreamBuilder<void>(
                     stream: clearCurrentPlaylistStreamController.stream,
                     builder: (context, snapshot) {
@@ -154,13 +151,13 @@ class MainPlayerView extends StatelessWidget {
                                   ? formatDuration(Duration.zero)
                                   : formatDuration(position),
                               style: TextStyle(
-                                  color: TColor.secondaryText, fontSize: 15),
+                                  color: TColor.secondaryText, fontSize: 14),
                             );
                           });
                     }),
                 Text(
                   " | ",
-                  style: TextStyle(color: TColor.secondaryText, fontSize: 15),
+                  style: TextStyle(color: TColor.secondaryText, fontSize: 14),
                 ),
                 StreamBuilder(
                     stream: clearCurrentPlaylistStreamController.stream,
@@ -175,7 +172,7 @@ class MainPlayerView extends StatelessWidget {
                                 ? formatDuration(Duration.zero)
                                 : formatDuration(duration),
                             style: TextStyle(
-                                color: TColor.secondaryText, fontSize: 15),
+                                color: TColor.secondaryText, fontSize: 14),
                           );
                         },
                       );
@@ -199,7 +196,7 @@ class MainPlayerView extends StatelessWidget {
                               return Text(
                                 '0',
                                 style: TextStyle(
-                                    color: TColor.secondaryText, fontSize: 15),
+                                    color: TColor.secondaryText, fontSize: 14),
                               );
                             }
                             final eventState = snapshot.data!;
@@ -212,7 +209,7 @@ class MainPlayerView extends StatelessWidget {
                                   ? '0'
                                   : "${index! + 1}",
                               style: TextStyle(
-                                  color: TColor.secondaryText, fontSize: 15),
+                                  color: TColor.secondaryText, fontSize: 14),
                             );
                           });
                     }),
@@ -222,85 +219,82 @@ class MainPlayerView extends StatelessWidget {
                     return Text(
                       " of $playlistCurrentLength",
                       style:
-                          TextStyle(color: TColor.secondaryText, fontSize: 15),
+                          TextStyle(color: TColor.secondaryText, fontSize: 14),
                     );
                   },
                 ),
               ],
             ),
-            const SizedBox(
-              height: 15,
+            SizedBox(
+              height: audioPlayer.audioSources.isEmpty ? 9 : 3,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
-              child: SizedBox(
-                height: 65,
-                child: StreamBuilder<void>(
-                    stream: currentSongNameStreamController.stream,
-                    builder: (context, snapshot) {
-                      return StreamBuilder<void>(
-                          stream: clearCurrentPlaylistStreamController.stream,
-                          builder: (context, snapshot) {
-                            if (audioPlayer.audioSources.isEmpty) {
-                              currentSongName = "The playlist is empty";
-                              currentFolderPath =
-                                  'The song folder will be displayed here...';
-                            }
-                            return Column(
-                              children: [
-                                SizedBox(
-                                  width: media.width * 0.9,
-                                  height: media.width * 0.07,
-                                  child: LayoutBuilder(
-                                    builder: (context, constraints) {
-                                      // Gets the width of Expanded
-                                      final double width = constraints.maxWidth;
-                                      return MarqueeText(
-                                        centerText: true,
-                                        // Forces rebuild when song changes
-                                        key: ValueKey(currentSongName),
-                                        // Set dynamically based on layout
-                                        maxWidth: width,
-                                        text: currentSongName,
-                                        style: TextStyle(
-                                          color: TColor.primaryText
-                                              .withValues(alpha: 0.9),
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      );
-                                    },
+              child: StreamBuilder<void>(
+                  stream: currentSongNameStreamController.stream,
+                  builder: (context, snapshot) {
+                    return StreamBuilder<void>(
+                        stream: clearCurrentPlaylistStreamController.stream,
+                        builder: (context, snapshot) {
+                          if (audioPlayer.audioSources.isEmpty) {
+                            currentSongName = "The playlist is empty";
+                            currentFolderPath =
+                                'The song folder will be displayed here...';
+                          }
+                          return Column(
+                            children: [
+                              SizedBox(
+                                width: media.width * 0.8,
+                                height: media.width * 0.037,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    // Gets the width of Expanded
+                                    final double width = constraints.maxWidth;
+                                    return MarqueeText(
+                                      centerText: true,
+                                      // Forces rebuild when song changes
+                                      key: ValueKey(currentSongName),
+                                      // Set dynamically based on layout
+                                      maxWidth: width,
+                                      text: currentSongName,
+                                      style: TextStyle(
+                                        color: TColor.primaryText
+                                            .withValues(alpha: 0.9),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              // const SizedBox(
+                              //   height: 5,
+                              // ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(35, 0, 35, 0),
+                                child: Text(
+                                  currentFolderPath,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 14,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(35, 0, 35, 0),
-                                  child: Text(
-                                    currentFolderPath,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: TColor.secondaryText,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
-                    }),
-              ),
+                              ),
+                            ],
+                          );
+                        });
+                  }),
             ),
             const SizedBox(
               height: 28,
             ),
             SizedBox(
-              height: 50,
-              width: media.width * 0.5,
+              height: 40,
+              width: media.width * 0.24,
               child: MusicVisualizer(
                 barCount: 26,
                 colors: [
@@ -313,11 +307,11 @@ class MainPlayerView extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 7,
             ),
             Column(children: [
               Padding(
-                padding: const EdgeInsets.all(9.0),
+                padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -326,8 +320,8 @@ class MainPlayerView extends StatelessWidget {
                       child: Column(
                         children: [
                           SizedBox(
-                            width: 45,
-                            height: 45,
+                            width: 40,
+                            height: 40,
                             child: IconButton(
                               onPressed: () {
                                 showModalBottomSheet<void>(
@@ -363,8 +357,8 @@ class MainPlayerView extends StatelessWidget {
                             },
                             icon: Image.asset(
                               'assets/img/speed-one.png',
-                              width: 40,
-                              height: 40,
+                              width: 25,
+                              height: 25,
                               color: TColor.primaryText80,
                             ),
                           ),
@@ -383,7 +377,7 @@ class MainPlayerView extends StatelessWidget {
                                       audioPlayer.shuffleModeEnabled ? 45 : 45,
                                   height: (currentLoopMode ==
                                           CurrentLoopMode.shuffle)
-                                      ? 48
+                                      ? 40
                                       : 40,
                                   child: IconButton(
                                     onPressed: () {
@@ -391,8 +385,8 @@ class MainPlayerView extends StatelessWidget {
                                     },
                                     icon: Image.asset(
                                       currentLoopModeIcon,
-                                      width: 30,
-                                      height: 30,
+                                      width: 22,
+                                      height: 22,
                                       color: TColor.primaryText80,
                                     ),
                                   ),
@@ -404,7 +398,8 @@ class MainPlayerView extends StatelessWidget {
                   ],
                 ),
               ),
-            ]),
+            ],
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -412,7 +407,7 @@ class MainPlayerView extends StatelessWidget {
                   margin: const EdgeInsets.only(
                     right: 10,
                     left: 10,
-                    top: 2,
+                    top: 0,
                     bottom: 2,
                   ),
                   child: StreamBuilder<void>(
@@ -463,7 +458,7 @@ class MainPlayerView extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 8,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

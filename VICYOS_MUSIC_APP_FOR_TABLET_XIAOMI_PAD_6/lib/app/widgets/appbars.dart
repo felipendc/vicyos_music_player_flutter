@@ -107,20 +107,20 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
     toolbarHeight: 60,
     elevation: 0,
     automaticallyImplyLeading: false,
-    leading: SizedBox(
-      width: 45,
-      height: 45,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: IconButton(
-          splashRadius: 20,
-          icon: Image.asset("assets/img/keyboard_arrow_down.png"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ),
+    // leading: SizedBox(
+    //   width: 45,
+    //   height: 45,
+    //   child: Padding(
+    //     padding: const EdgeInsets.only(left: 10),
+    //     child: IconButton(
+    //       splashRadius: 20,
+    //       icon: Image.asset("assets/img/keyboard_arrow_down.png"),
+    //       onPressed: () {
+    //         Navigator.pop(context);
+    //       },
+    //     ),
+    //   ),
+    // ),
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(

@@ -40,7 +40,8 @@ class HomePageFolderList extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    child: Container(
+                    child:
+                    Container(
                       decoration: BoxDecoration(
                         // color: Colors.grey,
                         color: Color(0xff181B2C),
