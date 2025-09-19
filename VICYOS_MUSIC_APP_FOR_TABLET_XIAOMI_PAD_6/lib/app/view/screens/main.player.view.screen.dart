@@ -35,9 +35,9 @@ class MainPlayerView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // const SizedBox(
-            //   height: 10,
-            // ),
+            const SizedBox(
+              height: 10,
+            ),
             Stack(
               children: [
                 ClipRRect(
@@ -226,7 +226,7 @@ class MainPlayerView extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: audioPlayer.audioSources.isEmpty ? 9 : 3,
+              height: audioPlayer.audioSources.isEmpty ? 15 : 10,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
@@ -245,7 +245,7 @@ class MainPlayerView extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: media.width * 0.8,
-                                height: media.width * 0.037,
+                                height: media.width * 0.03,
                                 child: LayoutBuilder(
                                   builder: (context, constraints) {
                                     // Gets the width of Expanded
@@ -307,11 +307,11 @@ class MainPlayerView extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 7,
+              height: 10,
             ),
             Column(children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -408,7 +408,7 @@ class MainPlayerView extends StatelessWidget {
                     right: 10,
                     left: 10,
                     top: 0,
-                    bottom: 2,
+                    bottom: 0,
                   ),
                   child: StreamBuilder<void>(
                     stream: systemVolumeStreamController.stream,
@@ -458,7 +458,7 @@ class MainPlayerView extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 8,
+              height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
