@@ -78,7 +78,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 400, // Adjust the height
+        height: 355, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -235,6 +235,7 @@ class SongsListScreen extends StatelessWidget {
                                   hideButtonSheetStreamNotifier(true);
 
                                   showModalBottomSheet<void>(
+                                    isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
                                     context: context,
                                     builder: (BuildContext context) {

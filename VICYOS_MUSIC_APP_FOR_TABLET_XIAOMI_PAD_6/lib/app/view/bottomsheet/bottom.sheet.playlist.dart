@@ -55,32 +55,113 @@ class PlaylistBottomSheet extends StatelessWidget {
           children: [
             const SizedBox(height: 10),
             // Top button indicator
-            Container(
-              alignment: Alignment.center,
-              width: 200,
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              height: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: FloatingActionButton.extended(
-                  label: Text(
-                    'CLEAR PLAYLIST',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: TColor.org,
-                      fontSize: 17,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              children: [
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      StreamBuilder(
+                          stream: clearCurrentPlaylistStreamController.stream,
+                          builder: (context, snapshot) {
+                            return StreamBuilder<PlaybackEvent>(
+                                stream: audioPlayer.playbackEventStream,
+                                builder: (context, snapshot) {
+                                  // Check if snapshot has data
+                                  if (!snapshot.hasData) {
+                                    return Text(
+                                      '0',
+                                      style: TextStyle(
+                                          color: TColor.secondaryText, fontSize: 18),
+                                    );
+                                  }
+                                  final eventState = snapshot.data!;
+                                  final index = eventState.currentIndex;
+                                  final playerState = audioPlayer.processingState;
+
+                                  return Text(
+                                    (playerState == ProcessingState.idle ||
+                                        audioPlayer.audioSources.isEmpty)
+                                        ? '0'
+                                        : "${index! + 1}",
+                                    style: TextStyle(
+                                        color: TColor.secondaryText, fontSize: 18),
+                                  );
+                                });
+                          }),
+                      StreamBuilder<void>(
+                        stream: rebuildPlaylistCurrentLengthController.stream,
+                        builder: (context, snapshot) {
+                          return Text(
+                            " of $playlistCurrentLength",
+                            style:
+                            TextStyle(color: TColor.secondaryText,
+                              fontSize: 18,
+
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: 200,
+                  margin: const EdgeInsets.only(top: 10, bottom: 10),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: FloatingActionButton.extended(
+                      label: Text(
+                        'CLEAR PLAYLIST',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: TColor.org,
+                          fontSize: 17,
+                        ),
+                      ),
+                      onPressed: () {
+                        // Clean playlist and rebuild the entire screen to clean the listview
+                        cleanPlaylist();
+                        rebuildPlaylistCurrentLengthStreamNotifier();
+                      },
+                      backgroundColor: TColor.darkGray,
                     ),
                   ),
-                  onPressed: () {
-                    // Clean playlist and rebuild the entire screen to clean the listview
-                    cleanPlaylist();
-                    rebuildPlaylistCurrentLengthStreamNotifier();
-                  },
-                  backgroundColor: TColor.darkGray,
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 24),
+                  child: Row(
+                    children: [
+                      Material(
+                        color: Colors.transparent,
+                        child: SizedBox(
+                          width: 33,
+                          height: 33,
+                          child: IconButton(
+                            splashRadius: 20,
+                            iconSize: 10,
+                            onPressed: () async {
+                              Navigator.pop(context);
+                            },
+                            icon: Image.asset(
+                              "assets/img/close.png",
+                              color: TColor.secondaryText,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 15),
             StreamBuilder<void>(

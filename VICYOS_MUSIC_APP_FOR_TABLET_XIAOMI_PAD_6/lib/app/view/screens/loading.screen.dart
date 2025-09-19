@@ -185,7 +185,7 @@ class LoadingScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 300,
+                  height: 250,
                 ),
                 if (currentStatus == "fetching_files")
                   Center(

@@ -67,6 +67,13 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const VerticalDivider(
+              indent: 34,
+              endIndent: 20,
+              width: 0.1,          // total width of the divider (including spacing)
+              thickness: 1,      // thickness of the line itself
+              color: Colors.grey, // line color
+            ),
             Expanded(
               flex: 1,
               child: GestureDetector(
