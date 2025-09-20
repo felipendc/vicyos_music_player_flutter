@@ -255,8 +255,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               ),
                             );
                           }
-                          // rebuild the song list screen
-                          rebuildSongsListScreenStreamNotifier();
                         },
                       ),
                     ),
