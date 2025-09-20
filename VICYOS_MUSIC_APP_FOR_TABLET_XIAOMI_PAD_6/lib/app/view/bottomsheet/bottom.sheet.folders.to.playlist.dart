@@ -207,25 +207,13 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          mainPlayerIsOpen = true;
                           Navigator.pop(context);
                           setFolderAsPlaylist(folderSongList, 0);
 
-                          Navigator.push(
-                            context,
-                            mainPlayerSlideUpDownTransition(
-                              MainPlayerView(),
-                            ),
+                          getCurrentSongFullPathStreamControllerNotifier();
+                          listPlaylistFolderStreamNotifier();
 
-                          ).whenComplete(() {
-                            if (mainPlayerIsOpen) {
-                              mainPlayerIsOpen = false;
-                            }
-                            getCurrentSongFullPathStreamControllerNotifier();
-                            listPlaylistFolderStreamNotifier();
-                            hideButtonSheetStreamNotifier(false);
-                          });
-                          // showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
+                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
                         },
                       ),
                     ),

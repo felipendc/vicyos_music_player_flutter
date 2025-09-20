@@ -54,7 +54,8 @@ class SongsListScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
-                          child: Row(
+                          child:
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
@@ -77,56 +78,20 @@ class SongsListScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    "Vicyos Music",
-                                    style: TextStyle(
-                                      color: TColor.primaryText
-                                          .withValues(alpha: 0.84),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      shadows: [
-                                        BoxShadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.2),
-                                          spreadRadius: 5,
-                                          blurRadius: 8,
-                                          offset: Offset(2, 4),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: SizedBox(
-                                      width: 130 * 0.32,
-                                      height:  130 * 0.32,
-                                      child: IconButton(
-                                        splashRadius: 20,
-                                        iconSize: 10,
-                                        onPressed: () async {
-                                          musicFolderPaths.clear();
-                                          listMusicFolders();
-                                          listPlaylistFolderStreamNotifier();
-                                        },
-                                        icon: Image.asset(
-                                          "assets/img/autorenew.png",
-                                          color: TColor.lightGray,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        9, 0, 8, 0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            media.width * 0.2),
-                                        boxShadow: [
+                                  SizedBox(
+                                    height: 30,
+                                    width: 180,
+                                    // color: Colors.grey,
+                                    child: Text(
+                                      folderName(folderPath),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: TColor.primaryText
+                                            .withValues(alpha: 0.84),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        shadows: [
                                           BoxShadow(
                                             color: Colors.black
                                                 .withValues(alpha: 0.2),
@@ -136,22 +101,98 @@ class SongsListScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            media.width * 0.2),
-                                        child: StreamBuilder<void>(
-                                          stream: null,
-                                          builder: (context, snapshot) {
-                                            return Image.asset(
-                                              "assets/img/pics/default.png",
-                                              width: 130 * 0.44,
-                                              height: 130 * 0.44,
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: SizedBox(
+                                      width: 35,
+                                      height: 35,
+                                      child: IconButton(
+                                        splashRadius: 20,
+                                        iconSize: 10,
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: Image.asset(
+                                          "assets/img/arrow_back_ios.png",
+                                          color: TColor.lightGray,
                                         ),
                                       ),
                                     ),
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: SizedBox(
+                                      width: 45,
+                                      height: 45,
+                                      child: IconButton(
+                                        splashRadius: 20,
+                                        iconSize: 10,
+                                        onPressed: () async {
+                                          hideButtonSheetStreamNotifier(true);
+                                          showModalBottomSheet<void>(
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return FolderToPlaylistBottomSheet(
+                                                  folderPath: folderPath);
+                                            },
+                                          ).whenComplete(() {
+                                            if (mainPlayerIsOpen) {
+                                              hideButtonSheetStreamNotifier(
+                                                  true);
+                                            } else {
+                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                              hideButtonSheetStreamNotifier(
+                                                  false);
+                                            }
+                                          });
+                                        },
+                                        icon: Image.asset(
+                                          "assets/img/menu_open.png",
+                                          color: TColor.lightGray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding:
+                                      const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.2),
+                                              spreadRadius: 5,
+                                              blurRadius: 8,
+                                              offset: Offset(2, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          child: StreamBuilder<void>(
+                                            stream: null,
+                                            builder: (context, snapshot) {
+                                              return Image.asset(
+                                                "assets/img/pics/default.png",
+                                                width: 130 * 0.44,
+                                                height: 130 * 0.44,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                   ),
                                 ],
                               ),
