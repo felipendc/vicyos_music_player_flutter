@@ -156,7 +156,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
-                          hideButtonSheetStreamNotifier(true);
 
                           Navigator.pop(context);
 
@@ -169,8 +168,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               }).whenComplete(() {
                             isSongPreviewBottomSheetOpen = false;
 
-                            // "When the bottom sheet is closed, send a signal to show the mini player again."
-                            hideButtonSheetStreamNotifier(false);
                             audioPlayerPreview.stop();
                             audioPlayerPreview.release();
 
@@ -258,7 +255,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               ),
                             );
                           }
-                          hideButtonSheetStreamNotifier(false);
                         },
                       ),
                     ),
@@ -297,7 +293,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   context, "close_song_preview_bottom_sheet");
                             }
                           } else if (result == "canceled") {
-                            hideButtonSheetStreamNotifier(false);
 
                             if (context.mounted) {
                               Navigator.pop(context);

@@ -228,7 +228,7 @@ class HomePageFolderList extends StatelessWidget {
                               height: 70,
                               child: GestureDetector(
                                 onLongPress: () {
-                                  hideButtonSheetStreamNotifier(true);
+
                                   showModalBottomSheet<void>(
                                     backgroundColor: Colors.transparent,
                                     context: context,
@@ -237,15 +237,7 @@ class HomePageFolderList extends StatelessWidget {
                                           folderPath:
                                               musicFolderPaths[index].path);
                                     },
-                                  ).whenComplete(() {
-                                    if (mainPlayerIsOpen) {
-                                      mainPlayerIsOpen = false;
-                                    } else {
-                                      hideButtonSheetStreamNotifier(false);
-                                    }
-
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                  });
+                                  );
                                 },
                                 child: ListTile(
                                   leading: (musicFolderPaths[index].path ==

@@ -27,7 +27,6 @@ bool noDeviceMusicFolderFound = false;
 late final TextEditingController searchBoxController;
 List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
-bool mainPlayerIsOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';
 int playlistCurrentLength = 0;
@@ -88,9 +87,6 @@ StreamController<void> repeatModeStreamController =
 StreamController<void> systemVolumeStreamController =
     StreamController<void>.broadcast();
 
-StreamController<bool> hideButtonSheetStreamController =
-    StreamController<bool>.broadcast();
-
 StreamController<void> rebuildPlaylistCurrentLengthController =
     StreamController<void>.broadcast();
 
@@ -135,9 +131,6 @@ void rebuildPlaylistCurrentLengthStreamNotifier() {
   rebuildPlaylistCurrentLengthController.sink.add(null);
 }
 
-Future<void> hideButtonSheetStreamNotifier(bool value) async {
-  hideButtonSheetStreamController.sink.add(value);
-}
 
 void clearCurrentPlaylistStreamNotifier() {
   audioPlayer.stop();

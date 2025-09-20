@@ -78,21 +78,13 @@ AppBar songsListAppBar(
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
-            hideButtonSheetStreamNotifier(true);
             showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               context: context,
               builder: (BuildContext context) {
                 return FolderToPlaylistBottomSheet(folderPath: folderPath);
               },
-            ).whenComplete(() {
-              if (mainPlayerIsOpen) {
-                hideButtonSheetStreamNotifier(true);
-              } else {
-                // "When the bottom sheet is closed, send a signal to show the mini player again."
-                hideButtonSheetStreamNotifier(false);
-              }
-            });
+            );
           },
         ),
       )
