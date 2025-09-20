@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/functions/music_player.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
@@ -235,4 +236,32 @@ String getFileExtension(String filePath) {
       file.path.substring(file.path.lastIndexOf('.') + 1).toUpperCase();
 
   return fileExtension;
+}
+
+
+Future<void> sharingFiles(dynamic shareFile) async{
+
+   if (shareFile is String) {
+     await SharePlus.instance.share(
+       ShareParams(
+         text:
+         'This file was shared using the Vicyos Music app.',
+         files: [XFile(shareFile)],
+       ),
+     );
+   } else if (shareFile is List) {
+     //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
+     List<XFile> files = shareFile
+         .map((path) => XFile(path))
+         .toList();
+     await SharePlus.instance.share(
+       ShareParams(
+         text:
+         "These ${shareFile.length} audio files 🎵, were shared using the Vicyos Music app.",
+         files: files,
+       ),
+     );
+   }
+   // rebuild the song list screen
+   rebuildSongsListScreenStreamNotifier();
 }
