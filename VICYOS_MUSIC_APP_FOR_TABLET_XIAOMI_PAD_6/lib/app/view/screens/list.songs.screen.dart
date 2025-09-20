@@ -31,9 +31,6 @@ class SongsListScreen extends StatelessWidget {
         // Filter all songs from folderPath and add them to folderSongList
         filterSongsOnlyToList(folderPath: folderPath);
 
-        // Set the preferred orientations to landscape mode when this screen is built
-
-
         print("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(

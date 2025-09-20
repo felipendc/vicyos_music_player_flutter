@@ -137,6 +137,10 @@ Future<void> listMusicFolders() async {
   } else {
     rebuildHomePageFolderListStreamNotifier("Null");
   }
+
+  // rebuild the song list screen
+  rebuildSongsListScreenStreamNotifier();
+
 }
 
 int folderLength(String folderPath) {
@@ -262,6 +266,4 @@ Future<void> sharingFiles(dynamic shareFile) async{
        ),
      );
    }
-   // rebuild the song list screen
-   rebuildSongsListScreenStreamNotifier();
 }
