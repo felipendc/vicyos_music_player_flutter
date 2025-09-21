@@ -236,28 +236,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Navigator.pop(context);
-
-                          if (fullFilePath is String) {
-                            await SharePlus.instance.share(
-                              ShareParams(
-                                text:
-                                    'This file was shared using the Vicyos Music app.',
-                                files: [XFile(fullFilePath)],
-                              ),
-                            );
-                          } else if (fullFilePath is List) {
-                            //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
-                            List<XFile> files = fullFilePath
-                                .map((path) => XFile(path))
-                                .toList();
-                            await SharePlus.instance.share(
-                              ShareParams(
-                                text:
-                                    "These ${fullFilePath.length} audio files 🎵, were shared using the Vicyos Music app.",
-                                files: files,
-                              ),
-                            );
-                          }
+                          await sharingFiles(fullFilePath);
                           hideButtonSheetStreamNotifier(false);
                         },
                       ),

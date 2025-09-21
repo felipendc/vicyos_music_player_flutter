@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vicyos_music/app/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
-
 import '../../functions/music_player.dart';
 import '../../widgets/bottom.player.dart';
 
@@ -14,6 +14,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
     screenOrientationPortrait();
+
+    // Fetch the songs folders
+    listMusicFolders();
 
     return PopScope(
       canPop: false, // Prevents back navigation

@@ -21,9 +21,6 @@ class HomePageFolderList extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
 
-    // Fetch the songs folders
-    listMusicFolders();
-
     return StreamBuilder<String>(
       stream: rebuildHomePageFolderListStreamController.stream,
       builder: (context, snapshot) {
