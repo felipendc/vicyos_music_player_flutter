@@ -9,24 +9,26 @@ import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 
+import '../../models/folder.sources.dart';
 import '../../widgets/music_visualizer.dart';
 
 class HomePageFolderList extends StatelessWidget {
   const HomePageFolderList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
+
+
     // Set the preferred orientations to landscape mode when this screen is built
     screenOrientationLandscape();
 
     var media = MediaQuery.of(context).size;
 
-    // Fetch the songs folders
-    listMusicFolders();
 
     return StreamBuilder<String>(
       stream: rebuildHomePageFolderListStreamController.stream,
       builder: (context, snapshot) {
+
         final String? fetchingResult = snapshot.data;
 
         if (fetchingResult == "fetching_files") {
@@ -108,7 +110,7 @@ class HomePageFolderList extends StatelessWidget {
                                           iconSize: 10,
                                           onPressed: () async {
                                             musicFolderPaths.clear();
-                                            listMusicFolders();
+                                            await listMusicFolders();
                                             listPlaylistFolderStreamNotifier();
                                           },
                                           icon: Image.asset(
@@ -213,143 +215,138 @@ class HomePageFolderList extends StatelessWidget {
                       ),
                     ),
                   ),
-                  StreamBuilder<void>(
-                    stream: getCurrentSongFullPathStreamController.stream,
-                    builder: (context, snapshot) {
-                      return Expanded(
-                        flex: 1,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(
-                            bottom: 112,
-                          ),
-                          itemCount: musicFolderPaths.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              height: 70,
-                              child: GestureDetector(
-                                onLongPress: () {
+                  Expanded(
+                    flex: 1,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(
+                        bottom: 112,
+                      ),
+                      itemCount: musicFolderPaths.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 70,
+                          child: GestureDetector(
+                            onLongPress: () {
 
-                                  showModalBottomSheet<void>(
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return FolderToPlaylistBottomSheet(
-                                          folderPath:
-                                              musicFolderPaths[index].path);
-                                    },
-                                  );
+                              showModalBottomSheet<void>(
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return FolderToPlaylistBottomSheet(
+                                      folderPath:
+                                      musicFolderPaths[index].path);
                                 },
-                                child: ListTile(
-                                  leading: (musicFolderPaths[index].path ==
-                                          getCurrentSongParentFolder(
-                                              currentSongFullPath))
-                                      ? Stack(
-                                          children: [
-                                            Icon(
-                                              Icons.folder,
-                                              color: TColor.darkGray,
-                                              size: 47,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 20.0,
-                                                  left: 8.5,
-                                                  bottom: 0.0),
-                                              child: SizedBox(
-                                                height: 12,
-                                                width: 30,
-                                                child: MusicVisualizer(
-                                                  barCount: 6,
-                                                  colors: [
-                                                    TColor.focus,
-                                                    TColor.secondaryEnd,
-                                                    TColor.focusStart,
-                                                    Colors.blue[900]!,
-                                                  ],
-                                                  duration: const [
-                                                    900,
-                                                    700,
-                                                    600,
-                                                    800,
-                                                    500
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : Icon(
+                              );
+                            },
+                            child: ListTile(
+                              leading: (musicFolderPaths[index].path ==
+                                      getCurrentSongParentFolder(
+                                          currentSongFullPath))
+                                  ? Stack(
+                                      children: [
+                                        Icon(
                                           Icons.folder,
-                                          color: TColor.focusSecondary,
-                                          size: 40,
+                                          color: TColor.darkGray,
+                                          size: 47,
                                         ),
-                                  title: Text(
-                                    folderName(musicFolderPaths[index].path),
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: TColor.lightGray,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    musicFolderPaths[index].songs > 1
-                                        ? '${musicFolderPaths[index].songs.toString()} songs'
-                                        : '${musicFolderPaths[index].songs.toString()} song',
-                                    style: const TextStyle(
-                                        fontFamily: "Circular Std",
-                                        fontSize: 15,
-                                        color: Colors.white70),
-                                  ),
-                                  trailing: Material(
-                                    color: Colors.transparent,
-                                    child: SizedBox(
-                                      width: 35,
-                                      height: 35,
-                                      child: IconButton(
-                                        splashRadius: 20,
-                                        iconSize: 10,
-                                        onPressed: () async {
-                                          Navigator.push(
-                                            context,
-                                            slideRightLeftTransition(
-                                              SongsListScreen(
-                                                  folderPath:
-                                                      musicFolderPaths[index]
-                                                          .path),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 20.0,
+                                              left: 8.5,
+                                              bottom: 0.0),
+                                          child: SizedBox(
+                                            height: 12,
+                                            width: 30,
+                                            child: MusicVisualizer(
+                                              barCount: 6,
+                                              colors: [
+                                                TColor.focus,
+                                                TColor.secondaryEnd,
+                                                TColor.focusStart,
+                                                Colors.blue[900]!,
+                                              ],
+                                              duration: const [
+                                                900,
+                                                700,
+                                                600,
+                                                800,
+                                                500
+                                              ],
                                             ),
-                                          );
-                                        },
-                                        icon: Image.asset(
-                                          "assets/img/arrow_forward_ios.png",
-                                          color: TColor.lightGray,
+                                          ),
                                         ),
-                                      ),
+                                      ],
+                                    )
+                                  : Icon(
+                                      Icons.folder,
+                                      color: TColor.focusSecondary,
+                                      size: 40,
                                     ),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      slideRightLeftTransition(
-                                        SongsListScreen(
-                                            folderPath:
-                                                musicFolderPaths[index].path),
-                                      ),
-                                    );
-                                    // Handle tile tap
-                                  },
+                              title: Text(
+                                folderName(musicFolderPaths[index].path),
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: TColor.lightGray,
+                                  fontSize: 20,
                                 ),
                               ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Container();
-                          },
-                        ),
-                      );
-                    },
+                              subtitle: Text(
+                                musicFolderPaths[index].songs > 1
+                                    ? '${musicFolderPaths[index].songs.toString()} songs'
+                                    : '${musicFolderPaths[index].songs.toString()} song',
+                                style: const TextStyle(
+                                    fontFamily: "Circular Std",
+                                    fontSize: 15,
+                                    color: Colors.white70),
+                              ),
+                              trailing: Material(
+                                color: Colors.transparent,
+                                child: SizedBox(
+                                  width: 35,
+                                  height: 35,
+                                  child: IconButton(
+                                    splashRadius: 20,
+                                    iconSize: 10,
+                                    onPressed: () async {
+                                      Navigator.push(
+                                        context,
+                                        slideRightLeftTransition(
+                                          SongsListScreen(
+                                              folderPath:
+                                              musicFolderPaths[index]
+                                                      .path),
+                                        ),
+                                      );
+                                    },
+                                    icon: Image.asset(
+                                      "assets/img/arrow_forward_ios.png",
+                                      color: TColor.lightGray,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  slideRightLeftTransition(
+                                    SongsListScreen(
+                                        folderPath:
+                                        musicFolderPaths[index].path),
+                                  ),
+                                );
+                                // Handle tile tap
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container();
+                      },
+                    ),
                   ),
                 ],
               ),

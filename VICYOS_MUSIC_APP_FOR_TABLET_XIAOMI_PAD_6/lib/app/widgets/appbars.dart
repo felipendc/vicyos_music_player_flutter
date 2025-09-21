@@ -14,9 +14,9 @@ AppBar homePageAppBar() {
     backgroundColor: TColor.bg,
     title: Center(
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           musicFolderPaths.clear();
-          listMusicFolders();
+          await listMusicFolders();
           listPlaylistFolderStreamNotifier();
         },
         child: Text(

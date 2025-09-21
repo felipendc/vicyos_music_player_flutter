@@ -115,6 +115,7 @@ Future<void> listMusicFolders() async {
     return audioFolders;
   }
 
+
   for (var folder in await audioFolder()) {
     folderPath = folder;
     totalSongs = folderLength(folder);

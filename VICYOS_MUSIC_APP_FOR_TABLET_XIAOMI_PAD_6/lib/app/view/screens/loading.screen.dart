@@ -85,7 +85,7 @@ class LoadingScreen extends StatelessWidget {
                                     iconSize: 10,
                                     onPressed: () async {
                                       musicFolderPaths.clear();
-                                      listMusicFolders();
+                                      await listMusicFolders();
                                       listPlaylistFolderStreamNotifier();
                                     },
                                     icon: Image.asset(

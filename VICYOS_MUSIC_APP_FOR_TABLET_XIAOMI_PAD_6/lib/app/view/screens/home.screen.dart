@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/functions/screen.orientation.dart';
 import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
+import '../../functions/folders.and.files.related.dart';
 import 'main.player.view.screen.dart' show MainPlayerView;
 
 ValueNotifier<String> activeSide = ValueNotifier("left"); // "left" or "right"
@@ -14,6 +15,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // Fetch the songs folders
+    listMusicFolders();
+
     // Set the preferred orientations to landscape mode when this screen is built
     screenOrientationLandscape();
 
