@@ -233,7 +233,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Navigator.pop(context);
-
                           await sharingFiles(fullFilePath);
                         },
                       ),

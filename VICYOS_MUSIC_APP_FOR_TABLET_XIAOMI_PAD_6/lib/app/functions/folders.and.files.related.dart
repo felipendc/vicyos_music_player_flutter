@@ -244,7 +244,7 @@ String getFileExtension(String filePath) {
 }
 
 
-Future<void> sharingFiles(dynamic shareFile) async{
+Future<void> sharingFiles(dynamic shareFile) async {
 
    if (shareFile is String) {
      await SharePlus.instance.share(
