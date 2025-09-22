@@ -1,32 +1,9 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 // String internalStorage = '/storage/emulated/0/Music/';
 
 
-
-// Future<void> requestStoragePermission() async {
-//   Permission.storage.status.then((status) {
-//     print("Showing: $status");
-//   });
-//
-//   late bool isPermissionDenied;
-//   var status = await Permission.storage.status;
-//
-//   if (!status.isGranted) {
-//     await Permission.storage.request();
-//     status = await Permission.storage.status;
-//   }
-//
-//   if (status.isGranted) {
-//     isPermissionDenied = false;
-//   } else {
-//     isPermissionDenied = true;
-//   }
-//
-//   isInternalStoragePermissionDenied = isPermissionDenied;
-// }
 
 Future<void> requestAudioPermission() async {
   Permission permission;
@@ -62,9 +39,6 @@ Future<void> requestAudioPermission() async {
     await openAppSettings();
   }
 
-  // Update internal variable
-  isInternalStoragePermissionDenied = !status.isGranted;
-  print("Permission granted? ${!isInternalStoragePermissionDenied}");
 }
 
 // Function to get Android SDK version

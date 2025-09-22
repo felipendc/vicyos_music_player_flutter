@@ -22,7 +22,6 @@ CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 late final TextEditingController searchBoxController;
 bool mainPlayerIsOpen = false;
 late bool audioPlayerWasPlaying;
-late bool isInternalStoragePermissionDenied;
 bool noDeviceMusicFolderFound = false;
 List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
