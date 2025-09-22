@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_tablet/functions/folders.and.files.related.dart';
-import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';

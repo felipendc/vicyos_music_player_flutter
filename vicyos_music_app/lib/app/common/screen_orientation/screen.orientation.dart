@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 
 // Set the preferred orientations to portrait mode when this screen is built
 // Widget build(BuildContext context) {put it here...}

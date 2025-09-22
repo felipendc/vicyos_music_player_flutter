@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
@@ -7,32 +7,12 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/permission.handler.dart';
 // String internalStorage = '/storage/emulated/0/Music/';
 
-Future<void> requestStoragePermission() async {
-  Permission.storage.status.then((status) {
-    print("Showing: $status");
-  });
-
-  late bool isPermissionDenied;
-  var status = await Permission.storage.status;
-
-  if (!status.isGranted) {
-    await Permission.storage.request();
-    status = await Permission.storage.status;
-  }
-
-  if (status.isGranted) {
-    isPermissionDenied = false;
-  } else {
-    isPermissionDenied = true;
-  }
-
-  isInternalStoragePermissionDenied = isPermissionDenied;
-}
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
-  await requestStoragePermission();
+  await requestAudioPermission();
 
   final audioExtensions = {'.mp3', '.m4a', '.ogg', '.wav', '.aac', '.midi'};
   final foldersWithAudio = <String>{};
