@@ -33,7 +33,7 @@ class SongsListScreen extends StatelessWidget {
         // Set the preferred orientations to portrait mode when this screen is built
         getScreenOrientation();
 
-        print("REBUILD LIST SONG: $folderPath");
+        debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             // appBar: songsListAppBar(folderPath: folderPath, context: context),
@@ -372,11 +372,11 @@ class SongsListScreen extends StatelessWidget {
                                               () {
                                             if (context.mounted) {
                                               if (!Navigator.canPop(context)) {
-                                                print("No other screen is open.");
+                                                debugPrint("No other screen is open.");
                                               } else {
                                                 hideButtonSheetStreamNotifier(
                                                     false);
-                                                print(
+                                                debugPrint(
                                                     " There are other open screens .");
                                               }
                                             }
@@ -398,9 +398,9 @@ class SongsListScreen extends StatelessWidget {
                                     } else {
                                       setFolderAsPlaylist(
                                           folderSongList, index);
-                                      print(
+                                      debugPrint(
                                           "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                                      print(
+                                      debugPrint(
                                           'Tapped on ${(folderSongList[index].path)}');
                                     }
                                   },

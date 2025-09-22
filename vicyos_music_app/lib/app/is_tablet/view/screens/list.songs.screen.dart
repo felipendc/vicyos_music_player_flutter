@@ -30,7 +30,7 @@ class SongsListScreen extends StatelessWidget {
         // Filter all songs from folderPath and add them to folderSongList
         filterSongsOnlyToList(folderPath: folderPath);
 
-        print("REBUILD LIST SONG: $folderPath");
+        debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             // appBar: songsListAppBar(folderPath: folderPath, context: context),
@@ -359,10 +359,10 @@ class SongsListScreen extends StatelessWidget {
                                               () {
                                             if (context.mounted) {
                                               if (!Navigator.canPop(context)) {
-                                                print("No other screen is open.");
+                                                debugPrint("No other screen is open.");
                                               } else {
 
-                                                print(
+                                                debugPrint(
                                                     " There are other open screens .");
                                               }
                                             }
@@ -384,9 +384,9 @@ class SongsListScreen extends StatelessWidget {
                                     } else {
                                       setFolderAsPlaylist(
                                           folderSongList, index);
-                                      print(
+                                      debugPrint(
                                           "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                                      print(
+                                      debugPrint(
                                           'Tapped on ${(folderSongList[index].path)}');
                                     }
                                   },

@@ -416,42 +416,42 @@ void stopSong() {
 }
 
 Future<void> nextSong() async {
-  print('LIST TOTAL ITEM.${ audioPlayer.audioSources.length}');
+  debugPrint('LIST TOTAL ITEM.${ audioPlayer.audioSources.length}');
 
   await audioPlayer.seekToNext();
   if (currentIndex > 0) {
     firstSongIndex = false;
-    print('INDEX IS GRATER THAN 0!');
+    debugPrint('INDEX IS GRATER THAN 0!');
   }
 
   if (currentIndex ==  audioPlayer.audioSources.length - 1) {
     lastSongIndex = true;
-    print('INDEX IS THE LAST');
+    debugPrint('INDEX IS THE LAST');
   } else {
     lastSongIndex = false;
   }
 }
 
 Future<void> previousSong() async {
-  print('LIST TOTAL ITEM.${ audioPlayer.audioSources.length}');
+  debugPrint('LIST TOTAL ITEM.${ audioPlayer.audioSources.length}');
   if (currentIndex == 0) {
     firstSongIndex = true;
-    print('INDEX IS EQUAL TO 0!');
+    debugPrint('INDEX IS EQUAL TO 0!');
   }
 
   if (currentIndex > 0) {
     firstSongIndex = false;
-    print('INDEX IS GRATER THAN 0!');
+    debugPrint('INDEX IS GRATER THAN 0!');
   }
 
   await audioPlayer.seekToPrevious();
 
   if (currentIndex ==  audioPlayer.audioSources.length - 2) {
     penultimateSongIndex = true;
-    print('INDEX IS THE PENULTIMATE ####');
+    debugPrint('INDEX IS THE PENULTIMATE ####');
   } else {
     penultimateSongIndex = false;
-    print('INDEX IS NO LONGER THE PENULTIMATE ####');
+    debugPrint('INDEX IS NO LONGER THE PENULTIMATE ####');
   }
 }
 
@@ -473,7 +473,7 @@ void repeatMode(BuildContext context) {
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_one.png";
-    print("Repeat: One");
+    debugPrint("Repeat: One");
     showLoopMode(context, "Repeating one");
   } else if (currentLoopMode == CurrentLoopMode.one) {
     currentLoopMode = CurrentLoopMode.shuffle;
@@ -481,7 +481,7 @@ void repeatMode(BuildContext context) {
     audioPlayer.setLoopMode(LoopMode.all);
     audioPlayer.setShuffleModeEnabled(true);
     currentLoopModeIcon = "assets/img/shuffle_1.png";
-    print("Repeat: Shuffle");
+    debugPrint("Repeat: Shuffle");
     showLoopMode(context, "Playback is shuffled");
   } else if (currentLoopMode == CurrentLoopMode.shuffle) {
     currentLoopMode = CurrentLoopMode.off;
@@ -489,14 +489,14 @@ void repeatMode(BuildContext context) {
     audioPlayer.setShuffleModeEnabled(false);
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_none.png";
-    print("Repeat: Off");
+    debugPrint("Repeat: Off");
     showLoopMode(context, "Repeating off");
   } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_all.png";
-    print("Repeat: All");
+    debugPrint("Repeat: All");
     showLoopMode(context, "Repeating all");
   }
 }
@@ -596,7 +596,7 @@ Future<void> pickFolder() async {
         .map((file) => file.path)
         .toList();
 
-    print(folderFileNames);
+    debugPrint(folderFileNames.toString());
     if (audioPlayer.audioSources.isEmpty) {
       for (String filePath in folderFileNames) {
         // Try to extract metadata from the local file
@@ -611,7 +611,7 @@ Future<void> pickFolder() async {
         // try {
         //   metadata = await MetadataRetriever.fromFile(audioFile);
         // } catch (e) {
-        //   print('Failed to extract metadata: $e');
+        //   debugPrint('Failed to extract metadata: $e');
         // }
 
         final mediaItem = MediaItem(
@@ -655,7 +655,7 @@ Future<void> pickFolder() async {
         // try {
         //   metadata = await MetadataRetriever.fromFile(audioFile);
         // } catch (e) {
-        //   print('Failed to extract metadata: $e');
+        //   debugPrint('Failed to extract metadata: $e');
         // }
 
         final mediaItem = MediaItem(
@@ -678,7 +678,7 @@ Future<void> pickFolder() async {
       }
     }
   } else {
-    print("No folder has been selected");
+    debugPrint("No folder has been selected");
   }
 }
 
@@ -698,7 +698,7 @@ Future<void> pickAndPlayAudio() async {
 
     if (audioPlayer.audioSources.isEmpty) {
       for (String filePath in selectedSongs) {
-        print('Processing file: $filePath');
+        debugPrint('Processing file: $filePath');
 
         // Try to extract metadata from the local file
         File audioFile = File(filePath);
@@ -712,7 +712,7 @@ Future<void> pickAndPlayAudio() async {
         // try {
         //   metadata = await MetadataRetriever.fromFile(audioFile);
         // } catch (e) {
-        //   print('Failed to extract metadata: $e');
+        //   debugPrint('Failed to extract metadata: $e');
         // }
 
         final mediaItem = MediaItem(
@@ -751,7 +751,7 @@ Future<void> pickAndPlayAudio() async {
         // try {
         //   metadata = await MetadataRetriever.fromFile(audioFile);
         // } catch (e) {
-        //   print('Failed to extract metadata: $e');
+        //   debugPrint('Failed to extract metadata: $e');
         // }
 
         final mediaItem = MediaItem(
@@ -770,7 +770,7 @@ Future<void> pickAndPlayAudio() async {
             tag: mediaItem,
           ),);
         rebuildPlaylistCurrentLengthStreamNotifier();
-        print('Processing file: $filePath');
+        debugPrint('Processing file: $filePath');
       }
     }
   }
@@ -792,7 +792,7 @@ Future<void> setFolderAsPlaylist(dynamic currentFolder, int currentIndex) async 
     // try {
     //   metadata = await MetadataRetriever.fromFile(audioFile);
     // } catch (e) {
-    //   print('Failed to extract metadata: $e');
+    //   debugPrint('Failed to extract metadata: $e');
     // }
 
     final mediaItem = MediaItem(
@@ -840,7 +840,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
       // try {
       //   metadata = await MetadataRetriever.fromFile(audioFile);
       // } catch (e) {
-      //   print('Failed to extract metadata: $e');
+      //   debugPrint('Failed to extract metadata: $e');
       // }
 
       final mediaItem = MediaItem(
@@ -885,7 +885,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
       // try {
       //   metadata = await MetadataRetriever.fromFile(audioFile);
       // } catch (e) {
-      //   print('Failed to extract metadata: $e');
+      //   debugPrint('Failed to extract metadata: $e');
       // }
 
       final mediaItem = MediaItem(
@@ -920,7 +920,7 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
     // try {
     //   metadata = await MetadataRetriever.fromFile(audioFile);
     // } catch (e) {
-    //   print('Failed to extract metadata: $e');
+    //   debugPrint('Failed to extract metadata: $e');
     // }
 
     final mediaItem = MediaItem(
@@ -957,7 +957,7 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
     // try {
     //   metadata = await MetadataRetriever.fromFile(audioFile);
     // } catch (e) {
-    //   print('Failed to extract metadata: $e');
+    //   debugPrint('Failed to extract metadata: $e');
     // }
 
     final mediaItem = MediaItem(
@@ -997,7 +997,7 @@ void addToPlayNext(String playNextFilePath) {
   // try {
   //   metadata = await MetadataRetriever.fromFile(audioFile);
   // } catch (e) {
-  //   print('Failed to extract metadata: $e');
+  //   debugPrint('Failed to extract metadata: $e');
   // }
 
   final mediaItem = MediaItem(

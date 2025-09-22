@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 // Set the preferred orientations to portrait mode when this screen is built
@@ -15,10 +16,10 @@ void getScreenOrientation() {
 
   if (deviceType == DeviceType.tablet){
     screenOrientationLandscape();
-    print("Device type: Tablet");
+    debugPrint("Device type: Tablet");
   } else {
     screenOrientationPortrait();
-    print("Device type: Smartphone");
+    debugPrint("Device type: Smartphone");
   }
 }
 

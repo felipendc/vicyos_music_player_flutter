@@ -45,7 +45,7 @@ class SearchScreen extends StatelessWidget {
       //  foundSongs and foundFilesPaths lists
       debounce = Timer(Duration(milliseconds: 800), () async {
         foundSongs.clear();
-        print("🔎 Searching for: '$trimmedText'");
+        debugPrint("🔎 Searching for: '$trimmedText'");
 
         isSearchTypingStreamNotifier(true);
 
@@ -281,10 +281,10 @@ class SearchScreen extends StatelessWidget {
                                         () {
                                       if (context.mounted) {
                                         if (!Navigator.canPop(context)) {
-                                          print("No other screen is open.");
+                                          debugPrint("No other screen is open.");
                                         } else {
                                           hideButtonSheetStreamNotifier(false);
-                                          print(" There are other open screens .");
+                                          debugPrint(" There are other open screens .");
                                         }
                                       }
                                     },
@@ -302,9 +302,9 @@ class SearchScreen extends StatelessWidget {
                             ),
                             onTap: () {
                               setFolderAsPlaylist(foundSongs, index);
-                              print(
+                              debugPrint(
                                   "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                              print('Tapped on ${(foundSongs[index].path)}');
+                              debugPrint('Tapped on ${(foundSongs[index].path)}');
                             },
                           ),
                         ),

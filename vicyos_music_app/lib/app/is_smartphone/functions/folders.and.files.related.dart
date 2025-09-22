@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
@@ -89,7 +88,7 @@ Future<void> listMusicFolders() async {
           await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
     } else if (Platform.isWindows) {
       audioFolders = await getFoldersWithAudioFiles(await getMusicFolderPath());
-      print(audioFolders);
+      debugPrint(audioFolders.toString());
     }
 
     return audioFolders;
@@ -99,7 +98,7 @@ Future<void> listMusicFolders() async {
     folderPath = folder;
     totalSongs = folderLength(folder);
     musicFolderPaths.add(FolderSources(path: folderPath, songs: totalSongs));
-    print(musicFolderPaths
+    debugPrint(musicFolderPaths
         .map((index) => index)
         .map((index) => index.path)
         .toString()

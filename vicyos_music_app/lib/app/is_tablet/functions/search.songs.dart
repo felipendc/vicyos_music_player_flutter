@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:vicyos_music/app/is_tablet/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
@@ -16,7 +17,7 @@ Future<void> searchFilesByName(
   String searchQuery =
       searchTerm.trim().toLowerCase(); // Normalize search query
 
-  print("🔎 Searching for: '$searchQuery'");
+  debugPrint("🔎 Searching for: '$searchQuery'");
 
   for (String folder in folders.map((folder) => folder.path).toList()) {
     Directory dir = Directory(folder);
@@ -27,7 +28,7 @@ Future<void> searchFilesByName(
       for (var file in files) {
         if (file is File) {
           String fileName = file.uri.pathSegments.last.toLowerCase();
-          print("📂 File found: $fileName");
+          debugPrint("📂 File found: $fileName");
 
           // Check if the file name contains the search term
           if (fileName.contains(searchQuery)) {
@@ -35,7 +36,7 @@ Future<void> searchFilesByName(
             if (!foundFilesPaths.contains(file.path)) {
               foundFilesPaths
                   .add(file.path); // Avoid duplicates based on the full path
-              print("✅ Match found: $fileName");
+              debugPrint("✅ Match found: $fileName");
 
               try {
                 foundSongs.add(
@@ -47,23 +48,23 @@ Future<void> searchFilesByName(
                   ),
                 );
               } catch (e) {
-                print("❌ Error processing file: ${file.path} | Error: $e");
+                debugPrint("❌ Error processing file: ${file.path} | Error: $e");
               }
             }
           }
         }
       }
     } else {
-      print("⚠ Directory not found: $folder");
+      debugPrint("⚠ Directory not found: $folder");
     }
   }
 
   if (foundSongs.isEmpty) {
     isSearchingSongsStreamNotifier("nothing_found");
-    print("🚫 No matching files found.");
+    debugPrint("🚫 No matching files found.");
   } else {
     isSearchingSongsStreamNotifier("finished");
   }
 
-  print("🎵 Final found files: ${foundSongs.map((s) => s.name).toList()}");
+  debugPrint("🎵 Final found files: ${foundSongs.map((s) => s.name).toList()}");
 }

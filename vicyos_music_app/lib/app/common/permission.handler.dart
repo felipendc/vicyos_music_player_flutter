@@ -26,7 +26,7 @@ Future<void> requestAudioPermission() async {
 
   // Check current permission status
   var status = await permission.status;
-  print("Current permission status: $status");
+  debugPrint("Current permission status: $status");
 
   // Request permission if not granted
   if (!status.isGranted) {
@@ -35,7 +35,7 @@ Future<void> requestAudioPermission() async {
 
   // If permanently denied, open the app permission settings
   if (status.isPermanentlyDenied) {
-    print("Permission permanently denied, opening app settings...");
+    debugPrint("Permission permanently denied, opening app settings...");
     await openAppSettings();
   }
 
@@ -49,7 +49,7 @@ Future<int> _getAndroidSdkInt() async {
       return int.tryParse(result.stdout.toString().trim()) ?? 0;
     }
   } catch (e) {
-    print("Error getting Android SDK: $e");
+    debugPrint("Error getting Android SDK: $e");
   }
   return 0;
 }
