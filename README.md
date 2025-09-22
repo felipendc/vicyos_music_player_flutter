@@ -8,7 +8,7 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/1.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
+
 
 
  <br />
