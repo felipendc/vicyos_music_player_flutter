@@ -21,16 +21,15 @@ class SongPreviewBottomSheet extends StatelessWidget {
         top: Radius.circular(25),
         bottom: Radius.circular(0),
       ),
-      child: Scaffold(
-        appBar: previewPlayerViewAppBar(context, songPath),
-        body: Container(
-          color: TColor.bg,
-          height: media.height * 0.6, // Adjust the height
-          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-          child: Column(
+      child: Container(
+        color: TColor.bg,
+        height: media.height * 0.62, // Adjust the height
+        child: Scaffold(
+          appBar: previewPlayerViewAppBar(context, songPath),
+          body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 1),
+              const SizedBox(height: 10),
               Stack(
                 children: [
                   ClipRRect(

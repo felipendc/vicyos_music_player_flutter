@@ -174,6 +174,7 @@ class SearchScreen extends StatelessWidget {
                             hideButtonSheetStreamNotifier(true);
 
                             final result = await showModalBottomSheet<String>(
+                              isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (BuildContext context) {
