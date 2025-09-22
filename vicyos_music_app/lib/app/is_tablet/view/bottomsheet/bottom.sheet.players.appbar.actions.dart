@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/is_tablet/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'bottomsheet.delete.song.confirmation.dart';

@@ -5,7 +5,7 @@ import 'package:vicyos_music/app/is_smartphone/view/screens/screen.list.song.fol
 import 'package:vicyos_music/app/is_smartphone/widgets/bottom.player.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/screen.list.song.folders.dart';
-import '../../is_tablet/functions/folders.and.files.related.dart';
+import '../files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 ValueNotifier<String> activeSide = ValueNotifier("left"); // "left" or "right"

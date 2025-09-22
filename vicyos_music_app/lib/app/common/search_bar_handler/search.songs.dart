@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:vicyos_music/app/is_tablet/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';

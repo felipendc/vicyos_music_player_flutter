@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/screen.list.song.folders.dart';
 import '../../widgets/bottom.player.dart';
