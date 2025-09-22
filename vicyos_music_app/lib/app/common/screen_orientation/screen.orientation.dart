@@ -1,7 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 
 // Set the preferred orientations to portrait mode when this screen is built
 // Widget build(BuildContext context) {put it here...}
+
+enum DeviceType {
+  smartphone,
+  tablet,
+}
+
+late DeviceType deviceType;
+
+
+void getScreenOrientation() {
+
+  if (deviceType == DeviceType.tablet){
+    screenOrientationLandscape();
+    print("Device type: Tablet");
+  } else {
+    screenOrientationPortrait();
+    print("Device type: Smartphone");
+  }
+}
 
 void screenOrientationPortrait() {
   SystemChrome.setPreferredOrientations([
@@ -13,18 +34,6 @@ void screenOrientationPortrait() {
 void screenOrientationLandscape() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]);
-}
-
-void screenOrientationLandscapeLeft() {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-  ]);
-}
-
-void screenOrientationLandscapeRight() {
-  SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
   ]);
 }

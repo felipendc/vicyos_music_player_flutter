@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_smartphone/functions/folders.and.files.related.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
-
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import '../../widgets/music_visualizer.dart';
 
 class SongsListScreen extends StatelessWidget {
@@ -18,7 +17,7 @@ class SongsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    screenOrientationPortrait();
+    getScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
 
@@ -32,7 +31,7 @@ class SongsListScreen extends StatelessWidget {
         filterSongsOnlyToList(folderPath: folderPath);
 
         // Set the preferred orientations to portrait mode when this screen is built
-        screenOrientationPortrait();
+        getScreenOrientation();
 
         print("REBUILD LIST SONG: $folderPath");
         return SafeArea(
@@ -296,38 +295,38 @@ class SongsListScreen extends StatelessWidget {
                                 child: ListTile(
                                   key: ValueKey(folderSongList[index].path),
                                   leading: (folderSongList[index].path ==
-                                          currentSongFullPath)
+                                      currentSongFullPath)
                                       ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10.0,
-                                              left: 5.0,
-                                              bottom: 10.0),
-                                          child: SizedBox(
-                                            height: 27,
-                                            width: 30,
-                                            child: MusicVisualizer(
-                                              barCount: 6,
-                                              colors: [
-                                                TColor.focus,
-                                                TColor.secondaryEnd,
-                                                TColor.focusStart,
-                                                Colors.blue[900]!,
-                                              ],
-                                              duration: const [
-                                                900,
-                                                700,
-                                                600,
-                                                800,
-                                                500
-                                              ],
-                                            ),
-                                          ),
-                                        )
+                                    padding: const EdgeInsets.only(
+                                        top: 10.0,
+                                        left: 5.0,
+                                        bottom: 10.0),
+                                    child: SizedBox(
+                                      height: 27,
+                                      width: 30,
+                                      child: MusicVisualizer(
+                                        barCount: 6,
+                                        colors: [
+                                          TColor.focus,
+                                          TColor.secondaryEnd,
+                                          TColor.focusStart,
+                                          Colors.blue[900]!,
+                                        ],
+                                        duration: const [
+                                          900,
+                                          700,
+                                          600,
+                                          800,
+                                          500
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                       : Icon(
-                                          Icons.music_note_rounded,
-                                          color: TColor.focus,
-                                          size: 36,
-                                        ),
+                                    Icons.music_note_rounded,
+                                    color: TColor.focus,
+                                    size: 36,
+                                  ),
                                   title: Text(
                                     folderSongList[index].name,
                                     textAlign: TextAlign.start,
@@ -413,7 +412,8 @@ class SongsListScreen extends StatelessWidget {
                           },
                         ),
                       );
-                    }),
+                    },
+                ),
               ],
             ),
           ),

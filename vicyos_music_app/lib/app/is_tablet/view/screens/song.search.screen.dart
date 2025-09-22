@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
-import 'package:vicyos_music/app/is_tablet/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
-
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import '../../functions/search.songs.dart';
 import '../../widgets/music_visualizer.dart';
 import '../bottomsheet/bottom.sheet.song.info.more.dart';
@@ -17,7 +17,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
-    screenOrientationLandscape();
+    getScreenOrientation();
 
     TextEditingController searchBoxController = TextEditingController();
     FocusNode searchBarKeyboardFocusNode = FocusNode();

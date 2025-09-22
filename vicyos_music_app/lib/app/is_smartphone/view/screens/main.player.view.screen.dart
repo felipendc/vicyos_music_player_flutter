@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -26,7 +26,7 @@ class MainPlayerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    screenOrientationPortrait();
+    getScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(

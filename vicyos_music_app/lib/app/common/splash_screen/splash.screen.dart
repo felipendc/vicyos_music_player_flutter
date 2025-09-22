@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:vicyos_music/app/is_tablet/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/navigation_animation/some.screen.navigation.animation.dart';
-import 'package:vicyos_music/app/is_tablet/view/screens/home.screen.dart';
-import '../../is_tablet/functions/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/screens/home.screen.dart';
+
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
-    screenOrientationLandscape();
+    getScreenOrientation();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 3), () {

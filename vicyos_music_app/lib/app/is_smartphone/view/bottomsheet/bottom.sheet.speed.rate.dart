@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 List<String> speedRates = [
   "2.0",

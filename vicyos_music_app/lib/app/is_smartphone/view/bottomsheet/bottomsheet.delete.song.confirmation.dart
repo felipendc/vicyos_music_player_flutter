@@ -3,8 +3,7 @@ import 'package:flutter_media_delete/flutter_media_delete.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_smartphone/functions/folders.and.files.related.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
-
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import '../../widgets/show.top.message.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {

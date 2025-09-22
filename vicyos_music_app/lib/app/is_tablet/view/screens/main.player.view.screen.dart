@@ -3,13 +3,14 @@ import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
-import 'package:vicyos_music/app/is_tablet/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -20,13 +21,13 @@ final List<Color> colors = [
 
 final List<int> duration = [900, 700, 600, 800, 500];
 
-class MainPlayerView extends StatelessWidget {
-  const MainPlayerView({super.key});
+class MainPlayerViewTablet extends StatelessWidget {
+  const MainPlayerViewTablet({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
-    screenOrientationLandscape();
+    getScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(

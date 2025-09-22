@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
 import 'package:vicyos_music/app/is_tablet/functions/folders.and.files.related.dart';
 import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
-import 'package:vicyos_music/app/is_tablet/functions/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/song.search.screen.dart';
 import '../../widgets/music_visualizer.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
-class HomePageFolderList extends StatelessWidget {
-  const HomePageFolderList({super.key});
+class HomePageFolderListTablet extends StatelessWidget {
+  const HomePageFolderListTablet({super.key});
 
   @override
   Widget build(BuildContext context)  {
 
     // Set the preferred orientations to landscape mode when this screen is built
-    screenOrientationLandscape();
+    getScreenOrientation();
 
     var media = MediaQuery.of(context).size;
 

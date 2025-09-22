@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
-
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import '../navigation_animation/main.player.navigation.animation.dart';
 
 class BottomPlayer extends StatelessWidget {

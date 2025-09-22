@@ -4,9 +4,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vicyos_music/app/is_smartphone/functions/music_player.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 // String internalStorage = '/storage/emulated/0/Music/';
 
 Future<void> requestStoragePermission() async {

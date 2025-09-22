@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
-import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart' show pickAndPlayAudio, pickFolder;
 
 class ImportFilesBottomSheet extends StatelessWidget {
   const ImportFilesBottomSheet({super.key});

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:path/path.dart';
 import 'package:vicyos_music/app/common/color_extension.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/status_bar_theme/status.bar.theme.color.matching.dart';
 import 'package:vicyos_music/app/common/splash_screen/splash.screen.dart';
 import 'package:vicyos_music/app/is_tablet/functions/music_player.dart';
@@ -21,6 +25,7 @@ void main() async {
 
 // Set the status bar and system navigation bar color to match the app theme
   systemStatusAndNavigationBarMainTheme();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -29,6 +34,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+    // Getting device type
+    isTablet(context) ? deviceType = DeviceType.tablet : deviceType = DeviceType.smartphone;
+
 
     return PopScope(
       canPop: false,
