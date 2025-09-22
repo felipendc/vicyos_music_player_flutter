@@ -853,7 +853,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
         artUri: Uri.file(notificationPlayerAlbumArt.path),
       );
 
-      await audioPlayer.addAudioSource(
+      playlist.add(
         AudioSource.uri(
           Uri.file(filePath.path),
           tag: mediaItem,
@@ -862,11 +862,16 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
       rebuildPlaylistCurrentLengthStreamNotifier();
     }
 
-    await audioPlayer.setAudioSources(
-        playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(playlist,
+      initialIndex: 0,
+      initialPosition: Duration.zero,
+      preload: true,
+    );
+
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
+    rebuildPlaylistCurrentLengthStreamNotifier();
 
   } else {
     for (AudioInfo filePath in currentFolder) {

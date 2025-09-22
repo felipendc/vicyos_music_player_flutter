@@ -207,10 +207,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           setFolderAsPlaylist(folderSongList, 0);
-
-                          getCurrentSongFullPathStreamControllerNotifier();
-                          listPlaylistFolderStreamNotifier();
-
                           showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
                         },
                       ),
