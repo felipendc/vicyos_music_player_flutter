@@ -1,0 +1,13 @@
+Replace in entire project:
+Atalho Windows/Linux: Ctrl + Shift + R
+
+Select multiple occurrences of the same string:
+Alt + J
+
+Find in file: 
+Ctrl + F
+
+Search in project:
+Ctrl + Shift + F
+
+
