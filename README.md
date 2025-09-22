@@ -199,3 +199,8 @@ This project uses the following dependencies:
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/24.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/25.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/26.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/27.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/28.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/29.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/30.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/31.png">
