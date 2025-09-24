@@ -142,7 +142,14 @@ void rebuildSongsListScreenStreamNotifier() {
 }
 
 void rebuildPlaylistCurrentLengthStreamNotifier() {
-  playlistCurrentLength = audioPlayer.audioSources.length;
+  // playlistCurrentLength = audioPlayer.audioSources.length;
+
+  // Get the current playlist index
+  audioPlayer.sequenceStream.listen((sequence) {
+     playlistCurrentLength = sequence.length;
+    print("Total de faixas na playlist: $playlistCurrentLength");
+  });
+  
   rebuildPlaylistCurrentLengthController.sink.add(null);
 }
 
@@ -313,7 +320,15 @@ void playerEventStateStreamNotifier() {
   // Get the current playlist index
   audioPlayer.playbackEventStream.listen((event) {
     currentIndex = event.currentIndex ?? 0;
+    print("Index da playlist: $currentIndex");
   });
+
+  // Get the current playlist index
+  audioPlayer.sequenceStream.listen((sequence) {
+    int totalItems = sequence.length;
+    print("Total de faixas na playlist: $totalItems");
+  });
+
 }
 
 
