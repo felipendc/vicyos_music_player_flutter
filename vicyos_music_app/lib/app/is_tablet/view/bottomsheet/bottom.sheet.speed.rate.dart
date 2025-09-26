@@ -108,83 +108,83 @@ class SpeedRateBottomSheet extends StatelessWidget {
 
             Expanded(
               child: StreamBuilder<void>(
-                  stream: rebuildSpeedRateBottomSheetStreamController.stream,
-                  builder: (context, snapshot) {
-                    return Container(
-                      color: TColor.bg,
-                      child: ListView.separated(
-                        controller: scrollController,
-                        itemCount: speedRates.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 56,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: ListTile(
-                                leading: index > speedRates.indexOf("1.0")
-                                    ? Image.asset(
-                                        "assets/img/turtle_64.png",
-                                        width: 33,
-                                        height: 33,
-                                        color: TColor.focus,
-                                      )
-                                    : index < speedRates.indexOf("1.0")
-                                        ? Image.asset(
-                                            "assets/img/rocket_launch.png",
-                                            width: 30,
-                                            height: 30,
-                                            color: TColor.focus,
-                                          )
-                                        : Image.asset(
-                                            "assets/img/speed-fast.png",
-                                            width: 35,
-                                            height: 35,
-                                            color: TColor.focus,
-                                          ),
-                                title: (speedRates[index] == "1.0")
-                                    ? Text("${speedRates[index]}x  -  Default",
-                                        style: TextStyle(
-                                          color: TColor.primaryText80,
-                                          fontSize: 19,
-                                        ))
-                                    : Text(
-                                        "${speedRates[index]}x",
-                                        style: TextStyle(
-                                          color: TColor.primaryText80,
-                                          fontSize: 19,
+                stream: rebuildSpeedRateBottomSheetStreamController.stream,
+                builder: (context, snapshot) {
+                  return Container(
+                    color: TColor.bg,
+                    child: ListView.separated(
+                      controller: scrollController,
+                      itemCount: speedRates.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 56,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: ListTile(
+                              leading: index > speedRates.indexOf("1.0")
+                                  ? Image.asset(
+                                      "assets/img/turtle_64.png",
+                                      width: 33,
+                                      height: 33,
+                                      color: TColor.focus,
+                                    )
+                                  : index < speedRates.indexOf("1.0")
+                                      ? Image.asset(
+                                          "assets/img/rocket_launch.png",
+                                          width: 30,
+                                          height: 30,
+                                          color: TColor.focus,
+                                        )
+                                      : Image.asset(
+                                          "assets/img/speed-fast.png",
+                                          width: 35,
+                                          height: 35,
+                                          color: TColor.focus,
                                         ),
+                              title: (speedRates[index] == "1.0")
+                                  ? Text("${speedRates[index]}x  -  Default",
+                                      style: TextStyle(
+                                        color: TColor.primaryText80,
+                                        fontSize: 19,
+                                      ))
+                                  : Text(
+                                      "${speedRates[index]}x",
+                                      style: TextStyle(
+                                        color: TColor.primaryText80,
+                                        fontSize: 19,
                                       ),
-                                onTap: () {
-                                  audioPlayer
-                                      .setSpeed(speedRatesToDouble[index]);
-                                  rebuildSpeedRateBottomSheetStreamNotifier();
-                                },
-                                trailing: (audioPlayer.speed ==
-                                        speedRatesToDouble[index])
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
-                                        child: Icon(
-                                          Icons.check,
-                                          color: TColor.green,
-                                        ),
-                                      )
-                                    : null,
-                              ),
+                                    ),
+                              onTap: () {
+                                audioPlayer.setSpeed(speedRatesToDouble[index]);
+                                rebuildSpeedRateBottomSheetStreamNotifier();
+                              },
+                              trailing: (audioPlayer.speed ==
+                                      speedRatesToDouble[index])
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: Icon(
+                                        Icons.check,
+                                        color: TColor.green,
+                                      ),
+                                    )
+                                  : null,
                             ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider(
-                            color: Colors.white12,
-                            indent: 70,
-                            endIndent: 25,
-                            height: 1,
-                          );
-                        },
-                      ),
-                    );
-                  }),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          color: Colors.white12,
+                          indent: 70,
+                          endIndent: 25,
+                          height: 1,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

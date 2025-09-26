@@ -53,15 +53,16 @@ class BottomPlayer extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.circular(media.width * 0.7),
                                   child: StreamBuilder<void>(
-                                      stream: null,
-                                      builder: (context, snapshot) {
-                                        return Image.asset(
-                                          "assets/img/lofi-woman-album-cover-art_10.png",
-                                          width: media.width * 0.15,
-                                          height: media.width * 0.15,
-                                          fit: BoxFit.cover,
-                                        );
-                                      }),
+                                    stream: null,
+                                    builder: (context, snapshot) {
+                                      return Image.asset(
+                                        "assets/img/lofi-woman-album-cover-art_10.png",
+                                        width: media.width * 0.15,
+                                        height: media.width * 0.15,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 StreamBuilder<Duration>(
                                   stream: audioPlayer.positionStream,

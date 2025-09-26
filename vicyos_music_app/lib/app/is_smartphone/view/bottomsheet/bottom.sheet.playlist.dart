@@ -80,7 +80,6 @@ class PlaylistBottomSheet extends StatelessWidget {
                   onPressed: () {
                     // Clean playlist and rebuild the entire screen to clean the listview
                     cleanPlaylist();
-                    rebuildPlaylistCurrentLengthStreamNotifier();
                   },
                   backgroundColor: TColor.darkGray,
                 ),
@@ -88,128 +87,133 @@ class PlaylistBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             StreamBuilder<void>(
-                stream: rebuildPlaylistCurrentLengthController.stream,
-                builder: (context, snapshot) {
-                  return Expanded(
-                    child: ReorderableListView.builder(
-                      scrollController: scrollController,
-                      itemCount: audioPlayer.audioSources.length,
-                      onReorder: onReorder,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 72,
-                          color: TColor.bg,
-                          key: ValueKey(
-                            '${songFullPath(index: index)}-$index',
-                          ),
-                          child: Column(
-                            children: [
-                              Material(
-                                color: Colors.transparent,
-                                child: StreamBuilder<PlaybackEvent>(
-                                  stream: audioPlayer.playbackEventStream,
-                                  builder: (context, snapshot) {
-                                    return ListTile(
-                                      leading: currentIndex == index
-                                          ? SizedBox(
-                                              height: 30,
-                                              width: 38,
-                                              child: MusicVisualizer(
-                                                barCount: 6,
-                                                colors: [
-                                                  TColor.focus,
-                                                  TColor.secondaryEnd,
-                                                  TColor.focusStart,
-                                                  Colors.blue[900]!,
-                                                ],
-                                                duration: const [
-                                                  900,
-                                                  700,
-                                                  600,
-                                                  800,
-                                                  500
-                                                ],
-                                              ),
-                                            )
-                                          : Icon(
-                                              Icons.play_circle_filled_rounded,
-                                              color: TColor.focus,
-                                              size: 28,
+              stream: rebuildPlaylistCurrentLengthController.stream,
+              builder: (context, snapshot) {
+                return Expanded(
+                  child: ReorderableListView.builder(
+                    scrollController: scrollController,
+                    itemCount: audioPlayer.audioSources.length,
+                    onReorder: onReorder,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 72,
+                        color: TColor.bg,
+                        key: ValueKey(
+                          '${songFullPath(index: index)}-$index',
+                        ),
+                        child: Column(
+                          children: [
+                            Material(
+                              color: Colors.transparent,
+                              child: StreamBuilder<PlaybackEvent>(
+                                stream: audioPlayer.playbackEventStream,
+                                builder: (context, snapshot) {
+                                  return ListTile(
+                                    leading: currentIndex == index
+                                        ? SizedBox(
+                                            height: 30,
+                                            width: 38,
+                                            child: MusicVisualizer(
+                                              barCount: 6,
+                                              colors: [
+                                                TColor.focus,
+                                                TColor.secondaryEnd,
+                                                TColor.focusStart,
+                                                Colors.blue[900]!,
+                                              ],
+                                              duration: const [
+                                                900,
+                                                700,
+                                                600,
+                                                800,
+                                                500
+                                              ],
                                             ),
-                                      title: Text(
-                                        songName(
-                                          songFullPath(index: index),
-                                        ),
-                                        textAlign: TextAlign.start,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: TColor.primaryText,
+                                          )
+                                        : Icon(
+                                            Icons.play_circle_filled_rounded,
+                                            color: TColor.focus,
+                                            size: 28,
+                                          ),
+                                    title: Text(
+                                      songName(
+                                        songFullPath(index: index),
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: TColor.primaryText,
+                                        fontFamily: "Circular Std",
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
+                                      style: const TextStyle(
                                           fontFamily: "Circular Std",
-                                          fontSize: 17,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
-                                        style: const TextStyle(
-                                            fontFamily: "Circular Std",
-                                            fontSize: 15,
-                                            color: Colors.white70),
-                                      ),
-                                      trailing: IconButton(
-                                        splashRadius: 26,
-                                        iconSize: 26,
-                                        icon: const Icon(
-                                            Icons.delete_forever_rounded),
-                                        color: TColor.focusSecondary,
-                                        onPressed: () {
-                                          showFileDeletedMessage(
-                                              context,
-                                              songName(
-                                                  songFullPath(index: index)),
-                                              "Has been removed from the playlist");
+                                          fontSize: 15,
+                                          color: Colors.white70),
+                                    ),
+                                    trailing: IconButton(
+                                      splashRadius: 26,
+                                      iconSize: 26,
+                                      icon: const Icon(
+                                          Icons.delete_forever_rounded),
+                                      color: TColor.focusSecondary,
+                                      onPressed: () {
+                                        showFileDeletedMessage(
+                                            context,
+                                            songName(
+                                              songFullPath(index: index),
+                                            ),
+                                            "Has been removed from the playlist");
+                                        if (playlistCurrentLength == 1) {
+                                          cleanPlaylist();
+                                        } else {
                                           audioPlayer
                                               .removeAudioSourceAt(index);
                                           rebuildPlaylistCurrentLengthStreamNotifier();
-
                                           if (currentIndex == index) {
                                             preLoadSongName();
                                           }
                                           rebuildPlaylistCurrentLengthStreamNotifier();
-                                        },
-                                      ),
-                                      onTap: () async {
-                                        if (currentIndex == index) {
-                                          if (songIsPlaying) {
-                                            audioPlayer.pause();
-                                            songIsPlaying = false;
-                                          } else {
-                                            audioPlayer.play();
-                                            songIsPlaying = true;
-                                          }
-                                        } else {
-                                          audioPlayer.setAudioSources(
-                                              audioPlayer.audioSources,
-                                              initialIndex: index,
-                                              preload: false);
-
-                                          audioPlayer.play();
-                                          rebuildPlaylistCurrentLengthStreamNotifier();
-
-                                          songIsPlaying = true;
                                         }
                                       },
-                                    );
-                                  },
-                                ),
+                                    ),
+                                    onTap: () async {
+                                      if (currentIndex == index) {
+                                        if (songIsPlaying) {
+                                          audioPlayer.pause();
+                                          songIsPlaying = false;
+                                        } else {
+                                          audioPlayer.play();
+                                          songIsPlaying = true;
+                                        }
+                                      } else {
+                                        audioPlayer.setAudioSources(
+                                            audioPlayer.audioSources,
+                                            initialIndex: index,
+                                            preload: false);
+
+                                        audioPlayer.play();
+                                        rebuildPlaylistCurrentLengthStreamNotifier();
+
+                                        songIsPlaying = true;
+                                      }
+                                    },
+                                  );
+                                },
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

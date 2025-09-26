@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
   final String songPath;
@@ -35,15 +35,16 @@ class SongPreviewBottomSheet extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(media.width * 0.5),
                     child: StreamBuilder<void>(
-                        stream: null,
-                        builder: (context, snapshot) {
-                          return Image.asset(
-                            "assets/img/lofi-woman-album-cover-art_10.png",
-                            width: media.width * 0.42,
-                            height: media.width * 0.42,
-                            fit: BoxFit.cover,
-                          );
-                        }),
+                      stream: null,
+                      builder: (context, snapshot) {
+                        return Image.asset(
+                          "assets/img/lofi-woman-album-cover-art_10.png",
+                          width: media.width * 0.42,
+                          height: media.width * 0.42,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(media.width * 0.5),

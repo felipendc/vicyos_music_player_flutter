@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
   final String songPath;
@@ -23,7 +23,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height:  media.height * 0.76, // Adjust the height
+        height: media.height * 0.76, // Adjust the height
         child: Scaffold(
           appBar: previewPlayerViewAppBar(context, songPath),
           body: Container(
@@ -39,15 +39,16 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(media.width * 0.2),
                       child: StreamBuilder<void>(
-                          stream: null,
-                          builder: (context, snapshot) {
-                            return Image.asset(
-                              "assets/img/lofi-woman-album-cover-art_10.png",
-                              width: media.width * 0.15,
-                              height: media.width * 0.15,
-                              fit: BoxFit.cover,
-                            );
-                          }),
+                        stream: null,
+                        builder: (context, snapshot) {
+                          return Image.asset(
+                            "assets/img/lofi-woman-album-cover-art_10.png",
+                            width: media.width * 0.15,
+                            height: media.width * 0.15,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(media.width * 0.2),
@@ -137,7 +138,8 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     ),
                     Text(
                       " | ",
-                      style: TextStyle(color: TColor.secondaryText, fontSize: 15),
+                      style:
+                          TextStyle(color: TColor.secondaryText, fontSize: 15),
                     ),
                     StreamBuilder<Duration?>(
                       stream: audioPlayerPreview.onDurationChanged,
@@ -222,7 +224,8 @@ class SongPreviewBottomSheet extends StatelessWidget {
                         final playerState = snapshot.data;
                         if (playerState == audio_players.PlayerState.stopped ||
                             playerState == audio_players.PlayerState.paused ||
-                            playerState == audio_players.PlayerState.completed ||
+                            playerState ==
+                                audio_players.PlayerState.completed ||
                             playerState == null) {
                           return SizedBox(
                             width: 62,

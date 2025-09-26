@@ -112,28 +112,29 @@ class SearchScreen extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
             suffixIcon: StreamBuilder<bool>(
-                stream: isSearchTypingStreamController.stream,
-                builder: (context, snapshot) {
-                  bool isNowTyping = snapshot.data ?? false;
-                  if (isNowTyping == true) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          right: 8), // Small space for the icon
-                      child: IconButton(
-                        icon: const Icon(Icons.close, color: Colors.white70),
-                        onPressed:
-                            clearSearch, // Clears the text when "X" is pressed
-                      ),
-                    );
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          right: 8), // Small space for the icon
-                      child: const Icon(Icons.search,
-                          color: Colors.white70), // Search icon when empty
-                    );
-                  }
-                }),
+              stream: isSearchTypingStreamController.stream,
+              builder: (context, snapshot) {
+                bool isNowTyping = snapshot.data ?? false;
+                if (isNowTyping == true) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        right: 8), // Small space for the icon
+                    child: IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white70),
+                      onPressed:
+                          clearSearch, // Clears the text when "X" is pressed
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        right: 8), // Small space for the icon
+                    child: const Icon(Icons.search,
+                        color: Colors.white70), // Search icon when empty
+                  );
+                }
+              },
+            ),
           ),
         ),
       ),
