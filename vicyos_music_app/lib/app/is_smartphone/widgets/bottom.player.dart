@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import '../navigation_animation/main.player.navigation.animation.dart';
 
 class BottomPlayer extends StatelessWidget {
@@ -192,58 +193,58 @@ class BottomPlayer extends StatelessWidget {
                                               child: Row(
                                                 children: [
                                                   StreamBuilder(
-                                                      stream:
-                                                          clearCurrentPlaylistStreamController
-                                                              .stream,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return StreamBuilder<
-                                                                PlaybackEvent>(
-                                                            stream: audioPlayer
-                                                                .playbackEventStream,
-                                                            builder: (context,
-                                                                snapshot) {
-                                                              // Check if snapshot has data
-                                                              if (!snapshot
-                                                                  .hasData) {
-                                                                return Text(
-                                                                  '0',
-                                                                  style: TextStyle(
-                                                                      color: TColor
-                                                                          .secondaryText,
-                                                                      fontSize:
-                                                                          15),
-                                                                );
-                                                              }
-                                                              final eventState =
-                                                                  snapshot
-                                                                      .data!;
-                                                              final index =
-                                                                  eventState
-                                                                      .currentIndex;
-                                                              final playerState =
-                                                                  audioPlayer
-                                                                      .processingState;
+                                                    stream:
+                                                        clearCurrentPlaylistStreamController
+                                                            .stream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return StreamBuilder<
+                                                          PlaybackEvent>(
+                                                        stream: audioPlayer
+                                                            .playbackEventStream,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Check if snapshot has data
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Text(
+                                                              '0',
+                                                              style: TextStyle(
+                                                                  color: TColor
+                                                                      .secondaryText,
+                                                                  fontSize: 15),
+                                                            );
+                                                          }
+                                                          final eventState =
+                                                              snapshot.data!;
+                                                          final index =
+                                                              eventState
+                                                                  .currentIndex;
+                                                          final playerState =
+                                                              audioPlayer
+                                                                  .processingState;
 
-                                                              return Text(
-                                                                (playerState ==
-                                                                            ProcessingState
-                                                                                .idle ||
-                                                                    audioPlayer.audioSources
-                                                                            .isEmpty)
-                                                                    ? '0'
-                                                                    : "${index! + 1}",
-                                                                style: TextStyle(
-                                                                    color: TColor
-                                                                        .secondaryText,
-                                                                    fontSize:
-                                                                        15),
-                                                              );
-                                                            });
-                                                      }),
+                                                          return Text(
+                                                            (playerState ==
+                                                                        ProcessingState
+                                                                            .idle ||
+                                                                    audioPlayer
+                                                                        .audioSources
+                                                                        .isEmpty)
+                                                                ? '0'
+                                                                : "${index! + 1}",
+                                                            style: TextStyle(
+                                                                color: TColor
+                                                                    .secondaryText,
+                                                                fontSize: 15),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
                                                   StreamBuilder<void>(
                                                     stream:
-                                                    rebuildPlaylistCurrentLengthController
+                                                        rebuildPlaylistCurrentLengthController
                                                             .stream,
                                                     builder:
                                                         (context, snapshot) {

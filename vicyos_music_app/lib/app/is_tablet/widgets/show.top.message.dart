@@ -71,9 +71,12 @@ void showLoopMode(BuildContext context, String message) {
 
   Overlay.of(context).insert(overlayEntry);
 
-  Future.delayed(Duration(seconds: 3), () {
-    overlayEntry.remove();
-  });
+  Future.delayed(
+    Duration(seconds: 3),
+    () {
+      overlayEntry.remove();
+    },
+  );
 }
 
 void showAddedToPlaylist(
@@ -168,9 +171,12 @@ void showAddedToPlaylist(
 
   Overlay.of(context).insert(overlayEntry);
 
-  Future.delayed(Duration(seconds: 3), () {
-    overlayEntry.remove();
-  });
+  Future.delayed(
+    Duration(seconds: 3),
+    () {
+      overlayEntry.remove();
+    },
+  );
 }
 
 void showFileDeletedMessage(
@@ -248,7 +254,10 @@ void showFileDeletedMessage(
 
   Overlay.of(context).insert(overlayEntry);
 
-  Future.delayed(Duration(seconds: 4), () {
-    overlayEntry.remove();
-  });
+  Future.delayed(
+    Duration(seconds: 4),
+    () {
+      overlayEntry.remove();
+    },
+  );
 }

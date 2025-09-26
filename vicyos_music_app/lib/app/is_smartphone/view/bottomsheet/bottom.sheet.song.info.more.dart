@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/show.top.message.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
@@ -165,23 +166,26 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return SongPreviewBottomSheet(
                                     songPath: fullFilePath);
-                              }).whenComplete(() {
-                            isSongPreviewBottomSheetOpen = false;
+                              }).whenComplete(
+                            () {
+                              isSongPreviewBottomSheetOpen = false;
 
-                            // "When the bottom sheet is closed, send a signal to show the mini player again."
-                            hideButtonSheetStreamNotifier(false);
-                            audioPlayerPreview.stop();
-                            audioPlayerPreview.release();
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              hideButtonSheetStreamNotifier(false);
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
 
-                            if (audioPlayerWasPlaying) {
-                              Future.microtask(() async {
-                                await audioPlayer.play();
-                              });
-                            }
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
-                           },
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
                           );
                         },
                       ),

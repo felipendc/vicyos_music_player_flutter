@@ -81,22 +81,28 @@ class VisualComponentState extends State<VisualComponent>
         CurvedAnimation(parent: animationController!, curve: widget.curve!);
 
     animation = Tween<double>(begin: 0, end: 50).animate(curvedAnimation)
-      ..addListener(() {
-        update();
-      });
+      ..addListener(
+        () {
+          update();
+        },
+      );
 
     animationStop = Tween<double>(begin: 10, end: 20).animate(curvedAnimation)
-      ..addListener(() {
-        update();
-      });
+      ..addListener(
+        () {
+          update();
+        },
+      );
 
     animationController!.repeat(reverse: true);
   }
 
   void update() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (mounted) setState(() {});
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        if (mounted) setState(() {});
+      },
+    );
   }
 
   @override

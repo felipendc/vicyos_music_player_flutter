@@ -118,7 +118,6 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 const SizedBox(
                   height: 14,
                 ),
@@ -187,14 +186,10 @@ class SongPreviewBottomSheet extends StatelessWidget {
                             },
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
                 ),
-
-
                 const SizedBox(
                   height: 3,
                 ),
@@ -225,7 +220,6 @@ class SongPreviewBottomSheet extends StatelessWidget {
                       stream: audioPlayerPreview.onPlayerStateChanged,
                       builder: (context, snapshot) {
                         final playerState = snapshot.data;
-
                         if (playerState == audio_players.PlayerState.stopped ||
                             playerState == audio_players.PlayerState.paused ||
                             playerState == audio_players.PlayerState.completed ||
@@ -300,7 +294,6 @@ class SongPreviewBottomSheet extends StatelessWidget {
                       ),
                     ),
                   ],
-
                 ),
                 SizedBox(
                   height: 20,
@@ -309,7 +302,6 @@ class SongPreviewBottomSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FloatingActionButton.extended(
-
                       label: Text(
                         'ADD TO PLAYLIST',
                         style: TextStyle(

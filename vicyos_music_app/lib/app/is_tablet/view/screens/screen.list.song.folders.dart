@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/song.search.screen.dart';
+
 import '../../widgets/music_visualizer.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 class HomePageFolderListTablet extends StatelessWidget {
   const HomePageFolderListTablet({super.key});
 
   @override
-  Widget build(BuildContext context)  {
-
+  Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
     getScreenOrientation();
 
     var media = MediaQuery.of(context).size;
 
-
     return StreamBuilder<String>(
       stream: rebuildHomePageFolderListStreamController.stream,
       builder: (context, snapshot) {
-
         final String? fetchingResult = snapshot.data;
 
         if (fetchingResult == "fetching_files") {
@@ -39,8 +37,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-                    child:
-                    Container(
+                    child: Container(
                       decoration: BoxDecoration(
                         // color: Colors.grey,
                         color: Color(0xff181B2C),
@@ -101,7 +98,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                                       color: Colors.transparent,
                                       child: SizedBox(
                                         width: 130 * 0.32,
-                                        height:  130 * 0.32,
+                                        height: 130 * 0.32,
                                         child: IconButton(
                                           splashRadius: 20,
                                           iconSize: 10,
@@ -118,38 +115,38 @@ class HomePageFolderListTablet extends StatelessWidget {
                                       ),
                                     ),
                                     Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            9, 0, 8, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                media.width * 0.2),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black
-                                                    .withValues(alpha: 0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 8,
-                                                offset: Offset(2, 4),
-                                              ),
-                                            ],
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                media.width * 0.2),
-                                            child: StreamBuilder<void>(
-                                              stream: null,
-                                              builder: (context, snapshot) {
-                                                return Image.asset(
-                                                  "assets/img/pics/default.png",
-                                                  width: 130 * 0.44,
-                                                  height: 130 * 0.44,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
+                                      padding:
+                                          const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.2),
+                                              spreadRadius: 5,
+                                              blurRadius: 8,
+                                              offset: Offset(2, 4),
                                             ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          child: StreamBuilder<void>(
+                                            stream: null,
+                                            builder: (context, snapshot) {
+                                              return Image.asset(
+                                                "assets/img/pics/default.png",
+                                                width: 130 * 0.44,
+                                                height: 130 * 0.44,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
                                         ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -167,10 +164,12 @@ class HomePageFolderListTablet extends StatelessWidget {
                                   slideRightLeftTransition(
                                     const SearchScreen(),
                                   ),
-                                ).whenComplete(() {
-                                  searchBoxController.dispose();
-                                  searchBoxController.dispose();
-                                });
+                                ).whenComplete(
+                                  () {
+                                    searchBoxController.dispose();
+                                    searchBoxController.dispose();
+                                  },
+                                );
                               },
                               child: Container(
                                 padding:
@@ -227,61 +226,60 @@ class HomePageFolderListTablet extends StatelessWidget {
                               height: 70,
                               child: GestureDetector(
                                 onLongPress: () {
-
                                   showModalBottomSheet<void>(
                                     backgroundColor: Colors.transparent,
                                     context: context,
                                     builder: (BuildContext context) {
                                       return FolderToPlaylistBottomSheet(
                                           folderPath:
-                                          musicFolderPaths[index].path);
+                                              musicFolderPaths[index].path);
                                     },
                                   );
                                 },
                                 child: ListTile(
                                   leading: (musicFolderPaths[index].path ==
-                                      getCurrentSongParentFolder(
-                                          currentSongFullPath))
+                                          getCurrentSongParentFolder(
+                                              currentSongFullPath))
                                       ? Stack(
-                                    children: [
-                                      Icon(
-                                        Icons.folder,
-                                        color: TColor.darkGray,
-                                        size: 47,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20.0,
-                                            left: 8.5,
-                                            bottom: 0.0),
-                                        child: SizedBox(
-                                          height: 12,
-                                          width: 30,
-                                          child: MusicVisualizer(
-                                            barCount: 6,
-                                            colors: [
-                                              TColor.focus,
-                                              TColor.secondaryEnd,
-                                              TColor.focusStart,
-                                              Colors.blue[900]!,
-                                            ],
-                                            duration: const [
-                                              900,
-                                              700,
-                                              600,
-                                              800,
-                                              500
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                          children: [
+                                            Icon(
+                                              Icons.folder,
+                                              color: TColor.darkGray,
+                                              size: 47,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 20.0,
+                                                  left: 8.5,
+                                                  bottom: 0.0),
+                                              child: SizedBox(
+                                                height: 12,
+                                                width: 30,
+                                                child: MusicVisualizer(
+                                                  barCount: 6,
+                                                  colors: [
+                                                    TColor.focus,
+                                                    TColor.secondaryEnd,
+                                                    TColor.focusStart,
+                                                    Colors.blue[900]!,
+                                                  ],
+                                                  duration: const [
+                                                    900,
+                                                    700,
+                                                    600,
+                                                    800,
+                                                    500
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                       : Icon(
-                                    Icons.folder,
-                                    color: TColor.focusSecondary,
-                                    size: 40,
-                                  ),
+                                          Icons.folder,
+                                          color: TColor.focusSecondary,
+                                          size: 40,
+                                        ),
                                   title: Text(
                                     folderName(musicFolderPaths[index].path),
                                     textAlign: TextAlign.start,
@@ -316,8 +314,8 @@ class HomePageFolderListTablet extends StatelessWidget {
                                             slideRightLeftTransition(
                                               SongsListScreen(
                                                   folderPath:
-                                                  musicFolderPaths[index]
-                                                      .path),
+                                                      musicFolderPaths[index]
+                                                          .path),
                                             ),
                                           );
                                         },
@@ -334,7 +332,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                                       slideRightLeftTransition(
                                         SongsListScreen(
                                             folderPath:
-                                            musicFolderPaths[index].path),
+                                                musicFolderPaths[index].path),
                                       ),
                                     );
                                     // Handle tile tap

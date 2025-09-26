@@ -56,20 +56,22 @@ class SpeedRateBottomSheet extends StatelessWidget {
 
     scrollController = ScrollController();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      double scrollPadding = 90;
-      double tileHeight = 56;
-      int defaultSpeedRate = speedRates.indexOf("1.0");
-      double scrollOffset = defaultSpeedRate * tileHeight - scrollPadding;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        double scrollPadding = 90;
+        double tileHeight = 56;
+        int defaultSpeedRate = speedRates.indexOf("1.0");
+        double scrollOffset = defaultSpeedRate * tileHeight - scrollPadding;
 
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollOffset,
-          duration: Duration(seconds: 1),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            scrollOffset,
+            duration: Duration(seconds: 1),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+    );
 
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(

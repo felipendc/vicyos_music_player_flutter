@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/show.top.message.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import '../../navigation_animation/main.player.navigation.animation.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
@@ -176,7 +177,11 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(folderSongList);
-                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Added to the current playlist");
+                          showAddedToPlaylist(
+                              context,
+                              "Folder",
+                              folderName(folderPath),
+                              "Added to the current playlist");
                         },
                       ),
                     ),
@@ -215,13 +220,14 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             mainPlayerSlideUpDownTransition(
                               MainPlayerView(),
                             ),
-
-                          ).whenComplete(() {
-                            if (mainPlayerIsOpen) {
-                              mainPlayerIsOpen = false;
-                            }
-                            hideButtonSheetStreamNotifier(false);
-                          });
+                          ).whenComplete(
+                            () {
+                              if (mainPlayerIsOpen) {
+                                mainPlayerIsOpen = false;
+                              }
+                              hideButtonSheetStreamNotifier(false);
+                            },
+                          );
                           // showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
                         },
                       ),

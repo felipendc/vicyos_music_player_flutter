@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.speed.rate.dart';
@@ -9,7 +10,6 @@ import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -139,21 +139,22 @@ class MainPlayerViewTablet extends StatelessWidget {
                     stream: clearCurrentPlaylistStreamController.stream,
                     builder: (context, snapshot) {
                       return StreamBuilder<Duration>(
-                          stream: audioPlayer.positionStream,
-                          builder: (context, snapshot) {
-                            final position = snapshot.data ?? Duration.zero;
-                            return Text(
-                              // (audioPlayer.processingState !=
-                              //         ProcessingState.idle)
-                              //     ? formatDuration(position)
-                              //     :
-                              audioPlayer.audioSources.isEmpty
-                                  ? formatDuration(Duration.zero)
-                                  : formatDuration(position),
-                              style: TextStyle(
-                                  color: TColor.secondaryText, fontSize: 14),
-                            );
-                          });
+                        stream: audioPlayer.positionStream,
+                        builder: (context, snapshot) {
+                          final position = snapshot.data ?? Duration.zero;
+                          return Text(
+                            // (audioPlayer.processingState !=
+                            //         ProcessingState.idle)
+                            //     ? formatDuration(position)
+                            //     :
+                            audioPlayer.audioSources.isEmpty
+                                ? formatDuration(Duration.zero)
+                                : formatDuration(position),
+                            style: TextStyle(
+                                color: TColor.secondaryText, fontSize: 14),
+                          );
+                        },
+                      );
                     }),
                 Text(
                   " | ",
@@ -205,7 +206,7 @@ class MainPlayerViewTablet extends StatelessWidget {
 
                             return Text(
                               (playerState == ProcessingState.idle ||
-                                  audioPlayer.audioSources.isEmpty)
+                                      audioPlayer.audioSources.isEmpty)
                                   ? '0'
                                   : "${index! + 1}",
                               style: TextStyle(
@@ -309,96 +310,98 @@ class MainPlayerViewTablet extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Column(children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: IconButton(
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: IconButton(
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return PlaylistBottomSheet();
+                                    },
+                                  );
+                                },
+                                icon: Image.asset(
+                                  "assets/img/playlist.png",
+                                  color: TColor.primaryText80,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Column(
+                          children: [
+                            IconButton(
                               onPressed: () {
                                 showModalBottomSheet<void>(
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return PlaylistBottomSheet();
+                                    return const SpeedRateBottomSheet();
                                   },
                                 );
                               },
                               icon: Image.asset(
-                                "assets/img/playlist.png",
+                                'assets/img/speed-one.png',
+                                width: 25,
+                                height: 25,
                                 color: TColor.primaryText80,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Column(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              showModalBottomSheet<void>(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return const SpeedRateBottomSheet();
-                                },
-                              );
-                            },
-                            icon: Image.asset(
-                              'assets/img/speed-one.png',
-                              width: 25,
-                              height: 25,
-                              color: TColor.primaryText80,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 0, 8, 0),
-                      child: Column(
-                        children: [
-                          StreamBuilder<void>(
-                              stream: repeatModeStreamController.stream,
-                              builder: (context, snapshot) {
-                                return SizedBox(
-                                  width:
-                                      audioPlayer.shuffleModeEnabled ? 45 : 45,
-                                  height: (currentLoopMode ==
-                                          CurrentLoopMode.shuffle)
-                                      ? 40
-                                      : 40,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      repeatMode(context);
-                                    },
-                                    icon: Image.asset(
-                                      currentLoopModeIcon,
-                                      width: 22,
-                                      height: 22,
-                                      color: TColor.primaryText80,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(6, 0, 8, 0),
+                        child: Column(
+                          children: [
+                            StreamBuilder<void>(
+                                stream: repeatModeStreamController.stream,
+                                builder: (context, snapshot) {
+                                  return SizedBox(
+                                    width: audioPlayer.shuffleModeEnabled
+                                        ? 45
+                                        : 45,
+                                    height: (currentLoopMode ==
+                                            CurrentLoopMode.shuffle)
+                                        ? 40
+                                        : 40,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        repeatMode(context);
+                                      },
+                                      icon: Image.asset(
+                                        currentLoopModeIcon,
+                                        width: 22,
+                                        height: 22,
+                                        color: TColor.primaryText80,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }),
-                        ],
+                                  );
+                                }),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

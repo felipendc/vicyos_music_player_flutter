@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/show.top.message.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
@@ -163,21 +164,24 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return SongPreviewBottomSheet(
                                     songPath: fullFilePath);
-                              }).whenComplete(() {
-                            isSongPreviewBottomSheetOpen = false;
+                              }).whenComplete(
+                            () {
+                              isSongPreviewBottomSheetOpen = false;
 
-                            audioPlayerPreview.stop();
-                            audioPlayerPreview.release();
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
 
-                            if (audioPlayerWasPlaying) {
-                              Future.microtask(() async {
-                                await audioPlayer.play();
-                              });
-                            }
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
-                           },
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
                           );
                         },
                       ),
@@ -270,7 +274,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   context, "close_song_preview_bottom_sheet");
                             }
                           } else if (result == "canceled") {
-
                             if (context.mounted) {
                               Navigator.pop(context);
                             }

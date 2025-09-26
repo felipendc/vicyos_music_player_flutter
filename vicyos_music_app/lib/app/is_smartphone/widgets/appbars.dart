@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 AppBar homePageAppBar() {
   return AppBar(
@@ -85,14 +85,16 @@ AppBar songsListAppBar(
               builder: (BuildContext context) {
                 return FolderToPlaylistBottomSheet(folderPath: folderPath);
               },
-            ).whenComplete(() {
-              if (mainPlayerIsOpen) {
-                hideButtonSheetStreamNotifier(true);
-              } else {
-                // "When the bottom sheet is closed, send a signal to show the mini player again."
-                hideButtonSheetStreamNotifier(false);
-              }
-            });
+            ).whenComplete(
+              () {
+                if (mainPlayerIsOpen) {
+                  hideButtonSheetStreamNotifier(true);
+                } else {
+                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                  hideButtonSheetStreamNotifier(false);
+                }
+              },
+            );
           },
         ),
       )

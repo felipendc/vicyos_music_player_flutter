@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/show.top.message.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -18,27 +18,31 @@ class PlaylistBottomSheet extends StatelessWidget {
         newIndex -= 1;
       }
       audioPlayer.moveAudioSource(oldIndex, newIndex);
-      audioPlayer.currentIndexStream.listen((index) {
-        currentIndex = audioPlayer.sequence[index!] as int;
-      });
+      audioPlayer.currentIndexStream.listen(
+        (index) {
+          currentIndex = audioPlayer.sequence[index!] as int;
+        },
+      );
       rebuildPlaylistCurrentLengthStreamNotifier();
     }
 
     scrollController = ScrollController();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      double scrollPadding = 60;
-      double tileHeight = 72;
-      double scrollOffset = currentIndex * tileHeight - scrollPadding;
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        double scrollPadding = 60;
+        double tileHeight = 72;
+        double scrollOffset = currentIndex * tileHeight - scrollPadding;
 
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollOffset,
-          duration: Duration(seconds: 1),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            scrollOffset,
+            duration: Duration(seconds: 1),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+    );
 
     var media = MediaQuery.of(context).size;
     return ClipRRect(

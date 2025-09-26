@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import '../../widgets/show.top.message.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {
@@ -82,68 +83,74 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        Future.microtask(() async {
-                          FlutterMediaDelete.deleteMediaFile(songPath)
-                              .then((wasDeleted) async {
-                            if (wasDeleted == "Files deleted successfully") {
-                              // ----------------------------------------------------------
-                              musicFolderPaths.clear();
-                              folderSongList.clear();
+                        Future.microtask(
+                          () async {
+                            FlutterMediaDelete.deleteMediaFile(songPath).then(
+                              (wasDeleted) async {
+                                if (wasDeleted ==
+                                    "Files deleted successfully") {
+                                  // ----------------------------------------------------------
+                                  musicFolderPaths.clear();
+                                  folderSongList.clear();
 
-                              // Re sync the folder list
-                              await listMusicFolders();
+                                  // Re sync the folder list
+                                  await listMusicFolders();
 
-                              // Check if the file is present on the playlist...
-                              final int index = audioPlayer.audioSources.indexWhere(
-                                  (audio) =>
-                                      (audio as UriAudioSource)
-                                          .uri
-                                          .toFilePath() ==
-                                      songPath);
+                                  // Check if the file is present on the playlist...
+                                  final int index = audioPlayer.audioSources
+                                      .indexWhere((audio) =>
+                                          (audio as UriAudioSource)
+                                              .uri
+                                              .toFilePath() ==
+                                          songPath);
 
-                              if (index != -1) {
-                                await audioPlayer
-                                    .removeAudioSourceAt(index);
-                                rebuildPlaylistCurrentLengthStreamNotifier();
-                                await getCurrentSongFullPathStreamControllerNotifier();
+                                  if (index != -1) {
+                                    await audioPlayer
+                                        .removeAudioSourceAt(index);
+                                    rebuildPlaylistCurrentLengthStreamNotifier();
+                                    await getCurrentSongFullPathStreamControllerNotifier();
 
+                                    // Update the current song name
+                                    if (index <
+                                        audioPlayer.audioSources.length) {
+                                      String newCurrentSongFullPath =
+                                          Uri.decodeFull(
+                                              (audioPlayer.audioSources[index]
+                                                      as UriAudioSource)
+                                                  .uri
+                                                  .toString());
+                                      currentSongName =
+                                          songName(newCurrentSongFullPath);
+                                    } else {
+                                      currentSongName = "";
+                                    }
 
-                                // Update the current song name
-                                if (index < audioPlayer.audioSources.length) {
-                                  String newCurrentSongFullPath =
-                                      Uri.decodeFull((audioPlayer.audioSources[index]
-                                              as UriAudioSource)
-                                          .uri
-                                          .toString());
-                                  currentSongName =
-                                      songName(newCurrentSongFullPath);
-                                } else {
-                                  currentSongName = "";
+                                    currentSongNameStreamNotifier();
+                                  }
+                                  // ----------------------------------------------------------
+                                  rebuildSongsListScreenStreamNotifier();
+                                  rebuildHomePageFolderListStreamNotifier(
+                                      "fetching_files_done");
+                                  if (context.mounted) {
+                                    Navigator.pop(context,
+                                        "close_song_preview_bottom_sheet");
+                                  }
+                                } else if (wasDeleted !=
+                                    "Files deleted successfully") {
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
                                 }
-
-                                currentSongNameStreamNotifier();
-                              }
-                              // ----------------------------------------------------------
-                              rebuildSongsListScreenStreamNotifier();
-                              rebuildHomePageFolderListStreamNotifier(
-                                  "fetching_files_done");
-                              if (context.mounted) {
-                                Navigator.pop(
-                                    context, "close_song_preview_bottom_sheet");
-                              }
-                            } else if (wasDeleted !=
-                                "Files deleted successfully") {
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                              }
-                            }
-                            if (context.mounted) {
-                              showFileDeletedMessage(context, songName(songPath),
-                                  "Has been deleted successfully");
-                            }
+                                if (context.mounted) {
+                                  showFileDeletedMessage(
+                                      context,
+                                      songName(songPath),
+                                      "Has been deleted successfully");
+                                }
+                              },
+                            );
                           },
-                          );
-                        });
+                        );
                       },
                       backgroundColor: TColor.darkGray,
                     ),

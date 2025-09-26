@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/show.top.message.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -18,9 +18,11 @@ class PlaylistBottomSheet extends StatelessWidget {
         newIndex -= 1;
       }
       audioPlayer.moveAudioSource(oldIndex, newIndex);
-      audioPlayer.currentIndexStream.listen((index) {
-        currentIndex = audioPlayer.sequence[index!] as int;
-      });
+      audioPlayer.currentIndexStream.listen(
+        (index) {
+          currentIndex = audioPlayer.sequence[index!] as int;
+        },
+      );
       rebuildPlaylistCurrentLengthStreamNotifier();
     }
 
@@ -57,9 +59,7 @@ class PlaylistBottomSheet extends StatelessWidget {
             // Top button indicator
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
               children: [
-
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Row(
@@ -76,20 +76,23 @@ class PlaylistBottomSheet extends StatelessWidget {
                                     return Text(
                                       '0',
                                       style: TextStyle(
-                                          color: TColor.secondaryText, fontSize: 18),
+                                          color: TColor.secondaryText,
+                                          fontSize: 18),
                                     );
                                   }
                                   final eventState = snapshot.data!;
                                   final index = eventState.currentIndex;
-                                  final playerState = audioPlayer.processingState;
+                                  final playerState =
+                                      audioPlayer.processingState;
 
                                   return Text(
                                     (playerState == ProcessingState.idle ||
-                                        audioPlayer.audioSources.isEmpty)
+                                            audioPlayer.audioSources.isEmpty)
                                         ? '0'
                                         : "${index! + 1}",
                                     style: TextStyle(
-                                        color: TColor.secondaryText, fontSize: 18),
+                                        color: TColor.secondaryText,
+                                        fontSize: 18),
                                   );
                                 });
                           }),
@@ -98,10 +101,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                         builder: (context, snapshot) {
                           return Text(
                             " of $playlistCurrentLength",
-                            style:
-                            TextStyle(color: TColor.secondaryText,
+                            style: TextStyle(
+                              color: TColor.secondaryText,
                               fontSize: 18,
-
                             ),
                           );
                         },

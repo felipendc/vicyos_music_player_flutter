@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.speed.rate.dart';
@@ -9,7 +10,6 @@ import 'package:vicyos_music/app/is_smartphone/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -142,21 +142,22 @@ class MainPlayerView extends StatelessWidget {
                     stream: clearCurrentPlaylistStreamController.stream,
                     builder: (context, snapshot) {
                       return StreamBuilder<Duration>(
-                          stream: audioPlayer.positionStream,
-                          builder: (context, snapshot) {
-                            final position = snapshot.data ?? Duration.zero;
-                            return Text(
-                              // (audioPlayer.processingState !=
-                              //         ProcessingState.idle)
-                              //     ? formatDuration(position)
-                              //     :
-                              audioPlayer.audioSources.isEmpty
-                                  ? formatDuration(Duration.zero)
-                                  : formatDuration(position),
-                              style: TextStyle(
-                                  color: TColor.secondaryText, fontSize: 15),
-                            );
-                          });
+                        stream: audioPlayer.positionStream,
+                        builder: (context, snapshot) {
+                          final position = snapshot.data ?? Duration.zero;
+                          return Text(
+                            // (audioPlayer.processingState !=
+                            //         ProcessingState.idle)
+                            //     ? formatDuration(position)
+                            //     :
+                            audioPlayer.audioSources.isEmpty
+                                ? formatDuration(Duration.zero)
+                                : formatDuration(position),
+                            style: TextStyle(
+                                color: TColor.secondaryText, fontSize: 15),
+                          );
+                        },
+                      );
                     }),
                 Text(
                   " | ",
@@ -192,29 +193,30 @@ class MainPlayerView extends StatelessWidget {
                     stream: clearCurrentPlaylistStreamController.stream,
                     builder: (context, snapshot) {
                       return StreamBuilder<PlaybackEvent>(
-                          stream: audioPlayer.playbackEventStream,
-                          builder: (context, snapshot) {
-                            // Check if snapshot has data
-                            if (!snapshot.hasData) {
-                              return Text(
-                                '0',
-                                style: TextStyle(
-                                    color: TColor.secondaryText, fontSize: 15),
-                              );
-                            }
-                            final eventState = snapshot.data!;
-                            final index = eventState.currentIndex;
-                            final playerState = audioPlayer.processingState;
-
+                        stream: audioPlayer.playbackEventStream,
+                        builder: (context, snapshot) {
+                          // Check if snapshot has data
+                          if (!snapshot.hasData) {
                             return Text(
-                              (playerState == ProcessingState.idle ||
-                                  audioPlayer.audioSources.isEmpty)
-                                  ? '0'
-                                  : "${index! + 1}",
+                              '0',
                               style: TextStyle(
                                   color: TColor.secondaryText, fontSize: 15),
                             );
-                          });
+                          }
+                          final eventState = snapshot.data!;
+                          final index = eventState.currentIndex;
+                          final playerState = audioPlayer.processingState;
+
+                          return Text(
+                            (playerState == ProcessingState.idle ||
+                                    audioPlayer.audioSources.isEmpty)
+                                ? '0'
+                                : "${index! + 1}",
+                            style: TextStyle(
+                                color: TColor.secondaryText, fontSize: 15),
+                          );
+                        },
+                      );
                     }),
                 StreamBuilder<void>(
                   stream: rebuildPlaylistCurrentLengthController.stream,
@@ -239,59 +241,60 @@ class MainPlayerView extends StatelessWidget {
                     stream: currentSongNameStreamController.stream,
                     builder: (context, snapshot) {
                       return StreamBuilder<void>(
-                          stream: clearCurrentPlaylistStreamController.stream,
-                          builder: (context, snapshot) {
-                            if (audioPlayer.audioSources.isEmpty) {
-                              currentSongName = "The playlist is empty";
-                              currentFolderPath =
-                                  'The song folder will be displayed here...';
-                            }
-                            return Column(
-                              children: [
-                                SizedBox(
-                                  width: media.width * 0.9,
-                                  height: media.width * 0.07,
-                                  child: LayoutBuilder(
-                                    builder: (context, constraints) {
-                                      // Gets the width of Expanded
-                                      final double width = constraints.maxWidth;
-                                      return MarqueeText(
-                                        centerText: true,
-                                        // Forces rebuild when song changes
-                                        key: ValueKey(currentSongName),
-                                        // Set dynamically based on layout
-                                        maxWidth: width,
-                                        text: currentSongName,
-                                        style: TextStyle(
-                                          color: TColor.primaryText
-                                              .withValues(alpha: 0.9),
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      );
-                                    },
+                        stream: clearCurrentPlaylistStreamController.stream,
+                        builder: (context, snapshot) {
+                          if (audioPlayer.audioSources.isEmpty) {
+                            currentSongName = "The playlist is empty";
+                            currentFolderPath =
+                                'The song folder will be displayed here...';
+                          }
+                          return Column(
+                            children: [
+                              SizedBox(
+                                width: media.width * 0.9,
+                                height: media.width * 0.07,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    // Gets the width of Expanded
+                                    final double width = constraints.maxWidth;
+                                    return MarqueeText(
+                                      centerText: true,
+                                      // Forces rebuild when song changes
+                                      key: ValueKey(currentSongName),
+                                      // Set dynamically based on layout
+                                      maxWidth: width,
+                                      text: currentSongName,
+                                      style: TextStyle(
+                                        color: TColor.primaryText
+                                            .withValues(alpha: 0.9),
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(35, 0, 35, 0),
+                                child: Text(
+                                  currentFolderPath,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 14,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(35, 0, 35, 0),
-                                  child: Text(
-                                    currentFolderPath,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: TColor.secondaryText,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
@@ -6,8 +7,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
-import 'package:vicyos_music/app/common/permission_handler/permission.handler.dart' show requestAudioPermission;
-
+import 'package:vicyos_music/app/common/permission_handler/permission.handler.dart'
+    show requestAudioPermission;
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestAudioPermission();
@@ -93,7 +94,6 @@ Future<void> listMusicFolders() async {
     return audioFolders;
   }
 
-
   for (var folder in await audioFolder()) {
     folderPath = folder;
     totalSongs = folderLength(folder);
@@ -119,7 +119,6 @@ Future<void> listMusicFolders() async {
 
   // rebuild the song list screen
   rebuildSongsListScreenStreamNotifier();
-
 }
 
 int folderLength(String folderPath) {
@@ -135,14 +134,17 @@ int folderLength(String folderPath) {
   Directory? folderDirectory = Directory(folderPath);
   final directorySongList = folderDirectory.listSync();
   final folderLength = directorySongList
-      .where((entity) {
-        if (entity is File) {
-          String extension =
-              entity.path.substring(entity.path.lastIndexOf('.')).toLowerCase();
-          return audioExtensions.contains(extension);
-        }
-        return false;
-      })
+      .where(
+        (entity) {
+          if (entity is File) {
+            String extension = entity.path
+                .substring(entity.path.lastIndexOf('.'))
+                .toLowerCase();
+            return audioExtensions.contains(extension);
+          }
+          return false;
+        },
+      )
       .map((entity) => entity.path)
       .toList();
 
@@ -164,15 +166,18 @@ void filterSongsOnlyToList({required String folderPath}) {
   final directorySongList = folderDirectory.listSync();
 
   final List<String> audioFiles = directorySongList
-      .where((entity) {
-        if (entity is File) {
-          String extension =
-              entity.path.substring(entity.path.lastIndexOf('.')).toLowerCase();
+      .where(
+        (entity) {
+          if (entity is File) {
+            String extension = entity.path
+                .substring(entity.path.lastIndexOf('.'))
+                .toLowerCase();
 
-          return audioExtensions.contains(extension);
-        }
-        return false;
-      })
+            return audioExtensions.contains(extension);
+          }
+          return false;
+        },
+      )
       .map((entity) => entity.path)
       .toList();
 
@@ -189,8 +194,7 @@ void filterSongsOnlyToList({required String folderPath}) {
 }
 
 String songFullPath({required int index}) {
-  var fullPath = audioPlayer.audioSources[index]
-      .sequence
+  var fullPath = audioPlayer.audioSources[index].sequence
       .map((audioSource) => Uri.decodeFull(
             (audioSource as UriAudioSource).uri.toString(),
           ))
@@ -221,28 +225,23 @@ String getFileExtension(String filePath) {
   return fileExtension;
 }
 
-
 Future<void> sharingFiles(dynamic shareFile) async {
-
-   if (shareFile is String) {
-     await SharePlus.instance.share(
-       ShareParams(
-         text:
-         'This file was shared using the Vicyos Music app.',
-         files: [XFile(shareFile)],
-       ),
-     );
-   } else if (shareFile is List) {
-     //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
-     List<XFile> files = shareFile
-         .map((path) => XFile(path))
-         .toList();
-     await SharePlus.instance.share(
-       ShareParams(
-         text:
-         "These ${shareFile.length} audio files 🎵, were shared using the Vicyos Music app.",
-         files: files,
-       ),
-     );
-   }
+  if (shareFile is String) {
+    await SharePlus.instance.share(
+      ShareParams(
+        text: 'This file was shared using the Vicyos Music app.',
+        files: [XFile(shareFile)],
+      ),
+    );
+  } else if (shareFile is List) {
+    //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
+    List<XFile> files = shareFile.map((path) => XFile(path)).toList();
+    await SharePlus.instance.share(
+      ShareParams(
+        text:
+            "These ${shareFile.length} audio files 🎵, were shared using the Vicyos Music app.",
+        files: files,
+      ),
+    );
+  }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import '../../widgets/music_visualizer.dart';
 
 class SongsListScreen extends StatelessWidget {
@@ -50,8 +51,7 @@ class SongsListScreen extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
-                          child:
-                          Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
@@ -147,38 +147,38 @@ class SongsListScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Padding(
-                                      padding:
-                                      const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              media.width * 0.2),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black
-                                                  .withValues(alpha: 0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 8,
-                                              offset: Offset(2, 4),
-                                            ),
-                                          ],
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              media.width * 0.2),
-                                          child: StreamBuilder<void>(
-                                            stream: null,
-                                            builder: (context, snapshot) {
-                                              return Image.asset(
-                                                "assets/img/pics/default.png",
-                                                width: 130 * 0.44,
-                                                height: 130 * 0.44,
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
+                                    padding:
+                                        const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            media.width * 0.2),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black
+                                                .withValues(alpha: 0.2),
+                                            spreadRadius: 5,
+                                            blurRadius: 8,
+                                            offset: Offset(2, 4),
                                           ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            media.width * 0.2),
+                                        child: StreamBuilder<void>(
+                                          stream: null,
+                                          builder: (context, snapshot) {
+                                            return Image.asset(
+                                              "assets/img/pics/default.png",
+                                              width: 130 * 0.44,
+                                              height: 130 * 0.44,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
                                         ),
                                       ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -196,14 +196,16 @@ class SongsListScreen extends StatelessWidget {
                                 slideRightLeftTransition(
                                   const SearchScreen(),
                                 ),
-                              ).whenComplete(() {
-                                searchBoxController.dispose();
-                                searchBoxController.dispose();
-                              });
+                              ).whenComplete(
+                                () {
+                                  searchBoxController.dispose();
+                                  searchBoxController.dispose();
+                                },
+                              );
                             },
                             child: Container(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 16),
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               decoration: BoxDecoration(
                                 color: const Color(0xff24273A),
                                 // Background color of the container
@@ -219,7 +221,7 @@ class SongsListScreen extends StatelessWidget {
                                 decoration: InputDecoration(
                                   hintText: 'Search...',
                                   hintStyle:
-                                  const TextStyle(color: Colors.white60),
+                                      const TextStyle(color: Colors.white60),
                                   filled: false,
                                   fillColor: Colors.transparent,
                                   // Transparent background for TextField
@@ -242,164 +244,161 @@ class SongsListScreen extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<void>(
-                    stream: getCurrentSongFullPathStreamController.stream,
-                    builder: (context, snapshot) {
-                      return Expanded(
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(bottom: 112),
-                          itemCount: folderSongList.length,
-                          itemBuilder: (context, index) {
-                            return SizedBox(
-                              height: 67,
-                              child: GestureDetector(
-                                onLongPress: () {
-                                  if (audioPlayer.playerState.playing) {
-                                    audioPlayerWasPlaying = true;
-                                  } else {
-                                    audioPlayerWasPlaying = false;
+                  stream: getCurrentSongFullPathStreamController.stream,
+                  builder: (context, snapshot) {
+                    return Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.only(bottom: 112),
+                        itemCount: folderSongList.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            height: 67,
+                            child: GestureDetector(
+                              onLongPress: () {
+                                if (audioPlayer.playerState.playing) {
+                                  audioPlayerWasPlaying = true;
+                                } else {
+                                  audioPlayerWasPlaying = false;
+                                }
+                                isSongPreviewBottomSheetOpen = true;
+
+                                showModalBottomSheet<void>(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SongPreviewBottomSheet(
+                                        songPath: folderSongList[index].path);
+                                  },
+                                ).whenComplete(() {
+                                  isSongPreviewBottomSheetOpen = false;
+
+                                  audioPlayerPreview.stop();
+                                  audioPlayerPreview.release();
+
+                                  if (audioPlayerWasPlaying) {
+                                    Future.microtask(() async {
+                                      await audioPlayer.play();
+                                    });
                                   }
-                                  isSongPreviewBottomSheetOpen = true;
-
-                                  showModalBottomSheet<void>(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return SongPreviewBottomSheet(
-                                          songPath: folderSongList[index].path);
-                                    },
-                                  ).whenComplete(() {
-                                    isSongPreviewBottomSheetOpen = false;
-
-                                    audioPlayerPreview.stop();
-                                    audioPlayerPreview.release();
-
-                                    if (audioPlayerWasPlaying) {
-                                      Future.microtask(() async {
-                                        await audioPlayer.play();
-                                      });
-                                    }
-                                  });
-                                },
-                                child: ListTile(
-                                  key: ValueKey(folderSongList[index].path),
-                                  leading: (folderSongList[index].path ==
-                                          currentSongFullPath)
-                                      ? Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 10.0,
-                                              left: 5.0,
-                                              bottom: 10.0),
-                                          child: SizedBox(
-                                            height: 27,
-                                            width: 30,
-                                            child: MusicVisualizer(
-                                              barCount: 6,
-                                              colors: [
-                                                TColor.focus,
-                                                TColor.secondaryEnd,
-                                                TColor.focusStart,
-                                                Colors.blue[900]!,
-                                              ],
-                                              duration: const [
-                                                900,
-                                                700,
-                                                600,
-                                                800,
-                                                500
-                                              ],
-                                            ),
+                                });
+                              },
+                              child: ListTile(
+                                key: ValueKey(folderSongList[index].path),
+                                leading: (folderSongList[index].path ==
+                                        currentSongFullPath)
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 5.0, bottom: 10.0),
+                                        child: SizedBox(
+                                          height: 27,
+                                          width: 30,
+                                          child: MusicVisualizer(
+                                            barCount: 6,
+                                            colors: [
+                                              TColor.focus,
+                                              TColor.secondaryEnd,
+                                              TColor.focusStart,
+                                              Colors.blue[900]!,
+                                            ],
+                                            duration: const [
+                                              900,
+                                              700,
+                                              600,
+                                              800,
+                                              500
+                                            ],
                                           ),
-                                        )
-                                      : Icon(
-                                          Icons.music_note_rounded,
-                                          color: TColor.focus,
-                                          size: 36,
                                         ),
-                                  title: Text(
-                                    folderSongList[index].name,
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: TColor.lightGray,
-                                      fontSize: 18,
-                                    ),
+                                      )
+                                    : Icon(
+                                        Icons.music_note_rounded,
+                                        color: TColor.focus,
+                                        size: 36,
+                                      ),
+                                title: Text(
+                                  folderSongList[index].name,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: TColor.lightGray,
+                                    fontSize: 18,
                                   ),
-                                  subtitle: Text(
-                                    "${folderSongList[index].size!} MB  •  ${folderSongList[index].format!}",
-                                    textAlign: TextAlign.start,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: TColor.secondaryText,
-                                      fontSize: 15,
-                                    ),
+                                ),
+                                subtitle: Text(
+                                  "${folderSongList[index].size!} MB  •  ${folderSongList[index].format!}",
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 15,
                                   ),
-                                  trailing: IconButton(
-                                    splashRadius: 24,
-                                    iconSize: 20,
-                                    icon: Image.asset(
-                                      "assets/img/more_vert.png",
-                                      color: TColor.lightGray,
-                                    ),
-                                    onPressed: () async {
-                                      if (context.mounted) {
-                                        showModalBottomSheet<String>(
-                                          backgroundColor: Colors.transparent,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return SongInfoMoreBottomSheet(
-                                              fullFilePath:
-                                              folderSongList[index].path,
-                                            );
-                                          },
-                                        ).whenComplete(
-                                              () {
-                                            if (context.mounted) {
-                                              if (!Navigator.canPop(context)) {
-                                                debugPrint("No other screen is open.");
-                                              } else {
-
-                                                debugPrint(
-                                                    " There are other open screens .");
-                                              }
+                                ),
+                                trailing: IconButton(
+                                  splashRadius: 24,
+                                  iconSize: 20,
+                                  icon: Image.asset(
+                                    "assets/img/more_vert.png",
+                                    color: TColor.lightGray,
+                                  ),
+                                  onPressed: () async {
+                                    if (context.mounted) {
+                                      showModalBottomSheet<String>(
+                                        backgroundColor: Colors.transparent,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return SongInfoMoreBottomSheet(
+                                            fullFilePath:
+                                                folderSongList[index].path,
+                                          );
+                                        },
+                                      ).whenComplete(
+                                        () {
+                                          if (context.mounted) {
+                                            if (!Navigator.canPop(context)) {
+                                              debugPrint(
+                                                  "No other screen is open.");
+                                            } else {
+                                              debugPrint(
+                                                  " There are other open screens .");
                                             }
-                                          },
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  onTap: () {
-                                    if (folderSongList[index].path ==
-                                        currentSongFullPath) {
-                                      if (songIsPlaying) {
-                                        audioPlayer.pause();
-                                        songIsPlaying = false;
-                                      } else {
-                                        audioPlayer.play();
-                                        songIsPlaying = true;
-                                      }
-                                    } else {
-                                      setFolderAsPlaylist(
-                                          folderSongList, index);
-                                      debugPrint(
-                                          "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                                      debugPrint(
-                                          'Tapped on ${(folderSongList[index].path)}');
+                                          }
+                                        },
+                                      );
                                     }
                                   },
                                 ),
+                                onTap: () {
+                                  if (folderSongList[index].path ==
+                                      currentSongFullPath) {
+                                    if (songIsPlaying) {
+                                      audioPlayer.pause();
+                                      songIsPlaying = false;
+                                    } else {
+                                      audioPlayer.play();
+                                      songIsPlaying = true;
+                                    }
+                                  } else {
+                                    setFolderAsPlaylist(folderSongList, index);
+                                    debugPrint(
+                                        "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
+                                    debugPrint(
+                                        'Tapped on ${(folderSongList[index].path)}');
+                                  }
+                                },
                               ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Container();
-                          },
-                        ),
-                      );
-                    },
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Container();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

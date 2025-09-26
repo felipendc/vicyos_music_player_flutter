@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 import '../../widgets/music_visualizer.dart';
 
 class HomePageFolderList extends StatelessWidget {
@@ -165,10 +166,12 @@ class HomePageFolderList extends StatelessWidget {
                                   slideRightLeftTransition(
                                     const SearchScreen(),
                                   ),
-                                ).whenComplete(() {
-                                  searchBoxController.dispose();
-                                  searchBoxController.dispose();
-                                });
+                                ).whenComplete(
+                                  () {
+                                    searchBoxController.dispose();
+                                    searchBoxController.dispose();
+                                  },
+                                );
                               },
                               child: Container(
                                 padding:
@@ -233,15 +236,17 @@ class HomePageFolderList extends StatelessWidget {
                                           folderPath:
                                               musicFolderPaths[index].path);
                                     },
-                                  ).whenComplete(() {
-                                    if (mainPlayerIsOpen) {
-                                      mainPlayerIsOpen = false;
-                                    } else {
-                                      hideButtonSheetStreamNotifier(false);
-                                    }
+                                  ).whenComplete(
+                                    () {
+                                      if (mainPlayerIsOpen) {
+                                        mainPlayerIsOpen = false;
+                                      } else {
+                                        hideButtonSheetStreamNotifier(false);
+                                      }
 
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                  });
+                                      // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    },
+                                  );
                                 },
                                 child: ListTile(
                                   leading: (musicFolderPaths[index].path ==
