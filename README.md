@@ -6,9 +6,9 @@ A Flutter music streaming application that allows users to play audio files from
 
 Basic screenshots of the app to give users a visual preview of the Vicyos Music Player interface.
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/1.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/1.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
 
 
  <br />
@@ -44,8 +44,8 @@ some podcasts `more precisely` for practicing English Listening.
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
 
 ### This project is currently compatible with:
 
@@ -162,47 +162,47 @@ This project uses the following dependencies:
 
 ### Vicyos Music Player Screenshots
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/11.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/12.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/13.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/6.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/2.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/3.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/4.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/5.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/7.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/8.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/9.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/read_banners/10.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/2.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/3.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/4.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/5.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/6.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/7.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/8.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/9.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/10.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/11.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/12.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/13.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/14.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/15.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/16.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/17.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/18.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/19.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/20.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/21.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/22.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/23.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/24.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/25.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/26.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/27.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/28.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/29.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/30.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/31.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/11.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/12.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/13.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/6.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/2.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/3.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/4.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/5.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/7.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/8.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/9.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/10.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/1.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/2.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/3.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/4.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/5.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/6.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/7.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/8.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/9.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/10.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/11.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/12.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/13.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/14.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/15.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/16.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/17.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/18.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/19.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/20.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/21.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/22.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/23.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/24.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/25.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/26.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/27.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/28.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/29.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/30.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/31.png">
