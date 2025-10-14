@@ -18,7 +18,7 @@ class SongsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    getScreenOrientation();
+    setScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
 
@@ -30,9 +30,6 @@ class SongsListScreen extends StatelessWidget {
 
         // Filter all songs from folderPath and add them to folderSongList
         filterSongsOnlyToList(folderPath: folderPath);
-
-        // Set the preferred orientations to portrait mode when this screen is built
-        getScreenOrientation();
 
         debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(

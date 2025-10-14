@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
-    getScreenOrientation();
+    setScreenOrientation();
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {

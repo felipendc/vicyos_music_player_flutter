@@ -26,7 +26,7 @@ class MainPlayerViewTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to landscape mode when this screen is built
-    getScreenOrientation();
+    setScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(

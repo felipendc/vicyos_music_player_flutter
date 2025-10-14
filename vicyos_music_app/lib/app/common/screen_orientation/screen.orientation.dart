@@ -11,9 +11,8 @@ enum DeviceType {
 
 late DeviceType deviceType;
 
-
-void getScreenOrientation() {
-  if (deviceType == DeviceType.tablet){
+void setScreenOrientation() {
+  if (deviceType == DeviceType.tablet) {
     screenOrientationLandscape();
     debugPrint("Device type: Tablet");
   } else {

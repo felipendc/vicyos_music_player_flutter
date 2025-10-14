@@ -17,7 +17,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    getScreenOrientation();
+    setScreenOrientation();
 
     TextEditingController searchBoxController = TextEditingController();
     FocusNode searchBarKeyboardFocusNode = FocusNode();

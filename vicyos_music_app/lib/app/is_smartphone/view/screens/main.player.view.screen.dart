@@ -26,7 +26,7 @@ class MainPlayerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set the preferred orientations to portrait mode when this screen is built
-    getScreenOrientation();
+    setScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
