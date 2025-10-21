@@ -178,6 +178,7 @@ class SearchScreen extends StatelessWidget {
                           isSongPreviewBottomSheetOpen = true;
 
                           final result = await showModalBottomSheet<String>(
+                            isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (BuildContext context) {

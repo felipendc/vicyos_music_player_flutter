@@ -159,6 +159,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           Navigator.pop(context);
 
                           showModalBottomSheet<String>(
+                              isScrollControlled: true,
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (BuildContext context) {

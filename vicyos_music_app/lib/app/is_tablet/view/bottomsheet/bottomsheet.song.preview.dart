@@ -310,7 +310,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: TColor.focusStart,
-                          fontSize: 14,
+                          fontSize: 17,
                         ),
                       ),
                       onPressed: () async {
