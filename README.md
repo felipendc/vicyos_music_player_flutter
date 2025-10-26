@@ -11,6 +11,7 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/RECENT_SCREENSHOTS/V3.0.0_tablet_mode/33.png">
 
 
+
  <br />
  
 ### What motivated me to create the Vicyos Music app?  <br />
