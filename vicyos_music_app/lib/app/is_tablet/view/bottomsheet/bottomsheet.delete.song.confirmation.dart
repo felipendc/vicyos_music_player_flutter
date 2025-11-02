@@ -105,26 +105,29 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                           songPath);
 
                                   if (index != -1) {
-                                    await audioPlayer
-                                        .removeAudioSourceAt(index);
-                                    rebuildPlaylistCurrentLengthStreamNotifier();
-                                    await getCurrentSongFullPathStreamControllerNotifier();
-
-                                    // Update the current song name
-                                    if (index <
-                                        audioPlayer.audioSources.length) {
-                                      String newCurrentSongFullPath =
-                                          Uri.decodeFull(
-                                              (audioPlayer.audioSources[index]
-                                                      as UriAudioSource)
-                                                  .uri
-                                                  .toString());
-                                      currentSongName =
-                                          songName(newCurrentSongFullPath);
+                                    if (songPath == currentSongFullPath &&
+                                        audioPlayer.audioSources.length == 1) {
+                                      // Clean playlist and rebuild the entire screen to clean the listview
+                                      cleanPlaylist();
                                     } else {
-                                      currentSongName = "";
-                                    }
+                                      await audioPlayer
+                                          .removeAudioSourceAt(index);
+                                      rebuildPlaylistCurrentLengthStreamNotifier();
+                                      await getCurrentSongFullPathStreamControllerNotifier();
 
+                                      // Update the current song name
+                                      if (index <
+                                          audioPlayer.audioSources.length) {
+                                        String newCurrentSongFullPath =
+                                            Uri.decodeFull(
+                                                (audioPlayer.audioSources[index]
+                                                        as UriAudioSource)
+                                                    .uri
+                                                    .toString());
+                                        currentSongName =
+                                            songName(newCurrentSongFullPath);
+                                      }
+                                    }
                                     currentSongNameStreamNotifier();
                                   }
                                   // ----------------------------------------------------------
