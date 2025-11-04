@@ -13,7 +13,7 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
-import 'package:vicyos_music/app/is_tablet/widgets/show.top.message.dart';
+import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }

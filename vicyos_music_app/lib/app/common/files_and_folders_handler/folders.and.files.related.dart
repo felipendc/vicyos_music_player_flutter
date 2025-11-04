@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
@@ -9,6 +9,7 @@ import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/permission_handler/permission.handler.dart'
     show requestAudioPermission;
+import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestAudioPermission();
@@ -243,5 +244,57 @@ Future<void> sharingFiles(dynamic shareFile) async {
         files: files,
       ),
     );
+  }
+}
+
+Future<void> deleteSongFromStorage(
+    BuildContext context, String wasDeleted, String songPath) async {
+  if (wasDeleted == "Files deleted successfully") {
+    // ----------------------------------------------------------
+    musicFolderPaths.clear();
+    folderSongList.clear();
+
+    // Re sync the folder list
+    await listMusicFolders();
+
+    // Check if the file is present on the playlist...
+    final int index = audioPlayer.audioSources.indexWhere(
+        (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath);
+
+    if (index != -1) {
+      if (songPath == currentSongFullPath &&
+          audioPlayer.audioSources.length == 1) {
+        // Clean playlist and rebuild the entire screen to clean the listview
+        cleanPlaylist();
+      } else {
+        await audioPlayer.removeAudioSourceAt(index);
+        rebuildPlaylistCurrentLengthStreamNotifier();
+        await getCurrentSongFullPathStreamControllerNotifier();
+
+        // Update the current song name
+        if (index < audioPlayer.audioSources.length) {
+          String newCurrentSongFullPath = Uri.decodeFull(
+              (audioPlayer.audioSources[index] as UriAudioSource)
+                  .uri
+                  .toString());
+          currentSongName = songName(newCurrentSongFullPath);
+        }
+      }
+      currentSongNameStreamNotifier();
+    }
+    // ----------------------------------------------------------
+    rebuildSongsListScreenStreamNotifier();
+    rebuildHomePageFolderListStreamNotifier("fetching_files_done");
+    if (context.mounted) {
+      Navigator.pop(context, "close_song_preview_bottom_sheet");
+    }
+  } else if (wasDeleted != "Files deleted successfully") {
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+  if (context.mounted) {
+    showFileDeletedMessage(
+        context, songName(songPath), "Has been deleted successfully");
   }
 }

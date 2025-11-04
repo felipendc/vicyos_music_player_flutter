@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/is_tablet/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
-
+import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
@@ -175,7 +174,11 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(folderSongList);
-                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Added to the current playlist");
+                          showAddedToPlaylist(
+                              context,
+                              "Folder",
+                              folderName(folderPath),
+                              "Added to the current playlist");
                         },
                       ),
                     ),
@@ -207,7 +210,11 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           setFolderAsPlaylist(folderSongList, 0);
-                          showAddedToPlaylist(context, "Folder", folderName(folderPath), "Playing all the songs from this folder");
+                          showAddedToPlaylist(
+                              context,
+                              "Folder",
+                              folderName(folderPath),
+                              "Playing all the songs from this folder");
                         },
                       ),
                     ),
