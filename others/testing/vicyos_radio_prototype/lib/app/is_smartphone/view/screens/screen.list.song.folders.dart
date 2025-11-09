@@ -128,11 +128,18 @@ class HomePageFolderList extends StatelessWidget {
                                           splashRadius: 20,
                                           iconSize: 20,
                                           onPressed: () async {
+                                            hideButtonSheetStreamNotifier(true);
                                             Navigator.push(
                                               context,
                                               slideRightLeftTransition(
                                                 RadioStationsScreen(),
                                               ),
+                                            ).whenComplete(
+                                              () {
+                                                // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                hideButtonSheetStreamNotifier(
+                                                    false);
+                                              },
                                             );
                                           },
                                           icon: Image.asset(

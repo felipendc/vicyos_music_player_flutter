@@ -19,6 +19,10 @@ import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
 
+bool isRadioOn = false;
+Color radioStationBtn = Color(0xFFFF0F7B);
+bool radioStationFetchError = false;
+late int radioStationErrorIndex;
 int currentRadioIndex = 0;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 late final TextEditingController searchBoxController;
@@ -111,6 +115,12 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<void> rebuildRadioScreenStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<bool> hideRadioPlayerStreamController =
+    StreamController<bool>.broadcast();
+
 // Streams Notifiers Functions
 Future<void> getCurrentSongFullPathStreamControllerNotifier() async {
   getCurrentSongFullPathStreamController.sink.add(null);
@@ -182,6 +192,14 @@ void systemVolumeStreamNotifier() {
   systemVolumeStreamController.sink.add(null);
 }
 
+void radioScreenStreamNotifier() {
+  rebuildRadioScreenStreamController.sink.add(null);
+}
+
+Future<void> hideRadioPlayerStreamNotifier(bool value) async {
+  hideRadioPlayerStreamController.sink.add(value);
+}
+
 // Functions
 
 Future<void> onInitPlayer() async {
@@ -192,7 +210,7 @@ Future<void> onInitPlayer() async {
   audioPlayerPreview.setReleaseMode(audio_players.ReleaseMode.stop);
 
   radioPlayer = AudioPlayer();
-
+  radioPlayer.setLoopMode(LoopMode.all);
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
 
@@ -1059,15 +1077,33 @@ void addToPlayNext(String playNextFilePath) {
   }
 }
 
-void turnOffRadioStation() {
+// ------------ RADIO FUNCTIONS --------------------//
+void errorToFetchRadioStation(int index) {
+  radioStationFetchError = true;
+  radioStationErrorIndex = index;
+}
+
+Future<void> turnOnRadioStation() async {
+  isRadioOn = true;
+  radioStationBtn = Colors.green;
+  // hideRadioPlayerStreamNotifier(false);
+
+  radioScreenStreamNotifier();
+}
+
+Future<void> turnOffRadioStation() async {
+  isRadioOn = false;
+  radioStationBtn = Color(0xFFFF0F7B);
   radioPlayer.clearAudioSources();
   radioPlaylist.clear();
   radioPlayer.stop();
   currentRadioIndex = 0;
   getCurrentSongFullPathStreamControllerNotifier();
+  radioScreenStreamNotifier();
 }
 
-Future<void> playRadioStation(int index) async {
+Future<void> playRadioStation(BuildContext context, int index) async {
+  turnOnRadioStation();
   cleanPlaylist();
 
   // Clear and re-add all the radio stations to the "radioPlaylist"
@@ -1106,7 +1142,13 @@ Future<void> playRadioStation(int index) async {
     );
     radioPlayer.play();
   } catch (e) {
+    if (context.mounted) {
+      errorToFetchRadioStationCard(context, radioStationList[index].radioName);
+    }
+    radioPlayer.seekToNext();
     debugPrint('Erro ao carregar a rádio: $e');
   }
   getCurrentSongFullPathStreamControllerNotifier();
 }
+
+// ------------ RADIO FUNCTIONS END --------------------//

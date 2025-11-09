@@ -5,8 +5,6 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/screen.list.song.folders.dart';
 
-import '../../widgets/bottom.player.dart';
-
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -60,16 +58,43 @@ class HomeScreen extends StatelessWidget {
                       } else {
                         // After one second, it will return the BottomPlayer.
                         return Positioned(
-                          bottom: 0, // Default 6
-                          right: 11, // Default 11
-                          child: BottomPlayer(),
-                        );
+                            bottom: 0, // Default 6
+                            right: 11, // Default 11
+                            child: Container() //BottomPlayer(),
+                            );
                       }
                     },
                   );
                 }
               },
             ),
+            // StreamBuilder<bool>(
+            //   stream: hideRadioPlayerStreamController.stream,
+            //   builder: (context, snapshot) {
+            //     final hideMiniPlayer = snapshot.data ?? false;
+            //     debugPrint("LLLLLLLLLLLLLL $hideMiniPlayer");
+            //     if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
+            //       return Container();
+            //     } else {
+            //       return FutureBuilder(
+            //         future: Future.delayed(Duration(seconds: 1)),
+            //         builder: (context, futureSnapshot) {
+            //           if (futureSnapshot.connectionState ==
+            //               ConnectionState.waiting) {
+            //             return Container(); //Return a loader o an empty container.
+            //           } else {
+            //             // After one second, it will return the BottomPlayer.
+            //             return Positioned(
+            //               bottom: 0, // Default 6
+            //               right: 11, // Default 11
+            //               child: BottomRadioPlayer(),
+            //             );
+            //           }
+            //         },
+            //       );
+            //     }
+            //   },
+            // ),
           ],
         ),
       ),
