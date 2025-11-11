@@ -128,7 +128,7 @@ class HomePageFolderList extends StatelessWidget {
                                           splashRadius: 20,
                                           iconSize: 20,
                                           onPressed: () async {
-                                            hideaaaaaa(false);
+                                            hideMiniPlayerStreamNotifier(false);
                                             hideBottonSheetStreamNotifier(true);
                                             Navigator.push(
                                               context,
