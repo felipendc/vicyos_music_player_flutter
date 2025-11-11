@@ -69,6 +69,14 @@ Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 
+StreamController<bool> hideMiniRadioPlayerStreamController =
+    StreamController<bool>.broadcast();
+
+void hideMiniPlayerStreamNotifier(bool value) {
+  hideMiniRadioPlayerStreamController.sink.add(value);
+}
+
+//
 // Stream controllers
 StreamController<void> getCurrentSongFullPathStreamController =
     StreamController<void>.broadcast();
@@ -94,7 +102,7 @@ StreamController<void> repeatModeStreamController =
 StreamController<void> systemVolumeStreamController =
     StreamController<void>.broadcast();
 
-StreamController<bool> hideButtonSheetStreamController =
+StreamController<bool> hideBottonSheetStreamController =
     StreamController<bool>.broadcast();
 
 StreamController<void> rebuildPlaylistCurrentLengthController =
@@ -161,10 +169,6 @@ void rebuildPlaylistCurrentLengthStreamNotifier() {
   rebuildPlaylistCurrentLengthController.sink.add(null);
 }
 
-Future<void> hideButtonSheetStreamNotifier(bool value) async {
-  hideButtonSheetStreamController.sink.add(value);
-}
-
 void clearCurrentPlaylistStreamNotifier() {
   audioPlayer.stop();
   songIsPlaying = false;
@@ -196,8 +200,8 @@ void radioScreenStreamNotifier() {
   rebuildRadioScreenStreamController.sink.add(null);
 }
 
-Future<void> hideRadioPlayerStreamNotifier(bool value) async {
-  hideRadioPlayerStreamController.sink.add(value);
+Future<void> hideBottonSheetStreamNotifier(bool value) async {
+  hideBottonSheetStreamController.sink.add(value);
 }
 
 // Functions
@@ -1057,7 +1061,7 @@ void addToPlayNext(String playNextFilePath) {
       ),
     );
 
-    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
     firstSongIndex = true;
     preLoadSongName();
     rebuildPlaylistCurrentLengthStreamNotifier();
@@ -1086,7 +1090,9 @@ void errorToFetchRadioStation(int index) {
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
   radioStationBtn = Colors.green;
-  // hideRadioPlayerStreamNotifier(false);
+
+  // hideBottonSheetStreamNotifier(false);
+  // hideMiniPlayerStreamNotifier(false);
 
   radioScreenStreamNotifier();
 }
@@ -1140,11 +1146,12 @@ Future<void> playRadioStation(BuildContext context, int index) async {
       // Customise the shuffle algorithm
       preload: true,
     );
+
     radioPlayer.play();
   } catch (e) {
-    if (context.mounted) {
-      errorToFetchRadioStationCard(context, radioStationList[index].radioName);
-    }
+    // if (context.mounted) {
+    //   errorToFetchRadioStationCard(context, radioStationList[index].radioName);
+    // }
     radioPlayer.seekToNext();
     debugPrint('Erro ao carregar a rádio: $e');
   }

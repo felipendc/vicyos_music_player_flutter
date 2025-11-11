@@ -176,7 +176,7 @@ class SearchScreen extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
-                          hideButtonSheetStreamNotifier(true);
+                          hideBottonSheetStreamNotifier(true);
 
                           final result = await showModalBottomSheet<String>(
                             isScrollControlled: true,
@@ -191,7 +191,7 @@ class SearchScreen extends StatelessWidget {
                               isSongPreviewBottomSheetOpen = false;
 
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              hideButtonSheetStreamNotifier(false);
+                              hideBottonSheetStreamNotifier(false);
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -268,7 +268,7 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
-                              await hideButtonSheetStreamNotifier(true);
+                              await hideBottonSheetStreamNotifier(true);
 
                               if (context.mounted) {
                                 final result =
@@ -286,7 +286,7 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
-                                        hideButtonSheetStreamNotifier(false);
+                                        hideBottonSheetStreamNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }

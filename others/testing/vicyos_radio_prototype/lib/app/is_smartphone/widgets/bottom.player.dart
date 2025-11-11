@@ -147,7 +147,7 @@ class BottomPlayer extends StatelessWidget {
                                         if (mainPlayerIsOpen) {
                                           mainPlayerIsOpen = false;
                                         }
-                                        hideButtonSheetStreamNotifier(false);
+                                        hideBottonSheetStreamNotifier(false);
                                       },
                                     );
                                   },

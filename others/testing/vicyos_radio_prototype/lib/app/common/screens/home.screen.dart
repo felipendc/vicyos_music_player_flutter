@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                   StreamBuilder<bool>(
-                    stream: hideButtonSheetStreamController.stream,
+                    stream: hideBottonSheetStreamController.stream,
                     builder: (context, snapshot) {
                       final hideMiniPlayer = snapshot.data ?? false;
                       if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {

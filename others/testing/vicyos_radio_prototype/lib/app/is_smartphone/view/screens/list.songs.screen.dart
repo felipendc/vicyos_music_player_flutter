@@ -130,7 +130,7 @@ class SongsListScreen extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 10,
                                         onPressed: () async {
-                                          hideButtonSheetStreamNotifier(true);
+                                          hideBottonSheetStreamNotifier(true);
                                           showModalBottomSheet<void>(
                                             backgroundColor: Colors.transparent,
                                             context: context,
@@ -141,11 +141,11 @@ class SongsListScreen extends StatelessWidget {
                                           ).whenComplete(
                                             () {
                                               if (mainPlayerIsOpen) {
-                                                hideButtonSheetStreamNotifier(
+                                                hideBottonSheetStreamNotifier(
                                                     true);
                                               } else {
                                                 // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                hideButtonSheetStreamNotifier(
+                                                hideBottonSheetStreamNotifier(
                                                     false);
                                               }
                                             },
@@ -270,7 +270,7 @@ class SongsListScreen extends StatelessWidget {
                                   audioPlayerWasPlaying = false;
                                 }
                                 isSongPreviewBottomSheetOpen = true;
-                                hideButtonSheetStreamNotifier(true);
+                                hideBottonSheetStreamNotifier(true);
 
                                 showModalBottomSheet<void>(
                                   isScrollControlled: true,
@@ -285,7 +285,7 @@ class SongsListScreen extends StatelessWidget {
                                     isSongPreviewBottomSheetOpen = false;
 
                                     // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideButtonSheetStreamNotifier(false);
+                                    hideBottonSheetStreamNotifier(false);
                                     audioPlayerPreview.stop();
                                     audioPlayerPreview.release();
 
@@ -361,7 +361,7 @@ class SongsListScreen extends StatelessWidget {
                                     color: TColor.lightGray,
                                   ),
                                   onPressed: () async {
-                                    await hideButtonSheetStreamNotifier(true);
+                                    await hideBottonSheetStreamNotifier(true);
                                     if (context.mounted) {
                                       showModalBottomSheet<String>(
                                         backgroundColor: Colors.transparent,
@@ -379,7 +379,7 @@ class SongsListScreen extends StatelessWidget {
                                               debugPrint(
                                                   "No other screen is open.");
                                             } else {
-                                              hideButtonSheetStreamNotifier(
+                                              hideBottonSheetStreamNotifier(
                                                   false);
                                               debugPrint(
                                                   " There are other open screens .");

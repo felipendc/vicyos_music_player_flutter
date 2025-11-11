@@ -78,7 +78,7 @@ AppBar songsListAppBar(
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
-            hideButtonSheetStreamNotifier(true);
+            hideBottonSheetStreamNotifier(true);
             showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               context: context,
@@ -88,10 +88,10 @@ AppBar songsListAppBar(
             ).whenComplete(
               () {
                 if (mainPlayerIsOpen) {
-                  hideButtonSheetStreamNotifier(true);
+                  hideBottonSheetStreamNotifier(true);
                 } else {
                   // "When the bottom sheet is closed, send a signal to show the mini player again."
-                  hideButtonSheetStreamNotifier(false);
+                  hideBottonSheetStreamNotifier(false);
                 }
               },
             );

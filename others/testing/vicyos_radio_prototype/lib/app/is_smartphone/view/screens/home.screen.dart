@@ -4,6 +4,9 @@ import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.fi
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/screen.list.song.folders.dart';
+import 'package:vicyos_music/app/is_smartphone/widgets/bottom.player.dart';
+
+import '../../../common/widgets/bottom.radio.player.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -43,7 +46,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             StreamBuilder<bool>(
-              stream: hideButtonSheetStreamController.stream,
+              stream: hideBottonSheetStreamController.stream,
               builder: (context, snapshot) {
                 final hideMiniPlayer = snapshot.data ?? false;
                 if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
@@ -58,43 +61,44 @@ class HomeScreen extends StatelessWidget {
                       } else {
                         // After one second, it will return the BottomPlayer.
                         return Positioned(
-                            bottom: 0, // Default 6
-                            right: 11, // Default 11
-                            child: Container() //BottomPlayer(),
-                            );
+                          bottom: 0, // Default 6
+                          right: 11, // Default 11
+                          child: BottomPlayer(),
+                        );
                       }
                     },
                   );
                 }
               },
             ),
-            // StreamBuilder<bool>(
-            //   stream: hideRadioPlayerStreamController.stream,
-            //   builder: (context, snapshot) {
-            //     final hideMiniPlayer = snapshot.data ?? false;
-            //     debugPrint("LLLLLLLLLLLLLL $hideMiniPlayer");
-            //     if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
-            //       return Container();
-            //     } else {
-            //       return FutureBuilder(
-            //         future: Future.delayed(Duration(seconds: 1)),
-            //         builder: (context, futureSnapshot) {
-            //           if (futureSnapshot.connectionState ==
-            //               ConnectionState.waiting) {
-            //             return Container(); //Return a loader o an empty container.
-            //           } else {
-            //             // After one second, it will return the BottomPlayer.
-            //             return Positioned(
-            //               bottom: 0, // Default 6
-            //               right: 11, // Default 11
-            //               child: BottomRadioPlayer(),
-            //             );
-            //           }
-            //         },
-            //       );
-            //     }
-            //   },
-            // ),
+            StreamBuilder<bool>(
+              stream: hideMiniRadioPlayerStreamController.stream,
+              initialData: true,
+              builder: (context, snapshot) {
+                final hideMiniPlayer = snapshot.data ?? false;
+                debugPrint("LLLLLLLLLLLLLL $hideMiniPlayer");
+                if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
+                  return Container();
+                } else {
+                  return FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 1)),
+                    builder: (context, futureSnapshot) {
+                      if (futureSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return Container(); //Return a loader o an empty container.
+                      } else {
+                        // After one second, it will return the BottomPlayer.
+                        return Positioned(
+                          bottom: 0, // Default 6
+                          right: 11, // Default 11
+                          child: BottomRadioPlayer(),
+                        );
+                      }
+                    },
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
