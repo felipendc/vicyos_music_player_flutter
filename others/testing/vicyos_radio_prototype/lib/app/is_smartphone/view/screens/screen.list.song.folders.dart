@@ -128,7 +128,7 @@ class HomePageFolderList extends StatelessWidget {
                                           splashRadius: 20,
                                           iconSize: 20,
                                           onPressed: () async {
-                                            hideMiniPlayerStreamNotifier(false);
+                                            // hideMiniPlayerStreamNotifier(false);
                                             hideBottonSheetStreamNotifier(true);
                                             Navigator.push(
                                               context,
@@ -137,6 +137,8 @@ class HomePageFolderList extends StatelessWidget {
                                               ),
                                             ).whenComplete(
                                               () {
+                                                // hideMiniPlayerStreamNotifier(
+                                                //     true);
                                                 // "When the bottom sheet is closed, send a signal to show the mini player again."
                                                 hideBottonSheetStreamNotifier(
                                                     false);

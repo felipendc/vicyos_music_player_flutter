@@ -69,14 +69,7 @@ Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 
-StreamController<bool> hideMiniRadioPlayerStreamController =
-    StreamController<bool>.broadcast();
 
-void hideMiniPlayerStreamNotifier(bool value) {
-  hideMiniRadioPlayerStreamController.sink.add(value);
-}
-
-//
 // Stream controllers
 StreamController<void> getCurrentSongFullPathStreamController =
     StreamController<void>.broadcast();
@@ -128,6 +121,10 @@ StreamController<void> rebuildRadioScreenStreamController =
 
 StreamController<bool> hideRadioPlayerStreamController =
     StreamController<bool>.broadcast();
+
+StreamController<bool> hideMiniRadioPlayerStreamController =
+StreamController<bool>.broadcast();
+
 
 // Streams Notifiers Functions
 Future<void> getCurrentSongFullPathStreamControllerNotifier() async {
@@ -202,6 +199,10 @@ void radioScreenStreamNotifier() {
 
 Future<void> hideBottonSheetStreamNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
+}
+
+void hideMiniPlayerStreamNotifier(bool value) {
+  hideMiniRadioPlayerStreamController.sink.add(value);
 }
 
 // Functions

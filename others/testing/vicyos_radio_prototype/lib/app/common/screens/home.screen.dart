@@ -82,32 +82,6 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
-                  StreamBuilder<bool>(
-                    stream: hideMiniRadioPlayerStreamController.stream,
-                    builder: (context, snapshot) {
-                      final hideMiniPlayer = snapshot.data ?? false;
-                      if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
-                        return Container();
-                      } else {
-                        return FutureBuilder(
-                          future: Future.delayed(Duration(seconds: 1)),
-                          builder: (context, futureSnapshot) {
-                            if (futureSnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Container(); //Return a loader o an empty container.
-                            } else {
-                              // After one second, it will return the BottomPlayer.
-                              return Positioned(
-                                bottom: 0, // Default 6
-                                right: 11, // Default 11
-                                child: BottomPlayer(),
-                              );
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
                 ],
               ),
             ),
