@@ -187,58 +187,6 @@ Future<void> hideMiniPlayerStreamNotifier(bool value) async {
 }
 
 // Functions
-
-Future<void> onInitPlayer() async {
-  initVolumeControl();
-
-  // Player for previewing the songs.
-  audioPlayerPreview = audio_players.AudioPlayer();
-  audioPlayerPreview.setReleaseMode(audio_players.ReleaseMode.stop);
-
-  radioPlayer = AudioPlayer();
-  radioPlayer.setLoopMode(LoopMode.all);
-  audioPlayer = AudioPlayer();
-  audioPlayer.setLoopMode(LoopMode.all);
-
-  // playlist = ConcatenatingAudioSource(
-  //   useLazyPreparation: true,
-  //   shuffleOrder: DefaultShuffleOrder(),
-  //   children: audioSources,
-  // );
-  playerEventStateStreamNotifier();
-  playerPreviewEventStateStreamNotifier();
-  await defaultAlbumArt();
-
-  audioPlayer.sequenceStateStream.listen(
-    (sequenceState) {
-      final currentSource = sequenceState.currentSource;
-      if (currentSource is UriAudioSource) {
-        currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
-        getCurrentSongFolderStreamControllerNotifier();
-
-        currentSongFullPath =
-            getCurrentSongFullPath(currentSource.uri.toString());
-        getCurrentSongFullPathStreamControllerNotifier();
-      }
-    },
-  );
-
-  // FAZER DEPOIS!
-  // Update radio stations list screen
-  radioPlayer.playbackEventStream.listen(
-    (event) {
-      currentIndex = event.currentIndex ?? 0;
-      debugPrint("INDEX RADIO ATUAL: $currentIndex");
-
-      currentRadioIndex =
-          (radioPlayer.audioSources.isEmpty || radioPlaylist.isEmpty)
-              ? currentIndex = 0
-              : currentIndex += 1;
-      getCurrentSongFullPathStreamControllerNotifier();
-    },
-  );
-}
-
 String getCurrentSongFullPath(String songPath) {
   // Try to correctly interpret the path
   Uri uri = Uri.parse(songPath);
@@ -283,7 +231,7 @@ void setVolumeJustAudio(double value) {
   VolumeController.instance.setVolume(audioPlayer.volume);
 }
 
-// This function should be used on a flutter.initState or GetX.onInit();
+// This function should be used on a flutter.initState or GetX.onInitApp();
 void playerEventStateStreamNotifier() {
   // I will need to use another state listener other than!
   audioPlayer.positionStream.listen(
@@ -359,7 +307,7 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-// This func should be used on a flutter.initState or GetX.onInit();
+// This func should be used on a flutter.initState or GetX.onInitApp();
 void playerPreviewEventStateStreamNotifier() {
   audioPlayerPreview.onPositionChanged.listen(
     (position) {
