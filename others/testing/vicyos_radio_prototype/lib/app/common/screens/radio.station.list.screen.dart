@@ -2,6 +2,8 @@
 // import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 // import 'package:vicyos_music/app/common/music_player/music.player.dart';
 // import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+// import 'package:vicyos_music/app/common/radio/radio.functions.dart'
+//     show playRadioStation, turnOffRadioStation;
 // import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
 // import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 // import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
@@ -393,6 +395,9 @@ import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart'
     show slideRightLeftTransition;
+import 'package:vicyos_music/app/common/radio/radio.functions.dart'
+    show radioHasLogo, radioLogo, playRadioStation, turnOffRadioStation;
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
@@ -664,10 +669,15 @@ class RadioStationsScreen extends StatelessWidget {
                                         ),
                                       )
                                     : Image.asset(
-                                        width: 32,
-                                        height: 32,
-                                        "assets/img/radio_icon.png",
-                                        color: TColor.focus,
+                                        width: radioHasLogo(index) ? 45 : 32,
+                                        height: radioHasLogo(index) ? 45 : 32,
+                                        radioHasLogo(index)
+                                            ? radioStationList[index]
+                                                .ratioStationLogo!
+                                            : radioLogo(),
+                                        color: radioHasLogo(index)
+                                            ? null
+                                            : TColor.focus,
                                       ),
                                 // Icon(
                                 //         Icons.music_note_rounded,

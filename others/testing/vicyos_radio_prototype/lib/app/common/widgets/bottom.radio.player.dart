@@ -147,7 +147,7 @@ class BottomRadioPlayer extends StatelessWidget {
                                         if (mainPlayerIsOpen) {
                                           mainPlayerIsOpen = false;
                                         }
-                                        hideBottonSheetStreamNotifier(false);
+                                        hideMiniPlayerStreamNotifier(false);
                                       },
                                     );
                                   },

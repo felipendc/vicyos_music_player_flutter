@@ -13,7 +13,7 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
-import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
@@ -69,7 +69,6 @@ Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 
-
 // Stream controllers
 StreamController<void> getCurrentSongFullPathStreamController =
     StreamController<void>.broadcast();
@@ -115,16 +114,6 @@ StreamController<String> isSearchingSongsStreamController =
 
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
-
-StreamController<void> rebuildRadioScreenStreamController =
-    StreamController<void>.broadcast();
-
-StreamController<bool> hideRadioPlayerStreamController =
-    StreamController<bool>.broadcast();
-
-StreamController<bool> hideMiniRadioPlayerStreamController =
-StreamController<bool>.broadcast();
-
 
 // Streams Notifiers Functions
 Future<void> getCurrentSongFullPathStreamControllerNotifier() async {
@@ -193,16 +182,8 @@ void systemVolumeStreamNotifier() {
   systemVolumeStreamController.sink.add(null);
 }
 
-void radioScreenStreamNotifier() {
-  rebuildRadioScreenStreamController.sink.add(null);
-}
-
-Future<void> hideBottonSheetStreamNotifier(bool value) async {
+Future<void> hideMiniPlayerStreamNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
-}
-
-void hideMiniPlayerStreamNotifier(bool value) {
-  hideMiniRadioPlayerStreamController.sink.add(value);
 }
 
 // Functions
@@ -1081,82 +1062,3 @@ void addToPlayNext(String playNextFilePath) {
     rebuildPlaylistCurrentLengthStreamNotifier();
   }
 }
-
-// ------------ RADIO FUNCTIONS --------------------//
-void errorToFetchRadioStation(int index) {
-  radioStationFetchError = true;
-  radioStationErrorIndex = index;
-}
-
-Future<void> turnOnRadioStation() async {
-  isRadioOn = true;
-  radioStationBtn = Colors.green;
-
-  // hideBottonSheetStreamNotifier(false);
-  // hideMiniPlayerStreamNotifier(false);
-
-  radioScreenStreamNotifier();
-}
-
-Future<void> turnOffRadioStation() async {
-  isRadioOn = false;
-  radioStationBtn = Color(0xFFFF0F7B);
-  radioPlayer.clearAudioSources();
-  radioPlaylist.clear();
-  radioPlayer.stop();
-  currentRadioIndex = 0;
-  getCurrentSongFullPathStreamControllerNotifier();
-  radioScreenStreamNotifier();
-}
-
-Future<void> playRadioStation(BuildContext context, int index) async {
-  turnOnRadioStation();
-  cleanPlaylist();
-
-  // Clear and re-add all the radio stations to the "radioPlaylist"
-  radioPlaylist.clear();
-  for (var radioStation in radioStationList) {
-    String radioStationUrl = radioStation.radioUrl;
-    debugPrint("Radio URLS: $radioStationUrl");
-
-    final mediaItem = MediaItem(
-      id: const Uuid().v4(),
-      // album: metadata?.albumName ?? 'Unknown Album',
-
-      // Using the name of the file as the title by default
-      title: radioStation.radioName,
-      album: radioStation.radioInfo,
-      // artist: metadata?.albumArtistName ?? 'Unknown Artist',
-      artUri: Uri.file(notificationPlayerAlbumArt.path),
-    );
-
-    radioPlaylist.add(
-      AudioSource.uri(
-        Uri.parse(radioStationUrl),
-        tag: mediaItem,
-      ),
-    );
-  }
-
-  try {
-    // Load the playlist
-    await radioPlayer.setAudioSources(
-      radioPlaylist,
-      initialIndex: index,
-      initialPosition: Duration.zero, // Load each item just in time
-      // Customise the shuffle algorithm
-      preload: true,
-    );
-
-    radioPlayer.play();
-  } catch (e) {
-    // if (context.mounted) {
-    //   errorToFetchRadioStationCard(context, radioStationList[index].radioName);
-    // }
-    radioPlayer.seekToNext();
-    debugPrint('Erro ao carregar a rádio: $e');
-  }
-  getCurrentSongFullPathStreamControllerNotifier();
-}
-
-// ------------ RADIO FUNCTIONS END --------------------//

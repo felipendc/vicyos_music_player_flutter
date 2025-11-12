@@ -129,7 +129,7 @@ class HomePageFolderList extends StatelessWidget {
                                           iconSize: 20,
                                           onPressed: () async {
                                             // hideMiniPlayerStreamNotifier(false);
-                                            hideBottonSheetStreamNotifier(true);
+                                            hideMiniPlayerStreamNotifier(true);
                                             Navigator.push(
                                               context,
                                               slideRightLeftTransition(
@@ -140,7 +140,7 @@ class HomePageFolderList extends StatelessWidget {
                                                 // hideMiniPlayerStreamNotifier(
                                                 //     true);
                                                 // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                hideBottonSheetStreamNotifier(
+                                                hideMiniPlayerStreamNotifier(
                                                     false);
                                               },
                                             );
@@ -262,7 +262,7 @@ class HomePageFolderList extends StatelessWidget {
                               height: 70,
                               child: GestureDetector(
                                 onLongPress: () {
-                                  hideBottonSheetStreamNotifier(true);
+                                  hideMiniPlayerStreamNotifier(true);
                                   showModalBottomSheet<void>(
                                     backgroundColor: Colors.transparent,
                                     context: context,
@@ -276,7 +276,7 @@ class HomePageFolderList extends StatelessWidget {
                                       if (mainPlayerIsOpen) {
                                         mainPlayerIsOpen = false;
                                       } else {
-                                        hideBottonSheetStreamNotifier(false);
+                                        hideMiniPlayerStreamNotifier(false);
                                       }
 
                                       // "When the bottom sheet is closed, send a signal to show the mini player again."

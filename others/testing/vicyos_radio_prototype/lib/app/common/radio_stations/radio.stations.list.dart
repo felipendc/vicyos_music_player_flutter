@@ -32,6 +32,7 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl: 'https://streaming.inweb.com.br/energia',
   ),
   RadioStationInfo(
+    // ratioStationLogo: "assets/img/radio_logos/metropolitana.png",
     radioSimpleName: "Metropolitana",
     radioName: 'Metropolitana FM 98.5',
     radioInfo: 'São Paulo',
