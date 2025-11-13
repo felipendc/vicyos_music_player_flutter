@@ -663,6 +663,20 @@ class RadioStationsScreen extends StatelessWidget {
                                               radioLogo(),
                                               color: TColor.focus,
                                             );
+                                          } else if (playing == false) {
+                                            return Image.asset(
+                                              width:
+                                                  radioHasLogo(index) ? 45 : 32,
+                                              height:
+                                                  radioHasLogo(index) ? 45 : 32,
+                                              radioHasLogo(index)
+                                                  ? radioStationList[index]
+                                                      .ratioStationLogo!
+                                                  : radioLogo(),
+                                              color: radioHasLogo(index)
+                                                  ? null
+                                                  : TColor.focus,
+                                            );
                                           } else {
                                             return Padding(
                                               padding: const EdgeInsets.only(
