@@ -785,21 +785,38 @@ class RadioStationsScreen extends StatelessWidget {
                                               color: Colors.green,
                                             );
                                           } else {
-                                            return Image.asset(
-                                              height: 30,
-                                              width: 30,
-                                              "assets/img/radio/antenna-bars-5-streamline.png",
-                                              color: TColor.lightGray,
-                                            );
+                                            return (radioStationFetchError &&
+                                                    radioStationErrorIndex ==
+                                                        index)
+                                                ? Image.asset(
+                                                    height: 30,
+                                                    width: 30,
+                                                    "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                    color: TColor.org,
+                                                  )
+                                                : Image.asset(
+                                                    height: 30,
+                                                    width: 30,
+                                                    "assets/img/radio/antenna-bars-5-streamline.png",
+                                                    color: TColor.lightGray,
+                                                  );
                                           }
                                         },
                                       )
-                                    : Image.asset(
-                                        height: 30,
-                                        width: 30,
-                                        "assets/img/radio/antenna-bars-5-streamline.png",
-                                        color: TColor.lightGray,
-                                      ),
+                                    : (radioStationFetchError &&
+                                            radioStationErrorIndex == index)
+                                        ? Image.asset(
+                                            height: 30,
+                                            width: 30,
+                                            "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                            color: TColor.org,
+                                          )
+                                        : Image.asset(
+                                            height: 30,
+                                            width: 30,
+                                            "assets/img/radio/antenna-bars-5-streamline.png",
+                                            color: TColor.lightGray,
+                                          ),
 
                                 // IconButton(
                                 //   splashRadius: 5,

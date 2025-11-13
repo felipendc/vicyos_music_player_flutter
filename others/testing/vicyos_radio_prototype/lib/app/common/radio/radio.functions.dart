@@ -2,11 +2,14 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart' show BuildContext, Color;
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter/material.dart' show Colors;
+import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/widgets/show.top.message.dart'
+    show errorToFetchRadioStationCard;
 
 // ------------ RADIO FUNCTIONS --------------------//
 
@@ -42,6 +45,22 @@ Future<void> turnOffRadioStation() async {
   currentRadioIndex = 0;
   getCurrentSongFullPathStreamControllerNotifier();
   radioScreenStreamNotifier();
+}
+
+Future<bool> checkStreamUrl(String url) async {
+  try {
+    final response = await http.head(Uri.parse(url)).timeout(
+          const Duration(seconds: 5),
+        );
+
+    // If the server responds with 200, 206, or 302 — the URL is valid
+    return response.statusCode == 200 ||
+        response.statusCode == 206 ||
+        response.statusCode == 302;
+  } catch (e) {
+    // Any error (timeout, invalid host, etc.) -> the URL is broken
+    return false;
+  }
 }
 
 Future<void> playRadioStation(BuildContext context, int index) async {
@@ -85,13 +104,18 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 
     radioPlayer.play();
   } catch (e) {
-    // if (context.mounted) {
-    //   errorToFetchRadioStationCard(context, radioStationList[index].radioName);
-    // }
-    radioPlayer.seekToNext();
+    if (!await checkStreamUrl(radioStationList[index].radioUrl)) {
+      errorToFetchRadioStation(index);
+      if (context.mounted) {
+        errorToFetchRadioStationCard(
+            context, radioStationList[index].radioName);
+      }
+      await turnOffRadioStation();
+      getCurrentSongFullPathStreamControllerNotifier();
+    }
+
     debugPrint('Erro ao carregar a rádio: $e');
   }
-  getCurrentSongFullPathStreamControllerNotifier();
 }
 
 // ------------ RADIO FUNCTIONS END --------------------//
