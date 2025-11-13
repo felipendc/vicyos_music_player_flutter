@@ -103,8 +103,11 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     );
 
     radioPlayer.play();
+    radioStationList[index].stationStatus = RadioStationConnectionStatus.online;
   } catch (e) {
     if (!await checkStreamUrl(radioStationList[index].radioUrl)) {
+      radioStationList[index].stationStatus =
+          RadioStationConnectionStatus.error;
       errorToFetchRadioStation(index);
       if (context.mounted) {
         errorToFetchRadioStationCard(

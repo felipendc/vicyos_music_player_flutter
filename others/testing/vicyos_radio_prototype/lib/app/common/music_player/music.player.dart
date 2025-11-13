@@ -19,6 +19,8 @@ import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
 
+enum RadioStationConnectionStatus { online, error }
+
 bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;

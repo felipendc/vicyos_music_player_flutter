@@ -634,8 +634,7 @@ class RadioStationsScreen extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Expanded(
                       child: ListView.separated(
-                        padding: const EdgeInsets.only(
-                            bottom: 112, left: 5, right: 5),
+                        padding: const EdgeInsets.only(bottom: 112),
                         itemCount: radioStationList.length,
                         itemBuilder: (context, index) {
                           return SizedBox(
@@ -644,86 +643,92 @@ class RadioStationsScreen extends StatelessWidget {
                               onLongPress: () {},
                               child: ListTile(
                                 key: ValueKey(radioStationList[index].radioUrl),
-                                leading: (index + 1 == currentRadioIndex)
-                                    ? StreamBuilder<PlayerState>(
-                                        stream: radioPlayer.playerStateStream,
-                                        builder: (context, snapshot) {
-                                          final playerState = snapshot.data;
-                                          final processingState =
-                                              playerState?.processingState;
-                                          final playing = playerState?.playing;
+                                leading: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: (index + 1 == currentRadioIndex)
+                                      ? StreamBuilder<PlayerState>(
+                                          stream: radioPlayer.playerStateStream,
+                                          builder: (context, snapshot) {
+                                            final playerState = snapshot.data;
+                                            final processingState =
+                                                playerState?.processingState;
+                                            final playing =
+                                                playerState?.playing;
 
-                                          if (processingState ==
-                                                  ProcessingState.loading ||
-                                              processingState ==
-                                                  ProcessingState.buffering) {
-                                            return Image.asset(
-                                              height: 32,
-                                              width: 32,
-                                              radioLogo(),
-                                              color: TColor.focus,
-                                            );
-                                          } else if (playing == false) {
-                                            return Image.asset(
-                                              width:
-                                                  radioHasLogo(index) ? 45 : 32,
-                                              height:
-                                                  radioHasLogo(index) ? 45 : 32,
-                                              radioHasLogo(index)
-                                                  ? radioStationList[index]
-                                                      .ratioStationLogo!
-                                                  : radioLogo(),
-                                              color: radioHasLogo(index)
-                                                  ? null
-                                                  : TColor.focus,
-                                            );
-                                          } else {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10.0,
-                                                  left: 5.0,
-                                                  bottom: 10.0),
-                                              child: SizedBox(
-                                                height: 30,
-                                                width: 30,
-                                                child: MusicVisualizer(
-                                                  barCount: 6,
-                                                  colors: [
-                                                    TColor.focus,
-                                                    TColor.secondaryEnd,
-                                                    TColor.focusStart,
-                                                    Colors.blue[900]!,
-                                                  ],
-                                                  duration: const [
-                                                    900,
-                                                    700,
-                                                    600,
-                                                    800,
-                                                    500
-                                                  ],
+                                            if (processingState ==
+                                                    ProcessingState.loading ||
+                                                processingState ==
+                                                    ProcessingState.buffering) {
+                                              return Image.asset(
+                                                height: 32,
+                                                width: 32,
+                                                radioLogo(),
+                                                color: TColor.focus,
+                                              );
+                                            } else if (playing == false) {
+                                              return Image.asset(
+                                                width: radioHasLogo(index)
+                                                    ? 45
+                                                    : 32,
+                                                height: radioHasLogo(index)
+                                                    ? 45
+                                                    : 32,
+                                                radioHasLogo(index)
+                                                    ? radioStationList[index]
+                                                        .ratioStationLogo!
+                                                    : radioLogo(),
+                                                color: radioHasLogo(index)
+                                                    ? null
+                                                    : TColor.focus,
+                                              );
+                                            } else {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0,
+                                                    left: 5.0,
+                                                    bottom: 10.0),
+                                                child: SizedBox(
+                                                  height: 30,
+                                                  width: 30,
+                                                  child: MusicVisualizer(
+                                                    barCount: 6,
+                                                    colors: [
+                                                      TColor.focus,
+                                                      TColor.secondaryEnd,
+                                                      TColor.focusStart,
+                                                      Colors.blue[900]!,
+                                                    ],
+                                                    duration: const [
+                                                      900,
+                                                      700,
+                                                      600,
+                                                      800,
+                                                      500
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      )
-                                    : Image.asset(
-                                        width: radioHasLogo(index) ? 45 : 32,
-                                        height: radioHasLogo(index) ? 45 : 32,
-                                        radioHasLogo(index)
-                                            ? radioStationList[index]
-                                                .ratioStationLogo!
-                                            : radioLogo(),
-                                        color: radioHasLogo(index)
-                                            ? null
-                                            : TColor.focus,
-                                      ),
+                                              );
+                                            }
+                                          },
+                                        )
+                                      : Image.asset(
+                                          width: radioHasLogo(index) ? 45 : 32,
+                                          height: radioHasLogo(index) ? 45 : 32,
+                                          radioHasLogo(index)
+                                              ? radioStationList[index]
+                                                  .ratioStationLogo!
+                                              : radioLogo(),
+                                          color: radioHasLogo(index)
+                                              ? null
+                                              : TColor.focus,
+                                        ),
 
-                                // Icon(
-                                //         Icons.music_note_rounded,
-                                //         color: TColor.focus,
-                                //         size: 36,
-                                //       ),
+                                  // Icon(
+                                  //         Icons.music_note_rounded,
+                                  //         color: TColor.focus,
+                                  //         size: 36,
+                                  //       ),
+                                ),
 
                                 title: Text(
                                   radioStationList[index].radioName,
@@ -762,75 +767,84 @@ class RadioStationsScreen extends StatelessWidget {
                                 //
                                 //
 
-                                trailing: (index + 1 == currentRadioIndex)
-                                    ? StreamBuilder<PlayerState>(
-                                        stream: radioPlayer.playerStateStream,
-                                        builder: (context, snapshot) {
-                                          final playerState = snapshot.data;
-                                          final processingState =
-                                              playerState?.processingState;
-                                          final playing = playerState?.playing;
+                                trailing: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: (index + 1 == currentRadioIndex)
+                                      ? StreamBuilder<PlayerState>(
+                                          stream: radioPlayer.playerStateStream,
+                                          builder: (context, snapshot) {
+                                            final playerState = snapshot.data;
+                                            final processingState =
+                                                playerState?.processingState;
+                                            final playing =
+                                                playerState?.playing;
 
-                                          if (processingState ==
-                                                  ProcessingState.loading ||
-                                              processingState ==
-                                                  ProcessingState.buffering) {
-                                            return Container(
-                                              margin: const EdgeInsets.all(8.0),
-                                              width: 23.0,
-                                              height: 23.0,
-                                              child:
-                                                  const CircularProgressIndicator(),
-                                            );
-                                          } else if (playing != true) {
-                                            return Image.asset(
+                                            if (processingState ==
+                                                    ProcessingState.loading ||
+                                                processingState ==
+                                                    ProcessingState.buffering) {
+                                              return Container(
+                                                margin:
+                                                    const EdgeInsets.all(8.0),
+                                                width: 18.0,
+                                                height: 18.0,
+                                                child:
+                                                    const CircularProgressIndicator(),
+                                              );
+                                            } else if (playing != true) {
+                                              return Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                color: TColor.lightGray,
+                                              );
+                                            } else if (processingState !=
+                                                    ProcessingState.completed ||
+                                                playing == true) {
+                                              return Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                color: Colors.green,
+                                              );
+                                            } else {
+                                              // return (radioStationFetchError &&
+                                              //         radioStationErrorIndex ==
+                                              //             index)
+                                              return (radioStationList[index]
+                                                          .stationStatus ==
+                                                      RadioStationConnectionStatus
+                                                          .error)
+                                                  ? Image.asset(
+                                                      height: 30,
+                                                      width: 30,
+                                                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                      color: TColor.org,
+                                                    )
+                                                  : Image.asset(
+                                                      height: 30,
+                                                      width: 30,
+                                                      "assets/img/radio/antenna-bars-5-streamline.png",
+                                                      color: TColor.lightGray,
+                                                    );
+                                            }
+                                          },
+                                        )
+                                      : (radioStationFetchError &&
+                                              radioStationErrorIndex == index)
+                                          ? Image.asset(
+                                              height: 30,
+                                              width: 30,
+                                              "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                              color: TColor.org,
+                                            )
+                                          : Image.asset(
                                               height: 30,
                                               width: 30,
                                               "assets/img/radio/antenna-bars-5-streamline.png",
                                               color: TColor.lightGray,
-                                            );
-                                          } else if (processingState !=
-                                                  ProcessingState.completed ||
-                                              playing == true) {
-                                            return Image.asset(
-                                              height: 30,
-                                              width: 30,
-                                              "assets/img/radio/antenna-bars-5-streamline.png",
-                                              color: Colors.green,
-                                            );
-                                          } else {
-                                            return (radioStationFetchError &&
-                                                    radioStationErrorIndex ==
-                                                        index)
-                                                ? Image.asset(
-                                                    height: 30,
-                                                    width: 30,
-                                                    "assets/img/radio/antenna-bars-off-streamline-tabler.png",
-                                                    color: TColor.org,
-                                                  )
-                                                : Image.asset(
-                                                    height: 30,
-                                                    width: 30,
-                                                    "assets/img/radio/antenna-bars-5-streamline.png",
-                                                    color: TColor.lightGray,
-                                                  );
-                                          }
-                                        },
-                                      )
-                                    : (radioStationFetchError &&
-                                            radioStationErrorIndex == index)
-                                        ? Image.asset(
-                                            height: 30,
-                                            width: 30,
-                                            "assets/img/radio/antenna-bars-off-streamline-tabler.png",
-                                            color: TColor.org,
-                                          )
-                                        : Image.asset(
-                                            height: 30,
-                                            width: 30,
-                                            "assets/img/radio/antenna-bars-5-streamline.png",
-                                            color: TColor.lightGray,
-                                          ),
+                                            ),
+                                ),
 
                                 // IconButton(
                                 //   splashRadius: 5,

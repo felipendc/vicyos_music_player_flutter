@@ -1,3 +1,5 @@
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
+
 class RadioStationInfo {
   String radioSimpleName;
   String radioName;
@@ -5,6 +7,7 @@ class RadioStationInfo {
   String radioUrl;
   String radioStation;
   String? ratioStationLogo;
+  RadioStationConnectionStatus? stationStatus;
 
   RadioStationInfo({
     required this.radioSimpleName,
@@ -13,5 +16,6 @@ class RadioStationInfo {
     required this.radioUrl,
     required this.radioStation,
     this.ratioStationLogo,
+    this.stationStatus,
   });
 }
