@@ -229,9 +229,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                     );
                                   },
                                   child: StreamBuilder<void>(
-                                    stream:
-                                        rebuildSongsListScreenStreamController
-                                            .stream,
+                                    stream: radioPlayer.sequenceStateStream,
                                     builder: (context, snapshot) {
                                       return Column(
                                         crossAxisAlignment:
@@ -245,35 +243,29 @@ class RadioBottomPlayer extends StatelessWidget {
                                                 // Gets the width of Expanded
                                                 final double width =
                                                     constraints.maxWidth;
-                                                return StreamBuilder<void>(
-                                                    stream:
-                                                        rebuildRadioScreenStreamController
-                                                            .stream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return MarqueeText(
-                                                        centerText: false,
-                                                        // Forces rebuild when song changes
-                                                        key: ValueKey(
-                                                            currentSongName),
-                                                        // Set dynamically based on layout
-                                                        maxWidth: width,
-                                                        text: isRadioOn
-                                                            ? radioStationList[
-                                                                    currentRadioIndex]
-                                                                .radioName
-                                                            : "The radio is turned off",
-                                                        style: TextStyle(
-                                                          color: TColor
-                                                              .primaryText
-                                                              .withValues(
-                                                                  alpha: 0.84),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      );
-                                                    });
+                                                return MarqueeText(
+                                                  centerText: false,
+                                                  // Forces rebuild when song changes
+                                                  key: ValueKey(
+                                                      radioStationList[
+                                                          currentRadioIndex]),
+                                                  // Set dynamically based on layout
+                                                  maxWidth: width,
+                                                  text: isRadioOn
+                                                      ? radioStationList[
+                                                              currentRadioIndex -
+                                                                  1]
+                                                          .radioName
+                                                      : "The radio is turned off",
+
+                                                  style: TextStyle(
+                                                    color: TColor.primaryText
+                                                        .withValues(
+                                                            alpha: 0.84),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                );
                                               },
                                             ),
                                           ),
@@ -335,9 +327,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                                     },
                                                   ),
                                                   StreamBuilder<void>(
-                                                      stream:
-                                                          rebuildRadioScreenStreamController
-                                                              .stream,
+                                                      stream: radioPlayer
+                                                          .playbackEventStream,
                                                       builder:
                                                           (context, snapshot) {
                                                         return StreamBuilder<
