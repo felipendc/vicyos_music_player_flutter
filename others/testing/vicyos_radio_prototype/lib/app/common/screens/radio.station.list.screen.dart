@@ -392,6 +392,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart'
@@ -401,8 +402,8 @@ import 'package:vicyos_music/app/common/radio/radio.functions.dart'
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/common/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 
 class RadioStationsScreen extends StatelessWidget {
   const RadioStationsScreen({super.key});
@@ -685,12 +686,12 @@ class RadioStationsScreen extends StatelessWidget {
                                               return Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 10.0,
-                                                    left: 5.0,
+                                                    left: 2.0,
                                                     bottom: 10.0),
                                                 child: SizedBox(
-                                                  height: 30,
+                                                  height: 27,
                                                   width: 30,
-                                                  child: MusicVisualizer(
+                                                  child: RadioMusicVisualizer(
                                                     barCount: 6,
                                                     colors: [
                                                       TColor.focus,
@@ -742,7 +743,7 @@ class RadioStationsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  radioStationList[index].radioInfo,
+                                  radioStationList[index].radioLocation,
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -789,7 +790,16 @@ class RadioStationsScreen extends StatelessWidget {
                                                 width: 18.0,
                                                 height: 18.0,
                                                 child:
-                                                    const CircularProgressIndicator(),
+                                                    // const CircularProgressIndicator(),
+                                                    Center(
+                                                  child: LoadingAnimationWidget
+                                                      .inkDrop(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    size: 20,
+                                                  ),
+                                                ),
                                               );
                                             } else if (playing != true) {
                                               return Image.asset(
@@ -830,8 +840,10 @@ class RadioStationsScreen extends StatelessWidget {
                                             }
                                           },
                                         )
-                                      : (radioStationFetchError &&
-                                              radioStationErrorIndex == index)
+                                      : (radioStationList[index]
+                                                  .stationStatus ==
+                                              RadioStationConnectionStatus
+                                                  .error)
                                           ? Image.asset(
                                               height: 30,
                                               width: 30,

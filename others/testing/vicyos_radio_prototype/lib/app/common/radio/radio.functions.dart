@@ -79,7 +79,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 
       // Using the name of the file as the title by default
       title: radioStation.radioName,
-      album: radioStation.radioInfo,
+      album: radioStation.radioLocation,
       // artist: metadata?.albumArtistName ?? 'Unknown Artist',
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
