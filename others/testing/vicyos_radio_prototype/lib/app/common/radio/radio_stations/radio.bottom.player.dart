@@ -276,53 +276,42 @@ class RadioBottomPlayer extends StatelessWidget {
                                               width: media.width * 0.30,
                                               child: Row(
                                                 children: [
-                                                  StreamBuilder(
-                                                    stream:
-                                                        clearCurrentPlaylistStreamController
-                                                            .stream,
+                                                  StreamBuilder<PlaybackEvent>(
+                                                    stream: radioPlayer
+                                                        .playbackEventStream,
                                                     builder:
                                                         (context, snapshot) {
-                                                      return StreamBuilder<
-                                                          PlaybackEvent>(
-                                                        stream: radioPlayer
-                                                            .playbackEventStream,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Check if snapshot has data
-                                                          if (!snapshot
-                                                              .hasData) {
-                                                            return Text(
-                                                              '0',
-                                                              style: TextStyle(
-                                                                  color: TColor
-                                                                      .secondaryText,
-                                                                  fontSize: 15),
-                                                            );
-                                                          }
-                                                          final eventState =
-                                                              snapshot.data!;
-                                                          final index =
-                                                              eventState
-                                                                  .currentIndex;
-                                                          final playerState =
-                                                              radioPlayer
-                                                                  .processingState;
+                                                      // Check if snapshot has data
+                                                      if (!snapshot.hasData) {
+                                                        return Text(
+                                                          '0',
+                                                          style: TextStyle(
+                                                              color: TColor
+                                                                  .secondaryText,
+                                                              fontSize: 15),
+                                                        );
+                                                      }
+                                                      final eventState =
+                                                          snapshot.data!;
+                                                      final index = eventState
+                                                          .currentIndex;
+                                                      final playerState =
+                                                          radioPlayer
+                                                              .processingState;
 
-                                                          return Text(
-                                                            (playerState ==
-                                                                        ProcessingState
-                                                                            .idle ||
-                                                                    radioPlayer
-                                                                        .audioSources
-                                                                        .isEmpty)
-                                                                ? '0'
-                                                                : "${index! + 1}",
-                                                            style: TextStyle(
-                                                                color: TColor
-                                                                    .secondaryText,
-                                                                fontSize: 15),
-                                                          );
-                                                        },
+                                                      return Text(
+                                                        (playerState ==
+                                                                    ProcessingState
+                                                                        .idle ||
+                                                                radioPlayer
+                                                                    .audioSources
+                                                                    .isEmpty)
+                                                            ? '0'
+                                                            : "${index! + 1}",
+                                                        style: TextStyle(
+                                                            color: TColor
+                                                                .secondaryText,
+                                                            fontSize: 15),
                                                       );
                                                     },
                                                   ),

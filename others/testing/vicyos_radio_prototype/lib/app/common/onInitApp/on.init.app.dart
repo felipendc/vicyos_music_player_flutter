@@ -18,8 +18,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart'
         getCurrentSongFullPathStreamControllerNotifier,
         currentIndex,
         currentRadioIndex,
-        radioPlaylist,
-        currentRadioStationName;
+        radioPlaylist;
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
