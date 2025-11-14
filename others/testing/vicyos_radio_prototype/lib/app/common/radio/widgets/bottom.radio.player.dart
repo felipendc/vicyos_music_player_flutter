@@ -6,7 +6,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 
-import '../../is_smartphone/navigation_animation/main.player.navigation.animation.dart';
+import '../../../is_smartphone/navigation_animation/main.player.navigation.animation.dart';
 
 class BottomRadioPlayer extends StatelessWidget {
   const BottomRadioPlayer({super.key});

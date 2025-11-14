@@ -8,7 +8,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "89.0",
     radioUrl: 'https://2665om/RADIO_89FM_ADP.aac?dist=site-89fm',
   ),
-
   RadioStationInfo(
     radioSimpleName: "A Rádio Rock",
     radioName: '89.0 FM • A Rádio Rock',
@@ -17,7 +16,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://26653.live.streamtheworld.com/RADIO_89FM_ADP.aac?dist=site-89fm',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Band FM",
     radioName: 'Band FM 96,1',
@@ -26,7 +24,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://playerservices.streamtheworld.com/api/livestream-redirect/BANDFM_SPAAC_SC',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Energia 97",
     radioName: 'Energia 97 | 97.7 FM',
@@ -34,7 +31,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "97.7",
     radioUrl: 'https://hela1.streaming.inweb.com.br/energia',
   ),
-
   RadioStationInfo(
     // ratioStationLogo: "assets/img/radio_logos/metropolitana.png",
     radioSimpleName: "Metropolitana",
@@ -43,7 +39,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "98.5",
     radioUrl: 'https://ice.fabricahost.com.br/metropolitana985sp',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Transamérica",
     radioName: 'Transamérica Pop 100.1 ',
@@ -52,7 +47,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://playerservices.streamtheworld.com/api/livestream-redirect/RT_SP_SC',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Jovem Pam",
     radioName: 'Jovem Pam 100.9',
@@ -61,7 +55,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://stream-165.zeno.fm/c45wbq2us3buv?zt=eyJhbGciOiJIUzI1NiJ9.eyJzdHJlYW0iOiJjNDV3YnEydXMzYnV2IiwiaG9zdCI6InN0cmVhbS0xNjUuemVuby5mbSIsInJ0dGwiOjUsImp0aSI6Ii1mS0FhNW5GUWJtQnJ1WnVCYVV0YnciLCJpYXQiOjE3NjI0NjA1NzksImV4cCI6MTc2MjQ2MDYzOX0.qZ6lxStUui4U9ISHMChoF7y36f5AqIkMYAbf0T0DIkQ',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Rádio Imprensa",
     radioName: 'Rádio Imprensa 102.5 FM',
@@ -69,7 +62,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "102.5",
     radioUrl: 'https://cloud1.cdnseguro.com:20024/stream/;?1762638610759',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Dumont FM",
     radioName: '104.3 FM Dumont FM',
@@ -77,7 +69,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "104.3",
     radioUrl: 'https://rrdns-dumont.webnow.com.br/dumont.aac',
   ),
-
   RadioStationInfo(
     radioSimpleName: "105.1 FM",
     radioName: '105.1 FM ',
@@ -85,7 +76,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "105.1",
     radioUrl: 'https://www.appradio.app:8010/live',
   ),
-
   RadioStationInfo(
     radioSimpleName: "MIX FM",
     radioName: 'MIX FM 106.3',
@@ -94,7 +84,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac?dist=mix-web-player-radio-ao-vivo&666061.3015838079',
   ),
-
   RadioStationInfo(
     radioSimpleName: "WBEZ",
     radioName: 'WBEZ • 91.5 Chicago Public Radio',
@@ -102,7 +91,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "91.5",
     radioUrl: 'https://stream.wbez.org/wbez64-web.aac',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Power",
     radioName: 'Rádio Power 96.1 FM',
@@ -111,7 +99,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://cloud.revma.ihrhls.com/zc741?rj-org=n46b-e2&rj-ttl=5&rj-tok=AAABmltjurgAx4D6FeIdvt02qQ',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Hot",
     radioName: 'Hot 97 FM',
@@ -120,7 +107,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://18073.live.streamtheworld.com/WQHTFMAAC.aac?dist=triton-widget&tdsdk=js-2.9&swm=false&pname=tdwidgets&pversion=2.9&banners=none&gdpr=1&gdpr_consent=CQadvIAQadvIAAcABBENCDFgAAAAAAAAACiQAAAAAAAA.YAAAAAAAAAAA&burst-time=15&sbmid=8cb2228d-a549-46d7-c141-70d27b8b5386',
   ),
-
   RadioStationInfo(
     radioSimpleName: "KIIS",
     radioName: 'Radio KIIS 102.7 FM',
@@ -128,23 +114,14 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "102.7",
     radioUrl: 'https://stream.revma.ihrhls.com/zc185?1762467975628',
   ),
-
   RadioStationInfo(
-    radioSimpleName: "WHTZ",
-    radioName: 'WHTZ 100.3 FM',
+    radioSimpleName: "WHTZ Z100",
+    radioName: 'WHTZ Z100 100.3 FM',
     radioLocation: 'New York • EUA',
     radioStation: "100.3",
     radioUrl: 'https://stream.revma.ihrhls.com/zc1469?1762464240376',
+    // radioUrl: 'https://stream.revma.ihrhls.com/zc1469?1762468117347',
   ),
-
-  // RadioStationInfo(
-  //   radioSimpleName: "WHTZ",
-  //   radioName: 'WHTZ 100.3 FM ',
-  //   radioInfo: 'New York • EUA',
-  //   radioStation: "100.3",
-  //   radioUrl: 'https://stream.revma.ihrhls.com/zc1469?1762468117347',
-  // ),
-
   RadioStationInfo(
     radioSimpleName: "Q102 Philly",
     radioName: 'Rádio Q102 Philly • 102.1 FM',
@@ -152,7 +129,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "102.1",
     radioUrl: 'https://stream.revma.ihrhls.com/zc1997',
   ),
-
   RadioStationInfo(
     radioSimpleName: "KISS",
     radioName: '103.5 KISS FM',
@@ -161,7 +137,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://cloud.revma.ihrhls.com/zc849?rj-org=n01b-e2&rj-ttl=5&rj-tok=AAABmlt3m5sAGFL4am6uALnUow',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Jamz",
     radioName: 'Hot 108 Jamz',
@@ -169,7 +144,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "108",
     radioUrl: 'https://live.powerhitz.com/hot108?1762618514410',
   ),
-
   RadioStationInfo(
     radioSimpleName: "CHED",
     radioName: 'Radio CHED 630 AM',
@@ -177,7 +151,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "630",
     radioUrl: 'https://live.leanstream.co/CHEDAM',
   ),
-
   RadioStationInfo(
     radioSimpleName: "CHQR",
     radioName: 'Radio CHQR 770 AM',
@@ -186,7 +159,6 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioUrl:
         'https://corus.leanstream.co/CHQRAM-MP3?type=.mp3&playertype=dplayer&DIST=TuneIn&TGT=TuneIn&maxServers=2&gdpr=0&us_privacy=1YYY&partnertok=eyJhbGciOiJIUzI1NiIsImtpZCI6InR1bmVpbiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVkX3BhcnRuZXIiOnRydWUsImlhdCI6MTc2MjYxODI4NCwiaXNzIjoidGlzcNew YorkifQ.bVp1LgW_1PMJ_qheVVssDWbHWFkWQLv6K7C0xL4EWfM',
   ),
-
   RadioStationInfo(
     radioSimpleName: "Infowars",
     radioName: 'Infowars',

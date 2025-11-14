@@ -400,9 +400,9 @@ import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.n
 import 'package:vicyos_music/app/common/radio/radio.functions.dart'
     show radioHasLogo, radioLogo, playRadioStation, turnOffRadioStation;
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
 
 class RadioStationsScreen extends StatelessWidget {

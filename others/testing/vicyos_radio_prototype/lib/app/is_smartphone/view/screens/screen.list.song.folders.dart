@@ -4,8 +4,8 @@ import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/radio/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/loading.screen.dart';
@@ -121,67 +121,91 @@ class HomePageFolderList extends StatelessWidget {
                                       ),
                                     ),
                                     StreamBuilder(
-                                        stream:
-                                            rebuildRadioScreenStreamController
-                                                .stream,
-                                        builder: (context, asyncSnapshot) {
-                                          return Stack(
-                                            children: [
-                                              Positioned(
-                                                height: 78,
-                                                child: (isRadioOn)
-                                                    ? Center(
-                                                        child:
-                                                            LoadingAnimationWidget
-                                                                .newtonCradle(
-                                                          color: TColor
-                                                              .lightGray, // Colors.green,
-                                                          size: 40,
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                              ),
-                                              Material(
-                                                color: Colors.transparent,
-                                                // color: Colors.white30,
-                                                child: SizedBox(
-                                                  width: 40,
-                                                  height: 43,
-                                                  child: IconButton(
-                                                    splashRadius: 20,
-                                                    iconSize: 20,
-                                                    onPressed: () async {
-                                                      // hideMiniPlayerStreamNotifier(false);
-                                                      hideMiniPlayerStreamNotifier(
-                                                          true);
-                                                      Navigator.push(
-                                                        context,
-                                                        slideRightLeftTransition(
-                                                          RadioStationsScreen(),
-                                                        ),
-                                                      ).whenComplete(
-                                                        () {
-                                                          // hideMiniPlayerStreamNotifier(
-                                                          //     true);
-                                                          // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                          hideMiniPlayerStreamNotifier(
-                                                              false);
-                                                        },
-                                                      );
-                                                    },
-                                                    icon: SizedBox(
-                                                      height: 60,
-                                                      child: Image.asset(
-                                                        "assets/img/radio_icon.png",
-                                                        color: TColor.lightGray,
+                                      stream: rebuildRadioScreenStreamController
+                                          .stream,
+                                      builder: (context, asyncSnapshot) {
+                                        return Stack(
+                                          children: [
+                                            Positioned(
+                                              height: 78,
+                                              child: (isRadioOn)
+                                                  ?
+                                                  // Center(
+                                                  //         child:
+                                                  //             LoadingAnimationWidget
+                                                  //                 .newtonCradle(
+                                                  //           color: TColor
+                                                  //               .lightGray, // Colors.green,
+                                                  //           size: 40,
+                                                  //         ),
+                                                  //       )
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 9.2),
+                                                      child:
+                                                          LoadingAnimationWidget
+                                                              .progressiveDots(
+                                                        color: TColor
+                                                            .lightGray, // Colors.green,
+                                                        size: 20,
                                                       ),
+                                                      // LoadingAnimationWidget
+                                                      //     .newtonCradle(
+                                                      //   color: TColor
+                                                      //       .lightGray, // Colors.green,
+                                                      //   size: 40,
+                                                      // ),
+                                                    )
+                                                  : Container(),
+                                            ),
+                                            Material(
+                                              color: Colors.transparent,
+                                              // color: Colors.white30,
+                                              child: SizedBox(
+                                                width: 40,
+                                                height: 43,
+                                                child: IconButton(
+                                                  splashRadius: 20,
+                                                  iconSize: 20,
+                                                  onPressed: () async {
+                                                    // Show Radio Mini Player
+                                                    hideMiniRadioPlayerStreamNotifier(
+                                                        false);
+
+                                                    // Hide Mini Player
+                                                    hideMiniPlayerStreamNotifier(
+                                                        true);
+
+                                                    Navigator.push(
+                                                      context,
+                                                      slideRightLeftTransition(
+                                                        RadioStationsScreen(),
+                                                      ),
+                                                    ).whenComplete(
+                                                      () {
+                                                        hideMiniRadioPlayerStreamNotifier(
+                                                            true);
+                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                        hideMiniPlayerStreamNotifier(
+                                                            false);
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: SizedBox(
+                                                    height: 60,
+                                                    child: Image.asset(
+                                                      "assets/img/radio_icon.png",
+                                                      color: TColor.lightGray,
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          );
-                                        }),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
                                     Padding(
                                       padding:
                                           const EdgeInsets.fromLTRB(9, 0, 8, 0),

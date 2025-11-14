@@ -7,8 +7,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/common/widgets/show.top.message.dart'
+import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/widgets/show.radio.top.message.dart'
     show errorToFetchRadioStationCard;
 
 // ------------ RADIO FUNCTIONS --------------------//
@@ -39,7 +39,7 @@ Future<void> turnOnRadioStation() async {
 Future<void> turnOffRadioStation() async {
   isRadioOn = false;
   radioStationBtn = Color(0xFFFF0F7B);
-  radioPlayer.clearAudioSources();
+  await radioPlayer.clearAudioSources();
   radioPlaylist.clear();
   radioPlayer.stop();
   currentRadioIndex = 0;
