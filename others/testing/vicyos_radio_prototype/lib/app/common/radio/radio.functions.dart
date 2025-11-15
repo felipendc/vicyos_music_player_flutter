@@ -39,9 +39,9 @@ Future<void> turnOnRadioStation() async {
 Future<void> turnOffRadioStation() async {
   isRadioOn = false;
   radioStationBtn = Color(0xFFFF0F7B);
+  await radioPlayer.stop();
   await radioPlayer.clearAudioSources();
   radioPlaylist.clear();
-  radioPlayer.stop();
   currentRadioIndex = 0;
   getCurrentSongFullPathStreamControllerNotifier();
   radioScreenStreamNotifier();

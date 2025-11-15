@@ -367,10 +367,10 @@ Future<void> cleanPlaylist() async {
   rebuildPlaylistCurrentLengthStreamNotifier();
 }
 
-void playOrPause() {
+Future<void> playOrPause() async {
   if (audioPlayer.audioSources.isEmpty) {
   } else {
-    turnOffRadioStation();
+    await turnOffRadioStation();
     if (songIsPlaying == false) {
       songIsPlaying = true;
       isStopped = false;

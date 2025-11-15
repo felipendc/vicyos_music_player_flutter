@@ -398,7 +398,12 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart'
     show slideRightLeftTransition;
 import 'package:vicyos_music/app/common/radio/radio.functions.dart'
-    show radioHasLogo, radioLogo, playRadioStation, turnOffRadioStation;
+    show
+        radioHasLogo,
+        radioLogo,
+        playRadioStation,
+        turnOffRadioStation,
+        radioDuration;
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
