@@ -403,7 +403,7 @@ import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
+import 'package:vicyos_music/app/is_tablet/view/screens/radio.search.screen.dart';
 
 class RadioStationsScreen extends StatelessWidget {
   const RadioStationsScreen({super.key});
@@ -590,7 +590,9 @@ class RadioStationsScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   slideRightLeftTransition(
-                                    const SearchScreen(),
+                                    (deviceType == DeviceType.tablet)
+                                        ? const TabletRadioSearchScreen()
+                                        : Container(),
                                   )).whenComplete(
                                 () {
                                   searchBoxController.dispose();
@@ -614,7 +616,7 @@ class RadioStationsScreen extends StatelessWidget {
                                     false, // Disable the TextField to avoid interaction
                                 style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                  hintText: 'Search...',
+                                  hintText: 'Search radio stations...',
                                   hintStyle:
                                       const TextStyle(color: Colors.white60),
                                   filled: false,

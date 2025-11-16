@@ -35,7 +35,6 @@ late final TextEditingController searchBoxController;
 bool mainPlayerIsOpen = false;
 late bool audioPlayerWasPlaying;
 bool noDeviceMusicFolderFound = false;
-List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';

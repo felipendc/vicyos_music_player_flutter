@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
-import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 
+import '../../../common/search_bar_handler/search.songs.stations.dart';
 import '../../widgets/music_visualizer.dart';
 import '../bottomsheet/bottom.sheet.song.info.more.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+class TabletRadioSearchScreen extends StatelessWidget {
+  const TabletRadioSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Set the preferred orientations to portrait mode when this screen is built
+    // Set the preferred orientations to landscape mode when this screen is built
     setScreenOrientation();
 
     TextEditingController searchBoxController = TextEditingController();
@@ -52,7 +53,7 @@ class SearchScreen extends StatelessWidget {
 
           isSearchTypingStreamNotifier(true);
 
-          await searchSongFilesByName(musicFolderPaths, trimmedText);
+          await searchRadioStationsByName(radioStationList, trimmedText);
         },
       );
     }
@@ -101,7 +102,7 @@ class SearchScreen extends StatelessWidget {
           onChanged: onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: 'Search radio stations...',
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
             fillColor: const Color(0xff24273A), // TextField background color
@@ -176,7 +177,6 @@ class SearchScreen extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
-                          hideMiniPlayerStreamNotifier(true);
 
                           final result = await showModalBottomSheet<String>(
                             isScrollControlled: true,
@@ -190,8 +190,6 @@ class SearchScreen extends StatelessWidget {
                             () {
                               isSongPreviewBottomSheetOpen = false;
 
-                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              hideMiniPlayerStreamNotifier(false);
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -268,8 +266,6 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
-                              await hideMiniPlayerStreamNotifier(true);
-
                               if (context.mounted) {
                                 final result =
                                     await showModalBottomSheet<String>(
@@ -286,7 +282,6 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
-                                        hideMiniPlayerStreamNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }
