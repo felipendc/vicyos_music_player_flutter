@@ -363,7 +363,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                 // Set dynamically based on layout
                                                 maxWidth: width,
                                                 text: isRadioOn
-                                                    ? "currentRadioStationName"
+                                                    ? currentRadioStationName
                                                     : "The radio is turned off",
                                                 style: TextStyle(
                                                   color: TColor.primaryText
