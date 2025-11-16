@@ -1,13 +1,13 @@
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 
 List<RadioStationInfo> radioStationList = <RadioStationInfo>[
-  RadioStationInfo(
-    radioSimpleName: "error",
-    radioName: 'erorr',
-    radioLocation: 'São Paulo',
-    radioStation: "89.0",
-    radioUrl: 'https://2665om/RADIO_89FM_ADP.aac?dist=site-89fm',
-  ),
+  // RadioStationInfo(
+  //   radioSimpleName: "error",
+  //   radioName: 'erorr',
+  //   radioLocation: 'São Paulo',
+  //   radioStation: "89.0",
+  //   radioUrl: 'https://2665om/RADIO_89FM_ADP.aac?dist=site-89fm',
+  // ),
   RadioStationInfo(
     radioSimpleName: "A Rádio Rock",
     radioName: '89.0 FM • A Rádio Rock',
