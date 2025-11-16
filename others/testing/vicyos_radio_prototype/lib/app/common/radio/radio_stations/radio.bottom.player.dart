@@ -3,12 +3,13 @@ import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart'
     show radioStationList;
+import 'package:vicyos_music/app/common/radio/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart'
     show mainPlayerSlideUpDownTransition;
-import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 
 class RadioBottomPlayer extends StatelessWidget {
@@ -212,19 +213,20 @@ class RadioBottomPlayer extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    mainPlayerIsOpen = true;
+                                    hideMiniRadioPlayerStreamNotifier(true);
 
                                     Navigator.push(
                                       context,
                                       mainPlayerSlideUpDownTransition(
-                                        MainPlayerView(),
+                                        MainRadioPlayerView(),
                                       ),
                                     ).whenComplete(
                                       () {
                                         if (mainPlayerIsOpen) {
                                           mainPlayerIsOpen = false;
                                         }
-                                        hideMiniPlayerStreamNotifier(false);
+                                        hideMiniRadioPlayerStreamNotifier(
+                                            false);
                                       },
                                     );
                                   },
@@ -247,8 +249,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                                   centerText: false,
                                                   // Forces rebuild when song changes
                                                   key: ValueKey(
-                                                      radioStationList[
-                                                          currentRadioIndex]),
+                                                      currentRadioIndex),
                                                   // Set dynamically based on layout
                                                   maxWidth: width,
                                                   text: isRadioOn
@@ -316,29 +317,30 @@ class RadioBottomPlayer extends StatelessWidget {
                                                     },
                                                   ),
                                                   StreamBuilder<void>(
-                                                      stream: radioPlayer
-                                                          .playbackEventStream,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        return StreamBuilder<
-                                                            void>(
-                                                          stream:
-                                                              rebuildSongsListScreenStreamController
-                                                                  .stream,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            return Text(
-                                                              isRadioOn
-                                                                  ? " of ${radioPlayer.audioSources.length}"
-                                                                  : " of 0",
-                                                              style: TextStyle(
-                                                                  color: TColor
-                                                                      .secondaryText,
-                                                                  fontSize: 15),
-                                                            );
-                                                          },
-                                                        );
-                                                      }),
+                                                    stream: radioPlayer
+                                                        .playbackEventStream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return StreamBuilder<
+                                                          void>(
+                                                        stream:
+                                                            rebuildSongsListScreenStreamController
+                                                                .stream,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return Text(
+                                                            isRadioOn
+                                                                ? " of ${radioPlayer.audioSources.length}"
+                                                                : " of 0",
+                                                            style: TextStyle(
+                                                                color: TColor
+                                                                    .secondaryText,
+                                                                fontSize: 15),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -364,7 +366,7 @@ class RadioBottomPlayer extends StatelessWidget {
                               splashRadius: 20,
                               iconSize: 10,
                               onPressed: () async {
-                                await radioPlayer.seekToPrevious();
+                                await radioSeekToPrevious();
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_previous.png",
@@ -383,10 +385,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                   height: 45,
                                   child: IconButton(
                                     splashRadius: 20,
-                                    onPressed: () {
-                                      if (radioPlayer.audioSources.isNotEmpty) {
-                                        radioPlayer.play();
-                                      }
+                                    onPressed: () async {
+                                      await radioPlayOrPause();
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_play.png",
@@ -400,8 +400,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                   height: 45,
                                   child: IconButton(
                                     splashRadius: 20,
-                                    onPressed: () {
-                                      radioPlayer.stop();
+                                    onPressed: () async {
+                                      await radioPlayOrPause();
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_paused.png",
@@ -419,7 +419,7 @@ class RadioBottomPlayer extends StatelessWidget {
                               iconSize: 10,
                               splashRadius: 20,
                               onPressed: () async {
-                                await radioPlayer.seekToNext();
+                                await radioSeekToNext();
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_next.png",

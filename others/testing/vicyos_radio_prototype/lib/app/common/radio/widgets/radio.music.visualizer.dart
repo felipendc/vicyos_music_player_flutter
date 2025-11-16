@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 // IMPORTANT NOTE:
 // This music_visualizer was created by Rajkumar07793,
@@ -84,10 +85,11 @@ class VisualComponentState extends State<VisualComponent>
         update();
       });
 
-    animationStop = Tween<double>(begin: 10, end: 20).animate(curvedAnimation)
-      ..addListener(() {
-        update();
-      });
+    animationStop =
+        Tween<double>(begin: 10 /*10*/, end: 20 /*20*/).animate(curvedAnimation)
+          ..addListener(() {
+            update();
+          });
 
     animationController!.repeat(reverse: true);
   }
@@ -102,7 +104,13 @@ class VisualComponentState extends State<VisualComponent>
   Widget build(BuildContext context) {
     return Container(
       width: 3,
-      height: radioPlayer.playing ? animation!.value : animationStop!.value,
+      height:
+          (radioPlayer.playerState.processingState == ProcessingState.loading ||
+                  radioPlayer.playerState.processingState ==
+                      ProcessingState.buffering ||
+                  isRadioPaused)
+              ? animationStop!.value
+              : animation!.value,
       decoration: BoxDecoration(
           color: widget.color, borderRadius: BorderRadius.circular(5)),
     );

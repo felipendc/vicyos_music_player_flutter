@@ -95,7 +95,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 7),
             Text(
               "PLAYBACK SPEED",
               style: TextStyle(

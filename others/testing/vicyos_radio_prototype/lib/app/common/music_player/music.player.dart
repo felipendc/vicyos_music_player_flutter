@@ -21,6 +21,7 @@ enum CurrentLoopMode { all, one, shuffle, off }
 
 enum RadioStationConnectionStatus { online, error }
 
+bool isRadioPaused = false;
 bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;

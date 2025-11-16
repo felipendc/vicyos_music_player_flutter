@@ -28,6 +28,7 @@ void errorToFetchRadioStation(int index) {
 
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
+
   radioStationBtn = Colors.green;
 
   // hideBottonSheetStreamNotifier(false);
@@ -38,6 +39,7 @@ Future<void> turnOnRadioStation() async {
 
 Future<void> turnOffRadioStation() async {
   isRadioOn = false;
+  isRadioPaused = false;
   radioStationBtn = Color(0xFFFF0F7B);
   await radioPlayer.stop();
   await radioPlayer.clearAudioSources();
@@ -63,7 +65,19 @@ Future<bool> checkStreamUrl(String url) async {
   }
 }
 
+Future<void> radioSeekToNext() async {
+  radioPlayer.setSpeed(1.0);
+  await radioPlayer.seekToNext();
+}
+
+Future<void> radioSeekToPrevious() async {
+  radioPlayer.setSpeed(1.0);
+  await radioPlayer.seekToPrevious();
+}
+
 Future<void> playRadioStation(BuildContext context, int index) async {
+  radioPlayer.setSpeed(1.0);
+  isRadioPaused = false;
   turnOnRadioStation();
   cleanPlaylist();
 
@@ -118,6 +132,18 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     }
 
     debugPrint('Erro ao carregar a rádio: $e');
+  }
+}
+
+Future<void> radioPlayOrPause() async {
+  if (radioPlayer.audioSources.isNotEmpty) {
+    if (isRadioPaused == false) {
+      isRadioPaused = true;
+      await radioPlayer.pause();
+    } else if (isRadioPaused == true) {
+      isRadioPaused = false;
+      await radioPlayer.play();
+    }
   }
 }
 

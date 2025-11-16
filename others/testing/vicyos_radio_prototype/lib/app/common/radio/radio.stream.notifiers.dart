@@ -7,6 +7,9 @@ StreamController<bool> hideMiniRadioPlayerStreamController =
 StreamController<void> rebuildRadioScreenStreamController =
     StreamController<void>.broadcast();
 
+StreamController<void> radioShuffleModeStreamController =
+    StreamController<void>.broadcast();
+
 // Stream functions
 void hideMiniRadioPlayerStreamNotifier(bool value) {
   hideMiniRadioPlayerStreamController.sink.add(value);
@@ -14,4 +17,8 @@ void hideMiniRadioPlayerStreamNotifier(bool value) {
 
 void radioScreenStreamNotifier() {
   rebuildRadioScreenStreamController.sink.add(null);
+}
+
+void radioShuffleModeStreamNotifier() {
+  radioShuffleModeStreamController.sink.add(null);
 }
