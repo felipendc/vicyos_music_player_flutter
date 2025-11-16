@@ -646,7 +646,8 @@ class RadioStationsScreen extends StatelessWidget {
                                 key: ValueKey(radioStationList[index].radioUrl),
                                 leading: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 5),
-                                  child: (index + 1 == currentRadioIndex)
+                                  child: (radioStationList[index].id ==
+                                          currentRadioStationID)
                                       ? StreamBuilder<PlayerState>(
                                           stream: radioPlayer.playerStateStream,
                                           builder: (context, snapshot) {

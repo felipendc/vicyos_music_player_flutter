@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter/material.dart' show Colors;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
-import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
@@ -38,6 +37,7 @@ Future<void> turnOnRadioStation() async {
 }
 
 Future<void> turnOffRadioStation() async {
+  // Ordered instructions:
   isRadioOn = false;
   isRadioPaused = false;
   radioStationBtn = Color(0xFFFF0F7B);
@@ -47,6 +47,7 @@ Future<void> turnOffRadioStation() async {
   currentRadioIndex = 0;
   getCurrentSongFullPathStreamControllerNotifier();
   radioScreenStreamNotifier();
+  currentRadioStationID = "";
 }
 
 Future<bool> checkStreamUrl(String url) async {
@@ -88,7 +89,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     debugPrint("Radio URLS: $radioStationUrl");
 
     final mediaItem = MediaItem(
-      id: const Uuid().v4(),
+      id: radioStation.id,
       // album: metadata?.albumName ?? 'Unknown Album',
 
       // Using the name of the file as the title by default

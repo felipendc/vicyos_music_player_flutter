@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
@@ -18,7 +19,8 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart'
         getCurrentSongFullPathStreamControllerNotifier,
         currentIndex,
         currentRadioIndex,
-        radioPlaylist;
+        radioPlaylist,
+        currentRadioStationID;
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
@@ -57,16 +59,23 @@ Future<void> onInitPlayer() async {
 
   // FAZER DEPOIS!
   // Update radio stations list screen
-  radioPlayer.playbackEventStream.listen(
-    (event) {
-      currentIndex = event.currentIndex ?? 0;
-      debugPrint("INDEX RADIO ATUAL: $currentIndex");
+  radioPlayer.playbackEventStream.listen((event) {
+    currentIndex = event.currentIndex ?? 0;
+    debugPrint("INDEX RADIO ATUAL: $currentIndex");
 
-      currentRadioIndex =
-          (radioPlayer.audioSources.isEmpty || radioPlaylist.isEmpty)
-              ? currentIndex = 0
-              : currentIndex += 1;
-      getCurrentSongFullPathStreamControllerNotifier();
-    },
-  );
+    currentRadioIndex =
+        (radioPlayer.audioSources.isEmpty || radioPlaylist.isEmpty)
+            ? currentIndex = 0
+            : currentIndex += 1;
+    getCurrentSongFullPathStreamControllerNotifier();
+
+    // Getting the Radio current MediaItem ID
+    final mediaItem = radioPlayer.sequenceState.currentSource?.tag;
+    if (mediaItem is MediaItem) {
+      currentRadioStationID = mediaItem.id;
+      // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
+      // print("Title: ${mediaItem.title}");
+      // print("Artist: ${mediaItem.artist}");
+    }
+  });
 }
