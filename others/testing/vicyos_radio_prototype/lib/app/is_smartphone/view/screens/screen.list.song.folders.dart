@@ -129,17 +129,7 @@ class HomePageFolderList extends StatelessWidget {
                                             Positioned(
                                               height: 78,
                                               child: (isRadioOn)
-                                                  ?
-                                                  // Center(
-                                                  //         child:
-                                                  //             LoadingAnimationWidget
-                                                  //                 .newtonCradle(
-                                                  //           color: TColor
-                                                  //               .lightGray, // Colors.green,
-                                                  //           size: 40,
-                                                  //         ),
-                                                  //       )
-                                                  Padding(
+                                                  ? Padding(
                                                       padding:
                                                           const EdgeInsets.only(
                                                               left: 9.2),
@@ -150,12 +140,6 @@ class HomePageFolderList extends StatelessWidget {
                                                             .lightGray, // Colors.green,
                                                         size: 20,
                                                       ),
-                                                      // LoadingAnimationWidget
-                                                      //     .newtonCradle(
-                                                      //   color: TColor
-                                                      //       .lightGray, // Colors.green,
-                                                      //   size: 40,
-                                                      // ),
                                                     )
                                                   : Container(),
                                             ),

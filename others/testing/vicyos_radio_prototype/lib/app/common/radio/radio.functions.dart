@@ -34,6 +34,7 @@ Future<void> turnOnRadioStation() async {
   // hideMiniPlayerStreamNotifier(false);
 
   radioScreenStreamNotifier();
+  switchingToRadioStreamNotifier();
 }
 
 Future<void> turnOffRadioStation() async {
@@ -48,6 +49,7 @@ Future<void> turnOffRadioStation() async {
   getCurrentSongFullPathStreamControllerNotifier();
   radioScreenStreamNotifier();
   currentRadioStationID = "";
+  switchingToRadioStreamNotifier();
 }
 
 Future<bool> checkStreamUrl(String url) async {

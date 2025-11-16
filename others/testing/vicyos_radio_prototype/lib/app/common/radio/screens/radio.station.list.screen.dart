@@ -430,7 +430,9 @@ class RadioStationsScreen extends StatelessWidget {
                       // color: Colors.grey,
                       color: Color(0xff181B2C),
                     ),
-                    height: 130, // Loading enabled
+                    height: (deviceType == DeviceType.tablet)
+                        ? 135
+                        : 130, // Loading enabled
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -560,8 +562,14 @@ class RadioStationsScreen extends StatelessWidget {
                                             builder: (context, snapshot) {
                                               return Image.asset(
                                                 "assets/img/pics/default.png",
-                                                width: media.width * 0.13,
-                                                height: media.width * 0.13,
+                                                width: (deviceType ==
+                                                        DeviceType.tablet)
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
+                                                height: (deviceType ==
+                                                        DeviceType.tablet)
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
                                                 fit: BoxFit.cover,
                                               );
                                             },

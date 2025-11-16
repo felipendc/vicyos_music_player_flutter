@@ -123,52 +123,6 @@ class MainRadioPlayerView extends StatelessWidget {
                   "STREAMING",
                   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                 ),
-
-                // StreamBuilder<void>(
-                //   stream: clearCurrentPlaylistStreamController.stream,
-                //   builder: (context, snapshot) {
-                //     return StreamBuilder<Duration>(
-                //       stream: audioPlayer.positionStream,
-                //       builder: (context, snapshot) {
-                //         final position = snapshot.data ?? Duration.zero;
-                //         return Text(
-                //           // (audioPlayer.processingState !=
-                //           //         ProcessingState.idle)
-                //           //     ? formatDuration(position)
-                //           //     :
-                //           audioPlayer.audioSources.isEmpty
-                //               ? formatDuration(Duration.zero)
-                //               : formatDuration(position),
-                //           style: TextStyle(
-                //               color: TColor.secondaryText, fontSize: 15),
-                //         );
-                //       },
-                //     );
-                //   },
-                // ),
-                // Text(
-                //   " | ",
-                //   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
-                // ),
-                // StreamBuilder(
-                //   stream: clearCurrentPlaylistStreamController.stream,
-                //   builder: (context, snapshot) {
-                //     return StreamBuilder<Duration?>(
-                //       stream: audioPlayer.durationStream,
-                //       builder: (context, snapshot) {
-                //         final duration = snapshot.data ?? Duration.zero;
-                //
-                //         return Text(
-                //           (audioPlayer.audioSources.isEmpty)
-                //               ? formatDuration(Duration.zero)
-                //               : formatDuration(duration),
-                //           style: TextStyle(
-                //               color: TColor.secondaryText, fontSize: 15),
-                //         );
-                //       },
-                //     );
-                //   },
-                // ),
               ],
             ),
             const SizedBox(
