@@ -159,7 +159,7 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     id: const Uuid().v4(),
     radioSimpleName: "Jamz",
     radioName: 'Hot 108 Jamz',
-    radioLocation: 'New Yourk | EUA ',
+    radioLocation: 'New Yourk • EUA ',
     radioStation: "108",
     radioUrl: 'https://live.powerhitz.com/hot108?1762618514410',
   ),

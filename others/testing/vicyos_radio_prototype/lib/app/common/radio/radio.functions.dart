@@ -9,6 +9,7 @@ import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio/widgets/show.radio.top.message.dart'
     show errorToFetchRadioStationCard;
+import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 
 // ------------ RADIO FUNCTIONS --------------------//
 
@@ -69,13 +70,19 @@ Future<bool> checkStreamUrl(String url) async {
 }
 
 Future<void> radioSeekToNext() async {
-  radioPlayer.setSpeed(1.0);
-  await radioPlayer.seekToNext();
+  if (radioPlayer.audioSources.length == 1) {
+  } else {
+    radioPlayer.setSpeed(1.0);
+    await radioPlayer.seekToNext();
+  }
 }
 
 Future<void> radioSeekToPrevious() async {
-  radioPlayer.setSpeed(1.0);
-  await radioPlayer.seekToPrevious();
+  if (radioPlayer.audioSources.length == 1) {
+  } else {
+    radioPlayer.setSpeed(1.0);
+    await radioPlayer.seekToPrevious();
+  }
 }
 
 Future<void> playRadioStation(BuildContext context, int index) async {
@@ -114,6 +121,62 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     await radioPlayer.setAudioSources(
       radioPlaylist,
       initialIndex: index,
+      initialPosition: Duration.zero, // Load each item just in time
+      // Customise the shuffle algorithm
+      preload: true,
+    );
+
+    radioPlayer.play();
+    radioStationList[index].stationStatus = RadioStationConnectionStatus.online;
+  } catch (e) {
+    if (!await checkStreamUrl(radioStationList[index].radioUrl)) {
+      radioStationList[index].stationStatus =
+          RadioStationConnectionStatus.error;
+      errorToFetchRadioStation(index);
+      if (context.mounted) {
+        errorToFetchRadioStationCard(
+            context, radioStationList[index].radioName);
+      }
+      await turnOffRadioStation();
+      getCurrentSongFullPathStreamControllerNotifier();
+    }
+
+    debugPrint('Erro ao carregar a rádio: $e');
+  }
+}
+
+Future<void> playSearchedRadioStation(BuildContext context, int index) async {
+  radioPlayer.setSpeed(1.0);
+  isRadioPaused = false;
+  turnOnRadioStation();
+  cleanPlaylist();
+
+  // Clear and re-add all the radio stations to the "radioPlaylist"
+  radioPlaylist.clear();
+
+  final mediaItem = MediaItem(
+    id: foundStations[index].id,
+    // album: metadata?.albumName ?? 'Unknown Album',
+
+    // Using the name of the file as the title by default
+    title: foundStations[index].radioName,
+    album: foundStations[index].radioLocation,
+    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    artUri: Uri.file(notificationPlayerAlbumArt.path),
+  );
+
+  radioPlaylist.add(
+    AudioSource.uri(
+      Uri.parse(foundStations[index].radioUrl),
+      tag: mediaItem,
+    ),
+  );
+
+  try {
+    // Load the playlist
+    await radioPlayer.setAudioSources(
+      radioPlaylist,
+      initialIndex: 0,
       initialPosition: Duration.zero, // Load each item just in time
       // Customise the shuffle algorithm
       preload: true,

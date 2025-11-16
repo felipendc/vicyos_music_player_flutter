@@ -80,7 +80,7 @@ Future<void> onInitPlayer() async {
       // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
       // print("Title: ${mediaItem.title}");
       // print("Artist: ${mediaItem.artist}");
-      print("radio nome $currentRadioStationName");
+      debugPrint("radio nome $currentRadioStationName");
     }
   });
 }

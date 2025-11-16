@@ -80,6 +80,7 @@ Future<void> searchRadioStationsByName(
   Set<String> foundStationNames =
       {}; // Using a Set to store station paths and avoid duplicates
   foundStationNames.clear();
+  foundStations.clear();
 
   String searchQuery =
       searchTerm.trim().toLowerCase(); // Normalize search query

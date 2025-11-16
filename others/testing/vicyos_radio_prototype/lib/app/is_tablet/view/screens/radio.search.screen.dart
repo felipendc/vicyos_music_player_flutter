@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 
 import '../../../common/search_bar_handler/search.songs.stations.dart';
-import '../../widgets/music_visualizer.dart';
-import '../bottomsheet/bottom.sheet.song.info.more.dart';
 
 class TabletRadioSearchScreen extends StatelessWidget {
   const TabletRadioSearchScreen({super.key});
@@ -33,7 +33,7 @@ class TabletRadioSearchScreen extends StatelessWidget {
       String trimmedText = text.trim();
 
       if (trimmedText.isEmpty) {
-        foundSongs.clear();
+        foundStations.clear();
         isSearchingSongsStreamNotifier("");
         isSearchingSongsStreamNotifier("");
         //
@@ -44,11 +44,11 @@ class TabletRadioSearchScreen extends StatelessWidget {
       // Create a new timer that will execute the search after 800ms
       // This will fix the issue where the function returns wrong results
       //  This is because the function didn't even had time to clear the
-      //  foundSongs and foundFilesPaths lists
+      //  foundStations and foundStationNames lists
       debounce = Timer(
         Duration(milliseconds: 800),
         () async {
-          foundSongs.clear();
+          foundStations.clear();
           debugPrint("🔎 Searching for: '$trimmedText'");
 
           isSearchTypingStreamNotifier(true);
@@ -60,13 +60,13 @@ class TabletRadioSearchScreen extends StatelessWidget {
 
     void clearSearch() {
       searchBoxController.clear();
-      foundSongs.clear();
+      foundStations.clear();
       isSearchingSongsStreamNotifier("");
 
       //
       isSearchTypingStreamNotifier(false);
       //
-      foundSongs.clear();
+      foundStations.clear();
     }
 
     // void openKeyboard() {
@@ -102,7 +102,7 @@ class TabletRadioSearchScreen extends StatelessWidget {
           onChanged: onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Search radio stations...',
+            hintText: 'Search...',
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
             fillColor: const Color(0xff24273A), // TextField background color
@@ -165,80 +165,160 @@ class TabletRadioSearchScreen extends StatelessWidget {
               builder: (context, snapshot) {
                 return ListView.separated(
                   padding: const EdgeInsets.only(bottom: 112),
-                  itemCount: foundSongs.length,
+                  itemCount: foundStations.length,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       height: 67,
                       child: GestureDetector(
-                        onLongPress: () async {
-                          if (audioPlayer.playerState.playing) {
-                            audioPlayerWasPlaying = true;
-                          } else {
-                            audioPlayerWasPlaying = false;
-                          }
-                          isSongPreviewBottomSheetOpen = true;
-
-                          final result = await showModalBottomSheet<String>(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SongPreviewBottomSheet(
-                                  songPath: foundSongs[index].path);
-                            },
-                          ).whenComplete(
-                            () {
-                              isSongPreviewBottomSheetOpen = false;
-
-                              audioPlayerPreview.stop();
-                              audioPlayerPreview.release();
-
-                              if (audioPlayerWasPlaying) {
-                                Future.microtask(
-                                  () async {
-                                    await audioPlayer.play();
-                                  },
-                                );
-                              }
-                            },
-                          );
-
-                          if (result == "close_song_preview_bottom_sheet") {
-                            foundSongs.clear();
-                            isSearchingSongsStreamNotifier("nothing_found");
-                          } else {
-                            // Do not close the Player Preview bottom sheet
-                          }
-                        },
+                        onLongPress: () {},
                         child: ListTile(
-                          key: ValueKey(foundSongs[index].path),
-                          leading: (foundSongs[index].path ==
-                                  currentSongFullPath)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10.0, left: 5.0, bottom: 10.0),
-                                  child: SizedBox(
-                                    height: 27,
-                                    width: 30,
-                                    child: MusicVisualizer(
-                                      barCount: 6,
-                                      colors: [
-                                        TColor.focus,
-                                        TColor.secondaryEnd,
-                                        TColor.focusStart,
-                                        Colors.blue[900]!,
-                                      ],
-                                      duration: const [900, 700, 600, 800, 500],
-                                    ),
+                          key: ValueKey(foundStations[index].radioUrl),
+                          leading: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: (foundStations[index].id ==
+                                    currentRadioStationID)
+                                ? StreamBuilder<PlayerState>(
+                                    stream: radioPlayer.playerStateStream,
+                                    builder: (context, snapshot) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 10.0, left: 2.0, bottom: 10.0),
+                                        child: SizedBox(
+                                          height: 27,
+                                          width: 30,
+                                          child: RadioMusicVisualizer(
+                                            barCount: 6,
+                                            colors: [
+                                              TColor.focus,
+                                              TColor.secondaryEnd,
+                                              TColor.focusStart,
+                                              Colors.blue[900]!,
+                                            ],
+                                            duration: const [
+                                              900,
+                                              700,
+                                              600,
+                                              800,
+                                              500
+                                            ],
+                                          ),
+                                        ),
+                                      );
+
+                                      //
+                                      // final playerState = snapshot.data;
+                                      // final processingState =
+                                      //     playerState?.processingState;
+                                      // final playing =
+                                      //     playerState?.playing;
+                                      //
+                                      // if (processingState ==
+                                      //         ProcessingState.loading ||
+                                      //     processingState ==
+                                      //         ProcessingState.buffering) {
+                                      //   return Image.asset(
+                                      //     height: 32,
+                                      //     width: 32,
+                                      //     radioLogo(),
+                                      //     color: TColor.focus,
+                                      //   );
+                                      // } else if (playing == false &&
+                                      //     isRadioPaused == false) {
+                                      //   return Image.asset(
+                                      //     width: radioHasLogo(index)
+                                      //         ? 45
+                                      //         : 32,
+                                      //     height: radioHasLogo(index)
+                                      //         ? 45
+                                      //         : 32,
+                                      //     radioHasLogo(index)
+                                      //         ? foundStations[index]
+                                      //             .ratioStationLogo!
+                                      //         : radioLogo(),
+                                      //     color: radioHasLogo(index)
+                                      //         ? null
+                                      //         : TColor.focus,
+                                      //   );
+                                      // } else if (isRadioPaused) {
+                                      //   {
+                                      //     return Padding(
+                                      //       padding:
+                                      //           const EdgeInsets.only(
+                                      //               top: 10.0,
+                                      //               left: 2.0,
+                                      //               bottom: 10.0),
+                                      //       child: SizedBox(
+                                      //         height: 27,
+                                      //         width: 30,
+                                      //         child: RadioMusicVisualizer(
+                                      //           barCount: 6,
+                                      //           colors: [
+                                      //             TColor.focus,
+                                      //             TColor.secondaryEnd,
+                                      //             TColor.focusStart,
+                                      //             Colors.blue[900]!,
+                                      //           ],
+                                      //           duration: const [
+                                      //             900,
+                                      //             700,
+                                      //             600,
+                                      //             800,
+                                      //             500
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //     );
+                                      //   }
+                                      // } else {
+                                      //   return Padding(
+                                      //     padding: const EdgeInsets.only(
+                                      //         top: 10.0,
+                                      //         left: 2.0,
+                                      //         bottom: 10.0),
+                                      //     child: SizedBox(
+                                      //       height: 27,
+                                      //       width: 30,
+                                      //       child: RadioMusicVisualizer(
+                                      //         barCount: 6,
+                                      //         colors: [
+                                      //           TColor.focus,
+                                      //           TColor.secondaryEnd,
+                                      //           TColor.focusStart,
+                                      //           Colors.blue[900]!,
+                                      //         ],
+                                      //         duration: const [
+                                      //           900,
+                                      //           700,
+                                      //           600,
+                                      //           800,
+                                      //           500
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   );
+                                      // }
+                                    },
+                                  )
+                                : Image.asset(
+                                    width: radioHasLogo(index) ? 45 : 32,
+                                    height: radioHasLogo(index) ? 45 : 32,
+                                    radioHasLogo(index)
+                                        ? foundStations[index].ratioStationLogo!
+                                        : radioLogo(),
+                                    color: radioHasLogo(index)
+                                        ? null
+                                        : TColor.focus,
                                   ),
-                                )
-                              : Icon(
-                                  Icons.music_note_rounded,
-                                  color: TColor.focus,
-                                  size: 36,
-                                ),
+
+                            // Icon(
+                            //         Icons.music_note_rounded,
+                            //         color: TColor.focus,
+                            //         size: 36,
+                            //       ),
+                          ),
+
                           title: Text(
-                            foundSongs[index].name,
+                            foundStations[index].radioName,
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -249,7 +329,7 @@ class TabletRadioSearchScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            "${foundSongs[index].size!} MB  |  ${foundSongs[index].format!}",
+                            foundStations[index].radioLocation,
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -258,52 +338,125 @@ class TabletRadioSearchScreen extends StatelessWidget {
                               fontSize: 15,
                             ),
                           ),
-                          trailing: IconButton(
-                            splashRadius: 24,
-                            iconSize: 20,
-                            icon: Image.asset(
-                              "assets/img/more_vert.png",
-                              color: TColor.lightGray,
-                            ),
-                            onPressed: () async {
-                              if (context.mounted) {
-                                final result =
-                                    await showModalBottomSheet<String>(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SongInfoMoreBottomSheet(
-                                      fullFilePath: foundSongs[index].path,
-                                    );
-                                  },
-                                ).whenComplete(
-                                  () {
-                                    if (context.mounted) {
-                                      if (!Navigator.canPop(context)) {
-                                        debugPrint("No other screen is open.");
+
+                          // trailing: (index + 1 == currentRadioIndex)
+                          //     ? Image.asset(
+                          //     height: 30,
+                          //     width: 30,
+                          //     "assets/img/radio/antenna-bars-5-streamline.png",
+                          //     color: TColor.green)
+                          //     : Image.asset(
+                          //   height: 30,
+                          //   width: 30,
+                          //   "assets/img/radio/antenna-bars-5-streamline.png",
+                          //   color: TColor.lightGray,
+                          // ),
+                          //
+                          //
+
+                          trailing: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: (foundStations[index].id ==
+                                    currentRadioStationID)
+                                ? StreamBuilder<PlayerState>(
+                                    stream: radioPlayer.playerStateStream,
+                                    builder: (context, snapshot) {
+                                      final playerState = snapshot.data;
+                                      final processingState =
+                                          playerState?.processingState;
+                                      final playing = playerState?.playing;
+
+                                      if (processingState ==
+                                              ProcessingState.loading ||
+                                          processingState ==
+                                              ProcessingState.buffering) {
+                                        return Container(
+                                          margin: const EdgeInsets.all(8.0),
+                                          width: 18.0,
+                                          height: 18.0,
+                                          child:
+                                              // const CircularProgressIndicator(),
+                                              Center(
+                                            child:
+                                                LoadingAnimationWidget.inkDrop(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        );
+                                      } else if (playing != true &&
+                                          isRadioPaused == false) {
+                                        return Image.asset(
+                                          height: 30,
+                                          width: 30,
+                                          "assets/img/radio/antenna-bars-5-streamline.png",
+                                          color: TColor.lightGray,
+                                        );
+                                      } else if (processingState !=
+                                              ProcessingState.completed ||
+                                          playing == true ||
+                                          isRadioPaused) {
+                                        return Image.asset(
+                                          height: 30,
+                                          width: 30,
+                                          "assets/img/radio/antenna-bars-5-streamline.png",
+                                          color: Colors.green,
+                                        );
                                       } else {
-                                        debugPrint(
-                                            " There are other open screens .");
+                                        // return (radioStationFetchError &&
+                                        //         radioStationErrorIndex ==
+                                        //             index)
+                                        return (foundStations[index]
+                                                    .stationStatus ==
+                                                RadioStationConnectionStatus
+                                                    .error)
+                                            ? Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                color: TColor.org,
+                                              )
+                                            : Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                color: TColor.lightGray,
+                                              );
                                       }
-                                    }
-                                  },
-                                );
-                                if (result ==
-                                    "close_song_preview_bottom_sheet") {
-                                  foundSongs.clear();
-                                  isSearchingSongsStreamNotifier(
-                                      "nothing_found");
-                                } else {
-                                  // Do not close the Player Preview bottom sheet
-                                }
-                              }
-                            },
+                                    },
+                                  )
+                                : (foundStations[index].stationStatus ==
+                                        RadioStationConnectionStatus.error)
+                                    ? Image.asset(
+                                        height: 30,
+                                        width: 30,
+                                        "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                        color: TColor.org,
+                                      )
+                                    : Image.asset(
+                                        height: 30,
+                                        width: 30,
+                                        "assets/img/radio/antenna-bars-5-streamline.png",
+                                        color: TColor.lightGray,
+                                      ),
                           ),
-                          onTap: () {
-                            setFolderAsPlaylist(foundSongs, index);
-                            debugPrint(
-                                "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                            debugPrint('Tapped on ${(foundSongs[index].path)}');
+
+                          // IconButton(
+                          //   splashRadius: 5,
+                          //   // iconSize: 5,
+                          //   icon: Image.asset(
+                          //     "assets/img/arrow_forward_ios.png",
+                          //     color: (index + 1 == currentRadioIndex)
+                          //         ? TColor.green
+                          //         : TColor.lightGray,
+                          //   ),
+                          //   onPressed: () async {},
+                          // ),
+                          //
+                          onTap: () async {
+                            await playSearchedRadioStation(context, index);
                           },
                         ),
                       ),
