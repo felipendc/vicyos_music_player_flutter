@@ -235,7 +235,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                       );
                                     }
                                     final eventState = snapshot.data!;
-                                    final index = eventState.currentIndex;
+                                    final index = eventState.currentIndex ?? -1;
                                     final playerState =
                                         radioPlayer.processingState;
 
@@ -243,7 +243,9 @@ class MainPlayerViewTablet extends StatelessWidget {
                                       (playerState == ProcessingState.idle ||
                                               radioPlayer.audioSources.isEmpty)
                                           ? '0'
-                                          : "${index! + 1}",
+                                          : (index < 0)
+                                              ? '0'
+                                              : '${index + 1}',
                                       style: TextStyle(
                                           color: TColor.secondaryText,
                                           fontSize: 14),
@@ -267,7 +269,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                             );
                                           }
                                           final eventState = snapshot.data!;
-                                          final index = eventState.currentIndex;
+                                          final index =
+                                              eventState.currentIndex ?? -1;
                                           final playerState =
                                               audioPlayer.processingState;
 
@@ -277,7 +280,9 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                     audioPlayer
                                                         .audioSources.isEmpty)
                                                 ? '0'
-                                                : "${index! + 1}",
+                                                : (index < 0)
+                                                    ? '0'
+                                                    : '${index + 1}',
                                             style: TextStyle(
                                                 color: TColor.secondaryText,
                                                 fontSize: 14),
@@ -326,8 +331,9 @@ class MainPlayerViewTablet extends StatelessWidget {
                     height: audioPlayer.audioSources.isEmpty ? 15 : 10,
                   ),
                   StreamBuilder(
-                      stream: switchingToRadioStreamController.stream,
-                      builder: (context, asyncSnapshot) {
+                    stream: switchingToRadioStreamController.stream,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
                         return isRadioOn
                             ? Padding(
                                 padding:
@@ -357,7 +363,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                 // Set dynamically based on layout
                                                 maxWidth: width,
                                                 text: isRadioOn
-                                                    ? currentRadioStationName
+                                                    ? "currentRadioStationName"
                                                     : "The radio is turned off",
                                                 style: TextStyle(
                                                   color: TColor.primaryText
@@ -469,43 +475,48 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   },
                                 ),
                               );
-                      }),
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
                   const SizedBox(
                     height: 28,
                   ),
                   StreamBuilder(
-                      stream: switchingToRadioStreamController.stream,
-                      builder: (context, asyncSnapshot) {
-                        return isRadioOn
-                            ? SizedBox(
-                                height: 40,
-                                width: media.width * 0.24,
-                                child: RadioMusicVisualizer(
-                                  barCount: 26,
-                                  colors: [
-                                    TColor.focus,
-                                    TColor.secondaryEnd,
-                                    TColor.focusStart,
-                                    Colors.blue[900]!,
-                                  ],
-                                  duration: const [900, 700, 600, 800, 500],
-                                ),
-                              )
-                            : SizedBox(
-                                height: 40,
-                                width: media.width * 0.24,
-                                child: MusicVisualizer(
-                                  barCount: 26,
-                                  colors: [
-                                    TColor.focus,
-                                    TColor.secondaryEnd,
-                                    TColor.focusStart,
-                                    Colors.blue[900]!,
-                                  ],
-                                  duration: const [900, 700, 600, 800, 500],
-                                ),
-                              );
-                      }),
+                    stream: switchingToRadioStreamController.stream,
+                    builder: (context, asyncSnapshot) {
+                      return isRadioOn
+                          ? SizedBox(
+                              height: 40,
+                              width: media.width * 0.24,
+                              child: RadioMusicVisualizer(
+                                barCount: 26,
+                                colors: [
+                                  TColor.focus,
+                                  TColor.secondaryEnd,
+                                  TColor.focusStart,
+                                  Colors.blue[900]!,
+                                ],
+                                duration: const [900, 700, 600, 800, 500],
+                              ),
+                            )
+                          : SizedBox(
+                              height: 40,
+                              width: media.width * 0.24,
+                              child: MusicVisualizer(
+                                barCount: 26,
+                                colors: [
+                                  TColor.focus,
+                                  TColor.secondaryEnd,
+                                  TColor.focusStart,
+                                  Colors.blue[900]!,
+                                ],
+                                duration: const [900, 700, 600, 800, 500],
+                              ),
+                            );
+                    },
+                  ),
                   const SizedBox(
                     height: 10,
                   ),

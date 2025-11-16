@@ -333,17 +333,21 @@ void playerPreviewEventStateStreamNotifier() {
 
 // This function will update the display the song title one the audio or folder is imported
 void preLoadSongName() {
-  audioPlayer.currentIndexStream.listen(
-    (index) {
-      final currentMediaItem = audioPlayer.sequence[index!].tag as MediaItem;
-      currentSongName = currentMediaItem.title;
-      currentSongNameStreamNotifier();
-      currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
-      currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
-      currentSongAlbumStreamNotifier();
-      currentIndex = index;
-    },
-  );
+  audioPlayer.currentIndexStream.listen((index) {
+    if (index == null) return; // The song hasn't been loaded yet
+    if (index < 0 || index >= audioPlayer.sequence.length) return;
+
+    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+
+    currentSongName = currentMediaItem.title;
+    currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
+    currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
+
+    currentSongNameStreamNotifier();
+    currentSongAlbumStreamNotifier();
+
+    currentIndex = index;
+  });
 }
 
 Future<void> cleanPlaylist() async {

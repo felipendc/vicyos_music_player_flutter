@@ -207,7 +207,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                                       final eventState =
                                                           snapshot.data!;
                                                       final index = eventState
-                                                          .currentIndex;
+                                                              .currentIndex ??
+                                                          -1;
                                                       final playerState =
                                                           radioPlayer
                                                               .processingState;
@@ -220,7 +221,9 @@ class RadioBottomPlayer extends StatelessWidget {
                                                                     .audioSources
                                                                     .isEmpty)
                                                             ? '0'
-                                                            : "${index! + 1}",
+                                                            : (index < 0)
+                                                                ? '0'
+                                                                : '${index + 1}',
                                                         style: TextStyle(
                                                             color: TColor
                                                                 .secondaryText,

@@ -143,14 +143,16 @@ class MainRadioPlayerView extends StatelessWidget {
                       );
                     }
                     final eventState = snapshot.data!;
-                    final index = eventState.currentIndex;
+                    final index = eventState.currentIndex ?? -1;
                     final playerState = radioPlayer.processingState;
 
                     return Text(
                       (playerState == ProcessingState.idle ||
                               radioPlayer.audioSources.isEmpty)
                           ? '0'
-                          : "${index! + 1}",
+                          : (index < 0)
+                              ? '0'
+                              : '${index + 1}',
                       style:
                           TextStyle(color: TColor.secondaryText, fontSize: 15),
                     );
