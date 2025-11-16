@@ -141,77 +141,78 @@ class MainPlayerViewTablet extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
+                  SizedBox(
+                    height: isRadioOn ? 14 : 15,
                   ),
                   StreamBuilder(
-                      stream: switchingToRadioStreamController.stream,
-                      builder: (context, asyncSnapshot) {
-                        return isRadioOn
-                            ? Text(
-                                "STREAMING",
-                                style: TextStyle(
-                                    color: TColor.secondaryText, fontSize: 14),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  StreamBuilder<void>(
-                                    stream: clearCurrentPlaylistStreamController
-                                        .stream,
-                                    builder: (context, snapshot) {
-                                      return StreamBuilder<Duration>(
-                                        stream: audioPlayer.positionStream,
-                                        builder: (context, snapshot) {
-                                          final position =
-                                              snapshot.data ?? Duration.zero;
-                                          return Text(
-                                            // (audioPlayer.processingState !=
-                                            //         ProcessingState.idle)
-                                            //     ? formatDuration(position)
-                                            //     :
-                                            audioPlayer.audioSources.isEmpty
-                                                ? formatDuration(Duration.zero)
-                                                : formatDuration(position),
-                                            style: TextStyle(
-                                                color: TColor.secondaryText,
-                                                fontSize: 14),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                  Text(
-                                    " | ",
-                                    style: TextStyle(
-                                        color: TColor.secondaryText,
-                                        fontSize: 14),
-                                  ),
-                                  StreamBuilder(
-                                    stream: clearCurrentPlaylistStreamController
-                                        .stream,
-                                    builder: (context, snapshot) {
-                                      return StreamBuilder<Duration?>(
-                                        stream: audioPlayer.durationStream,
-                                        builder: (context, snapshot) {
-                                          final duration =
-                                              snapshot.data ?? Duration.zero;
+                    stream: switchingToRadioStreamController.stream,
+                    builder: (context, asyncSnapshot) {
+                      return isRadioOn
+                          ? Text(
+                              "STREAMING",
+                              style: TextStyle(
+                                  color: TColor.secondaryText, fontSize: 14),
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                StreamBuilder<void>(
+                                  stream: clearCurrentPlaylistStreamController
+                                      .stream,
+                                  builder: (context, snapshot) {
+                                    return StreamBuilder<Duration>(
+                                      stream: audioPlayer.positionStream,
+                                      builder: (context, snapshot) {
+                                        final position =
+                                            snapshot.data ?? Duration.zero;
+                                        return Text(
+                                          // (audioPlayer.processingState !=
+                                          //         ProcessingState.idle)
+                                          //     ? formatDuration(position)
+                                          //     :
+                                          audioPlayer.audioSources.isEmpty
+                                              ? formatDuration(Duration.zero)
+                                              : formatDuration(position),
+                                          style: TextStyle(
+                                              color: TColor.secondaryText,
+                                              fontSize: 14),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                                Text(
+                                  " | ",
+                                  style: TextStyle(
+                                      color: TColor.secondaryText,
+                                      fontSize: 14),
+                                ),
+                                StreamBuilder(
+                                  stream: clearCurrentPlaylistStreamController
+                                      .stream,
+                                  builder: (context, snapshot) {
+                                    return StreamBuilder<Duration?>(
+                                      stream: audioPlayer.durationStream,
+                                      builder: (context, snapshot) {
+                                        final duration =
+                                            snapshot.data ?? Duration.zero;
 
-                                          return Text(
-                                            (audioPlayer.audioSources.isEmpty)
-                                                ? formatDuration(Duration.zero)
-                                                : formatDuration(duration),
-                                            style: TextStyle(
-                                                color: TColor.secondaryText,
-                                                fontSize: 14),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ],
-                              );
-                      }),
+                                        return Text(
+                                          (audioPlayer.audioSources.isEmpty)
+                                              ? formatDuration(Duration.zero)
+                                              : formatDuration(duration),
+                                          style: TextStyle(
+                                              color: TColor.secondaryText,
+                                              fontSize: 14),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                    },
+                  ),
                   const SizedBox(
                     height: 1,
                   ),
@@ -328,7 +329,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: audioPlayer.audioSources.isEmpty ? 15 : 10,
+                    // height: audioPlayer.audioSources.isEmpty ? 15 : 10,
+                    height: 15,
                   ),
                   StreamBuilder(
                     stream: switchingToRadioStreamController.stream,

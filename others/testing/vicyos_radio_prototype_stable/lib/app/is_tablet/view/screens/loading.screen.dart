@@ -107,7 +107,7 @@ class LoadingScreen extends StatelessWidget {
                                         child: (isRadioOn)
                                             ? Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 9.2),
+                                                    left: 11),
                                                 child: LoadingAnimationWidget
                                                     .progressiveDots(
                                                   color: TColor
@@ -121,7 +121,7 @@ class LoadingScreen extends StatelessWidget {
                                         color: Colors.transparent,
                                         // color: Colors.white30,
                                         child: SizedBox(
-                                          width: 40,
+                                          width: 43,
                                           height: 43,
                                           child: IconButton(
                                             splashRadius: 20,
