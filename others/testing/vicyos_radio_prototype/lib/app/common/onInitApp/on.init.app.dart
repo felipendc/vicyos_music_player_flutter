@@ -20,7 +20,9 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart'
         currentIndex,
         currentRadioIndex,
         radioPlaylist,
-        currentRadioStationID;
+        currentRadioStationID,
+        currentRadioStationName,
+        currentRadioStationLocation;
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
@@ -57,7 +59,6 @@ Future<void> onInitPlayer() async {
     },
   );
 
-  // FAZER DEPOIS!
   // Update radio stations list screen
   radioPlayer.playbackEventStream.listen((event) {
     currentIndex = event.currentIndex ?? 0;
@@ -69,13 +70,17 @@ Future<void> onInitPlayer() async {
             : currentIndex += 1;
     getCurrentSongFullPathStreamControllerNotifier();
 
-    // Getting the Radio current MediaItem ID
+    // Getting the Radio current MediaItem id, title and album
     final mediaItem = radioPlayer.sequenceState.currentSource?.tag;
     if (mediaItem is MediaItem) {
+      // Getting the current station info
+      currentRadioStationName = mediaItem.title;
+      currentRadioStationLocation = mediaItem.album ?? "...";
       currentRadioStationID = mediaItem.id;
       // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
       // print("Title: ${mediaItem.title}");
       // print("Artist: ${mediaItem.artist}");
+      print("radio nome $currentRadioStationName");
     }
   });
 }

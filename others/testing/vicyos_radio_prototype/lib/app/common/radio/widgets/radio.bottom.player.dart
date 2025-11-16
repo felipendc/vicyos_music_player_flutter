@@ -5,8 +5,6 @@ import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart'
-    show radioStationList;
 import 'package:vicyos_music/app/common/radio/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart'
     show mainPlayerSlideUpDownTransition;
@@ -49,89 +47,6 @@ class RadioBottomPlayer extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Padding(
-                          //   padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                          //   child: Stack(
-                          //     children: [
-                          //       ClipRRect(
-                          //         borderRadius:
-                          //             BorderRadius.circular(media.width * 0.7),
-                          //         child: StreamBuilder<void>(
-                          //           stream: null,
-                          //           builder: (context, snapshot) {
-                          //             return Image.asset(
-                          //               "assets/img/lofi-woman-album-cover-art_10.png",
-                          //               width: media.width * 0.15,
-                          //               height: media.width * 0.15,
-                          //               fit: BoxFit.cover,
-                          //             );
-                          //           },
-                          //         ),
-                          //       ),
-                          //       StreamBuilder<Duration>(
-                          //         stream: audioPlayer.positionStream,
-                          //         builder: (context, snapshot) {
-                          //           return SizedBox(
-                          //             width: media.width * 0.15,
-                          //             height: media.width * 0.15,
-                          //             child: SleekCircularSlider(
-                          //               appearance: CircularSliderAppearance(
-                          //                   customWidths: CustomSliderWidths(
-                          //                       trackWidth: 3.5,
-                          //                       progressBarWidth: 3.5,
-                          //                       shadowWidth: 10),
-                          //                   customColors: CustomSliderColors(
-                          //                       dotFillColor:
-                          //                           const Color(0xffFFB1B2),
-                          //                       trackColor:
-                          //                           const Color(0xffffffff)
-                          //                               .withValues(alpha: 0.3),
-                          //                       progressBarColors: [
-                          //                         TColor.focusStart,
-                          //                         TColor.focusStart
-                          //                       ],
-                          //                       shadowColor:
-                          //                           const Color(0xffFFB1B2),
-                          //                       shadowMaxOpacity: 0.05),
-                          //                   infoProperties: InfoProperties(
-                          //                     topLabelStyle: const TextStyle(
-                          //                         color: Colors.transparent,
-                          //                         fontSize: 0,
-                          //                         fontWeight: FontWeight.w400),
-                          //                     topLabelText: 'Elapsed',
-                          //                     bottomLabelStyle: const TextStyle(
-                          //                         color: Colors.transparent,
-                          //                         fontSize: 0,
-                          //                         fontWeight: FontWeight.w400),
-                          //                     bottomLabelText: 'time',
-                          //                     mainLabelStyle: const TextStyle(
-                          //                         color: Colors.transparent,
-                          //                         fontSize: 00,
-                          //                         fontWeight: FontWeight.w600),
-                          //                   ),
-                          //                   startAngle: 270,
-                          //                   angleRange: 360,
-                          //                   size: 350.0),
-                          //               min: 0,
-                          //               max: sleekCircularSliderDuration,
-                          //
-                          //               // The initValue has been renamed to value.
-                          //               value: sleekCircularSliderPosition,
-                          //               onChange: (value) {
-                          //                 if (value < 0) {
-                          //                   return;
-                          //                 } else {
-                          //                   audioPlayer.seek(Duration(
-                          //                       seconds: value.toInt()));
-                          //                 }
-                          //               },
-                          //             ),
-                          //           );
-                          //         },
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                           StreamBuilder(
                             stream: rebuildRadioScreenStreamController.stream,
                             builder: (context, asyncSnapshot) {
@@ -249,14 +164,11 @@ class RadioBottomPlayer extends StatelessWidget {
                                                   centerText: false,
                                                   // Forces rebuild when song changes
                                                   key: ValueKey(
-                                                      currentRadioIndex),
+                                                      currentRadioStationID),
                                                   // Set dynamically based on layout
                                                   maxWidth: width,
                                                   text: isRadioOn
-                                                      ? radioStationList[
-                                                              currentRadioIndex -
-                                                                  1]
-                                                          .radioName
+                                                      ? currentRadioStationName
                                                       : "The radio is turned off",
 
                                                   style: TextStyle(

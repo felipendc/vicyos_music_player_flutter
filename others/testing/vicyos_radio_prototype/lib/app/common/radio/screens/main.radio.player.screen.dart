@@ -6,7 +6,6 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/bottomsheet/radio.bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.appbar.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
@@ -244,12 +243,11 @@ class MainRadioPlayerView extends StatelessWidget {
                               return MarqueeText(
                                 centerText: true,
                                 // Forces rebuild when song changes
-                                key: ValueKey(currentRadioIndex),
+                                key: ValueKey(currentRadioStationID),
                                 // Set dynamically based on layout
                                 maxWidth: width,
                                 text: isRadioOn
-                                    ? radioStationList[currentRadioIndex - 1]
-                                        .radioName
+                                    ? currentRadioStationName
                                     : "The radio is turned off",
                                 style: TextStyle(
                                   color:
@@ -267,10 +265,7 @@ class MainRadioPlayerView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                           child: Text(
-                            isRadioOn
-                                ? radioStationList[currentRadioIndex - 1]
-                                    .radioLocation
-                                : "...",
+                            isRadioOn ? currentRadioStationLocation : "...",
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

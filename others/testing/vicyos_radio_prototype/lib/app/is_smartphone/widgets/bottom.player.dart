@@ -186,82 +186,82 @@ class BottomPlayer extends StatelessWidget {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 0.0),
-                                            child: SizedBox(
-                                              width: media.width * 0.30,
-                                              child: Row(
-                                                children: [
-                                                  StreamBuilder(
-                                                    stream:
-                                                        clearCurrentPlaylistStreamController
-                                                            .stream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return StreamBuilder<
-                                                          PlaybackEvent>(
-                                                        stream: audioPlayer
-                                                            .playbackEventStream,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          // Check if snapshot has data
-                                                          if (!snapshot
-                                                              .hasData) {
+                                          StreamBuilder(
+                                              stream:
+                                                  clearCurrentPlaylistStreamController
+                                                      .stream,
+                                              builder: (context, snapshot) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 0.0),
+                                                  child: SizedBox(
+                                                    width: media.width * 0.30,
+                                                    child: Row(
+                                                      children: [
+                                                        StreamBuilder<
+                                                            PlaybackEvent>(
+                                                          stream: audioPlayer
+                                                              .playbackEventStream,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            // Check if snapshot has data
+                                                            if (!snapshot
+                                                                .hasData) {
+                                                              return Text(
+                                                                '0',
+                                                                style: TextStyle(
+                                                                    color: TColor
+                                                                        .secondaryText,
+                                                                    fontSize:
+                                                                        15),
+                                                              );
+                                                            }
+                                                            final eventState =
+                                                                snapshot.data!;
+                                                            final index =
+                                                                eventState
+                                                                    .currentIndex;
+                                                            final playerState =
+                                                                audioPlayer
+                                                                    .processingState;
+
                                                             return Text(
-                                                              '0',
+                                                              (playerState ==
+                                                                          ProcessingState
+                                                                              .idle ||
+                                                                      audioPlayer
+                                                                          .audioSources
+                                                                          .isEmpty)
+                                                                  ? '0'
+                                                                  : "${index! + 1}",
                                                               style: TextStyle(
                                                                   color: TColor
                                                                       .secondaryText,
                                                                   fontSize: 15),
                                                             );
-                                                          }
-                                                          final eventState =
-                                                              snapshot.data!;
-                                                          final index =
-                                                              eventState
-                                                                  .currentIndex;
-                                                          final playerState =
-                                                              audioPlayer
-                                                                  .processingState;
-
-                                                          return Text(
-                                                            (playerState ==
-                                                                        ProcessingState
-                                                                            .idle ||
-                                                                    audioPlayer
-                                                                        .audioSources
-                                                                        .isEmpty)
-                                                                ? '0'
-                                                                : "${index! + 1}",
-                                                            style: TextStyle(
-                                                                color: TColor
-                                                                    .secondaryText,
-                                                                fontSize: 15),
-                                                          );
-                                                        },
-                                                      );
-                                                    },
+                                                          },
+                                                        ),
+                                                        StreamBuilder<void>(
+                                                          stream:
+                                                              rebuildPlaylistCurrentLengthController
+                                                                  .stream,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            return Text(
+                                                              " of $playlistCurrentLength",
+                                                              style: TextStyle(
+                                                                  color: TColor
+                                                                      .secondaryText,
+                                                                  fontSize: 15),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
-                                                  StreamBuilder<void>(
-                                                    stream:
-                                                        rebuildPlaylistCurrentLengthController
-                                                            .stream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      return Text(
-                                                        " of $playlistCurrentLength",
-                                                        style: TextStyle(
-                                                            color: TColor
-                                                                .secondaryText,
-                                                            fontSize: 15),
-                                                      );
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
+                                                );
+                                              }),
                                         ],
                                       );
                                     },
