@@ -106,7 +106,7 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   RadioStationInfo(
     id: const Uuid().v4(),
     radioSimpleName: "Power",
-    radioName: 'Rádio Power 96.1 FM',
+    radioName: 'Radio Power 96.1 FM',
     radioLocation: "Atlanta's New Hit Music Station",
     radioStation: "96.1",
     radioUrl:
