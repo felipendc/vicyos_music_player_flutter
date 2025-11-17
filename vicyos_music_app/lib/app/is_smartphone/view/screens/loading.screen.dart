@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 
 class LoadingScreen extends StatelessWidget {
   final String currentStatus;
@@ -95,39 +96,83 @@ class LoadingScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.2),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.2),
-                                          spreadRadius: 5,
-                                          blurRadius: 8,
-                                          offset: Offset(2, 4),
-                                        ),
-                                      ],
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          media.width * 0.2),
-                                      child: StreamBuilder<void>(
-                                        stream: null,
-                                        builder: (context, snapshot) {
-                                          return Image.asset(
-                                            "assets/img/pics/default.png",
-                                            width: media.width * 0.13,
-                                            height: media.width * 0.13,
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
+                              StreamBuilder(
+                                stream:
+                                    rebuildRadioScreenStreamController.stream,
+                                builder: (context, asyncSnapshot) {
+                                  return Stack(
+                                    children: [
+                                      Positioned(
+                                        height: 78,
+                                        child: (isRadioOn)
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 9.2),
+                                                child: LoadingAnimationWidget
+                                                    .progressiveDots(
+                                                  color: TColor
+                                                      .lightGray, // Colors.green,
+                                                  size: 20,
+                                                ),
+                                              )
+                                            : Container(),
                                       ),
+                                      Material(
+                                        color: Colors.transparent,
+                                        // color: Colors.white30,
+                                        child: SizedBox(
+                                          width: 40,
+                                          height: 43,
+                                          child: IconButton(
+                                            splashRadius: 20,
+                                            iconSize: 20,
+                                            onPressed: null,
+                                            icon: SizedBox(
+                                              height: 60,
+                                              child: Image.asset(
+                                                "assets/img/radio_icon.png",
+                                                color: TColor.lightGray,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.black.withValues(alpha: 0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    child: StreamBuilder<void>(
+                                      stream: null,
+                                      builder: (context, snapshot) {
+                                        return Image.asset(
+                                          "assets/img/pics/default.png",
+                                          width: media.width * 0.13,
+                                          height: media.width * 0.13,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
                                     ),
                                   ),
+                                ),
                               ),
                             ],
                           ),

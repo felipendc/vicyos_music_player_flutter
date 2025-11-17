@@ -13,17 +13,29 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
+enum RadioStationConnectionStatus { online, error }
 
+bool stationHasBeenSearched = false;
+String currentRadioIndexUrl = "";
+String currentRadioStationName = "";
+String currentRadioStationLocation = "";
+String currentRadioStationID = "";
+bool isRadioPaused = false;
+bool isRadioOn = false;
+Color radioStationBtn = Color(0xFFFF0F7B);
+bool radioStationFetchError = false;
+late int radioStationErrorIndex;
+int currentRadioIndex = 0;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 late final TextEditingController searchBoxController;
 bool mainPlayerIsOpen = false;
 late bool audioPlayerWasPlaying;
 bool noDeviceMusicFolderFound = false;
-List<AudioInfo> foundSongs = <AudioInfo>[];
 bool isSongPreviewBottomSheetOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';
@@ -51,6 +63,10 @@ String currentLoopModeLabel = 'Repeat: All';
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 final playlist = <AudioSource>[];
+
+// Radio Player
+late AudioPlayer radioPlayer;
+final radioPlaylist = <AudioSource>[];
 
 // Player for Preview
 late audio_players.AudioPlayer audioPlayerPreview;
@@ -84,7 +100,7 @@ StreamController<void> repeatModeStreamController =
 StreamController<void> systemVolumeStreamController =
     StreamController<void>.broadcast();
 
-StreamController<bool> hideButtonSheetStreamController =
+StreamController<bool> hideBottonSheetStreamController =
     StreamController<bool>.broadcast();
 
 StreamController<void> rebuildPlaylistCurrentLengthController =
@@ -145,10 +161,6 @@ void rebuildPlaylistCurrentLengthStreamNotifier() {
   rebuildPlaylistCurrentLengthController.sink.add(null);
 }
 
-Future<void> hideButtonSheetStreamNotifier(bool value) async {
-  hideButtonSheetStreamController.sink.add(value);
-}
-
 void clearCurrentPlaylistStreamNotifier() {
   audioPlayer.stop();
   songIsPlaying = false;
@@ -176,42 +188,11 @@ void systemVolumeStreamNotifier() {
   systemVolumeStreamController.sink.add(null);
 }
 
-// Functions
-
-Future<void> onInitPlayer() async {
-  initVolumeControl();
-
-  // Player for previewing the songs.
-  audioPlayerPreview = audio_players.AudioPlayer();
-  audioPlayerPreview.setReleaseMode(audio_players.ReleaseMode.stop);
-
-  audioPlayer = AudioPlayer();
-  audioPlayer.setLoopMode(LoopMode.all);
-
-  // playlist = ConcatenatingAudioSource(
-  //   useLazyPreparation: true,
-  //   shuffleOrder: DefaultShuffleOrder(),
-  //   children: audioSources,
-  // );
-  playerEventStateStreamNotifier();
-  playerPreviewEventStateStreamNotifier();
-  await defaultAlbumArt();
-
-  audioPlayer.sequenceStateStream.listen(
-    (sequenceState) {
-      final currentSource = sequenceState.currentSource;
-      if (currentSource is UriAudioSource) {
-        currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
-        getCurrentSongFolderStreamControllerNotifier();
-
-        currentSongFullPath =
-            getCurrentSongFullPath(currentSource.uri.toString());
-        getCurrentSongFullPathStreamControllerNotifier();
-      }
-    },
-  );
+Future<void> hideMiniPlayerStreamNotifier(bool value) async {
+  hideBottonSheetStreamController.sink.add(value);
 }
 
+// Functions
 String getCurrentSongFullPath(String songPath) {
   // Try to correctly interpret the path
   Uri uri = Uri.parse(songPath);
@@ -256,7 +237,7 @@ void setVolumeJustAudio(double value) {
   VolumeController.instance.setVolume(audioPlayer.volume);
 }
 
-// This function should be used on a flutter.initState or GetX.onInit();
+// This function should be used on a flutter.initState or GetX.onInitApp();
 void playerEventStateStreamNotifier() {
   // I will need to use another state listener other than!
   audioPlayer.positionStream.listen(
@@ -332,7 +313,7 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-// This func should be used on a flutter.initState or GetX.onInit();
+// This func should be used on a flutter.initState or GetX.onInitApp();
 void playerPreviewEventStateStreamNotifier() {
   audioPlayerPreview.onPositionChanged.listen(
     (position) {
@@ -352,17 +333,21 @@ void playerPreviewEventStateStreamNotifier() {
 
 // This function will update the display the song title one the audio or folder is imported
 void preLoadSongName() {
-  audioPlayer.currentIndexStream.listen(
-    (index) {
-      final currentMediaItem = audioPlayer.sequence[index!].tag as MediaItem;
-      currentSongName = currentMediaItem.title;
-      currentSongNameStreamNotifier();
-      currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
-      currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
-      currentSongAlbumStreamNotifier();
-      currentIndex = index;
-    },
-  );
+  audioPlayer.currentIndexStream.listen((index) {
+    if (index == null) return; // The song hasn't been loaded yet
+    if (index < 0 || index >= audioPlayer.sequence.length) return;
+
+    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+
+    currentSongName = currentMediaItem.title;
+    currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
+    currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
+
+    currentSongNameStreamNotifier();
+    currentSongAlbumStreamNotifier();
+
+    currentIndex = index;
+  });
 }
 
 Future<void> cleanPlaylist() async {
@@ -390,9 +375,10 @@ Future<void> cleanPlaylist() async {
   rebuildPlaylistCurrentLengthStreamNotifier();
 }
 
-void playOrPause() {
+Future<void> playOrPause() async {
   if (audioPlayer.audioSources.isEmpty) {
   } else {
+    await turnOffRadioStation();
     if (songIsPlaying == false) {
       songIsPlaying = true;
       isStopped = false;
@@ -1015,7 +1001,7 @@ void addToPlayNext(String playNextFilePath) {
       ),
     );
 
-    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
+    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
     firstSongIndex = true;
     preLoadSongName();
     rebuildPlaylistCurrentLengthStreamNotifier();

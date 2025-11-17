@@ -3,8 +3,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
-import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
+import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -81,14 +81,16 @@ class PlaylistBottomSheet extends StatelessWidget {
                                 );
                               }
                               final eventState = snapshot.data!;
-                              final index = eventState.currentIndex;
+                              final index = eventState.currentIndex ?? -1;
                               final playerState = audioPlayer.processingState;
 
                               return Text(
                                 (playerState == ProcessingState.idle ||
                                         audioPlayer.audioSources.isEmpty)
                                     ? '0'
-                                    : "${index! + 1}",
+                                    : (index < 0)
+                                        ? '0'
+                                        : '${index + 1}',
                                 style: TextStyle(
                                     color: TColor.secondaryText, fontSize: 18),
                               );

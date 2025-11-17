@@ -1,0 +1,357 @@
+import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
+import 'package:vicyos_music/app/common/radio/screens/main.radio.player.screen.dart';
+import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart'
+    show mainPlayerSlideUpDownTransition;
+import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
+
+class RadioBottomPlayer extends StatelessWidget {
+  const RadioBottomPlayer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var media = MediaQuery.sizeOf(context);
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Container(
+              width: media.width * 0.94,
+              margin: const EdgeInsets.only(top: 0, bottom: 18),
+              height: 72,
+              decoration: BoxDecoration(
+                color: Color(0xff2A2D40),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xff000000).withValues(alpha: 0.5),
+                    spreadRadius: 0.4,
+                    blurRadius: 12,
+                    offset: Offset(1, 1),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 5, 10, 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          StreamBuilder(
+                            stream: rebuildRadioScreenStreamController.stream,
+                            builder: (context, asyncSnapshot) {
+                              return Stack(
+                                children: [
+                                  Positioned(
+                                    height: 103,
+                                    child: (isRadioOn)
+                                        //  flickr
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15.2),
+                                            child: LoadingAnimationWidget
+                                                .progressiveDots(
+                                              color: TColor
+                                                  .lightGray, // Colors.green,
+                                              size: 20,
+                                            ),
+                                            // LoadingAnimationWidget
+                                            //     .newtonCradle(
+                                            //   color: TColor
+                                            //       .lightGray, // Colors.green,
+                                            //   size: 40,
+                                            // ),
+                                          )
+                                        : Container(),
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    // color: Colors.white30,
+                                    child: SizedBox(
+                                      width: 52,
+                                      height: 53,
+                                      child: IconButton(
+                                        splashRadius: 20,
+                                        iconSize: 20,
+                                        onPressed: () async {
+                                          // // Show Radio Mini Player
+                                          // hideMiniRadioPlayerStreamNotifier(
+                                          //     false);
+                                          //
+                                          // // Hide Mini Player
+                                          // hideMiniPlayerStreamNotifier(
+                                          //     true);
+                                          //
+                                          // Navigator.push(
+                                          //   context,
+                                          //   slideRightLeftTransition(
+                                          //     RadioStationsScreen(),
+                                          //   ),
+                                          // ).whenComplete(
+                                          //       () {
+                                          //     hideMiniRadioPlayerStreamNotifier(
+                                          //         true);
+                                          //     // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                          //     hideMiniPlayerStreamNotifier(
+                                          //         false);
+                                          //   },
+                                          // );
+                                        },
+                                        icon: SizedBox(
+                                          height: 60,
+                                          child: Image.asset(
+                                            "assets/img/radio_icon.png",
+                                            color: TColor.lightGray,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    hideMiniRadioPlayerStreamNotifier(true);
+
+                                    Navigator.push(
+                                      context,
+                                      mainPlayerSlideUpDownTransition(
+                                        MainRadioPlayerView(),
+                                      ),
+                                    ).whenComplete(
+                                      () {
+                                        if (mainPlayerIsOpen) {
+                                          mainPlayerIsOpen = false;
+                                        }
+                                        hideMiniRadioPlayerStreamNotifier(
+                                            false);
+                                      },
+                                    );
+                                  },
+                                  child: StreamBuilder<void>(
+                                    stream: radioPlayer.sequenceStateStream,
+                                    builder: (context, snapshot) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: media.width * 0.35,
+                                            height: media.width * 0.06,
+                                            child: LayoutBuilder(
+                                              builder: (context, constraints) {
+                                                // Gets the width of Expanded
+                                                final double width =
+                                                    constraints.maxWidth;
+                                                return MarqueeText(
+                                                  centerText: false,
+                                                  // Forces rebuild when song changes
+                                                  key: ValueKey(
+                                                      currentRadioStationID),
+                                                  // Set dynamically based on layout
+                                                  maxWidth: width,
+                                                  text: isRadioOn
+                                                      ? currentRadioStationName
+                                                      : "The radio is turned off",
+
+                                                  style: TextStyle(
+                                                    color: TColor.primaryText
+                                                        .withValues(
+                                                            alpha: 0.84),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 0.0),
+                                            child: SizedBox(
+                                              width: media.width * 0.30,
+                                              child: Row(
+                                                children: [
+                                                  StreamBuilder<PlaybackEvent>(
+                                                    stream: radioPlayer
+                                                        .playbackEventStream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      // Check if snapshot has data
+                                                      if (!snapshot.hasData) {
+                                                        return Text(
+                                                          '0',
+                                                          style: TextStyle(
+                                                              color: TColor
+                                                                  .secondaryText,
+                                                              fontSize: 15),
+                                                        );
+                                                      }
+                                                      final eventState =
+                                                          snapshot.data!;
+                                                      final index = eventState
+                                                              .currentIndex ??
+                                                          -1;
+                                                      final playerState =
+                                                          radioPlayer
+                                                              .processingState;
+
+                                                      return Text(
+                                                        (playerState ==
+                                                                    ProcessingState
+                                                                        .idle ||
+                                                                radioPlayer
+                                                                    .audioSources
+                                                                    .isEmpty)
+                                                            ? '0'
+                                                            : (index < 0)
+                                                                ? '0'
+                                                                : '${index + 1}',
+                                                        style: TextStyle(
+                                                            color: TColor
+                                                                .secondaryText,
+                                                            fontSize: 15),
+                                                      );
+                                                    },
+                                                  ),
+                                                  StreamBuilder<void>(
+                                                    stream: radioPlayer
+                                                        .playbackEventStream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return StreamBuilder<
+                                                          void>(
+                                                        stream:
+                                                            rebuildSongsListScreenStreamController
+                                                                .stream,
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          return Text(
+                                                            isRadioOn
+                                                                ? " of ${radioPlayer.audioSources.length}"
+                                                                : " of 0",
+                                                            style: TextStyle(
+                                                                color: TColor
+                                                                    .secondaryText,
+                                                                fontSize: 15),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: IconButton(
+                              splashRadius: 20,
+                              iconSize: 10,
+                              onPressed: () async {
+                                await radioSeekToPrevious();
+                              },
+                              icon: Image.asset(
+                                "assets/img/bottom_player/skip_previous.png",
+                                color: TColor.lightGray,
+                              ),
+                            ),
+                          ),
+                          StreamBuilder<PlayerState>(
+                            stream: radioPlayer.playerStateStream,
+                            builder: (context, snapshot) {
+                              final playerState = snapshot.data;
+                              final playing = playerState?.playing;
+                              if (playing != true) {
+                                return SizedBox(
+                                  width: 45,
+                                  height: 45,
+                                  child: IconButton(
+                                    splashRadius: 20,
+                                    onPressed: () async {
+                                      await radioPlayOrPause();
+                                    },
+                                    icon: Image.asset(
+                                      "assets/img/bottom_player/motion_play.png",
+                                      color: TColor.lightGray,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return SizedBox(
+                                  width: 45,
+                                  height: 45,
+                                  child: IconButton(
+                                    splashRadius: 20,
+                                    onPressed: () async {
+                                      await radioPlayOrPause();
+                                    },
+                                    icon: Image.asset(
+                                      "assets/img/bottom_player/motion_paused.png",
+                                      color: TColor.lightGray,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: IconButton(
+                              iconSize: 10,
+                              splashRadius: 20,
+                              onPressed: () async {
+                                await radioSeekToNext();
+                              },
+                              icon: Image.asset(
+                                "assets/img/bottom_player/skip_next.png",
+                                color: TColor.lightGray,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}

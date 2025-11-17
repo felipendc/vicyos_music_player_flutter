@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/song.search.screen.dart';
 
+import '../../../common/radio/screens/radio.station.list.screen.dart';
 import '../../widgets/music_visualizer.dart';
 
 class HomePageFolderListTablet extends StatelessWidget {
@@ -113,6 +116,60 @@ class HomePageFolderListTablet extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                    ),
+                                    StreamBuilder(
+                                      stream: rebuildRadioScreenStreamController
+                                          .stream,
+                                      builder: (context, asyncSnapshot) {
+                                        return Stack(
+                                          children: [
+                                            Positioned(
+                                              height: 78,
+                                              child: (isRadioOn)
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 11),
+                                                      child:
+                                                          LoadingAnimationWidget
+                                                              .progressiveDots(
+                                                        color: TColor
+                                                            .lightGray, // Colors.green,
+                                                        size: 20,
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                            ),
+                                            Material(
+                                              color: Colors.transparent,
+                                              // color: Colors.white30,
+                                              child: SizedBox(
+                                                width: 43,
+                                                height: 43,
+                                                child: IconButton(
+                                                  splashRadius: 20,
+                                                  iconSize: 20,
+                                                  onPressed: () async {
+                                                    Navigator.push(
+                                                      context,
+                                                      slideRightLeftTransition(
+                                                        RadioStationsScreen(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  icon: SizedBox(
+                                                    height: 60,
+                                                    child: Image.asset(
+                                                      "assets/img/radio_icon.png",
+                                                      color: TColor.lightGray,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     ),
                                     Padding(
                                       padding:

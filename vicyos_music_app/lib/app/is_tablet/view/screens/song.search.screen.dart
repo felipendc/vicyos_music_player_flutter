@@ -7,7 +7,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 
-import '../../../common/search_bar_handler/search.songs.dart';
+import '../../../common/search_bar_handler/search.songs.stations.dart';
 import '../../widgets/music_visualizer.dart';
 import '../bottomsheet/bottom.sheet.song.info.more.dart';
 
@@ -52,7 +52,7 @@ class SearchScreen extends StatelessWidget {
 
           isSearchTypingStreamNotifier(true);
 
-          await searchFilesByName(musicFolderPaths, trimmedText);
+          await searchSongFilesByName(musicFolderPaths, trimmedText);
         },
       );
     }

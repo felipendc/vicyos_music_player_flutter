@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
+import 'package:vicyos_music/app/common/radio/widgets/radio.bottom.player.dart'
+    show RadioBottomPlayer;
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/screen.list.song.folders.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/bottom.player.dart';
@@ -57,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                   StreamBuilder<bool>(
-                    stream: hideButtonSheetStreamController.stream,
+                    stream: hideBottonSheetStreamController.stream,
                     builder: (context, snapshot) {
                       final hideMiniPlayer = snapshot.data ?? false;
                       if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
@@ -75,6 +78,33 @@ class HomeScreen extends StatelessWidget {
                                 bottom: 0, // Default 6
                                 right: 11, // Default 11
                                 child: BottomPlayer(),
+                              );
+                            }
+                          },
+                        );
+                      }
+                    },
+                  ),
+                  StreamBuilder<bool>(
+                    stream: hideMiniRadioPlayerStreamController.stream,
+                    initialData: true,
+                    builder: (context, snapshot) {
+                      final hideMiniPlayer = snapshot.data ?? false;
+                      if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
+                        return Container();
+                      } else {
+                        return FutureBuilder(
+                          future: Future.delayed(Duration(seconds: 1)),
+                          builder: (context, futureSnapshot) {
+                            if (futureSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container(); //Return a loader o an empty container.
+                            } else {
+                              // After one second, it will return the BottomPlayer.
+                              return Positioned(
+                                bottom: 0, // Default 6
+                                right: 11, // Default 11
+                                child: RadioBottomPlayer(),
                               );
                             }
                           },

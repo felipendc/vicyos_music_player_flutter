@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
-import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart'
+    show slideRightLeftTransition;
+import 'package:vicyos_music/app/common/radio/radio.functions.dart'
+    show radioHasLogo, radioLogo, playRadioStation, turnOffRadioStation;
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
+import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
-import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
-import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
-import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
+import 'package:vicyos_music/app/is_tablet/view/screens/radio.search.screen.dart';
 
-import '../../widgets/music_visualizer.dart';
-
-class SongsListScreen extends StatelessWidget {
-  final String folderPath;
-  const SongsListScreen({super.key, required this.folderPath});
+class RadioStationsScreen extends StatelessWidget {
+  const RadioStationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +26,6 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        // Filter all songs from folderPath and add them to folderSongList
-        filterSongsOnlyToList(folderPath: folderPath);
-
-        // Filter all songs from folderPath and add them to folderSongList
-        filterSongsOnlyToList(folderPath: folderPath);
-
-        debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             // appBar: songsListAppBar(folderPath: folderPath, context: context),
@@ -44,7 +38,9 @@ class SongsListScreen extends StatelessWidget {
                       // color: Colors.grey,
                       color: Color(0xff181B2C),
                     ),
-                    height: 130, // Loading enabled
+                    height: (deviceType == DeviceType.tablet)
+                        ? 135
+                        : 130, // Loading enabled
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,11 +54,11 @@ class SongsListScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Folder:",
+                                    "Online",
                                     style: TextStyle(
                                       color: TColor.primaryText28
                                           .withValues(alpha: 0.84),
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       shadows: [
                                         Shadow(
@@ -75,17 +71,17 @@ class SongsListScreen extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 30,
+                                    height: 26,
                                     width: 180,
                                     // color: Colors.grey,
                                     child: Text(
-                                      folderName(folderPath),
+                                      "Radio",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: TColor.primaryText
                                             .withValues(alpha: 0.84),
-                                        fontSize: 20,
+                                        fontSize: 21,
                                         fontWeight: FontWeight.w600,
                                         shadows: [
                                           BoxShadow(
@@ -112,6 +108,7 @@ class SongsListScreen extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 10,
                                         onPressed: () async {
+                                          hideMiniPlayerStreamNotifier(true);
                                           Navigator.pop(context);
                                         },
                                         icon: Image.asset(
@@ -129,32 +126,22 @@ class SongsListScreen extends StatelessWidget {
                                       child: IconButton(
                                         splashRadius: 20,
                                         iconSize: 10,
-                                        onPressed: () async {
-                                          hideMiniPlayerStreamNotifier(true);
-                                          showModalBottomSheet<void>(
-                                            backgroundColor: Colors.transparent,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return FolderToPlaylistBottomSheet(
-                                                  folderPath: folderPath);
-                                            },
-                                          ).whenComplete(
-                                            () {
-                                              if (mainPlayerIsOpen) {
-                                                hideMiniPlayerStreamNotifier(
-                                                    true);
-                                              } else {
-                                                // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                hideMiniPlayerStreamNotifier(
-                                                    false);
-                                              }
-                                            },
-                                          );
-                                        },
-                                        icon: Image.asset(
-                                          "assets/img/menu_open.png",
-                                          color: TColor.lightGray,
+                                        icon: StreamBuilder<void>(
+                                          stream:
+                                              rebuildRadioScreenStreamController
+                                                  .stream,
+                                          builder: (context, snapshot) {
+                                            return Image.asset(
+                                              "assets/img/power_btn_300p.png",
+                                              color: radioStationBtn,
+                                            );
+                                          },
                                         ),
+                                        onPressed: () async {
+                                          isRadioOn
+                                              ? await turnOffRadioStation()
+                                              : playRadioStation(context, 1);
+                                        },
                                       ),
                                     ),
                                   ),
@@ -183,8 +170,14 @@ class SongsListScreen extends StatelessWidget {
                                             builder: (context, snapshot) {
                                               return Image.asset(
                                                 "assets/img/pics/default.png",
-                                                width: media.width * 0.13,
-                                                height: media.width * 0.13,
+                                                width: (deviceType ==
+                                                        DeviceType.tablet)
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
+                                                height: (deviceType ==
+                                                        DeviceType.tablet)
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
                                                 fit: BoxFit.cover,
                                               );
                                             },
@@ -196,16 +189,17 @@ class SongsListScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+
                         // Search Box
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
                               Navigator.push(
-                                  context,
-                                  slideRightLeftTransition(
-                                    const SearchScreen(),
-                                  )).whenComplete(
+                                      context,
+                                      slideRightLeftTransition(
+                                          const TabletRadioSearchScreen()))
+                                  .whenComplete(
                                 () {
                                   searchBoxController.dispose();
                                   searchBoxController.dispose();
@@ -258,82 +252,63 @@ class SongsListScreen extends StatelessWidget {
                     return Expanded(
                       child: ListView.separated(
                         padding: const EdgeInsets.only(bottom: 112),
-                        itemCount: folderSongList.length,
+                        itemCount: radioStationList.length,
                         itemBuilder: (context, index) {
                           return SizedBox(
                             height: 67,
                             child: GestureDetector(
-                              onLongPress: () {
-                                if (audioPlayer.playerState.playing) {
-                                  audioPlayerWasPlaying = true;
-                                } else {
-                                  audioPlayerWasPlaying = false;
-                                }
-                                isSongPreviewBottomSheetOpen = true;
-                                hideMiniPlayerStreamNotifier(true);
-
-                                showModalBottomSheet<void>(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return SongPreviewBottomSheet(
-                                        songPath: folderSongList[index].path);
-                                  },
-                                ).whenComplete(
-                                  () {
-                                    isSongPreviewBottomSheetOpen = false;
-
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerStreamNotifier(false);
-                                    audioPlayerPreview.stop();
-                                    audioPlayerPreview.release();
-
-                                    if (audioPlayerWasPlaying) {
-                                      Future.microtask(
-                                        () async {
-                                          await audioPlayer.play();
-                                        },
-                                      );
-                                    }
-                                  },
-                                );
-                              },
+                              onLongPress: () {},
                               child: ListTile(
-                                key: ValueKey(folderSongList[index].path),
-                                leading: (folderSongList[index].path ==
-                                        currentSongFullPath)
-                                    ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, left: 5.0, bottom: 10.0),
-                                        child: SizedBox(
-                                          height: 27,
-                                          width: 30,
-                                          child: MusicVisualizer(
-                                            barCount: 6,
-                                            colors: [
-                                              TColor.focus,
-                                              TColor.secondaryEnd,
-                                              TColor.focusStart,
-                                              Colors.blue[900]!,
-                                            ],
-                                            duration: const [
-                                              900,
-                                              700,
-                                              600,
-                                              800,
-                                              500
-                                            ],
-                                          ),
+                                key: ValueKey(radioStationList[index].radioUrl),
+                                leading: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: (radioStationList[index].id ==
+                                          currentRadioStationID)
+                                      ? StreamBuilder<PlayerState>(
+                                          stream: radioPlayer.playerStateStream,
+                                          builder: (context, snapshot) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10.0,
+                                                  left: 2.0,
+                                                  bottom: 10.0),
+                                              child: SizedBox(
+                                                height: 27,
+                                                width: 30,
+                                                child: RadioMusicVisualizer(
+                                                  barCount: 6,
+                                                  colors: [
+                                                    TColor.focus,
+                                                    TColor.secondaryEnd,
+                                                    TColor.focusStart,
+                                                    Colors.blue[900]!,
+                                                  ],
+                                                  duration: const [
+                                                    900,
+                                                    700,
+                                                    600,
+                                                    800,
+                                                    500
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      : Image.asset(
+                                          width: radioHasLogo(index) ? 45 : 32,
+                                          height: radioHasLogo(index) ? 45 : 32,
+                                          radioHasLogo(index)
+                                              ? radioStationList[index]
+                                                  .ratioStationLogo!
+                                              : radioLogo(),
+                                          color: radioHasLogo(index)
+                                              ? null
+                                              : TColor.focus,
                                         ),
-                                      )
-                                    : Icon(
-                                        Icons.music_note_rounded,
-                                        color: TColor.focus,
-                                        size: 36,
-                                      ),
+                                ),
                                 title: Text(
-                                  folderSongList[index].name,
+                                  radioStationList[index].radioName,
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -344,7 +319,7 @@ class SongsListScreen extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  "${folderSongList[index].size!} MB  •  ${folderSongList[index].format!}",
+                                  radioStationList[index].radioLocation,
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -353,60 +328,100 @@ class SongsListScreen extends StatelessWidget {
                                     fontSize: 15,
                                   ),
                                 ),
-                                trailing: IconButton(
-                                  splashRadius: 24,
-                                  iconSize: 20,
-                                  icon: Image.asset(
-                                    "assets/img/more_vert.png",
-                                    color: TColor.lightGray,
-                                  ),
-                                  onPressed: () async {
-                                    await hideMiniPlayerStreamNotifier(true);
-                                    if (context.mounted) {
-                                      showModalBottomSheet<String>(
-                                        backgroundColor: Colors.transparent,
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return SongInfoMoreBottomSheet(
-                                            fullFilePath:
-                                                folderSongList[index].path,
-                                          );
-                                        },
-                                      ).whenComplete(
-                                        () {
-                                          if (context.mounted) {
-                                            if (!Navigator.canPop(context)) {
-                                              debugPrint(
-                                                  "No other screen is open.");
+                                trailing: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: (radioStationList[index].id ==
+                                          currentRadioStationID)
+                                      ? StreamBuilder<PlayerState>(
+                                          stream: radioPlayer.playerStateStream,
+                                          builder: (context, snapshot) {
+                                            final playerState = snapshot.data;
+                                            final processingState =
+                                                playerState?.processingState;
+                                            final playing =
+                                                playerState?.playing;
+
+                                            if (processingState ==
+                                                    ProcessingState.loading ||
+                                                processingState ==
+                                                    ProcessingState.buffering) {
+                                              return Container(
+                                                margin:
+                                                    const EdgeInsets.all(8.0),
+                                                width: 18.0,
+                                                height: 18.0,
+                                                child:
+                                                    // const CircularProgressIndicator(),
+                                                    Center(
+                                                  child: LoadingAnimationWidget
+                                                      .inkDrop(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              );
+                                            } else if (playing != true &&
+                                                isRadioPaused == false) {
+                                              return Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                color: TColor.lightGray,
+                                              );
+                                            } else if (processingState !=
+                                                    ProcessingState.completed ||
+                                                playing == true ||
+                                                isRadioPaused) {
+                                              return Image.asset(
+                                                height: 30,
+                                                width: 30,
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                color: Colors.green,
+                                              );
                                             } else {
-                                              hideMiniPlayerStreamNotifier(
-                                                  false);
-                                              debugPrint(
-                                                  " There are other open screens .");
+                                              // return (radioStationFetchError &&
+                                              //         radioStationErrorIndex ==
+                                              //             index)
+                                              return (radioStationList[index]
+                                                          .stationStatus ==
+                                                      RadioStationConnectionStatus
+                                                          .error)
+                                                  ? Image.asset(
+                                                      height: 30,
+                                                      width: 30,
+                                                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                      color: TColor.org,
+                                                    )
+                                                  : Image.asset(
+                                                      height: 30,
+                                                      width: 30,
+                                                      "assets/img/radio/antenna-bars-5-streamline.png",
+                                                      color: TColor.lightGray,
+                                                    );
                                             }
-                                          }
-                                        },
-                                      );
-                                    }
-                                  },
+                                          },
+                                        )
+                                      : (radioStationList[index]
+                                                  .stationStatus ==
+                                              RadioStationConnectionStatus
+                                                  .error)
+                                          ? Image.asset(
+                                              height: 30,
+                                              width: 30,
+                                              "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                              color: TColor.org,
+                                            )
+                                          : Image.asset(
+                                              height: 30,
+                                              width: 30,
+                                              "assets/img/radio/antenna-bars-5-streamline.png",
+                                              color: TColor.lightGray,
+                                            ),
                                 ),
-                                onTap: () {
-                                  if (folderSongList[index].path ==
-                                      currentSongFullPath) {
-                                    if (songIsPlaying) {
-                                      audioPlayer.pause();
-                                      songIsPlaying = false;
-                                    } else {
-                                      audioPlayer.play();
-                                      songIsPlaying = true;
-                                    }
-                                  } else {
-                                    setFolderAsPlaylist(folderSongList, index);
-                                    debugPrint(
-                                        "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                                    debugPrint(
-                                        'Tapped on ${(folderSongList[index].path)}');
-                                  }
+                                onTap: () async {
+                                  await playRadioStation(context, index);
                                 },
                               ),
                             ),

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
+import 'package:vicyos_music/app/common/radio/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
 
+import '../../../common/radio/radio.stream.notifiers.dart';
 import '../../widgets/music_visualizer.dart';
 
 class HomePageFolderList extends StatelessWidget {
@@ -117,39 +120,110 @@ class HomePageFolderList extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            9, 0, 8, 0),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                media.width * 0.2),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black
-                                                    .withValues(alpha: 0.2),
-                                                spreadRadius: 5,
-                                                blurRadius: 8,
-                                                offset: Offset(2, 4),
-                                              ),
-                                            ],
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                media.width * 0.2),
-                                            child: StreamBuilder<void>(
-                                              stream: null,
-                                              builder: (context, snapshot) {
-                                                return Image.asset(
-                                                  "assets/img/pics/default.png",
-                                                  width: media.width * 0.13,
-                                                  height: media.width * 0.13,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
+                                    StreamBuilder(
+                                      stream: rebuildRadioScreenStreamController
+                                          .stream,
+                                      builder: (context, asyncSnapshot) {
+                                        return Stack(
+                                          children: [
+                                            Positioned(
+                                              height: 78,
+                                              child: (isRadioOn)
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 9.2),
+                                                      child:
+                                                          LoadingAnimationWidget
+                                                              .progressiveDots(
+                                                        color: TColor
+                                                            .lightGray, // Colors.green,
+                                                        size: 20,
+                                                      ),
+                                                    )
+                                                  : Container(),
                                             ),
+                                            Material(
+                                              color: Colors.transparent,
+                                              // color: Colors.white30,
+                                              child: SizedBox(
+                                                width: 40,
+                                                height: 43,
+                                                child: IconButton(
+                                                  splashRadius: 20,
+                                                  iconSize: 20,
+                                                  onPressed: () async {
+                                                    // Show Radio Mini Player
+                                                    hideMiniRadioPlayerStreamNotifier(
+                                                        false);
+
+                                                    // Hide Mini Player
+                                                    hideMiniPlayerStreamNotifier(
+                                                        true);
+
+                                                    Navigator.push(
+                                                      context,
+                                                      slideRightLeftTransition(
+                                                        RadioStationsScreen(),
+                                                      ),
+                                                    ).whenComplete(
+                                                      () {
+                                                        hideMiniRadioPlayerStreamNotifier(
+                                                            true);
+                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                        hideMiniPlayerStreamNotifier(
+                                                            false);
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: SizedBox(
+                                                    height: 60,
+                                                    child: Image.asset(
+                                                      "assets/img/radio_icon.png",
+                                                      color: TColor.lightGray,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.2),
+                                              spreadRadius: 5,
+                                              blurRadius: 8,
+                                              offset: Offset(2, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          child: StreamBuilder<void>(
+                                            stream: null,
+                                            builder: (context, snapshot) {
+                                              return Image.asset(
+                                                "assets/img/pics/default.png",
+                                                width: media.width * 0.13,
+                                                height: media.width * 0.13,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
-                                        )),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ],
@@ -227,7 +301,7 @@ class HomePageFolderList extends StatelessWidget {
                               height: 70,
                               child: GestureDetector(
                                 onLongPress: () {
-                                  hideButtonSheetStreamNotifier(true);
+                                  hideMiniPlayerStreamNotifier(true);
                                   showModalBottomSheet<void>(
                                     backgroundColor: Colors.transparent,
                                     context: context,
@@ -241,7 +315,7 @@ class HomePageFolderList extends StatelessWidget {
                                       if (mainPlayerIsOpen) {
                                         mainPlayerIsOpen = false;
                                       } else {
-                                        hideButtonSheetStreamNotifier(false);
+                                        hideMiniPlayerStreamNotifier(false);
                                       }
 
                                       // "When the bottom sheet is closed, send a signal to show the mini player again."

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/onInitApp/on.init.app.dart';
 import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/splash_screen/splash.screen.dart';

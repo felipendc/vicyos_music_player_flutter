@@ -3,16 +3,6 @@ import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 
 List<String> speedRates = [
-  "2.0",
-  "1.9",
-  "1.8",
-  "1.7",
-  "1.6",
-  "1.5",
-  "1.4",
-  "1.3",
-  "1.2",
-  "1.1",
   "1.0",
   "0.99",
   "0.98",
@@ -47,8 +37,8 @@ List speedRatesToDouble = speedRates
     )
     .toList();
 
-class SpeedRateBottomSheet extends StatelessWidget {
-  const SpeedRateBottomSheet({super.key});
+class RadioSpeedRateBottomSheet extends StatelessWidget {
+  const RadioSpeedRateBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -155,10 +145,10 @@ class SpeedRateBottomSheet extends StatelessWidget {
                                       ),
                                     ),
                               onTap: () {
-                                audioPlayer.setSpeed(speedRatesToDouble[index]);
+                                radioPlayer.setSpeed(speedRatesToDouble[index]);
                                 rebuildSpeedRateBottomSheetStreamNotifier();
                               },
-                              trailing: (audioPlayer.speed ==
+                              trailing: (radioPlayer.speed ==
                                       speedRatesToDouble[index])
                                   ? Padding(
                                       padding:
