@@ -22,7 +22,8 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart'
         radioPlaylist,
         currentRadioStationID,
         currentRadioStationName,
-        currentRadioStationLocation;
+        currentRadioStationLocation,
+        currentRadioIndexUrl;
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
@@ -77,10 +78,21 @@ Future<void> onInitPlayer() async {
       currentRadioStationName = mediaItem.title;
       currentRadioStationLocation = mediaItem.album ?? "...";
       currentRadioStationID = mediaItem.id;
+
       // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
       // print("Title: ${mediaItem.title}");
       // print("Artist: ${mediaItem.artist}");
       debugPrint("radio nome $currentRadioStationName");
     }
   });
+
+  // Get the current radio station uri to be able to re-load the current station
+  radioPlayer.sequenceStateStream.listen(
+    (sequenceState) {
+      final currentSource = sequenceState.currentSource;
+      if (currentSource is UriAudioSource) {
+        currentRadioIndexUrl = currentSource.uri.toString();
+      }
+    },
+  );
 }

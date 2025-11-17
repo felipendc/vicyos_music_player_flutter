@@ -21,6 +21,7 @@ enum CurrentLoopMode { all, one, shuffle, off }
 
 enum RadioStationConnectionStatus { online, error }
 
+String currentRadioIndexUrl = "";
 String currentRadioStationName = "";
 String currentRadioStationLocation = "";
 String currentRadioStationID = "";

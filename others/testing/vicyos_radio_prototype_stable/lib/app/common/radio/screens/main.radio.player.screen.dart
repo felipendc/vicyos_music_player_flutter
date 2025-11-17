@@ -274,8 +274,7 @@ class MainRadioPlayerView extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () {
                                   if (radioPlayer.audioSources.isNotEmpty) {
-                                    playRadioStation(
-                                        context, (currentRadioIndex - 1));
+                                    reLoadRatioStationCurrentIndex(context);
                                   }
                                 },
                                 icon: Image.asset(

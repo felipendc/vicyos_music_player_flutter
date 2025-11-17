@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter/material.dart' show Colors;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
+import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
@@ -213,4 +214,75 @@ Future<void> radioPlayOrPause() async {
   }
 }
 
+Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
+  radioPlayer.setSpeed(1.0);
+  isRadioPaused = false;
+  turnOnRadioStation();
+  cleanPlaylist();
+
+  // Clear and re-add all the radio stations to the "radioPlaylist"
+  radioPlaylist.clear();
+
+  final mediaItem = MediaItem(
+    id: currentRadioStationID,
+    // album: metadata?.albumName ?? 'Unknown Album',
+
+    // Using the name of the file as the title by default
+    title: currentRadioStationName,
+    album: currentRadioStationLocation,
+    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    artUri: Uri.file(notificationPlayerAlbumArt.path),
+  );
+
+  radioPlaylist.add(
+    AudioSource.uri(
+      Uri.parse(currentRadioIndexUrl),
+      tag: mediaItem,
+    ),
+  );
+
+  try {
+    // Load the playlist
+    await radioPlayer.setAudioSources(
+      radioPlaylist,
+      initialIndex: 0,
+      initialPosition: Duration.zero, // Load each item just in time
+      // Customise the shuffle algorithm
+      preload: true,
+    );
+
+    radioPlayer.play();
+
+    // Toggle radio online signal icon
+    for (RadioStationInfo station in [...radioStationList, ...foundStations]) {
+      String stationId = station.radioUrl;
+      if (stationId.contains(currentRadioIndexUrl)) {
+        station.stationStatus = RadioStationConnectionStatus.online;
+      }
+    }
+  } catch (e) {
+    if (!await checkStreamUrl(currentRadioIndexUrl)) {
+      // Toggle radio offline signal icon
+      for (RadioStationInfo station in [
+        ...radioStationList,
+        ...foundStations
+      ]) {
+        String stationId = station.radioUrl;
+        if (stationId.contains(currentRadioIndexUrl)) {
+          station.stationStatus = RadioStationConnectionStatus.error;
+        }
+      }
+
+      if (context.mounted) {
+        errorToFetchRadioStationCard(context, currentRadioStationName);
+      }
+      await turnOffRadioStation();
+      getCurrentSongFullPathStreamControllerNotifier();
+    }
+
+    debugPrint('Error to load radio: $e');
+  }
+
+  debugPrint("Checking current radio url: $currentRadioIndexUrl");
+}
 // ------------ RADIO FUNCTIONS END --------------------//
