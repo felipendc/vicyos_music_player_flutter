@@ -23,7 +23,13 @@ import 'package:vicyos_music/app/common/music_player/music.player.dart'
         currentRadioStationID,
         currentRadioStationName,
         currentRadioStationLocation,
-        currentRadioIndexUrl;
+        currentRadioIndexUrl,
+        isRadioPaused,
+        isRadioStopped,
+        isRadioPlaying,
+        isRadioOn;
+import 'package:vicyos_music/app/common/radio/radio.functions.dart';
+import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
@@ -61,7 +67,7 @@ Future<void> onInitPlayer() async {
   );
 
   // Update radio stations list screen
-  radioPlayer.playbackEventStream.listen((event) {
+  radioPlayer.playbackEventStream.listen((event) async {
     currentIndex = event.currentIndex ?? 0;
     debugPrint("INDEX RADIO ATUAL: $currentIndex");
 
@@ -83,6 +89,34 @@ Future<void> onInitPlayer() async {
       // print("Title: ${mediaItem.title}");
       // print("Artist: ${mediaItem.artist}");
       debugPrint("radio nome $currentRadioStationName");
+    }
+
+    // Player states (playing, pausing and stopped)
+    if (event.processingState == ProcessingState.idle) {
+      // Stopped
+      isRadioPlaying = false;
+      isRadioPaused = false;
+      isRadioStopped = true;
+      if (isRadioOn) {
+        turnOffRadioStation();
+        await getCurrentSongFullPathStreamControllerNotifier();
+        radioScreenStreamNotifier();
+        switchingToRadioStreamNotifier();
+      }
+      debugPrint("The radio is: Stopped");
+    } else if (radioPlayer.playing) {
+      // Playing
+      isRadioPlaying = true;
+      isRadioPaused = false;
+      isRadioStopped = false;
+      debugPrint("The radio is: Playing");
+    } else if (radioPlayer.playing == false &&
+        event.processingState == ProcessingState.ready) {
+      // Paused
+      isRadioPlaying = false;
+      isRadioPaused = true;
+      isRadioStopped = false;
+      debugPrint("The radio is: Paused");
     }
   });
 

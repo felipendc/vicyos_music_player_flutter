@@ -18,14 +18,17 @@ import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
+
 enum RadioStationConnectionStatus { online, error }
 
+bool isRadioPlaying = false;
+bool isRadioPaused = false;
+bool isRadioStopped = isRadioOn ? false : true;
 bool stationHasBeenSearched = false;
 String currentRadioIndexUrl = "";
 String currentRadioStationName = "";
 String currentRadioStationLocation = "";
 String currentRadioStationID = "";
-bool isRadioPaused = false;
 bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;

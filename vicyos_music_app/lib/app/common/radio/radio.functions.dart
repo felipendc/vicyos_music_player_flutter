@@ -49,7 +49,7 @@ Future<void> turnOffRadioStation() async {
   await radioPlayer.clearAudioSources();
   radioPlaylist.clear();
   currentRadioIndex = 0;
-  getCurrentSongFullPathStreamControllerNotifier();
+  await getCurrentSongFullPathStreamControllerNotifier();
   radioScreenStreamNotifier();
   currentRadioStationID = "";
   switchingToRadioStreamNotifier();
@@ -151,7 +151,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 Future<void> playSearchedRadioStation(BuildContext context, int index) async {
   stationHasBeenSearched = true;
   radioPlayer.setSpeed(1.0);
-  isRadioPaused = false;
+  // isRadioPaused = false;
   turnOnRadioStation();
   cleanPlaylist();
 
@@ -208,10 +208,10 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
 Future<void> radioPlayOrPause() async {
   if (radioPlayer.audioSources.isNotEmpty) {
     if (isRadioPaused == false) {
-      isRadioPaused = true;
+      // isRadioPaused = true;
       await radioPlayer.pause();
     } else if (isRadioPaused == true) {
-      isRadioPaused = false;
+      // isRadioPaused = false;
       await radioPlayer.play();
     }
   }
@@ -219,7 +219,7 @@ Future<void> radioPlayOrPause() async {
 
 Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   radioPlayer.setSpeed(1.0);
-  isRadioPaused = false;
+  // isRadioPaused = false;
   turnOnRadioStation();
   cleanPlaylist();
 

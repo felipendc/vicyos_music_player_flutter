@@ -10,10 +10,10 @@ import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 
-import '../../../common/search_bar_handler/search.songs.stations.dart';
+import '../../search_bar_handler/search.songs.stations.dart';
 
-class TabletRadioSearchScreen extends StatelessWidget {
-  const TabletRadioSearchScreen({super.key});
+class RadioSearchScreen extends StatelessWidget {
+  const RadioSearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -180,123 +180,46 @@ class TabletRadioSearchScreen extends StatelessWidget {
                                 ? StreamBuilder<PlayerState>(
                                     stream: radioPlayer.playerStateStream,
                                     builder: (context, snapshot) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, left: 2.0, bottom: 10.0),
-                                        child: SizedBox(
-                                          height: 27,
-                                          width: 30,
-                                          child: RadioMusicVisualizer(
-                                            barCount: 6,
-                                            colors: [
-                                              TColor.focus,
-                                              TColor.secondaryEnd,
-                                              TColor.focusStart,
-                                              Colors.blue[900]!,
-                                            ],
-                                            duration: const [
-                                              900,
-                                              700,
-                                              600,
-                                              800,
-                                              500
-                                            ],
+                                      if (isRadioPaused || isRadioPlaying) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10.0,
+                                              left: 2.0,
+                                              bottom: 10.0),
+                                          child: SizedBox(
+                                            height: 27,
+                                            width: 30,
+                                            child: RadioMusicVisualizer(
+                                              barCount: 6,
+                                              colors: [
+                                                TColor.focus,
+                                                TColor.secondaryEnd,
+                                                TColor.focusStart,
+                                                Colors.blue[900]!,
+                                              ],
+                                              duration: const [
+                                                900,
+                                                700,
+                                                600,
+                                                800,
+                                                500
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-
-                                      //
-                                      // final playerState = snapshot.data;
-                                      // final processingState =
-                                      //     playerState?.processingState;
-                                      // final playing =
-                                      //     playerState?.playing;
-                                      //
-                                      // if (processingState ==
-                                      //         ProcessingState.loading ||
-                                      //     processingState ==
-                                      //         ProcessingState.buffering) {
-                                      //   return Image.asset(
-                                      //     height: 32,
-                                      //     width: 32,
-                                      //     radioLogo(),
-                                      //     color: TColor.focus,
-                                      //   );
-                                      // } else if (playing == false &&
-                                      //     isRadioPaused == false) {
-                                      //   return Image.asset(
-                                      //     width: radioHasLogo(index)
-                                      //         ? 45
-                                      //         : 32,
-                                      //     height: radioHasLogo(index)
-                                      //         ? 45
-                                      //         : 32,
-                                      //     radioHasLogo(index)
-                                      //         ? foundStations[index]
-                                      //             .ratioStationLogo!
-                                      //         : radioLogo(),
-                                      //     color: radioHasLogo(index)
-                                      //         ? null
-                                      //         : TColor.focus,
-                                      //   );
-                                      // } else if (isRadioPaused) {
-                                      //   {
-                                      //     return Padding(
-                                      //       padding:
-                                      //           const EdgeInsets.only(
-                                      //               top: 10.0,
-                                      //               left: 2.0,
-                                      //               bottom: 10.0),
-                                      //       child: SizedBox(
-                                      //         height: 27,
-                                      //         width: 30,
-                                      //         child: RadioMusicVisualizer(
-                                      //           barCount: 6,
-                                      //           colors: [
-                                      //             TColor.focus,
-                                      //             TColor.secondaryEnd,
-                                      //             TColor.focusStart,
-                                      //             Colors.blue[900]!,
-                                      //           ],
-                                      //           duration: const [
-                                      //             900,
-                                      //             700,
-                                      //             600,
-                                      //             800,
-                                      //             500
-                                      //           ],
-                                      //         ),
-                                      //       ),
-                                      //     );
-                                      //   }
-                                      // } else {
-                                      //   return Padding(
-                                      //     padding: const EdgeInsets.only(
-                                      //         top: 10.0,
-                                      //         left: 2.0,
-                                      //         bottom: 10.0),
-                                      //     child: SizedBox(
-                                      //       height: 27,
-                                      //       width: 30,
-                                      //       child: RadioMusicVisualizer(
-                                      //         barCount: 6,
-                                      //         colors: [
-                                      //           TColor.focus,
-                                      //           TColor.secondaryEnd,
-                                      //           TColor.focusStart,
-                                      //           Colors.blue[900]!,
-                                      //         ],
-                                      //         duration: const [
-                                      //           900,
-                                      //           700,
-                                      //           600,
-                                      //           800,
-                                      //           500
-                                      //         ],
-                                      //       ),
-                                      //     ),
-                                      //   );
-                                      // }
+                                        );
+                                      } else {
+                                        return Image.asset(
+                                          width: radioHasLogo(index) ? 45 : 32,
+                                          height: radioHasLogo(index) ? 45 : 32,
+                                          radioHasLogo(index)
+                                              ? radioStationList[index]
+                                                  .ratioStationLogo!
+                                              : radioLogo(),
+                                          color: radioHasLogo(index)
+                                              ? null
+                                              : TColor.focus,
+                                        );
+                                      }
                                     },
                                   )
                                 : Image.asset(
@@ -309,12 +232,6 @@ class TabletRadioSearchScreen extends StatelessWidget {
                                         ? null
                                         : TColor.focus,
                                   ),
-
-                            // Icon(
-                            //         Icons.music_note_rounded,
-                            //         color: TColor.focus,
-                            //         size: 36,
-                            //       ),
                           ),
 
                           title: Text(
