@@ -109,7 +109,8 @@ class VisualComponentState extends State<VisualComponent>
                   radioPlayer.playerState.processingState ==
                       ProcessingState.buffering ||
                   isRadioPaused ||
-                  !isRadioOn)
+                  !isRadioOn ||
+                  isRadioStopped)
               ? animationStop!.value
               : animation!.value,
       decoration: BoxDecoration(

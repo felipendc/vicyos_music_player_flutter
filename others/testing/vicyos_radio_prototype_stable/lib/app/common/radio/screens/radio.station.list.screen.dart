@@ -9,9 +9,9 @@ import 'package:vicyos_music/app/common/radio/radio.functions.dart'
     show radioHasLogo, radioLogo, playRadioStation, turnOffRadioStation;
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio/screens/radio.search.screen.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/is_tablet/view/screens/radio.search.screen.dart';
 
 class RadioStationsScreen extends StatelessWidget {
   const RadioStationsScreen({super.key});
@@ -198,7 +198,7 @@ class RadioStationsScreen extends StatelessWidget {
                               Navigator.push(
                                       context,
                                       slideRightLeftTransition(
-                                          const TabletRadioSearchScreen()))
+                                          const RadioSearchScreen()))
                                   .whenComplete(
                                 () {
                                   searchBoxController.dispose();
@@ -267,32 +267,51 @@ class RadioStationsScreen extends StatelessWidget {
                                       ? StreamBuilder<PlayerState>(
                                           stream: radioPlayer.playerStateStream,
                                           builder: (context, snapshot) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10.0,
-                                                  left: 2.0,
-                                                  bottom: 10.0),
-                                              child: SizedBox(
-                                                height: 27,
-                                                width: 30,
-                                                child: RadioMusicVisualizer(
-                                                  barCount: 6,
-                                                  colors: [
-                                                    TColor.focus,
-                                                    TColor.secondaryEnd,
-                                                    TColor.focusStart,
-                                                    Colors.blue[900]!,
-                                                  ],
-                                                  duration: const [
-                                                    900,
-                                                    700,
-                                                    600,
-                                                    800,
-                                                    500
-                                                  ],
+                                            if (isRadioPaused ||
+                                                isRadioPlaying) {
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0,
+                                                    left: 2.0,
+                                                    bottom: 10.0),
+                                                child: SizedBox(
+                                                  height: 27,
+                                                  width: 30,
+                                                  child: RadioMusicVisualizer(
+                                                    barCount: 6,
+                                                    colors: [
+                                                      TColor.focus,
+                                                      TColor.secondaryEnd,
+                                                      TColor.focusStart,
+                                                      Colors.blue[900]!,
+                                                    ],
+                                                    duration: const [
+                                                      900,
+                                                      700,
+                                                      600,
+                                                      800,
+                                                      500
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                            } else {
+                                              return Image.asset(
+                                                width: radioHasLogo(index)
+                                                    ? 45
+                                                    : 32,
+                                                height: radioHasLogo(index)
+                                                    ? 45
+                                                    : 32,
+                                                radioHasLogo(index)
+                                                    ? radioStationList[index]
+                                                        .ratioStationLogo!
+                                                    : radioLogo(),
+                                                color: radioHasLogo(index)
+                                                    ? null
+                                                    : TColor.focus,
+                                              );
+                                            }
                                           },
                                         )
                                       : Image.asset(
