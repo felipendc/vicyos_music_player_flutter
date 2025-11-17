@@ -41,6 +41,7 @@ Future<void> turnOnRadioStation() async {
 
 Future<void> turnOffRadioStation() async {
   // Ordered instructions:
+  stationHasBeenSearched = false;
   isRadioOn = false;
   isRadioPaused = false;
   radioStationBtn = Color(0xFFFF0F7B);
@@ -87,6 +88,7 @@ Future<void> radioSeekToPrevious() async {
 }
 
 Future<void> playRadioStation(BuildContext context, int index) async {
+  stationHasBeenSearched = false;
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
   turnOnRadioStation();
@@ -147,6 +149,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 }
 
 Future<void> playSearchedRadioStation(BuildContext context, int index) async {
+  stationHasBeenSearched = true;
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
   turnOnRadioStation();

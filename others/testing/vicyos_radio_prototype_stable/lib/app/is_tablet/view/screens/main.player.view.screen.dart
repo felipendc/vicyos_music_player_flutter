@@ -547,8 +547,15 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                   onPressed: () {
                                                     if (radioPlayer.audioSources
                                                         .isNotEmpty) {
-                                                      reLoadRatioStationCurrentIndex(
-                                                          context);
+                                                      if (stationHasBeenSearched) {
+                                                        reLoadRatioStationCurrentIndex(
+                                                            context);
+                                                      } else {
+                                                        playRadioStation(
+                                                            context,
+                                                            (currentRadioIndex -
+                                                                1));
+                                                      }
                                                     }
                                                   },
                                                   icon: Image.asset(

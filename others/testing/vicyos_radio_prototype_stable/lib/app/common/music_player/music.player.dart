@@ -18,9 +18,9 @@ import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
-
 enum RadioStationConnectionStatus { online, error }
 
+bool stationHasBeenSearched = false;
 String currentRadioIndexUrl = "";
 String currentRadioStationName = "";
 String currentRadioStationLocation = "";
