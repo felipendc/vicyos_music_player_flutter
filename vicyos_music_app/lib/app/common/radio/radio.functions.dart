@@ -257,18 +257,18 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
     radioPlayer.play();
 
     // Combine two lists into one and iterate over and search for the current
-    // radio id in two lists [radioStationList and foundStations]
+    // radio url in two lists [radioStationList and foundStations]
     // to toggle the radio online signal icon
     for (RadioStationInfo station in [...radioStationList, ...foundStations]) {
-      String stationId = station.radioUrl;
-      if (stationId.contains(currentRadioIndexUrl)) {
+      String stationUrl = station.radioUrl;
+      if (stationUrl.contains(currentRadioIndexUrl)) {
         station.stationStatus = RadioStationConnectionStatus.online;
       }
     }
   } catch (e) {
     if (!await checkStreamUrl(currentRadioIndexUrl)) {
       // Combine two lists into one and iterate over and search for the current
-      // radio id in two lists [radioStationList and foundStations]
+      // radio url in two lists [radioStationList and foundStations]
       // to toggle the radio offline signal icon
       for (RadioStationInfo station in [
         ...radioStationList,

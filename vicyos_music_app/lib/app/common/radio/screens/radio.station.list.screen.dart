@@ -13,6 +13,8 @@ import 'package:vicyos_music/app/common/radio/screens/radio.search.screen.dart';
 import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 
+final GlobalKey mainRadioScreenKey = GlobalKey();
+
 class RadioStationsScreen extends StatelessWidget {
   const RadioStationsScreen({super.key});
 
@@ -28,6 +30,7 @@ class RadioStationsScreen extends StatelessWidget {
       builder: (context, snapshot) {
         return SafeArea(
           child: Scaffold(
+            key: mainRadioScreenKey,
             // appBar: songsListAppBar(folderPath: folderPath, context: context),
             body: Column(
               children: [
@@ -140,7 +143,7 @@ class RadioStationsScreen extends StatelessWidget {
                                         onPressed: () async {
                                           isRadioOn
                                               ? await turnOffRadioStation()
-                                              : playRadioStation(context, 1);
+                                              : playRadioStation(context, 0);
                                         },
                                       ),
                                     ),

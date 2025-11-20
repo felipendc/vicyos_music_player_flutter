@@ -26,6 +26,7 @@ final List<Color> colors = [
 ];
 
 final List<int> duration = [900, 700, 600, 800, 500];
+final GlobalKey mainPlayerViewTabletKey = GlobalKey();
 
 class MainPlayerViewTablet extends StatelessWidget {
   const MainPlayerViewTablet({super.key});
@@ -40,6 +41,7 @@ class MainPlayerViewTablet extends StatelessWidget {
         stream: switchingToRadioStreamController.stream,
         builder: (context, asyncSnapshot) {
           return Scaffold(
+            key: mainPlayerViewTabletKey,
             appBar: isRadioOn
                 ? mainRadioPlayerViewAppBar(context)
                 : mainPlayerViewAppBar(context),
@@ -909,20 +911,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  // SizedBox(
-                                  //   width: 65,
-                                  //   height: 65,
-                                  //   child: IconButton(
-                                  //     iconSize: 10,
-                                  //     onPressed: () {
-                                  //       forward();
-                                  //     },
-                                  //     icon: Image.asset(
-                                  //       "assets/img/forward-5-seconds.png",
-                                  //       color: TColor.primaryText80,
-                                  //     ),
-                                  //   ),
-                                  // ),
+
                                   SizedBox(
                                     width: 60,
                                     height: 60,

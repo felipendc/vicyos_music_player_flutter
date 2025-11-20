@@ -63,13 +63,6 @@ void errorToFetchRadioStationCard(BuildContext context, String radio) {
                       "ERROR TO PLAY RADIO STATION",
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    // Text(
-                    //   textAlign: TextAlign.left,
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.ellipsis,
-                    //   "",
-                    //   style: TextStyle(color: Colors.white, fontSize: 16),
-                    // ),
                   ],
                 ),
               ),

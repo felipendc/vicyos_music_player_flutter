@@ -21,6 +21,7 @@ final List<Color> colors = [
 ];
 
 final List<int> duration = [900, 700, 600, 800, 500];
+final GlobalKey mainRadioPlayerViewKey = GlobalKey();
 
 class MainRadioPlayerView extends StatelessWidget {
   const MainRadioPlayerView({super.key});
@@ -32,6 +33,7 @@ class MainRadioPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
+      key: mainRadioPlayerViewKey,
       appBar: mainRadioPlayerViewAppBar(context),
       body: SingleChildScrollView(
         child: Column(
@@ -446,20 +448,7 @@ class MainRadioPlayerView extends StatelessWidget {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   width: 65,
-                //   height: 65,
-                //   child: IconButton(
-                //     iconSize: 10,
-                //     onPressed: () {
-                //       rewind();
-                //     },
-                //     icon: Image.asset(
-                //       "assets/img/backward-5-seconds.png",
-                //       color: TColor.primaryText80,
-                //     ),
-                //   ),
-                // ),
+
                 const SizedBox(
                   width: 10,
                 ),
