@@ -121,15 +121,15 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioStation: "LBC London News",
     radioUrl: 'https://media-the.musicradio.com/LBC1152',
   ),
-  RadioStationInfo(
-    id: const Uuid().v4(),
-    radioSimpleName: "3AW",
-    radioName: "3AW - Melbourne's Best Talk Station",
-    radioLocation: 'Melbourne, Victoria • Australia',
-    radioStation: "3AW",
-    radioUrl:
-        'https://23193.live.streamtheworld.com/3AWAAC_O/HLS/701816b8-41d6-4609-ae04-83247e26d66c/0/3.aac',
-  ),
+  // RadioStationInfo(
+  //   id: const Uuid().v4(),
+  //   radioSimpleName: "3AW",
+  //   radioName: "3AW - Melbourne's Best Talk Station",
+  //   radioLocation: 'Melbourne, Victoria • Australia',
+  //   radioStation: "3AW",
+  //   radioUrl:
+  //       'https://23193.live.streamtheworld.com/3AWAAC_O/HLS/701816b8-41d6-4609-ae04-83247e26d66c/0/3.aac',
+  // ),
   RadioStationInfo(
     id: const Uuid().v4(),
     radioSimpleName: "KERA",
