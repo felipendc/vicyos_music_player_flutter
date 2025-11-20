@@ -2,13 +2,6 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 
 List<RadioStationInfo> radioStationList = <RadioStationInfo>[
-  // RadioStationInfo(
-  //   radioSimpleName: "error",
-  //   radioName: 'erorr',
-  //   radioLocation: 'São Paulo',
-  //   radioStation: "89.0",
-  //   radioUrl: 'https://2665om/RADIO_89FM_ADP.aac?dist=site-89fm',
-  // ),
   RadioStationInfo(
     id: const Uuid().v4(),
     radioSimpleName: "A Rádio Rock",
@@ -97,6 +90,64 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   ),
   RadioStationInfo(
     id: const Uuid().v4(),
+    radioSimpleName: "ABC NewsRadio",
+    radioName: 'ABC NewsRadio',
+    radioLocation: 'Sydney • Australia',
+    radioStation: "ABC NewsRadio",
+    radioUrl: 'https://abc.streamguys1.com/live/newsradio/icecast.audio',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "BBC Radio 3",
+    radioName: 'BBC Radio 3',
+    radioLocation: 'Mobile AL • United States',
+    radioStation: "BBC Radio 3",
+    radioUrl: 'https://14223.live.streamtheworld.com/WUAL_HD3AAC.aac',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "BBC Radio 4",
+    radioName: 'BBC Radio 4',
+    radioLocation: 'London • UK',
+    radioStation: "BBC Radio 4",
+    radioUrl:
+        'https://as-hls-ww-live.akamaized.net/pool_55057080/live/ww/bbc_radio_fourfm/bbc_radio_fourfm.isml/bbc_radio_fourfm-audio%3d96000.norewind.m3u8',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "LBC London News",
+    radioName: 'LBC London News',
+    radioLocation: 'London • United Kingdom',
+    radioStation: "LBC London News",
+    radioUrl: 'https://media-the.musicradio.com/LBC1152',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "3AW",
+    radioName: "3AW - Melbourne's Best Talk Station",
+    radioLocation: 'Melbourne, Victoria • Australia',
+    radioStation: "3AW",
+    radioUrl:
+        'https://23193.live.streamtheworld.com/3AWAAC_O/HLS/701816b8-41d6-4609-ae04-83247e26d66c/0/3.aac',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "KERA",
+    radioName: 'KERA FM 90.1',
+    radioLocation: 'Dallas Texas • United States',
+    radioStation: "90.1",
+    radioUrl: 'https://kera-ice.streamguys1.com/keralive',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "Trap Radio",
+    radioName: 'Trap Radio',
+    radioLocation: 'New York NY • United States',
+    radioStation: "Trap Radio",
+    radioUrl: 'https://skywatcherawakenedradio.radiolebowski.com/play',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
     radioSimpleName: "WBEZ",
     radioName: 'WBEZ • 91.5 Chicago Public Radio',
     radioLocation: 'Illinois',
@@ -114,6 +165,14 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   ),
   RadioStationInfo(
     id: const Uuid().v4(),
+    radioSimpleName: "96.9",
+    radioName: 'KLTA-HD2 96.9 - 96.9 Hits FM',
+    radioLocation: 'Fargo ND • United States',
+    radioStation: "96.9",
+    radioUrl: 'https://ice9.securenetsystems.net/KLTAHD2',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
     radioSimpleName: "Hot",
     radioName: 'Hot 97 FM',
     radioLocation: 'New York',
@@ -123,11 +182,36 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   ),
   RadioStationInfo(
     id: const Uuid().v4(),
-    radioSimpleName: "KIIS",
-    radioName: 'Radio KIIS 102.7 FM',
-    radioLocation: 'Los Angeles | CA • EUA',
-    radioStation: "102.7",
-    radioUrl: 'https://stream.revma.ihrhls.com/zc185?1762467975628',
+    radioSimpleName: "KJ97",
+    radioName: 'KJ97 KAJA 97,3',
+    radioLocation: 'San Antonio, Texas • United States',
+    radioStation: "97,3",
+    radioUrl:
+        'https://cloud.revma.ihrhls.com/zc2337?rj-org=n32b-e2&rj-ttl=5&rj-tok=AAABmp5GKeoAMzG96W3yUGpInQ',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "KMGO",
+    radioName: 'KMGO FM 98.7',
+    radioLocation: 'Centerville (Iowa) • United States',
+    radioStation: "98.7",
+    radioUrl: 'https://us1.streamingpulse.com/ssl/987Kmgo',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "WKCN",
+    radioName: 'Radio WKCN HD1 99.3 FM',
+    radioLocation: 'Fort Benning South / GA • United States',
+    radioStation: "99.3",
+    radioUrl: 'https://ice66.securenetsystems.net/WKCNFM?1763595707425',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "Hot Hitz",
+    radioName: '100 Hitz - Hot Hitz',
+    radioLocation: 'California • United States',
+    radioStation: "100Hitz",
+    radioUrl: 'https://pureplay.cdnstream1.com/6027_128.mp3',
   ),
   RadioStationInfo(
     id: const Uuid().v4(),
@@ -148,12 +232,37 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   ),
   RadioStationInfo(
     id: const Uuid().v4(),
+    radioSimpleName: "KIIS",
+    radioName: 'Radio KIIS 102.7 FM',
+    radioLocation: 'Los Angeles | CA • EUA',
+    radioStation: "102.7",
+    radioUrl: 'https://stream.revma.ihrhls.com/zc185?1762467975628',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "102.9 NOW",
+    radioName: '102.9 NOW',
+    radioLocation: 'Dallas, Texas • United States',
+    radioStation: "102.9",
+    radioUrl:
+        'https://cloud.revma.ihrhls.com/zc2237?rj-org=n0db-e2&rj-ttl=5&rj-tok=AAABmp5fzbIA_xxbyTJGo1EQ-g',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
     radioSimpleName: "KISS",
     radioName: '103.5 KISS FM',
     radioLocation: 'Chicago',
     radioStation: "103.5",
     radioUrl:
         'https://cloud.revma.ihrhls.com/zc849?rj-org=n01b-e2&rj-ttl=5&rj-tok=AAABmlt3m5sAGFL4am6uALnUow',
+  ),
+  RadioStationInfo(
+    id: const Uuid().v4(),
+    radioSimpleName: "WCRK",
+    radioName: 'WCRK FM 105.7',
+    radioLocation: 'Morristown TN • United States',
+    radioStation: "105.7",
+    radioUrl: 'https://ice41.securenetsystems.net/WCRK',
   ),
   RadioStationInfo(
     id: const Uuid().v4(),

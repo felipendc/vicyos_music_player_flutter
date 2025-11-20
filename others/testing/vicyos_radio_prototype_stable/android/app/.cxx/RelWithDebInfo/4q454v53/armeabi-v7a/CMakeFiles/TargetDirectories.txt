@@ -1,2 +1,0 @@
-C:/Users/Felipe Ndc/StudioProjects/vicyos_music_stream/android/app/.cxx/RelWithDebInfo/4q454v53/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/Felipe Ndc/StudioProjects/vicyos_music_stream/android/app/.cxx/RelWithDebInfo/4q454v53/armeabi-v7a/CMakeFiles/rebuild_cache.dir
