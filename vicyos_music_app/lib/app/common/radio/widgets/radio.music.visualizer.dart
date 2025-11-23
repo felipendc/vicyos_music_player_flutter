@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:just_audio/just_audio.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
 // IMPORTANT NOTE:
 // This music_visualizer was created by Rajkumar07793,
 // Original link: https://github.com/Rajkumar07793/music_visualizer_package

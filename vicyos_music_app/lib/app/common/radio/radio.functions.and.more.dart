@@ -5,12 +5,33 @@ import 'package:flutter/material.dart' show Colors;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
 import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio/widgets/show.radio.top.message.dart'
     show errorToFetchRadioStationCard;
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+
+// ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
+enum RadioStationConnectionStatus { online, error }
+
+bool isRadioPlaying = false;
+bool isRadioPaused = false;
+bool isRadioStopped = isRadioOn ? false : true;
+bool stationHasBeenSearched = false;
+String currentRadioIndexUrl = "";
+String currentRadioStationName = "";
+String currentRadioStationLocation = "";
+String currentRadioStationID = "";
+bool isRadioOn = false;
+Color radioStationBtn = Color(0xFFFF0F7B);
+bool radioStationFetchError = false;
+late int radioStationErrorIndex;
+int currentRadioIndex = 0;
+
+// Radio Player
+late AudioPlayer radioPlayer;
+final radioPlaylist = <AudioSource>[];
 
 // ------------ RADIO FUNCTIONS --------------------//
 
@@ -292,4 +313,3 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
 
   debugPrint("Checking current radio url: $currentRadioIndexUrl");
 }
-// ------------ RADIO FUNCTIONS END --------------------//

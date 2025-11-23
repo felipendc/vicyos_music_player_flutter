@@ -13,27 +13,12 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
-import 'package:vicyos_music/app/common/radio/radio.functions.dart';
+import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
 
-enum RadioStationConnectionStatus { online, error }
-
-bool isRadioPlaying = false;
-bool isRadioPaused = false;
-bool isRadioStopped = isRadioOn ? false : true;
-bool stationHasBeenSearched = false;
-String currentRadioIndexUrl = "";
-String currentRadioStationName = "";
-String currentRadioStationLocation = "";
-String currentRadioStationID = "";
-bool isRadioOn = false;
-Color radioStationBtn = Color(0xFFFF0F7B);
-bool radioStationFetchError = false;
-late int radioStationErrorIndex;
-int currentRadioIndex = 0;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 late final TextEditingController searchBoxController;
 bool mainPlayerIsOpen = false;
@@ -66,10 +51,6 @@ String currentLoopModeLabel = 'Repeat: All';
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 final playlist = <AudioSource>[];
-
-// Radio Player
-late AudioPlayer radioPlayer;
-final radioPlaylist = <AudioSource>[];
 
 // Player for Preview
 late audio_players.AudioPlayer audioPlayerPreview;
@@ -240,7 +221,7 @@ void setVolumeJustAudio(double value) {
   VolumeController.instance.setVolume(audioPlayer.volume);
 }
 
-// This function should be used on a flutter.initState or GetX.onInitApp();
+// This function should be used on a flutter.initState or GetX.on_init_app();
 void playerEventStateStreamNotifier() {
   // I will need to use another state listener other than!
   audioPlayer.positionStream.listen(
@@ -316,7 +297,7 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-// This func should be used on a flutter.initState or GetX.onInitApp();
+// This func should be used on a flutter.initState or GetX.on_init_app();
 void playerPreviewEventStateStreamNotifier() {
   audioPlayerPreview.onPositionChanged.listen(
     (position) {

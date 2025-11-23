@@ -5,7 +5,7 @@ import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.fi
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 
 List<RadioStationInfo> foundStations = <RadioStationInfo>[];
 List<AudioInfo> foundSongs = <AudioInfo>[];

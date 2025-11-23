@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/common/onInitApp/on.init.app.dart';
 import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/splash_screen/splash.screen.dart';
 import 'package:vicyos_music/app/common/status_bar_theme/status.bar.theme.color.matching.dart';
+
+import 'app/common/on_init_app/on.init.app.dart';
 
 // flutter clean; flutter pub get; flutter build apk --release
 
