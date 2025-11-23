@@ -60,7 +60,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                           stream: null,
                           builder: (context, snapshot) {
                             return Image.asset(
-                              "assets/img/lofi-woman-album-cover-art_10.png",
+                              "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
                               width: media.width * 0.19,
                               height: media.width * 0.19,
                               fit: BoxFit.cover,
@@ -589,7 +589,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                   );
                                                 },
                                                 icon: Image.asset(
-                                                  'assets/img/speed-one.png',
+                                                  'assets/img/speed_rate/speed-one.png',
                                                   width: 25,
                                                   height: 25,
                                                   color: TColor.primaryText80,
@@ -645,8 +645,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                       icon: Image.asset(
                                                         radioPlayer
                                                                 .shuffleModeEnabled
-                                                            ? "assets/img/shuffle_1.png"
-                                                            : "assets/img/repeat_all.png",
+                                                            ? "assets/img/repeat_mode/shuffle_1.png"
+                                                            : "assets/img/repeat_mode/repeat_all.png",
                                                         width: 22,
                                                         height: 22,
                                                         color: TColor
@@ -694,7 +694,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                     );
                                                   },
                                                   icon: Image.asset(
-                                                    "assets/img/playlist.png",
+                                                    "assets/img/bottomsheet/playlist.png",
                                                     color: TColor.primaryText80,
                                                   ),
                                                 ),
@@ -720,7 +720,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                   );
                                                 },
                                                 icon: Image.asset(
-                                                  'assets/img/speed-one.png',
+                                                  'assets/img/speed_rate/speed-one.png',
                                                   width: 25,
                                                   height: 25,
                                                   color: TColor.primaryText80,
@@ -849,24 +849,10 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         await radioSeekToPrevious();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/previous_song.png",
+                                        "assets/img/player/previous_song.png",
                                       ),
                                     ),
                                   ),
-                                  // SizedBox(
-                                  //   width: 65,
-                                  //   height: 65,
-                                  //   child: IconButton(
-                                  //     iconSize: 10,
-                                  //     onPressed: () {
-                                  //       rewind();
-                                  //     },
-                                  //     icon: Image.asset(
-                                  //       "assets/img/backward-5-seconds.png",
-                                  //       color: TColor.primaryText80,
-                                  //     ),
-                                  //   ),
-                                  // ),
                                   const SizedBox(
                                     width: 10,
                                   ),
@@ -886,7 +872,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               radioPlayOrPause();
                                             },
                                             icon: Image.asset(
-                                              "assets/img/round-play-button_icon.png",
+                                              "assets/img/player/round-play-button_icon.png",
                                             ),
                                           ),
                                         );
@@ -900,7 +886,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               radioPlayOrPause();
                                             },
                                             icon: Image.asset(
-                                              "assets/img/round-pause-button_icon.png",
+                                              "assets/img/player/round-pause-button_icon.png",
                                               color: TColor.primaryText80,
                                             ),
                                           ),
@@ -911,7 +897,6 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
-
                                   SizedBox(
                                     width: 60,
                                     height: 60,
@@ -920,7 +905,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         await radioSeekToNext();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/next_song.png",
+                                        "assets/img/player/next_song.png",
                                       ),
                                     ),
                                   ),
@@ -938,7 +923,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         await previousSong();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/previous_song.png",
+                                        "assets/img/player/previous_song.png",
                                       ),
                                     ),
                                   ),
@@ -951,7 +936,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         rewind();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/backward-5-seconds.png",
+                                        "assets/img/player/backward-5-seconds.png",
                                         color: TColor.primaryText80,
                                       ),
                                     ),
@@ -978,7 +963,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               }
                                             },
                                             icon: Image.asset(
-                                              "assets/img/round-play-button_icon.png",
+                                              "assets/img/player/round-play-button_icon.png",
                                             ),
                                           ),
                                         );
@@ -992,7 +977,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               audioPlayer.pause();
                                             },
                                             icon: Image.asset(
-                                              "assets/img/round-pause-button_icon.png",
+                                              "assets/img/player/round-pause-button_icon.png",
                                               color: TColor.primaryText80,
                                             ),
                                           ),
@@ -1012,7 +997,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         forward();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/forward-5-seconds.png",
+                                        "assets/img/player/forward-5-seconds.png",
                                         color: TColor.primaryText80,
                                       ),
                                     ),
@@ -1025,7 +1010,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         await nextSong();
                                       },
                                       icon: Image.asset(
-                                        "assets/img/next_song.png",
+                                        "assets/img/player/next_song.png",
                                       ),
                                     ),
                                   ),

@@ -88,7 +88,7 @@ class RadioSearchScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             icon: Image.asset(
-              "assets/img/arrow_back_ios.png",
+              "assets/img/menu/arrow_back_ios.png",
               color: TColor.lightGray,
               height: 20,
               width: 20,
@@ -233,7 +233,6 @@ class RadioSearchScreen extends StatelessWidget {
                                         : TColor.focus,
                                   ),
                           ),
-
                           title: Text(
                             foundStations[index].radioName,
                             textAlign: TextAlign.start,
@@ -255,22 +254,6 @@ class RadioSearchScreen extends StatelessWidget {
                               fontSize: 15,
                             ),
                           ),
-
-                          // trailing: (index + 1 == currentRadioIndex)
-                          //     ? Image.asset(
-                          //     height: 30,
-                          //     width: 30,
-                          //     "assets/img/radio/antenna-bars-5-streamline.png",
-                          //     color: TColor.green)
-                          //     : Image.asset(
-                          //   height: 30,
-                          //   width: 30,
-                          //   "assets/img/radio/antenna-bars-5-streamline.png",
-                          //   color: TColor.lightGray,
-                          // ),
-                          //
-                          //
-
                           trailing: Container(
                             padding: EdgeInsets.symmetric(horizontal: 5),
                             child: (foundStations[index].id ==
@@ -322,9 +305,6 @@ class RadioSearchScreen extends StatelessWidget {
                                           color: Colors.green,
                                         );
                                       } else {
-                                        // return (radioStationFetchError &&
-                                        //         radioStationErrorIndex ==
-                                        //             index)
                                         return (foundStations[index]
                                                     .stationStatus ==
                                                 RadioStationConnectionStatus
@@ -359,19 +339,6 @@ class RadioSearchScreen extends StatelessWidget {
                                         color: TColor.lightGray,
                                       ),
                           ),
-
-                          // IconButton(
-                          //   splashRadius: 5,
-                          //   // iconSize: 5,
-                          //   icon: Image.asset(
-                          //     "assets/img/arrow_forward_ios.png",
-                          //     color: (index + 1 == currentRadioIndex)
-                          //         ? TColor.green
-                          //         : TColor.lightGray,
-                          //   ),
-                          //   onPressed: () async {},
-                          // ),
-                          //
                           onTap: () async {
                             await playSearchedRadioStation(context, index);
                           },

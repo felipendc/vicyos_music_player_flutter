@@ -65,12 +65,6 @@ class RadioBottomPlayer extends StatelessWidget {
                                                   .lightGray, // Colors.green,
                                               size: 20,
                                             ),
-                                            // LoadingAnimationWidget
-                                            //     .newtonCradle(
-                                            //   color: TColor
-                                            //       .lightGray, // Colors.green,
-                                            //   size: 40,
-                                            // ),
                                           )
                                         : Container(),
                                   ),
@@ -81,36 +75,12 @@ class RadioBottomPlayer extends StatelessWidget {
                                       width: 52,
                                       height: 53,
                                       child: IconButton(
-                                        splashRadius: 20,
                                         iconSize: 20,
-                                        onPressed: () async {
-                                          // // Show Radio Mini Player
-                                          // hideMiniRadioPlayerStreamNotifier(
-                                          //     false);
-                                          //
-                                          // // Hide Mini Player
-                                          // hideMiniPlayerStreamNotifier(
-                                          //     true);
-                                          //
-                                          // Navigator.push(
-                                          //   context,
-                                          //   slideRightLeftTransition(
-                                          //     RadioStationsScreen(),
-                                          //   ),
-                                          // ).whenComplete(
-                                          //       () {
-                                          //     hideMiniRadioPlayerStreamNotifier(
-                                          //         true);
-                                          //     // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                          //     hideMiniPlayerStreamNotifier(
-                                          //         false);
-                                          //   },
-                                          // );
-                                        },
+                                        onPressed: null,
                                         icon: SizedBox(
                                           height: 60,
                                           child: Image.asset(
-                                            "assets/img/radio_icon.png",
+                                            "assets/img/radio/radio_icon.png",
                                             color: TColor.lightGray,
                                           ),
                                         ),

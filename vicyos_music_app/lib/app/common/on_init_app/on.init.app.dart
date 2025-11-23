@@ -40,12 +40,6 @@ Future<void> onInitPlayer() async {
   radioPlayer.setLoopMode(LoopMode.all);
   audioPlayer = AudioPlayer();
   audioPlayer.setLoopMode(LoopMode.all);
-
-  // playlist = ConcatenatingAudioSource(
-  //   useLazyPreparation: true,
-  //   shuffleOrder: DefaultShuffleOrder(),
-  //   children: audioSources,
-  // );
   playerEventStateStreamNotifier();
   playerPreviewEventStateStreamNotifier();
   await defaultAlbumArt();

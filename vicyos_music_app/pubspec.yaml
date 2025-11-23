@@ -112,13 +112,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/img/
+    - assets/img/pics/
     - assets/img/radio/
     - assets/img/radio_logos/
     - assets/img/bottom_player/
+    - assets/img/default_album_art/
     - assets/img/vicyos_logos/
-    - assets/img/pics/
-    #   - images/a_dot_ham.jpeg
+    - assets/img/repeat_mode/
+    - assets/img/speed_rate/
+    - assets/img/bottomsheet/
+    - assets/img/player/
+    - assets/img/menu/
 
+    #   - images/a_dot_ham.jpeg
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
 

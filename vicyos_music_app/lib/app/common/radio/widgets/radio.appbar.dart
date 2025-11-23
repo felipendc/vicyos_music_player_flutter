@@ -15,7 +15,7 @@ AppBar mainRadioPlayerViewAppBar(BuildContext context) {
         padding: const EdgeInsets.only(left: 10),
         child: IconButton(
           splashRadius: 20,
-          icon: Image.asset("assets/img/keyboard_arrow_down.png"),
+          icon: Image.asset("assets/img/menu/keyboard_arrow_down.png"),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -44,7 +44,7 @@ AppBar mainRadioPlayerViewAppBar(BuildContext context) {
             height: 50,
             child: IconButton(
               splashRadius: 20,
-              icon: Image.asset("assets/img/more_horiz.png"),
+              icon: Image.asset("assets/img/menu/more_horiz.png"),
               onPressed: null,
             ),
           ),

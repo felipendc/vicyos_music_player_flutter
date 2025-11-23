@@ -91,7 +91,7 @@ class LoadingScreen extends StatelessWidget {
                                       listPlaylistFolderStreamNotifier();
                                     },
                                     icon: Image.asset(
-                                      "assets/img/autorenew.png",
+                                      "assets/img/menu/autorenew.png",
                                       color: TColor.lightGray,
                                     ),
                                   ),
@@ -131,7 +131,7 @@ class LoadingScreen extends StatelessWidget {
                                             icon: SizedBox(
                                               height: 60,
                                               child: Image.asset(
-                                                "assets/img/radio_icon.png",
+                                                "assets/img/radio/radio_icon.png",
                                                 color: TColor.lightGray,
                                               ),
                                             ),

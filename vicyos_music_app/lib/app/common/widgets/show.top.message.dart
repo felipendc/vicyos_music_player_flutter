@@ -127,7 +127,7 @@ void showAddedToPlaylist(
                         child: IconButton(
                           onPressed: () {},
                           icon: Image.asset(
-                            "assets/img/sound_sampler.png",
+                            "assets/img/bottomsheet/sound_sampler.png",
                             width: 30,
                             height: 30,
                             color: TColor.primaryText80,

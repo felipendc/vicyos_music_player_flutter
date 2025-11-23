@@ -56,7 +56,7 @@ class BottomPlayer extends StatelessWidget {
                                     stream: null,
                                     builder: (context, snapshot) {
                                       return Image.asset(
-                                        "assets/img/lofi-woman-album-cover-art_10.png",
+                                        "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
                                         width: media.width * 0.15,
                                         height: media.width * 0.15,
                                         fit: BoxFit.cover,

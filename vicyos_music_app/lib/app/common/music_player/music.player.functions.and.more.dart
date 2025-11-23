@@ -28,7 +28,7 @@ bool isSongPreviewBottomSheetOpen = false;
 String currentFolderPath = 'The song folder will be displayed here...';
 String currentSongFullPath = '';
 int playlistCurrentLength = 0;
-String currentLoopModeIcon = 'assets/img/repeat_all.png';
+String currentLoopModeIcon = 'assets/img/repeat_mode/repeat_all.png';
 late double volumeSliderValue;
 String currentSongAlbumName = 'Unknown Album';
 String currentSongName = 'The playlist is empty';
@@ -139,7 +139,6 @@ void rebuildPlaylistCurrentLengthStreamNotifier() {
   audioPlayer.sequenceStream.listen(
     (sequence) {
       playlistCurrentLength = sequence.length;
-      // debugPrint("Total tracks in the playlist: $playlistCurrentLength");
     },
   );
   rebuildPlaylistCurrentLengthController.sink.add(null);
@@ -287,8 +286,8 @@ void playerEventStateStreamNotifier() {
 
 Future<void> defaultAlbumArt() async {
   // Load the image asset as a Uri
-  final ByteData imageData =
-      await rootBundle.load('assets/img/lofi-woman-album-cover-art_11.png');
+  final ByteData imageData = await rootBundle
+      .load('assets/img/default_album_art/lofi-woman-album-cover-art_11.png');
   final Uint8List bytes = imageData.buffer.asUint8List();
 
   // Save the image to a temporary directory
@@ -440,7 +439,7 @@ void repeatMode(BuildContext context) {
     currentLoopMode = CurrentLoopMode.one;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.one);
-    currentLoopModeIcon = "assets/img/repeat_one.png";
+    currentLoopModeIcon = "assets/img/repeat_mode/repeat_one.png";
     debugPrint("Repeat: One");
     showLoopMode(context, "Repeating one");
   } else if (currentLoopMode == CurrentLoopMode.one) {
@@ -448,7 +447,7 @@ void repeatMode(BuildContext context) {
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     audioPlayer.setShuffleModeEnabled(true);
-    currentLoopModeIcon = "assets/img/shuffle_1.png";
+    currentLoopModeIcon = "assets/img/repeat_mode/shuffle_1.png";
     debugPrint("Repeat: Shuffle");
     showLoopMode(context, "Playback is shuffled");
   } else if (currentLoopMode == CurrentLoopMode.shuffle) {
@@ -456,14 +455,14 @@ void repeatMode(BuildContext context) {
     repeatModeStreamNotifier();
     audioPlayer.setShuffleModeEnabled(false);
     audioPlayer.setLoopMode(LoopMode.off);
-    currentLoopModeIcon = "assets/img/repeat_none.png";
+    currentLoopModeIcon = "assets/img/repeat_mode/repeat_none.png";
     debugPrint("Repeat: Off");
     showLoopMode(context, "Repeating off");
   } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
     repeatModeStreamNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
-    currentLoopModeIcon = "assets/img/repeat_all.png";
+    currentLoopModeIcon = "assets/img/repeat_mode/repeat_all.png";
     debugPrint("Repeat: All");
     showLoopMode(context, "Repeating all");
   }

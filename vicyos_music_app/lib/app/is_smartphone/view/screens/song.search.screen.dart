@@ -61,18 +61,9 @@ class SearchScreen extends StatelessWidget {
       searchBoxController.clear();
       foundSongs.clear();
       isSearchingSongsStreamNotifier("");
-
-      //
       isSearchTypingStreamNotifier(false);
-      //
       foundSongs.clear();
     }
-
-    // void openKeyboard() {
-    //   Future.delayed(Duration(milliseconds: 100), () {
-    //     FocusScope.of(context).requestFocus(searchBarKeyboardFocusNode);
-    //   });
-    // }
 
     return Scaffold(
       backgroundColor: const Color(0xff181B2C), // Dark background
@@ -87,7 +78,7 @@ class SearchScreen extends StatelessWidget {
               Navigator.pop(context);
             },
             icon: Image.asset(
-              "assets/img/arrow_back_ios.png",
+              "assets/img/menu/arrow_back_ios.png",
               color: TColor.lightGray,
               height: 20,
               width: 20,
@@ -264,7 +255,7 @@ class SearchScreen extends StatelessWidget {
                             splashRadius: 24,
                             iconSize: 20,
                             icon: Image.asset(
-                              "assets/img/more_vert.png",
+                              "assets/img/menu/more_vert.png",
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {

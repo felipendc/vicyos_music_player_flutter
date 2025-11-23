@@ -126,7 +126,7 @@ class RadioStationsScreen extends StatelessWidget {
                                           Navigator.pop(context);
                                         },
                                         icon: Image.asset(
-                                          "assets/img/arrow_back_ios.png",
+                                          "assets/img/menu/arrow_back_ios.png",
                                           color: TColor.lightGray,
                                         ),
                                       ),
@@ -146,7 +146,7 @@ class RadioStationsScreen extends StatelessWidget {
                                                   .stream,
                                           builder: (context, snapshot) {
                                             return Image.asset(
-                                              "assets/img/power_btn_300p.png",
+                                              "assets/img/radio/power_btn_300p.png",
                                               color: radioStationBtn,
                                             );
                                           },

@@ -115,7 +115,7 @@ class SongsListScreen extends StatelessWidget {
                                           Navigator.pop(context);
                                         },
                                         icon: Image.asset(
-                                          "assets/img/arrow_back_ios.png",
+                                          "assets/img/menu/arrow_back_ios.png",
                                           color: TColor.lightGray,
                                         ),
                                       ),
@@ -341,7 +341,7 @@ class SongsListScreen extends StatelessWidget {
                                   splashRadius: 24,
                                   iconSize: 20,
                                   icon: Image.asset(
-                                    "assets/img/more_vert.png",
+                                    "assets/img/menu/more_vert.png",
                                     color: TColor.lightGray,
                                   ),
                                   onPressed: () async {

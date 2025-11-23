@@ -34,13 +34,12 @@ late AudioPlayer radioPlayer;
 final radioPlaylist = <AudioSource>[];
 
 // ------------ RADIO FUNCTIONS --------------------//
-
 bool radioHasLogo(int index) {
   return (radioStationList[index].ratioStationLogo != null);
 }
 
 String radioLogo() {
-  return "assets/img/radio_icon.png";
+  return "assets/img/radio/radio_icon.png";
 }
 
 void errorToFetchRadioStation(int index) {
@@ -50,12 +49,7 @@ void errorToFetchRadioStation(int index) {
 
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
-
   radioStationBtn = Colors.green;
-
-  // hideBottonSheetStreamNotifier(false);
-  // hideMiniPlayerStreamNotifier(false);
-
   radioScreenStreamNotifier();
   switchingToRadioStreamNotifier();
 }

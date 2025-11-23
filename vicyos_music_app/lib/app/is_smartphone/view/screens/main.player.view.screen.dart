@@ -46,7 +46,7 @@ class MainPlayerView extends StatelessWidget {
                     stream: null,
                     builder: (context, snapshot) {
                       return Image.asset(
-                        "assets/img/lofi-woman-album-cover-art_10.png",
+                        "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
                         width: media.width * 0.6,
                         height: media.width * 0.6,
                         fit: BoxFit.cover,
@@ -347,7 +347,7 @@ class MainPlayerView extends StatelessWidget {
                                 );
                               },
                               icon: Image.asset(
-                                "assets/img/playlist.png",
+                                "assets/img/bottomsheet/playlist.png",
                                 color: TColor.primaryText80,
                               ),
                             ),
@@ -370,7 +370,7 @@ class MainPlayerView extends StatelessWidget {
                               );
                             },
                             icon: Image.asset(
-                              'assets/img/speed-one.png',
+                              'assets/img/speed_rate/speed-one.png',
                               width: 40,
                               height: 40,
                               color: TColor.primaryText80,
@@ -485,7 +485,7 @@ class MainPlayerView extends StatelessWidget {
                       await previousSong();
                     },
                     icon: Image.asset(
-                      "assets/img/previous_song.png",
+                      "assets/img/player/previous_song.png",
                     ),
                   ),
                 ),
@@ -498,7 +498,7 @@ class MainPlayerView extends StatelessWidget {
                       rewind();
                     },
                     icon: Image.asset(
-                      "assets/img/backward-5-seconds.png",
+                      "assets/img/player/backward-5-seconds.png",
                       color: TColor.primaryText80,
                     ),
                   ),
@@ -524,7 +524,7 @@ class MainPlayerView extends StatelessWidget {
                             }
                           },
                           icon: Image.asset(
-                            "assets/img/round-play-button_icon.png",
+                            "assets/img/player/round-play-button_icon.png",
                           ),
                         ),
                       );
@@ -538,7 +538,7 @@ class MainPlayerView extends StatelessWidget {
                             audioPlayer.pause();
                           },
                           icon: Image.asset(
-                            "assets/img/round-pause-button_icon.png",
+                            "assets/img/player/round-pause-button_icon.png",
                             color: TColor.primaryText80,
                           ),
                         ),
@@ -558,7 +558,7 @@ class MainPlayerView extends StatelessWidget {
                       forward();
                     },
                     icon: Image.asset(
-                      "assets/img/forward-5-seconds.png",
+                      "assets/img/player/forward-5-seconds.png",
                       color: TColor.primaryText80,
                     ),
                   ),
@@ -571,7 +571,7 @@ class MainPlayerView extends StatelessWidget {
                       await nextSong();
                     },
                     icon: Image.asset(
-                      "assets/img/next_song.png",
+                      "assets/img/player/next_song.png",
                     ),
                   ),
                 ),

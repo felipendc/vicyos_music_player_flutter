@@ -106,10 +106,6 @@ Future<void> listMusicFolders() async {
         .toString());
   }
 
-  // if (IsInternalStoragePermissionDenied == true && musicFolderPaths.isEmpty) {
-  //   rebuildHomePageFolderListStreamNotifier("Null");
-  // } else
-
   if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
     rebuildHomePageFolderListStreamNotifier("there_is_no_music_folder");
   } else if (musicFolderPaths.isNotEmpty) {

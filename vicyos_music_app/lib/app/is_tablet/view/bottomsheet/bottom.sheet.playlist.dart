@@ -155,7 +155,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                               Navigator.pop(context);
                             },
                             icon: Image.asset(
-                              "assets/img/close.png",
+                              "assets/img/menu/close.png",
                               color: TColor.secondaryText,
                             ),
                           ),

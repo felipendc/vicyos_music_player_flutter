@@ -105,7 +105,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                                         Navigator.pop(context);
                                       },
                                       icon: Image.asset(
-                                        "assets/img/close.png",
+                                        "assets/img/menu/close.png",
                                         color: TColor.lightGray,
                                       ),
                                     ),
@@ -161,7 +161,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                         leading: Padding(
                           padding: const EdgeInsets.only(left: 17),
                           child: ImageIcon(
-                            AssetImage("assets/img/share.png"),
+                            AssetImage("assets/img/bottomsheet/share.png"),
                             color: TColor.focus,
                             size: 32,
                           ),
@@ -186,7 +186,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                         leading: Padding(
                           padding: const EdgeInsets.only(left: 17),
                           child: ImageIcon(
-                            AssetImage("assets/img/delete_outlined.png"),
+                            AssetImage("assets/img/menu/delete_outlined.png"),
                             color: TColor.focus,
                             size: 32,
                           ),
