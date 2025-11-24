@@ -123,7 +123,7 @@ Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
 
 This project uses the following dependencies:
 
-- `audioplayers: 6.5.0` - A Flutter plugin to play multiple simultaneously audio files, works for Android, iOS, Linux, macOS, Windows, and web.
+- `audioplayers: 6.5.1` - A Flutter plugin to play multiple simultaneously audio files, works for Android, iOS, Linux, macOS, Windows, and web.
 - `just_audio: 0.10.5` - A powerful audio player for Flutter applications.
 - `audio_session: 0.2.2` Sets the iOS audio session category and Android audio attributes for your app, and manages your app's audio focus, mixing and ducking behaviour.
 - `just_audio_background: 0.0.1-beta.17` An add-on for just_audio that supports background playback and media notifications
