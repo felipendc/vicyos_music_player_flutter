@@ -284,7 +284,7 @@ class RadioSearchScreen extends StatelessWidget {
                                         return Image.asset(
                                           height: 30,
                                           width: 30,
-                                          "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                          "assets/img/radio/antenna-bars-5-streamline.png",
                                           color: TColor.lightGray,
                                         );
                                       } else if (processingState !=
@@ -294,7 +294,7 @@ class RadioSearchScreen extends StatelessWidget {
                                         return Image.asset(
                                           height: 30,
                                           width: 30,
-                                          "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                          "assets/img/radio/antenna-bars-5-streamline.png",
                                           color: Colors.green,
                                         );
                                       } else {
@@ -305,13 +305,13 @@ class RadioSearchScreen extends StatelessWidget {
                                             ? Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
+                                                "assets/img/radio/antenna-bars-off-streamline-tabler.png",
                                                 color: TColor.org,
                                               )
                                             : Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
                                                 color: TColor.lightGray,
                                               );
                                       }
@@ -322,13 +322,13 @@ class RadioSearchScreen extends StatelessWidget {
                                     ? Image.asset(
                                         height: 30,
                                         width: 30,
-                                        "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
+                                        "assets/img/radio/antenna-bars-off-streamline-tabler.png",
                                         color: TColor.org,
                                       )
                                     : Image.asset(
                                         height: 30,
                                         width: 30,
-                                        "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                        "assets/img/radio/antenna-bars-5-streamline.png",
                                         color: TColor.lightGray,
                                       ),
                           ),

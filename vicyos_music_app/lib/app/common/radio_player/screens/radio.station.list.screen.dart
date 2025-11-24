@@ -136,7 +136,7 @@ class RadioStationsScreen extends StatelessWidget {
                                                   .stream,
                                           builder: (context, snapshot) {
                                             return Image.asset(
-                                              "assets/img/radio_player/power_btn_300p.png",
+                                              "assets/img/radio/power_btn_300p.png",
                                               color: radioStationBtn,
                                             );
                                           },
@@ -390,7 +390,7 @@ class RadioStationsScreen extends StatelessWidget {
                                               return Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
                                                 color: TColor.lightGray,
                                               );
                                             } else if (processingState !=
@@ -400,13 +400,10 @@ class RadioStationsScreen extends StatelessWidget {
                                               return Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                                "assets/img/radio/antenna-bars-5-streamline.png",
                                                 color: Colors.green,
                                               );
                                             } else {
-                                              // return (radioStationFetchError &&
-                                              //         radioStationErrorIndex ==
-                                              //             index)
                                               return (radioStationList[index]
                                                           .stationStatus ==
                                                       RadioStationConnectionStatus
@@ -414,13 +411,13 @@ class RadioStationsScreen extends StatelessWidget {
                                                   ? Image.asset(
                                                       height: 30,
                                                       width: 30,
-                                                      "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
+                                                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
                                                       color: TColor.org,
                                                     )
                                                   : Image.asset(
                                                       height: 30,
                                                       width: 30,
-                                                      "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                                      "assets/img/radio/antenna-bars-5-streamline.png",
                                                       color: TColor.lightGray,
                                                     );
                                             }
@@ -433,13 +430,13 @@ class RadioStationsScreen extends StatelessWidget {
                                           ? Image.asset(
                                               height: 30,
                                               width: 30,
-                                              "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
+                                              "assets/img/radio/antenna-bars-off-streamline-tabler.png",
                                               color: TColor.org,
                                             )
                                           : Image.asset(
                                               height: 30,
                                               width: 30,
-                                              "assets/img/radio_player/antenna-bars-5-streamline.png",
+                                              "assets/img/radio/antenna-bars-5-streamline.png",
                                               color: TColor.lightGray,
                                             ),
                                 ),

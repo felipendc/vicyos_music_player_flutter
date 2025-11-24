@@ -1,5 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+
+void showRadioLoopMode(BuildContext context, String message) {
+  OverlayEntry overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      top: 38,
+      left: 0,
+      right: 0,
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: TColor.focus,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 6,
+                spreadRadius: 2,
+                offset: Offset(2, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 45,
+                height: radioPlayer.shuffleModeEnabled ? 44 : 40,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    radioPlayer.shuffleModeEnabled
+                        ? "assets/img/repeat_mode/shuffle_1.png"
+                        : "assets/img/repeat_mode/repeat_all.png",
+                    width: 30,
+                    height: 30,
+                    color: TColor.primaryText80,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "REPEAT MODE:",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    // SizedBox(height: 2),
+                    Text(
+                      message,
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(overlayEntry);
+
+  Future.delayed(
+    Duration(seconds: 3),
+    () {
+      overlayEntry.remove();
+    },
+  );
+}
 
 void errorToFetchRadioStationCard(BuildContext context, String radio) {
   OverlayEntry overlayEntry = OverlayEntry(
@@ -33,7 +113,7 @@ void errorToFetchRadioStationCard(BuildContext context, String radio) {
                   child: IconButton(
                     onPressed: () {},
                     icon: Image.asset(
-                      "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
+                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
                       color: Colors.white,
                     ),
                   ),

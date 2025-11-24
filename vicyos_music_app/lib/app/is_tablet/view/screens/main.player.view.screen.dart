@@ -9,8 +9,8 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.appbar.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
@@ -561,7 +561,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                     }
                                                   },
                                                   icon: Image.asset(
-                                                    "assets/img/radio_player/reload-two-streamline-tabler.png",
+                                                    "assets/img/radio/reload-two-streamline-tabler.png",
                                                     width: 30,
                                                     height: 30,
                                                     color: TColor.primaryText80,
@@ -613,10 +613,9 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                             .shuffleModeEnabled
                                                         ? 45
                                                         : 45,
-                                                    height: (currentLoopMode ==
-                                                            CurrentLoopMode
-                                                                .shuffle)
-                                                        ? 40
+                                                    height: radioPlayer
+                                                            .shuffleModeEnabled
+                                                        ? 44
                                                         : 40,
                                                     child: IconButton(
                                                       onPressed: () async {
@@ -626,7 +625,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                               .setShuffleModeEnabled(
                                                                   false);
                                                           if (context.mounted) {
-                                                            showLoopMode(
+                                                            showRadioLoopMode(
                                                                 context,
                                                                 "Repeating all");
                                                           }
@@ -635,7 +634,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                               .setShuffleModeEnabled(
                                                                   true);
                                                           if (context.mounted) {
-                                                            showLoopMode(
+                                                            showRadioLoopMode(
                                                                 context,
                                                                 "Playback is shuffled");
                                                           }
@@ -647,8 +646,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                                 .shuffleModeEnabled
                                                             ? "assets/img/repeat_mode/shuffle_1.png"
                                                             : "assets/img/repeat_mode/repeat_all.png",
-                                                        width: 22,
-                                                        height: 22,
+                                                        width: 30,
+                                                        height: 30,
                                                         color: TColor
                                                             .primaryText80,
                                                       ),

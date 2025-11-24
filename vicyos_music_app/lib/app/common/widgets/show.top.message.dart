@@ -27,8 +27,8 @@ void showLoopMode(BuildContext context, String message) {
           child: Row(
             children: [
               SizedBox(
-                width: audioPlayer.shuffleModeEnabled ? 45 : 45,
-                height: 40,
+                width: 45,
+                height: audioPlayer.shuffleModeEnabled ? 44 : 40,
                 child: IconButton(
                   onPressed: () {},
                   icon: Image.asset(
