@@ -40,6 +40,7 @@ some podcasts `more precisely` for practicing English Listening.
 - Play, pause, skip, rewind 5 or go forward 5 seconds, control volume from the player screen, or even seek to a specific part of the song.
 - Search for songs, add to play next, delete files, share songs, preview a song, and more!
 - Minimalistic and intuitive user interface.
+- Radio stations: `A small selection of simple stations` that I frequently listen to in Portuguese and English.
 
 ### Getting Started
 
