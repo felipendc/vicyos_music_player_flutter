@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 
@@ -182,6 +183,10 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               }
                               if (context.mounted) {
                                 Navigator.pop(context);
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
                               }
                             },
                           );

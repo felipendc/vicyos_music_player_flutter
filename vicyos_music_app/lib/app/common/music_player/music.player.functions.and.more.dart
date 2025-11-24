@@ -428,6 +428,9 @@ String formatDuration(Duration duration) {
 }
 
 Future<void> pickFolder() async {
+  if (isRadioOn) {
+    turnOffRadioStation();
+  }
   stopSong();
   playlist.clear();
 
@@ -533,6 +536,9 @@ Future<void> pickFolder() async {
 }
 
 Future<void> pickAndPlayAudio() async {
+  if (isRadioOn) {
+    turnOffRadioStation();
+  }
   stopSong();
   playlist.clear();
 
@@ -631,6 +637,9 @@ Future<void> pickAndPlayAudio() async {
 
 Future<void> setFolderAsPlaylist(
     dynamic currentFolder, int currentIndex) async {
+  if (isRadioOn) {
+    turnOffRadioStation();
+  }
   stopSong();
   playlist.clear();
 
@@ -680,6 +689,9 @@ Future<void> setFolderAsPlaylist(
 }
 
 Future<void> addFolderToPlaylist(dynamic currentFolder) async {
+  if (isRadioOn) {
+    turnOffRadioStation();
+  }
   if (audioPlayer.audioSources.isEmpty) {
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
@@ -762,7 +774,11 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
 }
 
 Future<void> addSongToPlaylist(BuildContext context, songPath) async {
+  if (isRadioOn) {
+    turnOffRadioStation();
+  }
   if (audioPlayer.audioSources.isEmpty) {
+    audioPlayerWasPlaying = true;
     playlist.clear();
     // File audioFile = File(songPath);
     String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
@@ -861,6 +877,7 @@ void addToPlayNext(String playNextFilePath) {
   );
 
   if (audioPlayer.audioSources.isEmpty) {
+    audioPlayerWasPlaying = true;
     playlist.clear();
     playlist.add(
       AudioSource.uri(
