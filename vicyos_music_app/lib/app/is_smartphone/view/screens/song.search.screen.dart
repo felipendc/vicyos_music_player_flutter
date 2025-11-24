@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
-
-import '../../widgets/music_visualizer.dart';
-import '../bottomsheet/bottom.sheet.song.info.more.dart';
+import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

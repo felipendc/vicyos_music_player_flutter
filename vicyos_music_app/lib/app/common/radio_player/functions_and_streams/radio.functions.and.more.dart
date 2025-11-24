@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/common/radio/widgets/show.radio.top.message.dart'
-    show errorToFetchRadioStationCard;
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
@@ -109,7 +109,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
   turnOnRadioStation();
   cleanPlaylist();
 
-  // Clear and re-add all the radio stations to the "radioPlaylist"
+  // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
   for (var radioStation in radioStationList) {
     String radioStationUrl = radioStation.radioUrl;
@@ -170,7 +170,7 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
   turnOnRadioStation();
   cleanPlaylist();
 
-  // Clear and re-add all the radio stations to the "radioPlaylist"
+  // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
@@ -238,7 +238,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   turnOnRadioStation();
   cleanPlaylist();
 
-  // Clear and re-add all the radio stations to the "radioPlaylist"
+  // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
@@ -272,8 +272,8 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
     radioPlayer.play();
 
     // Combine two lists into one and iterate over and search for the current
-    // radio url in two lists [radioStationList and foundStations]
-    // to toggle the radio online signal icon
+    // radio_player url in two lists [radioStationList and foundStations]
+    // to toggle the radio_player online signal icon
     for (RadioStationInfo station in [...radioStationList, ...foundStations]) {
       String stationUrl = station.radioUrl;
       if (stationUrl.contains(currentRadioIndexUrl)) {
@@ -283,8 +283,8 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   } catch (e) {
     if (!await checkStreamUrl(currentRadioIndexUrl)) {
       // Combine two lists into one and iterate over and search for the current
-      // radio url in two lists [radioStationList and foundStations]
-      // to toggle the radio offline signal icon
+      // radio_player url in two lists [radioStationList and foundStations]
+      // to toggle the radio_player offline signal icon
       for (RadioStationInfo station in [
         ...radioStationList,
         ...foundStations
@@ -302,8 +302,8 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
       getCurrentSongFullPathStreamControllerNotifier();
     }
 
-    debugPrint('Error to load radio: $e');
+    debugPrint('Error to load radio_player: $e');
   }
 
-  debugPrint("Checking current radio url: $currentRadioIndexUrl");
+  debugPrint("Checking current radio_player url: $currentRadioIndexUrl");
 }

@@ -86,7 +86,7 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioLocation: 'São Paulo, Brasil',
     radioStation: "106.3",
     radioUrl:
-        'https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac?dist=mix-web-player-radio-ao-vivo&666061.3015838079',
+        'https://playerservices.streamtheworld.com/api/livestream-redirect/MIXFM_SAOPAULOAAC.aac?dist=mix-web-player-radio_player-ao-vivo&666061.3015838079',
   ),
   RadioStationInfo(
     id: const Uuid().v4(),

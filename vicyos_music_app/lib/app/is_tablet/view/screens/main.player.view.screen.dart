@@ -3,10 +3,12 @@ import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/bottomsheet/radio.bottom.sheet.speed.rate.dart';
-import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/widgets/radio.appbar.dart';
-import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/bottomsheet/radio.bottom.sheet.speed.rate.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/radio.appbar.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.playlist.dart';
@@ -15,8 +17,6 @@ import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
-
-import '../../../common/radio/radio.stream.notifiers.dart';
 
 final List<Color> colors = [
   TColor.focus,
@@ -368,7 +368,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                 maxWidth: width,
                                                 text: isRadioOn
                                                     ? currentRadioStationName
-                                                    : "The radio is turned off",
+                                                    : "The radio_player is turned off",
                                                 style: TextStyle(
                                                   color: TColor.primaryText
                                                       .withValues(alpha: 0.9),
@@ -561,7 +561,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                     }
                                                   },
                                                   icon: Image.asset(
-                                                    "assets/img/radio/reload-two-streamline-tabler.png",
+                                                    "assets/img/radio_player/reload-two-streamline-tabler.png",
                                                     width: 30,
                                                     height: 30,
                                                     color: TColor.primaryText80,

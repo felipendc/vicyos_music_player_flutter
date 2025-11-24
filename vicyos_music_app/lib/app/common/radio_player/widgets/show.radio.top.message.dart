@@ -33,7 +33,7 @@ void errorToFetchRadioStationCard(BuildContext context, String radio) {
                   child: IconButton(
                     onPressed: () {},
                     icon: Image.asset(
-                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                      "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
                       color: Colors.white,
                     ),
                   ),

@@ -3,10 +3,10 @@ import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
-
-import '../navigation_animation/main.player.navigation.animation.dart';
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});

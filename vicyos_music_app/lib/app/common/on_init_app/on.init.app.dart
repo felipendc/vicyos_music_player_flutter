@@ -15,17 +15,16 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
         defaultAlbumArt,
         currentFolderPath,
         getCurrentSongFolder,
-        getCurrentSongFolderStreamControllerNotifier,
         currentSongFullPath,
         getCurrentSongFullPath,
-        getCurrentSongFullPathStreamControllerNotifier,
         currentIndex;
-import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/common/radio/screens/main.radio.player.screen.dart';
-import 'package:vicyos_music/app/common/radio/screens/radio.station.list.screen.dart';
-import 'package:vicyos_music/app/common/radio/widgets/show.radio.top.message.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio_player/screens/main.radio.player.screen.dart';
+import 'package:vicyos_music/app/common/radio_player/screens/radio.station.list.screen.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
 
@@ -58,7 +57,7 @@ Future<void> onInitPlayer() async {
     },
   );
 
-  // Update radio stations list screen
+  // Update radio_player stations list screen
   radioPlayer.playbackEventStream.listen((event) async {
     currentIndex = event.currentIndex ?? 0;
     debugPrint("INDEX RADIO ATUAL: $currentIndex");
@@ -80,7 +79,7 @@ Future<void> onInitPlayer() async {
       // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
       // print("Title: ${mediaItem.title}");
       // print("Artist: ${mediaItem.artist}");
-      debugPrint("radio nome $currentRadioStationName");
+      debugPrint("radio_player nome $currentRadioStationName");
     }
 
     // Player states (playing, pausing and stopped)
@@ -95,24 +94,24 @@ Future<void> onInitPlayer() async {
         radioScreenStreamNotifier();
         switchingToRadioStreamNotifier();
       }
-      debugPrint("The radio is: Stopped");
+      debugPrint("The radio_player is: Stopped");
     } else if (radioPlayer.playing) {
       // Playing
       isRadioPlaying = true;
       isRadioPaused = false;
       isRadioStopped = false;
-      debugPrint("The radio is: Playing");
+      debugPrint("The radio_player is: Playing");
     } else if (radioPlayer.playing == false &&
         event.processingState == ProcessingState.ready) {
       // Paused
       isRadioPlaying = false;
       isRadioPaused = true;
       isRadioStopped = false;
-      debugPrint("The radio is: Paused");
+      debugPrint("The radio_player is: Paused");
     }
   });
 
-  // Get the current radio station uri to be able to re-load the current station
+  // Get the current radio_player station uri to be able to re-load the current station
   radioPlayer.sequenceStateStream.listen(
     (sequenceState) {
       final currentSource = sequenceState.currentSource;
@@ -133,8 +132,8 @@ Future<void> onInitPlayer() async {
           mainPlayerViewTabletKey.currentContext;
 
       // Combine two lists into one and iterate over and search for the current
-      // radio url in two lists [radioStationList and foundStations]
-      // to toggle the radio offline signal icon
+      // radio_player url in two lists [radioStationList and foundStations]
+      // to toggle the radio_player offline signal icon
       for (RadioStationInfo station in [
         ...radioStationList,
         ...foundStations

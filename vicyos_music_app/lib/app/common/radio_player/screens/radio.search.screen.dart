@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-
-import '../../search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 
 class RadioSearchScreen extends StatelessWidget {
   const RadioSearchScreen({super.key});
@@ -68,12 +67,6 @@ class RadioSearchScreen extends StatelessWidget {
       //
       foundStations.clear();
     }
-
-    // void openKeyboard() {
-    //   Future.delayed(Duration(milliseconds: 100), () {
-    //     FocusScope.of(context).requestFocus(searchBarKeyboardFocusNode);
-    //   });
-    // }
 
     return Scaffold(
       backgroundColor: const Color(0xff181B2C), // Dark background
@@ -291,7 +284,7 @@ class RadioSearchScreen extends StatelessWidget {
                                         return Image.asset(
                                           height: 30,
                                           width: 30,
-                                          "assets/img/radio/antenna-bars-5-streamline.png",
+                                          "assets/img/radio_player/antenna-bars-5-streamline.png",
                                           color: TColor.lightGray,
                                         );
                                       } else if (processingState !=
@@ -301,7 +294,7 @@ class RadioSearchScreen extends StatelessWidget {
                                         return Image.asset(
                                           height: 30,
                                           width: 30,
-                                          "assets/img/radio/antenna-bars-5-streamline.png",
+                                          "assets/img/radio_player/antenna-bars-5-streamline.png",
                                           color: Colors.green,
                                         );
                                       } else {
@@ -312,13 +305,13 @@ class RadioSearchScreen extends StatelessWidget {
                                             ? Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
                                                 color: TColor.org,
                                               )
                                             : Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
                                                 color: TColor.lightGray,
                                               );
                                       }
@@ -329,13 +322,13 @@ class RadioSearchScreen extends StatelessWidget {
                                     ? Image.asset(
                                         height: 30,
                                         width: 30,
-                                        "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                        "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
                                         color: TColor.org,
                                       )
                                     : Image.asset(
                                         height: 30,
                                         width: 30,
-                                        "assets/img/radio/antenna-bars-5-streamline.png",
+                                        "assets/img/radio_player/antenna-bars-5-streamline.png",
                                         color: TColor.lightGray,
                                       ),
                           ),

@@ -3,25 +3,15 @@ import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart'
     show slideRightLeftTransition;
-import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart'
-    show
-        radioHasLogo,
-        radioLogo,
-        playRadioStation,
-        turnOffRadioStation,
-        isRadioOn,
-        radioStationBtn,
-        currentRadioStationID,
-        isRadioPaused,
-        isRadioPlaying,
-        RadioStationConnectionStatus,
-        radioPlayer;
-import 'package:vicyos_music/app/common/radio/radio.stream.notifiers.dart';
-import 'package:vicyos_music/app/common/radio/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/common/radio/screens/radio.search.screen.dart';
-import 'package:vicyos_music/app/common/radio/widgets/radio.music.visualizer.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart'
+    show rebuildRadioScreenStreamController;
+import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/common/radio_player/screens/radio.search.screen.dart';
+import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 
 final GlobalKey mainRadioScreenKey = GlobalKey();
@@ -146,7 +136,7 @@ class RadioStationsScreen extends StatelessWidget {
                                                   .stream,
                                           builder: (context, snapshot) {
                                             return Image.asset(
-                                              "assets/img/radio/power_btn_300p.png",
+                                              "assets/img/radio_player/power_btn_300p.png",
                                               color: radioStationBtn,
                                             );
                                           },
@@ -400,7 +390,7 @@ class RadioStationsScreen extends StatelessWidget {
                                               return Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
                                                 color: TColor.lightGray,
                                               );
                                             } else if (processingState !=
@@ -410,7 +400,7 @@ class RadioStationsScreen extends StatelessWidget {
                                               return Image.asset(
                                                 height: 30,
                                                 width: 30,
-                                                "assets/img/radio/antenna-bars-5-streamline.png",
+                                                "assets/img/radio_player/antenna-bars-5-streamline.png",
                                                 color: Colors.green,
                                               );
                                             } else {
@@ -424,13 +414,13 @@ class RadioStationsScreen extends StatelessWidget {
                                                   ? Image.asset(
                                                       height: 30,
                                                       width: 30,
-                                                      "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                                      "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
                                                       color: TColor.org,
                                                     )
                                                   : Image.asset(
                                                       height: 30,
                                                       width: 30,
-                                                      "assets/img/radio/antenna-bars-5-streamline.png",
+                                                      "assets/img/radio_player/antenna-bars-5-streamline.png",
                                                       color: TColor.lightGray,
                                                     );
                                             }
@@ -443,13 +433,13 @@ class RadioStationsScreen extends StatelessWidget {
                                           ? Image.asset(
                                               height: 30,
                                               width: 30,
-                                              "assets/img/radio/antenna-bars-off-streamline-tabler.png",
+                                              "assets/img/radio_player/antenna-bars-off-streamline-tabler.png",
                                               color: TColor.org,
                                             )
                                           : Image.asset(
                                               height: 30,
                                               width: 30,
-                                              "assets/img/radio/antenna-bars-5-streamline.png",
+                                              "assets/img/radio_player/antenna-bars-5-streamline.png",
                                               color: TColor.lightGray,
                                             ),
                                 ),

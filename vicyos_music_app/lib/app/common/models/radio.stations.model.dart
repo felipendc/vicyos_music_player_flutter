@@ -1,4 +1,4 @@
-import 'package:vicyos_music/app/common/radio/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 
 class RadioStationInfo {
   String id;
