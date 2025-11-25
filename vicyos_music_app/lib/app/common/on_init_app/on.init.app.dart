@@ -17,7 +17,8 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
         getCurrentSongFolder,
         currentSongFullPath,
         getCurrentSongFullPath,
-        currentIndex;
+        currentIndex,
+        getCurrentVolume;
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
@@ -165,19 +166,23 @@ Future<void> onInitPlayer() async {
   });
 
   // Checking audio output route changes
+  // and update the volume slider
   final AudioOutputService audioService = AudioOutputService();
-  audioService.listen((event) {
-    debugPrint('Received from Android: $event');
-    if (event is List) {
-      for (var d in event) {
-        debugPrint(
-            'Device ${d['name']} ${d['type']} kind:${d['kind']} id:${d['id']}');
-      }
-    } else if (event is Map) {
-      debugPrint('Output: ${event['output']}, action: ${event['action']}');
-    } else {
-      debugPrint('Event: $event');
-    }
+  audioService.listen((event) async {
+    await getCurrentVolume();
+
+    // debugPrint('Received from Android: $event');
+    // if (event is List) {
+    //   for (var d in event) {
+    //     debugPrint(
+    //         'Device ${d['name']} ${d['type']} kind:${d['kind']} id:${d['id']}');
+    //     debugPrint("The device ${d['name']} has been ${d['type']}");
+    //   }
+    // } else if (event is Map) {
+    //   debugPrint('Output: ${event['output']}, action: ${event['action']}');
+    // } else {
+    //   debugPrint('Event: $event');
+    // }
   }, onError: (err) {
     debugPrint('audio chanel error: $err');
   });

@@ -76,6 +76,12 @@ String getCurrentSongFullPath(String songPath) {
   return decodedPath;
 }
 
+Future<void> getCurrentVolume() async {
+  double currentVolume = await VolumeController.instance.getVolume();
+  volumeSliderValue = (currentVolume * 100);
+  systemVolumeStreamNotifier();
+}
+
 void initVolumeControl() async {
   VolumeController.instance.addListener(
     (volume) {
