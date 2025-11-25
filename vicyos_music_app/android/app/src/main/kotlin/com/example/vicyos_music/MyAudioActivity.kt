@@ -1,11 +1,11 @@
 package com.example.vicyos_music
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
+import android.media.AudioManager
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
-import android.media.AudioManager
 
-class MainActivity : FlutterActivity() {
+class MyAudioActivity : AudioServiceActivity() {
 
     private val CHANNEL = "audioOutputChannel"
     private var audioRouteCallback: AudioRouteCallback? = null
@@ -21,10 +21,12 @@ class MainActivity : FlutterActivity() {
             override fun onListen(args: Any?, events: EventChannel.EventSink?) {
                 val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
 
+                // AudioDeviceCallback (API 23+)
                 audioRouteCallback = AudioRouteCallback(audioManager, events)
                 audioRouteCallback?.start()
 
-                outputReceiver = AudioOutputReceiver(this@MainActivity, events)
+                // Legacy receiver for noisy/headset plug/Bluetooth intents
+                outputReceiver = AudioOutputReceiver(this@MyAudioActivity, events)
                 outputReceiver?.startListening()
             }
 

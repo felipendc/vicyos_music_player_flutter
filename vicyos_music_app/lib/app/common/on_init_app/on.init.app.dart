@@ -26,6 +26,7 @@ import 'package:vicyos_music/app/common/radio_player/screens/main.radio.player.s
 import 'package:vicyos_music/app/common/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/common/services/audio.output.service.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
 
 Future<void> onInitPlayer() async {
@@ -76,9 +77,9 @@ Future<void> onInitPlayer() async {
       currentRadioStationLocation = mediaItem.album ?? "...";
       currentRadioStationID = mediaItem.id;
 
-      // print("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
-      // print("Title: ${mediaItem.title}");
-      // print("Artist: ${mediaItem.artist}");
+      //debugPrint("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
+      //debugPrint("Title: ${mediaItem.title}");
+      //debugPrint("Artist: ${mediaItem.artist}");
       debugPrint("radio_player nome $currentRadioStationName");
     }
 
@@ -161,5 +162,23 @@ Future<void> onInitPlayer() async {
       }
       await turnOffRadioStation();
     }
+  });
+
+  // Checking audio output route changes
+  final AudioOutputService audioService = AudioOutputService();
+  audioService.listen((event) {
+    debugPrint('Received from Android: $event');
+    if (event is List) {
+      for (var d in event) {
+        debugPrint(
+            'Device ${d['name']} ${d['type']} kind:${d['kind']} id:${d['id']}');
+      }
+    } else if (event is Map) {
+      debugPrint('Output: ${event['output']}, action: ${event['action']}');
+    } else {
+      debugPrint('Event: $event');
+    }
+  }, onError: (err) {
+    debugPrint('audio chanel error: $err');
   });
 }
