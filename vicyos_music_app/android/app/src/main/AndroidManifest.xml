@@ -20,7 +20,7 @@
     <application
         android:label="Vicyos Music"
         android:icon="@mipmap/ic_launcher">
-        
+
         <!-- Attention: Using MyAudioActivity as launcher (keeps the audio_service) -->
         <activity
             android:name="com.example.vicyos_music.MyAudioActivity"

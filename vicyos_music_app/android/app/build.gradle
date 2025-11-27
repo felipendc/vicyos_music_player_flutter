@@ -45,20 +45,9 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "bool", "enable_deferred_component_support", "false"
-
-            // Set the output file name for the release build.
-            android.applicationVariants.all { variant ->
-                variant.outputs.all { output ->
-                    if (variant.buildType.name == "release") {
-                        def versionName = variant.versionName
-                        def appName = "vicyos_music"
-                        def outputFileName = "${appName}_v${versionName}_release.apk"
-                        output.outputFileName = outputFileName
-                    }
-                }
-            }
         }
     }
+
 }
 
 flutter {
@@ -68,4 +57,39 @@ flutter {
 dependencies {
     //noinspection RiskyLibrary
     implementation 'com.google.android.play:core:1.10.3' // Ensure the latest version
+}
+
+
+// Set the output file name for the release build.
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+afterEvaluate {
+    tasks.named("assembleRelease").configure {
+        doLast {
+            def outDir = file("$project.buildDir/outputs/flutter-apk")
+            def original = file("$outDir/app-release.apk")
+
+            if (original.exists()) {
+
+                // Getting the versionName without the "+1"
+                def version = android.defaultConfig.versionName.split("\\+")[0]
+
+                def newName = "vicyos_music_app_v${version}_release.apk"
+                def destination = file("$outDir/${newName}")
+
+                println("📦 Copying the renamed APK: ${newName}")
+
+                // ✔ Copying the file correctly with a new name using Java NIO
+                Files.copy(
+                        original.toPath(),
+                        destination.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING
+                )
+
+            } else {
+                println("❌ The original APK file (app-release.apk) hasn't been found!: $original")
+            }
+        }
+    }
 }
