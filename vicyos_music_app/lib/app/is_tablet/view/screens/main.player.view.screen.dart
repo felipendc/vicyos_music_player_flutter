@@ -24,6 +24,8 @@ final List<Color> colors = [
   Colors.blue[900]!,
 ];
 
+BuildContext? playlistBottomSheetTabletContext;
+
 final List<int> duration = [900, 700, 600, 800, 500];
 final GlobalKey mainPlayerViewTabletKey = GlobalKey();
 
@@ -685,9 +687,14 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                       context: context,
                                                       builder: (BuildContext
                                                           context) {
-                                                        return PlaylistBottomSheet();
+                                                        playlistBottomSheetTabletContext =
+                                                            context;
+                                                        return PlaylistBottomSheetTablet();
                                                       },
-                                                    );
+                                                    ).whenComplete(() {
+                                                      playlistBottomSheetTabletContext =
+                                                          null;
+                                                    });
                                                   },
                                                   icon: Image.asset(
                                                     "assets/img/bottomsheet/playlist.png",

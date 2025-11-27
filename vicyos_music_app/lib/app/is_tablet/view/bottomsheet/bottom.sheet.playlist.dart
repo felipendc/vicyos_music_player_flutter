@@ -7,8 +7,8 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
 
-class PlaylistBottomSheet extends StatelessWidget {
-  const PlaylistBottomSheet({super.key});
+class PlaylistBottomSheetTablet extends StatelessWidget {
+  const PlaylistBottomSheetTablet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +133,10 @@ class PlaylistBottomSheet extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        // Clean playlist and rebuild the entire screen to clean the listview
-                        cleanPlaylist();
+                        if (audioPlayer.audioSources.isNotEmpty) {
+                          // Clean playlist and rebuild the entire screen to clean the listview
+                          cleanPlaylist();
+                        }
                       },
                       backgroundColor: TColor.darkGray,
                     ),

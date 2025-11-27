@@ -1,7 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart' show BuildContext, Color;
 import 'package:flutter/foundation.dart' show debugPrint;
-import 'package:flutter/material.dart' show Colors;
+import 'package:flutter/material.dart' show Colors, Navigator;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
@@ -11,6 +11,7 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
 
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
@@ -52,6 +53,11 @@ Future<void> turnOnRadioStation() async {
   radioStationBtn = Colors.green;
   radioScreenStreamNotifier();
   switchingToRadioStreamNotifier();
+
+  // Close the tablet playlist bottomsheet if it is opened
+  if (playlistBottomSheetTabletContext != null) {
+    Navigator.pop(playlistBottomSheetTabletContext!);
+  }
 }
 
 Future<void> turnOffRadioStation() async {
