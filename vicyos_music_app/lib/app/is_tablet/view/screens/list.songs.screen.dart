@@ -141,7 +141,7 @@ class SongsListScreen extends StatelessWidget {
                                           );
                                         },
                                         icon: Image.asset(
-                                          "assets/img/menu_open.png",
+                                          "assets/img/menu/menu_open.png",
                                           color: TColor.lightGray,
                                         ),
                                       ),

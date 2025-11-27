@@ -61,7 +61,7 @@ List<RadioStationInfo> radioStationList = <RadioStationInfo>[
     radioName: 'Rádio Imprensa 102.5 FM',
     radioLocation: 'São Paulo • Brasil',
     radioStation: "102.5",
-    radioUrl: 'https://cloud1.cdnseguro.com:20024/stream/;?1762638610759',
+    radioUrl: 'https://streaming.fox.srv.br:8048/stream/1/',
   ),
   RadioStationInfo(
     id: const Uuid().v4(),

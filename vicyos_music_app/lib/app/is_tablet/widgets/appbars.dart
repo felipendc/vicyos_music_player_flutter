@@ -3,6 +3,7 @@ import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
 
@@ -103,7 +104,7 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "Vicyos Music",
+      isRadioOn ? "Vicyos Radio" : "Vicyos Music",
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
@@ -123,20 +124,22 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
             child: IconButton(
               splashRadius: 20,
               icon: Image.asset("assets/img/menu/more_horiz.png"),
-              onPressed: () {
-                if (audioPlayer.audioSources.isEmpty) {
-                } else {
-                  showModalBottomSheet<void>(
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return PlayersAppBarActionsBottomSheet(
-                        fullFilePath: currentSongFullPath,
-                      );
+              onPressed: isRadioOn
+                  ? null
+                  : () {
+                      if (audioPlayer.audioSources.isEmpty) {
+                      } else {
+                        showModalBottomSheet<void>(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return PlayersAppBarActionsBottomSheet(
+                              fullFilePath: currentSongFullPath,
+                            );
+                          },
+                        );
+                      }
                     },
-                  );
-                }
-              },
             ),
           ),
         ),

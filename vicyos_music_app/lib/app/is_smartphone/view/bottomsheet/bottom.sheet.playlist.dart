@@ -131,10 +131,14 @@ class PlaylistBottomSheet extends StatelessWidget {
                                               ],
                                             ),
                                           )
-                                        : Icon(
-                                            Icons.play_circle_filled_rounded,
-                                            color: TColor.focus,
-                                            size: 28,
+                                        : Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 6),
+                                            child: Icon(
+                                              Icons.play_circle_filled_rounded,
+                                              color: TColor.focus,
+                                              size: 28,
+                                            ),
                                           ),
                                     title: Text(
                                       songName(

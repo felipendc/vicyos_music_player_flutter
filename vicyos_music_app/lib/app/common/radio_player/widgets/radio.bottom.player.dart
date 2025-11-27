@@ -6,9 +6,9 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
-import 'package:vicyos_music/app/common/radio_player/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart'
     show mainPlayerSlideUpDownTransition;
+import 'package:vicyos_music/app/is_smartphone/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 
 class RadioBottomPlayer extends StatelessWidget {

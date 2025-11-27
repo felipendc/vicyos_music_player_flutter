@@ -7,7 +7,6 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/radio_player/bottomsheet/radio.bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
-import 'package:vicyos_music/app/common/radio_player/widgets/radio.appbar.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
@@ -42,9 +41,7 @@ class MainPlayerViewTablet extends StatelessWidget {
         builder: (context, asyncSnapshot) {
           return Scaffold(
             key: mainPlayerViewTabletKey,
-            appBar: isRadioOn
-                ? mainRadioPlayerViewAppBar(context)
-                : mainPlayerViewAppBar(context),
+            appBar: mainPlayerViewAppBar(context),
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
