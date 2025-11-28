@@ -76,12 +76,12 @@ These instructions will help you get a copy of this project up and running on yo
 - LINK: https://developer.android.com/studio/archive
 - Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
-#### Flutter 3.38.3:
+#### Flutter 3.35.1:
 
 - Channel: `Stable`
-- Flutter version: `3.38.3 x64`
-- Dart version: ` 3.10.1 (stable) for "windows_x64"`
-- File name: `flutter_windows_3.38.3-stable.zip`
+- Flutter version: `3.35.1 x64`
+- Dart version: `3.9.0 (stable) for "windows_x64"`
+- File name: `flutter_windows_3.35.1-stable.zip`
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
 
