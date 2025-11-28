@@ -68,20 +68,20 @@ These instructions will help you get a copy of this project up and running on yo
 
 #### Android Studio:
 
-- Android Studio Narwhal Feature Drop | `2025.1.2 Patch 1 August 18, 2025`
-- ChromeOS: `android-studio-2025.1.2.12-cros.deb (1.2 GB)`
-- Mac (Apple Silicon): `android-studio-2025.1.2.12-mac_arm.dmg (1.5 GB)`
-- Mac (Intel): `android-studio-2025.1.2.12-mac.dmg (1.6 GB)`
-- Windows (64-bit): `android-studio-2025.1.2.12-windows.exe (1.5 GB)`
+- Android Studio Otter | `2025.2.1 Patch 1 November 17, 2025`
+- ChromeOS: `android-studio-2025.2.1.8-cros.deb (1.2 GB)`
+- Mac (Apple Silicon): `android-studio-2025.2.1.8-mac_arm.dmg (1.5 GB)`
+- Mac (Intel): `android-studio-2025.2.1.8-mac.dmg (1.5 GB)`
+- Windows (64-bit): `android-studio-2025.2.1.8-windows.exe (1.4 GB)`
 - LINK: https://developer.android.com/studio/archive
 - Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
-#### Flutter 3.35.1:
+#### Flutter 3.38.3:
 
 - Channel: `Stable`
-- Flutter version: `3.35.1 x64`
-- Dart version: `3.9.0 (stable) for "windows_x64"`
-- File name: `flutter_windows_3.35.1-stable.zip`
+- Flutter version: `3.38.3 x64`
+- Dart version: ` 3.10.1 (stable) for "windows_x64"`
+- File name: `flutter_windows_3.38.3-stable.zip`
 - LINK: https://docs.flutter.dev/release/archive
 - How to install Flutter and set it up: https://flutter.dev/docs/get-started/install
 
@@ -135,15 +135,15 @@ This project uses the following dependencies:
 - `sleek_circular_slider: 2.0.1` A highly customizable circular slider/progress bar & spinner for Flutter.
 <!-- - `flutter_media_metadata: 1.0.0+1` A Flutter plugin to read metadata of media files. -->
 - `volume_controller: 3.4.0` A Flutter volume plugin for ios and android control system volume.
-- `file_picker: 8.3.1` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
+- `file_picker: 10.3.7` A package that allows you to use a native file explorer to pick single or multiple absolute file paths, with extension filtering support.
 - `permission_handler: 11.3.1` - Handles runtime permissions for accessing device features.
-- `flutter_native_splash: 2.4.1` Customize Flutter's default white native splash screen with background color and splash image.
+- `flutter_native_splash: 2.4.7` Customize Flutter's default white native splash screen with background color and splash image.
 - `music_visualizer: 1.0.6` This plugin help developers to show a music wave through animation.
 <!-- - `get: 4.6.6` Open screens/snackbars/dialogs without context, manage states and inject dependencies easily with GetX. -->
 - `uuid: 4.5.1` RFC4122 (v1, v4, v5, v6, v7, v8) UUID Generator and Parser for Dart.
 - `flutter_launcher_icons: 0.14.3` A package which simplifies the task of updating your Flutter app's launcher icon.
 - `marquee: 2.3.0` A Flutter widget that scrolls text infinitely. Provides many customizations including custom scroll directions, durations, curves as well as pauses after every round.
-- `share_plus 10.1.4` Flutter plugin for sharing content via the platform share UI, using the ACTION_SEND intent on Android and UIActivityViewController on iOS.
+- `share_plus 12.0.1` Flutter plugin for sharing content via the platform share UI, using the ACTION_SEND intent on Android and UIActivityViewController on iOS.
 - `flutter_media_delete 1.0.1` TA Flutter plugin designed for deleting media files using scoped storage on Android versions Q (API 29) and above.
 - `loading_animation_widget 1.3.0` Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
 - `http: 1.6.0` - A composable, multi-platform, Future-based API for HTTP requests..
