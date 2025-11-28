@@ -78,7 +78,7 @@ afterEvaluate {
                 def newName = "vicyos_music_app_v${version}_release.apk"
                 def destination = file("$outDir/${newName}")
 
-                println("📦 Copying the renamed APK: ${newName}")
+                println("\n\n📦 Copying the renamed APK: ${newName}")
 
                 // ✔ Copying the file correctly with a new name using Java NIO
                 Files.copy(
@@ -86,6 +86,15 @@ afterEvaluate {
                         destination.toPath(),
                         StandardCopyOption.REPLACE_EXISTING
                 )
+
+                // Get file size in bytes
+                long sizeBytes = destination.length()
+
+                // Convert to MB with 1 decimal
+                def sizeMB = (sizeBytes / (1024 * 1024.0))
+                def formattedSize = String.format("%.1f MB", sizeMB)
+
+                println("√ Built ${destination.path} (${formattedSize})\n")
 
             } else {
                 println("❌ The original APK file (app-release.apk) hasn't been found!: $original")
