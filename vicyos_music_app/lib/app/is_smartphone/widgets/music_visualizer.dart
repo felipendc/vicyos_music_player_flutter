@@ -18,9 +18,9 @@ class MusicVisualizer extends StatelessWidget {
 
   const MusicVisualizer({
     super.key,
-    @required this.colors,
-    @required this.duration,
-    @required this.barCount,
+    required this.colors,
+    required this.duration,
+    required this.barCount,
     this.curve = Curves.easeInQuad,
   });
 
@@ -44,9 +44,9 @@ class VisualComponent extends StatefulWidget {
 
   const VisualComponent(
       {super.key,
-      @required this.duration,
-      @required this.color,
-      @required this.curve});
+      required this.duration,
+      required this.color,
+      required this.curve});
 
   @override
   VisualComponentState createState() => VisualComponentState();
