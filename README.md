@@ -174,8 +174,11 @@ This project uses the following dependencies:
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/5.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/7.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/8.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/9.png">
+<!-- <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/9.png"> -->
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/10.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/14.png">
+
+
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.0_tablet_mode/1.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.0_tablet_mode/2.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.0_tablet_mode/33.png">
