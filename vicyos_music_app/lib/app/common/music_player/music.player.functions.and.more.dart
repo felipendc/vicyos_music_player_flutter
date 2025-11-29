@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
@@ -111,70 +112,6 @@ void setVolumeJustAudio(double value) {
   VolumeController.instance.setVolume(audioPlayer.volume);
 }
 
-// This function should be used on a flutter.initState or GetX.on_init_app();
-void playerEventStateStreamNotifier() {
-  // I will need to use another state listener other than!
-  audioPlayer.positionStream.listen(
-    (position) {
-      currentSongDurationPosition = position;
-      sleekCircularSliderPosition = position.inSeconds.toDouble();
-    },
-  );
-
-  // Get the duration and the full duration of the song for the sleekCircularSlider
-  audioPlayer.durationStream.listen(
-    (duration) {
-      currentSongTotalDuration = duration ?? Duration.zero;
-      sleekCircularSliderDuration = duration?.inSeconds.toDouble() ?? 100.0;
-    },
-  );
-
-  // Pause PlayerPreview if the main player is playing
-  // to avoid simultaneous audio playback
-  audioPlayer.playerStateStream.listen(
-    (playerState) {
-      if (audioPlayerPreview.state.toString() == "PlayerState.playing" &&
-          playerState.playing == true) {
-        audioPlayerPreview.pause();
-      }
-
-      if (playerState.processingState == ProcessingState.completed) {
-        songIsPlaying = false;
-      }
-
-      if (playerState.processingState == ProcessingState.completed &&
-          audioPlayer.loopMode == LoopMode.off) {
-        audioPlayer.setAudioSources(
-            preload: true,
-            audioPlayer.audioSources,
-            initialIndex: audioPlayer.currentIndex);
-        audioPlayer.pause();
-      }
-
-      // Update the pause button if the player is interrupted
-      if (playerState.playing == false &&
-          playerState.processingState == ProcessingState.ready) {
-        songIsPlaying = false;
-      }
-
-      // Update the play button when the player is playing or paused
-      if (playerState.playing == false) {
-        songIsPlaying = false;
-      } else if (playerState.playing) {
-        songIsPlaying = true;
-      }
-    },
-  );
-
-  // Get the current playlist index
-  audioPlayer.playbackEventStream.listen(
-    (event) {
-      currentIndex = event.currentIndex ?? 0;
-      debugPrint("Playlist current index: $currentIndex");
-    },
-  );
-}
-
 Future<void> defaultAlbumArt() async {
   // Load the image asset as a Uri
   final ByteData imageData = await rootBundle
@@ -187,59 +124,21 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-// This func should be used on a flutter.initState or GetX.on_init_app();
-void playerPreviewEventStateStreamNotifier() {
-  audioPlayerPreview.onPositionChanged.listen(
-    (position) {
-      currentSongDurationPositionPreview = position;
-      sleekCircularSliderPositionPreview = position.inSeconds.toDouble();
-    },
-  );
-
-  // Get the duration and the full duration of the song for the sleekCircularSlider
-  audioPlayerPreview.onDurationChanged.listen(
-    (duration) {
-      currentSongTotalDurationPreview = duration;
-      sleekCircularSliderDurationPreview = duration.inSeconds.toDouble();
-    },
-  );
-}
-
-// This function will update the display the song title one the audio or folder is imported
-void preLoadSongName() {
-  audioPlayer.currentIndexStream.listen((index) {
-    if (index == null) return; // The song hasn't been loaded yet
-    if (index < 0 || index >= audioPlayer.sequence.length) return;
-
-    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
-
-    currentSongName = currentMediaItem.title;
-    currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
-    currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
-
-    currentSongNameNotifier();
-    currentSongAlbumNotifier();
-
-    currentIndex = index;
-  });
-}
-
 Future<void> cleanPlaylist() async {
   audioPlayer.stop();
   await audioPlayer.clearAudioSources();
   audioPlayer.audioSources.clear();
   playlist.clear();
   songIsPlaying = false;
-  rebuildPlaylistCurrentLengthNotifier();
   currentSongDurationPosition = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
   currentSongName = "The playlist is empty";
-  currentSongNameNotifier();
   currentSongAlbumName = "Unknown Album";
   currentFolderPath = 'The song folder will be displayed here...';
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
+  currentSongNameNotifier();
   currentSongAlbumNotifier();
   getCurrentSongFolderNotifier();
   clearCurrentPlaylistNotifier();
@@ -247,6 +146,7 @@ Future<void> cleanPlaylist() async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
+  currentSongIndexNotifier();
 }
 
 Future<void> playOrPause() async {

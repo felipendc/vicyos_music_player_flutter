@@ -151,122 +151,86 @@ class BottomPlayer extends StatelessWidget {
                                       },
                                     );
                                   },
-                                  child: StreamBuilder<void>(
-                                    stream:
-                                        currentSongNameStreamController.stream,
-                                    builder: (context, snapshot) {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: media.width * 0.35,
-                                            height: media.width * 0.06,
-                                            child: LayoutBuilder(
-                                              builder: (context, constraints) {
-                                                // Gets the width of Expanded
-                                                final double width =
-                                                    constraints.maxWidth;
-                                                return MarqueeText(
-                                                  centerText: false,
-                                                  // Forces rebuild when song changes
-                                                  key:
-                                                      ValueKey(currentSongName),
-                                                  // Set dynamically based on layout
-                                                  maxWidth: width,
-                                                  text: currentSongName,
-                                                  style: TextStyle(
-                                                    color: TColor.primaryText
-                                                        .withValues(
-                                                            alpha: 0.84),
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                          StreamBuilder(
-                                              stream:
-                                                  clearCurrentPlaylistStreamController
-                                                      .stream,
-                                              builder: (context, snapshot) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 0.0),
-                                                  child: SizedBox(
-                                                    width: media.width * 0.30,
-                                                    child: Row(
-                                                      children: [
-                                                        StreamBuilder<
-                                                            PlaybackEvent>(
-                                                          stream: audioPlayer
-                                                              .playbackEventStream,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Check if snapshot has data
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Text(
-                                                                '0',
-                                                                style: TextStyle(
-                                                                    color: TColor
-                                                                        .secondaryText,
-                                                                    fontSize:
-                                                                        15),
-                                                              );
-                                                            }
-                                                            final eventState =
-                                                                snapshot.data!;
-                                                            final index = eventState
-                                                                    .currentIndex ??
-                                                                -1;
-                                                            final playerState =
-                                                                audioPlayer
-                                                                    .processingState;
-
-                                                            return Text(
-                                                              (playerState ==
-                                                                          ProcessingState
-                                                                              .idle ||
-                                                                      audioPlayer
-                                                                          .audioSources
-                                                                          .isEmpty)
-                                                                  ? '0'
-                                                                  : (index < 0)
-                                                                      ? '0'
-                                                                      : '${index + 1}',
-                                                              style: TextStyle(
-                                                                  color: TColor
-                                                                      .secondaryText,
-                                                                  fontSize: 15),
-                                                            );
-                                                          },
-                                                        ),
-                                                        StreamBuilder<void>(
-                                                          stream:
-                                                              rebuildPlaylistCurrentLengthController
-                                                                  .stream,
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            return Text(
-                                                              " of $playlistCurrentLength",
-                                                              style: TextStyle(
-                                                                  color: TColor
-                                                                      .secondaryText,
-                                                                  fontSize: 15),
-                                                            );
-                                                          },
-                                                        ),
-                                                      ],
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: media.width * 0.35,
+                                        height: media.width * 0.06,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            // Gets the width of Expanded
+                                            final double width =
+                                                constraints.maxWidth;
+                                            return StreamBuilder<void>(
+                                                stream:
+                                                    currentSongNameStreamController
+                                                        .stream,
+                                                builder: (context, snapshot) {
+                                                  return MarqueeText(
+                                                    centerText: false,
+                                                    // Forces rebuild when song changes
+                                                    key: ValueKey(
+                                                        currentSongName),
+                                                    // Set dynamically based on layout
+                                                    maxWidth: width,
+                                                    text: currentSongName,
+                                                    style: TextStyle(
+                                                      color: TColor.primaryText
+                                                          .withValues(
+                                                              alpha: 0.84),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                  ),
-                                                );
-                                              }),
-                                        ],
-                                      );
-                                    },
+                                                  );
+                                                });
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 0.0),
+                                        child: SizedBox(
+                                          width: media.width * 0.30,
+                                          child: Row(
+                                            children: [
+                                              StreamBuilder<void>(
+                                                  stream:
+                                                      rebuildCurrentSongIndexStreamController
+                                                          .stream,
+                                                  builder: (context, snapshot) {
+                                                    return Text(
+                                                      (audioPlayer.audioSources
+                                                              .isEmpty)
+                                                          ? '0'
+                                                          : '${currentIndex + 1}',
+                                                      style: TextStyle(
+                                                          color: TColor
+                                                              .secondaryText,
+                                                          fontSize: 15),
+                                                    );
+                                                  }),
+                                              StreamBuilder<void>(
+                                                stream:
+                                                    rebuildPlaylistCurrentLengthController
+                                                        .stream,
+                                                builder: (context, snapshot) {
+                                                  return Text(
+                                                    " of $playlistCurrentLength",
+                                                    style: TextStyle(
+                                                        color: TColor
+                                                            .secondaryText,
+                                                        fontSize: 15),
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

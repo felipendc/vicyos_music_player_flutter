@@ -154,7 +154,10 @@ class HomePageFolderListTablet extends StatelessWidget {
                                                     Navigator.push(
                                                       context,
                                                       slideRightLeftTransition(
-                                                        RadioStationsScreen(),
+                                                        RadioStationsScreen(
+                                                          scaffoldKey:
+                                                              mainRadioScreenKey,
+                                                        ),
                                                       ),
                                                     );
                                                   },

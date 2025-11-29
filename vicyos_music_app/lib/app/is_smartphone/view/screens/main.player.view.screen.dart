@@ -195,33 +195,17 @@ class MainPlayerView extends StatelessWidget {
                 StreamBuilder(
                   stream: clearCurrentPlaylistStreamController.stream,
                   builder: (context, snapshot) {
-                    return StreamBuilder<PlaybackEvent>(
-                      stream: audioPlayer.playbackEventStream,
-                      builder: (context, snapshot) {
-                        // Check if snapshot has data
-                        if (!snapshot.hasData) {
+                    return StreamBuilder<void>(
+                        stream: rebuildCurrentSongIndexStreamController.stream,
+                        builder: (context, snapshot) {
                           return Text(
-                            '0',
+                            (audioPlayer.audioSources.isEmpty)
+                                ? '0'
+                                : '${currentIndex + 1}',
                             style: TextStyle(
                                 color: TColor.secondaryText, fontSize: 15),
                           );
-                        }
-                        final eventState = snapshot.data!;
-                        final index = eventState.currentIndex ?? -1;
-                        final playerState = audioPlayer.processingState;
-
-                        return Text(
-                          (playerState == ProcessingState.idle ||
-                                  audioPlayer.audioSources.isEmpty)
-                              ? '0'
-                              : (index < 0)
-                                  ? '0'
-                                  : '${index + 1}',
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 15),
-                        );
-                      },
-                    );
+                        });
                   },
                 ),
                 StreamBuilder<void>(

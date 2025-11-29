@@ -53,9 +53,14 @@ Future<void> turnOnRadioStation() async {
   updateRadioScreensNotifier();
   switchingToRadioNotifier();
 
-  // Close the tablet playlist bottomsheet if it is opened
+  // Close the tablet audioPlayer playlist bottomsheet if it is opened
   if (playlistBottomSheetTabletContext != null) {
     Navigator.pop(playlistBottomSheetTabletContext!);
+  }
+
+  // Close the tablet audioPlayer playback speed bottomsheet if it is opened
+  if (audioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
+    Navigator.pop(audioPlayerPlaybackSpeedBottomSheetTabletContext!);
   }
 }
 
@@ -73,6 +78,11 @@ Future<void> turnOffRadioStation() async {
   updateRadioScreensNotifier();
   currentRadioStationID = "";
   switchingToRadioNotifier();
+
+  // Close the tablet radioPlayer playback speed bottomsheet if it is opened
+  if (radioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
+    Navigator.pop(radioPlayerPlaybackSpeedBottomSheetTabletContext!);
+  }
 }
 
 Future<bool> checkStreamUrl(String url) async {

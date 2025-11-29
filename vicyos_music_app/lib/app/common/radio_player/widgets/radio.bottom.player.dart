@@ -103,7 +103,9 @@ class RadioBottomPlayer extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       mainPlayerSlideUpDownTransition(
-                                        MainRadioPlayerView(),
+                                        MainRadioPlayerView(
+                                          scaffoldKey: mainRadioPlayerViewKey,
+                                        ),
                                       ),
                                     ).whenComplete(
                                       () {

@@ -25,7 +25,11 @@ final List<int> duration = [900, 700, 600, 800, 500];
 final GlobalKey mainRadioPlayerViewKey = GlobalKey();
 
 class MainRadioPlayerView extends StatelessWidget {
-  const MainRadioPlayerView({super.key});
+  final GlobalKey scaffoldKey;
+  const MainRadioPlayerView({
+    super.key,
+    required this.scaffoldKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,6 @@ class MainRadioPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      key: mainRadioPlayerViewKey,
       appBar: mainRadioPlayerViewAppBar(context),
       body: SingleChildScrollView(
         child: Column(

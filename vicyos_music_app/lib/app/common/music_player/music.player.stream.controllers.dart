@@ -48,6 +48,8 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<void> rebuildCurrentSongIndexStreamController =
+    StreamController<void>.broadcast();
 // Streams Notifiers Functions
 Future<void> getCurrentSongFullPathNotifier() async {
   getCurrentSongFullPathStreamController.sink.add(null);
@@ -116,4 +118,8 @@ void systemVolumeNotifier() {
 
 Future<void> hideMiniPlayerNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
+}
+
+void currentSongIndexNotifier() {
+  rebuildCurrentSongIndexStreamController.sink.add(null);
 }

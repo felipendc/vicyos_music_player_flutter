@@ -181,7 +181,9 @@ class HomeScreen extends StatelessWidget {
                     child: Navigator(
                       key: navigatorKey2,
                       onGenerateRoute: (settings) => MaterialPageRoute(
-                        builder: (_) => MainPlayerViewTablet(),
+                        builder: (_) => MainPlayerViewTablet(
+                          scaffoldKey: mainPlayerViewTabletKey,
+                        ),
                       ),
                     ),
                   ),

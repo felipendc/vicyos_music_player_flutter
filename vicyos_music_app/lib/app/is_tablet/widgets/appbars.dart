@@ -4,6 +4,7 @@ import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.fi
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
 
@@ -103,16 +104,20 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
     automaticallyImplyLeading: false,
     centerTitle: true,
     backgroundColor: TColor.bg,
-    title: Text(
-      isRadioOn ? "Vicyos Radio" : "Vicyos Music",
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontWeight: FontWeight.w900,
-        color: TColor.primaryText80,
-        fontSize: 23,
-      ),
-    ),
+    title: StreamBuilder(
+        stream: switchingToRadioStreamController.stream,
+        builder: (context, asyncSnapshot) {
+          return Text(
+            isRadioOn ? "Vicyos Radio" : "Vicyos Music",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: TColor.primaryText80,
+              fontSize: 23,
+            ),
+          );
+        }),
     actions: [
       Padding(
         padding: const EdgeInsets.only(right: 10),
