@@ -11,7 +11,6 @@ Basic screenshots of the app to give users a visual preview of the Vicyos Music 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.9_tablet_mode/permission.png">
 
 
-
  <br />
  
 ### What motivated me to create the Vicyos Music app?  <br />
@@ -46,8 +45,8 @@ some podcasts `more precisely` for practicing English Listening.
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_01.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_02.png">
 
 ### This project is currently compatible with:
 
@@ -177,10 +176,8 @@ This project uses the following dependencies:
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/5.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/7.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/8.png">
-<!-- <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/9.png"> -->
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/10.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/14.png">
-
 
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.9_tablet_mode/1.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.9_tablet_mode/2.png">
