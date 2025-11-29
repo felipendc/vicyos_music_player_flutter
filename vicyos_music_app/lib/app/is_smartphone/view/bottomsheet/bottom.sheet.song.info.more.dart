@@ -158,7 +158,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
-                          hideMiniPlayerStreamNotifier(true);
+                          hideMiniPlayerNotifier(true);
 
                           Navigator.pop(context);
 
@@ -174,7 +174,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               isSongPreviewBottomSheetOpen = false;
 
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              hideMiniPlayerStreamNotifier(false);
+                              hideMiniPlayerNotifier(false);
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -247,7 +247,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           await sharingFiles(fullFilePath);
-                          hideMiniPlayerStreamNotifier(false);
+                          hideMiniPlayerNotifier(false);
                         },
                       ),
                     ),
@@ -286,7 +286,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   context, "close_song_preview_bottom_sheet");
                             }
                           } else if (result == "canceled") {
-                            hideMiniPlayerStreamNotifier(false);
+                            hideMiniPlayerNotifier(false);
 
                             if (context.mounted) {
                               Navigator.pop(context);

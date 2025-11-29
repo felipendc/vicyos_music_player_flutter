@@ -49,35 +49,35 @@ StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
 // Streams Notifiers Functions
-Future<void> getCurrentSongFullPathStreamControllerNotifier() async {
+Future<void> getCurrentSongFullPathNotifier() async {
   getCurrentSongFullPathStreamController.sink.add(null);
 }
 
-void getCurrentSongFolderStreamControllerNotifier() {
+void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
 }
 
-void isSearchTypingStreamNotifier(bool value) {
+void isSearchTypingNotifier(bool value) {
   isSearchTypingStreamController.sink.add(value);
 }
 
-void isSearchingSongsStreamNotifier(String value) {
+void isSearchingSongsNotifier(String value) {
   isSearchingSongsStreamController.sink.add(value);
 }
 
-void rebuildSpeedRateBottomSheetStreamNotifier() {
+void rebuildSpeedRateBottomSheetNotifier() {
   rebuildSpeedRateBottomSheetStreamController.sink.add(null);
 }
 
-void rebuildHomePageFolderListStreamNotifier(String value) {
+void rebuildHomePageFolderListNotifier(String value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 
-void rebuildSongsListScreenStreamNotifier() {
+void rebuildSongsListScreenNotifier() {
   rebuildSongsListScreenStreamController.sink.add(null);
 }
 
-void rebuildPlaylistCurrentLengthStreamNotifier() {
+void rebuildPlaylistCurrentLengthNotifier() {
   // Get the current playlist index
   audioPlayer.sequenceStream.listen(
     (sequence) {
@@ -87,33 +87,33 @@ void rebuildPlaylistCurrentLengthStreamNotifier() {
   rebuildPlaylistCurrentLengthController.sink.add(null);
 }
 
-void clearCurrentPlaylistStreamNotifier() {
+void clearCurrentPlaylistNotifier() {
   audioPlayer.stop();
   songIsPlaying = false;
   clearCurrentPlaylistStreamController.sink.add(null);
 }
 
-void listPlaylistFolderStreamNotifier() async {
+void listPlaylistFolderNotifier() async {
   playlistCurrentLength = musicFolderPaths.length;
   listPlaylistFolderStreamController.sink.add(null);
 }
 
-void currentSongNameStreamNotifier() {
+void currentSongNameNotifier() {
   currentSongNameStreamController.sink.add(null);
 }
 
-void currentSongAlbumStreamNotifier() {
+void currentSongAlbumNotifier() {
   currentSongAlbumStreamController.sink.add(null);
 }
 
-void repeatModeStreamNotifier() {
+void repeatModeNotifier() {
   repeatModeStreamController.sink.add(null);
 }
 
-void systemVolumeStreamNotifier() {
+void systemVolumeNotifier() {
   systemVolumeStreamController.sink.add(null);
 }
 
-Future<void> hideMiniPlayerStreamNotifier(bool value) async {
+Future<void> hideMiniPlayerNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
 }

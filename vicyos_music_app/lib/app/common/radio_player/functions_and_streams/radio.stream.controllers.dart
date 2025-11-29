@@ -4,28 +4,28 @@ import 'dart:async';
 StreamController<bool> hideMiniRadioPlayerStreamController =
     StreamController<bool>.broadcast();
 
-StreamController<void> rebuildRadioScreenStreamController =
-    StreamController<void>.broadcast();
-
 StreamController<void> radioShuffleModeStreamController =
     StreamController<void>.broadcast();
 
 StreamController<void> switchingToRadioStreamController =
     StreamController<void>.broadcast();
 
+StreamController<void> updateRadioScreensStreamController =
+    StreamController<void>.broadcast();
+
 // Stream functions
-void hideMiniRadioPlayerStreamNotifier(bool value) {
+void hideMiniRadioPlayerNotifier(bool value) {
   hideMiniRadioPlayerStreamController.sink.add(value);
 }
 
-void radioScreenStreamNotifier() {
-  rebuildRadioScreenStreamController.sink.add(null);
-}
-
-void radioShuffleModeStreamNotifier() {
+void radioShuffleModeNotifier() {
   radioShuffleModeStreamController.sink.add(null);
 }
 
-void switchingToRadioStreamNotifier() {
+void switchingToRadioNotifier() {
   switchingToRadioStreamController.sink.add(null);
+}
+
+Future<void> updateRadioScreensNotifier() async {
+  updateRadioScreensStreamController.sink.add(null);
 }

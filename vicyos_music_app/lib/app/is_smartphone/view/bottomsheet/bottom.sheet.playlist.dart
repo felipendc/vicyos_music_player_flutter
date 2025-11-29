@@ -24,7 +24,7 @@ class PlaylistBottomSheet extends StatelessWidget {
           currentIndex = audioPlayer.sequence[index!] as int;
         },
       );
-      rebuildPlaylistCurrentLengthStreamNotifier();
+      rebuildPlaylistCurrentLengthNotifier();
     }
 
     scrollController = ScrollController();
@@ -178,11 +178,11 @@ class PlaylistBottomSheet extends StatelessWidget {
                                         } else {
                                           audioPlayer
                                               .removeAudioSourceAt(index);
-                                          rebuildPlaylistCurrentLengthStreamNotifier();
+                                          rebuildPlaylistCurrentLengthNotifier();
                                           if (currentIndex == index) {
                                             preLoadSongName();
                                           }
-                                          rebuildPlaylistCurrentLengthStreamNotifier();
+                                          rebuildPlaylistCurrentLengthNotifier();
                                         }
                                       },
                                     ),
@@ -202,7 +202,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             preload: false);
 
                                         audioPlayer.play();
-                                        rebuildPlaylistCurrentLengthStreamNotifier();
+                                        rebuildPlaylistCurrentLengthNotifier();
 
                                         songIsPlaying = true;
                                       }

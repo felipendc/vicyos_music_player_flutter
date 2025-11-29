@@ -17,7 +17,6 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
         getCurrentSongFolder,
         currentSongFullPath,
         getCurrentSongFullPath,
-        currentIndex,
         getCurrentVolume;
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
@@ -29,6 +28,8 @@ import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations
 import 'package:vicyos_music/app/common/services/audio.output.service.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
+
+int? lastRadioIndex;
 
 Future<void> onInitPlayer() async {
   initVolumeControl();
@@ -50,38 +51,42 @@ Future<void> onInitPlayer() async {
       final currentSource = sequenceState.currentSource;
       if (currentSource is UriAudioSource) {
         currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
-        getCurrentSongFolderStreamControllerNotifier();
+        getCurrentSongFolderNotifier();
 
         currentSongFullPath =
             getCurrentSongFullPath(currentSource.uri.toString());
-        getCurrentSongFullPathStreamControllerNotifier();
+        getCurrentSongFullPathNotifier();
       }
     },
   );
 
-  // Update radio_player stations list screen
+  // Update radio_player stations list screen only when the current index changes
   radioPlayer.playbackEventStream.listen((event) async {
-    currentIndex = event.currentIndex ?? 0;
-    debugPrint("INDEX RADIO ATUAL: $currentIndex");
+    if (lastRadioIndex != event.currentIndex) {
+      currentRadioIndex = event.currentIndex ?? 0;
+      lastRadioIndex = currentRadioIndex;
 
-    currentRadioIndex =
-        (radioPlayer.audioSources.isEmpty || radioPlaylist.isEmpty)
-            ? currentIndex = 0
-            : currentIndex += 1;
-    getCurrentSongFullPathStreamControllerNotifier();
+      // todo: criar um notifier próprio para a rádio (coloquei na mudança de título testes)
+      // getCurrentSongFullPathNotifier();
+      debugPrint("Radio current Index: $lastRadioIndex");
+    }
 
     // Getting the Radio current MediaItem id, title and album
     final mediaItem = radioPlayer.sequenceState.currentSource?.tag;
     if (mediaItem is MediaItem) {
-      // Getting the current station info
-      currentRadioStationName = mediaItem.title;
-      currentRadioStationLocation = mediaItem.album ?? "...";
-      currentRadioStationID = mediaItem.id;
+      if (mediaItem.title != currentRadioStationName) {
+        // Getting the current station info
+        currentRadioStationName = mediaItem.title;
+        currentRadioStationLocation = mediaItem.album ?? "...";
+        currentRadioStationID = mediaItem.id;
 
-      //debugPrint("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
-      //debugPrint("Title: ${mediaItem.title}");
-      //debugPrint("Artist: ${mediaItem.artist}");
-      debugPrint("radio_player nome $currentRadioStationName");
+        //debugPrint("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");
+        //debugPrint("Title: ${mediaItem.title}");
+        //debugPrint("Artist: ${mediaItem.artist}");
+        debugPrint("radio_player nome $currentRadioStationName");
+        //   todo: colocar um notifier qui (talvez)
+        updateRadioScreensNotifier();
+      }
     }
 
     // Player states (playing, pausing and stopped)
@@ -92,9 +97,9 @@ Future<void> onInitPlayer() async {
       isRadioStopped = true;
       if (isRadioOn) {
         turnOffRadioStation();
-        await getCurrentSongFullPathStreamControllerNotifier();
-        radioScreenStreamNotifier();
-        switchingToRadioStreamNotifier();
+        await getCurrentSongFullPathNotifier();
+        updateRadioScreensNotifier();
+        switchingToRadioNotifier();
       }
       debugPrint("The radio_player is: Stopped");
     } else if (radioPlayer.playing) {

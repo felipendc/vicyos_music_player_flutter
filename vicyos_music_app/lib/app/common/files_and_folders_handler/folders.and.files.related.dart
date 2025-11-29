@@ -75,7 +75,7 @@ Future<String> getMusicFolderPath() async {
 }
 
 Future<void> listMusicFolders() async {
-  rebuildHomePageFolderListStreamNotifier("fetching_files");
+  rebuildHomePageFolderListNotifier("fetching_files");
   musicFolderPaths.clear();
   folderSongList.clear();
 
@@ -108,15 +108,15 @@ Future<void> listMusicFolders() async {
   }
 
   if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
-    rebuildHomePageFolderListStreamNotifier("there_is_no_music_folder");
+    rebuildHomePageFolderListNotifier("there_is_no_music_folder");
   } else if (musicFolderPaths.isNotEmpty) {
-    rebuildHomePageFolderListStreamNotifier("fetching_files_done");
+    rebuildHomePageFolderListNotifier("fetching_files_done");
   } else {
-    rebuildHomePageFolderListStreamNotifier("Null");
+    rebuildHomePageFolderListNotifier("Null");
   }
 
   // rebuild the song list screen
-  rebuildSongsListScreenStreamNotifier();
+  rebuildSongsListScreenNotifier();
 }
 
 int folderLength(String folderPath) {
@@ -265,8 +265,8 @@ Future<void> deleteSongFromStorage(
         cleanPlaylist();
       } else {
         await audioPlayer.removeAudioSourceAt(index);
-        rebuildPlaylistCurrentLengthStreamNotifier();
-        await getCurrentSongFullPathStreamControllerNotifier();
+        rebuildPlaylistCurrentLengthNotifier();
+        await getCurrentSongFullPathNotifier();
 
         // Update the current song name
         if (index < audioPlayer.audioSources.length) {
@@ -277,11 +277,11 @@ Future<void> deleteSongFromStorage(
           currentSongName = songName(newCurrentSongFullPath);
         }
       }
-      currentSongNameStreamNotifier();
+      currentSongNameNotifier();
     }
     // ----------------------------------------------------------
-    rebuildSongsListScreenStreamNotifier();
-    rebuildHomePageFolderListStreamNotifier("fetching_files_done");
+    rebuildSongsListScreenNotifier();
+    rebuildHomePageFolderListNotifier("fetching_files_done");
     if (context.mounted) {
       Navigator.pop(context, "close_song_preview_bottom_sheet");
     }

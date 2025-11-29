@@ -109,7 +109,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                                           onPressed: () async {
                                             musicFolderPaths.clear();
                                             await listMusicFolders();
-                                            listPlaylistFolderStreamNotifier();
+                                            listPlaylistFolderNotifier();
                                           },
                                           icon: Image.asset(
                                             "assets/img/menu/autorenew.png",
@@ -119,7 +119,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                                       ),
                                     ),
                                     StreamBuilder(
-                                      stream: rebuildRadioScreenStreamController
+                                      stream: updateRadioScreensStreamController
                                           .stream,
                                       builder: (context, asyncSnapshot) {
                                         return Stack(

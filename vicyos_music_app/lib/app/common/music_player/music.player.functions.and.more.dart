@@ -79,14 +79,14 @@ String getCurrentSongFullPath(String songPath) {
 Future<void> getCurrentVolume() async {
   double currentVolume = await VolumeController.instance.getVolume();
   volumeSliderValue = (currentVolume * 100);
-  systemVolumeStreamNotifier();
+  systemVolumeNotifier();
 }
 
 void initVolumeControl() async {
   VolumeController.instance.addListener(
     (volume) {
       volumeSliderValue = volume * 100;
-      systemVolumeStreamNotifier();
+      systemVolumeNotifier();
     },
   );
   double currentVolume = await VolumeController.instance.getVolume();
@@ -217,8 +217,8 @@ void preLoadSongName() {
     currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
     currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
 
-    currentSongNameStreamNotifier();
-    currentSongAlbumStreamNotifier();
+    currentSongNameNotifier();
+    currentSongAlbumNotifier();
 
     currentIndex = index;
   });
@@ -230,23 +230,23 @@ Future<void> cleanPlaylist() async {
   audioPlayer.audioSources.clear();
   playlist.clear();
   songIsPlaying = false;
-  rebuildPlaylistCurrentLengthStreamNotifier();
+  rebuildPlaylistCurrentLengthNotifier();
   currentSongDurationPosition = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
   currentSongName = "The playlist is empty";
-  currentSongNameStreamNotifier();
+  currentSongNameNotifier();
   currentSongAlbumName = "Unknown Album";
   currentFolderPath = 'The song folder will be displayed here...';
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
-  currentSongAlbumStreamNotifier();
-  getCurrentSongFolderStreamControllerNotifier();
-  clearCurrentPlaylistStreamNotifier();
-  getCurrentSongFullPathStreamControllerNotifier();
-  rebuildSongsListScreenStreamNotifier();
+  currentSongAlbumNotifier();
+  getCurrentSongFolderNotifier();
+  clearCurrentPlaylistNotifier();
+  getCurrentSongFullPathNotifier();
+  rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
-  rebuildPlaylistCurrentLengthStreamNotifier();
+  rebuildPlaylistCurrentLengthNotifier();
 }
 
 Future<void> playOrPause() async {
@@ -328,14 +328,14 @@ void rewind() {
 void repeatMode(BuildContext context) {
   if (currentLoopMode == CurrentLoopMode.all) {
     currentLoopMode = CurrentLoopMode.one;
-    repeatModeStreamNotifier();
+    repeatModeNotifier();
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_one.png";
     debugPrint("Repeat: One");
     showLoopMode(context, "Repeating one");
   } else if (currentLoopMode == CurrentLoopMode.one) {
     currentLoopMode = CurrentLoopMode.shuffle;
-    repeatModeStreamNotifier();
+    repeatModeNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     audioPlayer.setShuffleModeEnabled(true);
     currentLoopModeIcon = "assets/img/repeat_mode/shuffle_1.png";
@@ -343,7 +343,7 @@ void repeatMode(BuildContext context) {
     showLoopMode(context, "Playback is shuffled");
   } else if (currentLoopMode == CurrentLoopMode.shuffle) {
     currentLoopMode = CurrentLoopMode.off;
-    repeatModeStreamNotifier();
+    repeatModeNotifier();
     audioPlayer.setShuffleModeEnabled(false);
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_none.png";
@@ -351,7 +351,7 @@ void repeatMode(BuildContext context) {
     showLoopMode(context, "Repeating off");
   } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
-    repeatModeStreamNotifier();
+    repeatModeNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_all.png";
     debugPrint("Repeat: All");
@@ -489,7 +489,7 @@ Future<void> pickFolder() async {
             tag: mediaItem,
           ),
         );
-        rebuildPlaylistCurrentLengthStreamNotifier();
+        rebuildPlaylistCurrentLengthNotifier();
       }
       await audioPlayer.setAudioSources(
         playlist,
@@ -533,7 +533,7 @@ Future<void> pickFolder() async {
             tag: mediaItem,
           ),
         );
-        rebuildPlaylistCurrentLengthStreamNotifier();
+        rebuildPlaylistCurrentLengthNotifier();
       }
     }
   } else {
@@ -593,7 +593,7 @@ Future<void> pickAndPlayAudio() async {
             tag: mediaItem,
           ),
         );
-        rebuildPlaylistCurrentLengthStreamNotifier();
+        rebuildPlaylistCurrentLengthNotifier();
       }
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
@@ -632,7 +632,7 @@ Future<void> pickAndPlayAudio() async {
             tag: mediaItem,
           ),
         );
-        rebuildPlaylistCurrentLengthStreamNotifier();
+        rebuildPlaylistCurrentLengthNotifier();
         debugPrint('Processing file: $filePath');
       }
     }
@@ -678,7 +678,7 @@ Future<void> setFolderAsPlaylist(
         tag: mediaItem,
       ),
     );
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
   }
 
   audioPlayer.setAudioSources(
@@ -691,7 +691,7 @@ Future<void> setFolderAsPlaylist(
   firstSongIndex = true;
   preLoadSongName();
   playOrPause();
-  rebuildPlaylistCurrentLengthStreamNotifier();
+  rebuildPlaylistCurrentLengthNotifier();
 }
 
 Future<void> addFolderToPlaylist(dynamic currentFolder) async {
@@ -729,7 +729,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
           tag: mediaItem,
         ),
       );
-      rebuildPlaylistCurrentLengthStreamNotifier();
+      rebuildPlaylistCurrentLengthNotifier();
     }
 
     audioPlayer.setAudioSources(
@@ -742,7 +742,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
     firstSongIndex = true;
     preLoadSongName();
     playOrPause();
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
   } else {
     for (AudioInfo filePath in currentFolder) {
       playlist.clear();
@@ -774,7 +774,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
           tag: mediaItem,
         ),
       );
-      rebuildPlaylistCurrentLengthStreamNotifier();
+      rebuildPlaylistCurrentLengthNotifier();
     }
   }
 }
@@ -820,7 +820,7 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
     playOrPause();
     showAddedToPlaylist(
         context, "Folder", songName(songPath), "Added to the playlist");
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
   } else {
     playlist.clear();
     // File audioFile = File(songPath);
@@ -850,7 +850,7 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
         tag: mediaItem,
       ),
     );
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
 
     if (context.mounted) {
       showAddedToPlaylist(context, "Folder", songName(songPath),
@@ -895,7 +895,7 @@ void addToPlayNext(String playNextFilePath) {
     audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
     firstSongIndex = true;
     preLoadSongName();
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
     playOrPause();
   } else {
     playlist.clear();
@@ -908,6 +908,6 @@ void addToPlayNext(String playNextFilePath) {
       ),
     );
 
-    rebuildPlaylistCurrentLengthStreamNotifier();
+    rebuildPlaylistCurrentLengthNotifier();
   }
 }

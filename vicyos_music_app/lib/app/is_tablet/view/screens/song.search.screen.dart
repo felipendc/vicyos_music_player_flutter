@@ -33,10 +33,10 @@ class SearchScreen extends StatelessWidget {
 
       if (trimmedText.isEmpty) {
         foundSongs.clear();
-        isSearchingSongsStreamNotifier("");
-        isSearchingSongsStreamNotifier("");
+        isSearchingSongsNotifier("");
+        isSearchingSongsNotifier("");
         //
-        isSearchTypingStreamNotifier(false);
+        isSearchTypingNotifier(false);
         return;
       }
 
@@ -50,7 +50,7 @@ class SearchScreen extends StatelessWidget {
           foundSongs.clear();
           debugPrint("🔎 Searching for: '$trimmedText'");
 
-          isSearchTypingStreamNotifier(true);
+          isSearchTypingNotifier(true);
 
           await searchSongFilesByName(musicFolderPaths, trimmedText);
         },
@@ -60,10 +60,10 @@ class SearchScreen extends StatelessWidget {
     void clearSearch() {
       searchBoxController.clear();
       foundSongs.clear();
-      isSearchingSongsStreamNotifier("");
+      isSearchingSongsNotifier("");
 
       //
-      isSearchTypingStreamNotifier(false);
+      isSearchTypingNotifier(false);
       //
       foundSongs.clear();
     }
@@ -198,7 +198,7 @@ class SearchScreen extends StatelessWidget {
 
                           if (result == "close_song_preview_bottom_sheet") {
                             foundSongs.clear();
-                            isSearchingSongsStreamNotifier("nothing_found");
+                            isSearchingSongsNotifier("nothing_found");
                           } else {
                             // Do not close the Player Preview bottom sheet
                           }
@@ -284,8 +284,7 @@ class SearchScreen extends StatelessWidget {
                                 if (result ==
                                     "close_song_preview_bottom_sheet") {
                                   foundSongs.clear();
-                                  isSearchingSongsStreamNotifier(
-                                      "nothing_found");
+                                  isSearchingSongsNotifier("nothing_found");
                                 } else {
                                   // Do not close the Player Preview bottom sheet
                                 }

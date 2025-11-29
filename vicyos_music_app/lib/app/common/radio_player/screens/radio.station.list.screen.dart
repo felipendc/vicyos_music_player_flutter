@@ -8,7 +8,7 @@ import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.n
     show slideRightLeftTransition;
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart'
-    show rebuildRadioScreenStreamController;
+    show updateRadioScreensStreamController;
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio_player/screens/radio.search.screen.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
@@ -27,7 +27,7 @@ class RadioStationsScreen extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     return StreamBuilder<void>(
-      stream: rebuildSongsListScreenStreamController.stream,
+      stream: updateRadioScreensStreamController.stream,
       builder: (context, snapshot) {
         return SafeArea(
           child: Scaffold(
@@ -112,7 +112,7 @@ class RadioStationsScreen extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 10,
                                         onPressed: () async {
-                                          hideMiniPlayerStreamNotifier(true);
+                                          hideMiniPlayerNotifier(true);
                                           Navigator.pop(context);
                                         },
                                         icon: Image.asset(
@@ -132,7 +132,7 @@ class RadioStationsScreen extends StatelessWidget {
                                         iconSize: 10,
                                         icon: StreamBuilder<void>(
                                           stream:
-                                              rebuildRadioScreenStreamController
+                                              updateRadioScreensStreamController
                                                   .stream,
                                           builder: (context, snapshot) {
                                             return Image.asset(
@@ -251,7 +251,7 @@ class RadioStationsScreen extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<void>(
-                  stream: getCurrentSongFullPathStreamController.stream,
+                  stream: updateRadioScreensStreamController.stream,
                   builder: (context, snapshot) {
                     return Expanded(
                       child: ListView.separated(

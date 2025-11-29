@@ -224,33 +224,25 @@ class MainPlayerViewTablet extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           isRadioOn
-                              ? StreamBuilder<PlaybackEvent>(
-                                  stream: radioPlayer.playbackEventStream,
+                              ? StreamBuilder<void>(
+                                  stream:
+                                      updateRadioScreensStreamController.stream,
                                   builder: (context, snapshot) {
                                     // Check if snapshot has data
-                                    if (!snapshot.hasData) {
+                                    if (!isRadioOn) {
                                       return Text(
                                         '0',
                                         style: TextStyle(
                                             color: TColor.secondaryText,
-                                            fontSize: 14),
+                                            fontSize: 15),
                                       );
                                     }
-                                    final eventState = snapshot.data!;
-                                    final index = eventState.currentIndex ?? -1;
-                                    final playerState =
-                                        radioPlayer.processingState;
 
                                     return Text(
-                                      (playerState == ProcessingState.idle ||
-                                              radioPlayer.audioSources.isEmpty)
-                                          ? '0'
-                                          : (index < 0)
-                                              ? '0'
-                                              : '${index + 1}',
+                                      "${currentRadioIndex + 1}",
                                       style: TextStyle(
                                           color: TColor.secondaryText,
-                                          fontSize: 14),
+                                          fontSize: 15),
                                     );
                                   },
                                 )
@@ -294,22 +286,16 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 ),
                           isRadioOn
                               ? StreamBuilder<void>(
-                                  stream: radioPlayer.playbackEventStream,
+                                  stream:
+                                      updateRadioScreensStreamController.stream,
                                   builder: (context, snapshot) {
-                                    return StreamBuilder<void>(
-                                      stream:
-                                          rebuildSongsListScreenStreamController
-                                              .stream,
-                                      builder: (context, snapshot) {
-                                        return Text(
-                                          isRadioOn
-                                              ? " of ${radioPlayer.audioSources.length}"
-                                              : " of 0",
-                                          style: TextStyle(
-                                              color: TColor.secondaryText,
-                                              fontSize: 14),
-                                        );
-                                      },
+                                    return Text(
+                                      isRadioOn
+                                          ? " of ${radioPlayer.audioSources.length}"
+                                          : " of 0",
+                                      style: TextStyle(
+                                          color: TColor.secondaryText,
+                                          fontSize: 15),
                                     );
                                   },
                                 )
@@ -342,7 +328,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.fromLTRB(29, 0, 29, 0),
                                 child: StreamBuilder<void>(
-                                  stream: radioPlayer.sequenceStateStream,
+                                  stream:
+                                      updateRadioScreensStreamController.stream,
                                   builder: (context, snapshot) {
                                     return Column(
                                       children: [
@@ -638,7 +625,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                                 "Playback is shuffled");
                                                           }
                                                         }
-                                                        radioShuffleModeStreamNotifier();
+                                                        radioShuffleModeNotifier();
                                                       },
                                                       icon: Image.asset(
                                                         radioPlayer
@@ -822,7 +809,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 divisions: 20,
                                 label: '${volumeSliderValue.round()}',
                                 onChanged: (value) {
-                                  systemVolumeStreamNotifier();
+                                  systemVolumeNotifier();
 
                                   setVolume(value);
                                 },
@@ -863,7 +850,6 @@ class MainPlayerViewTablet extends StatelessWidget {
                                     stream: radioPlayer.playerStateStream,
                                     builder: (context, snapshot) {
                                       final playerState = snapshot.data;
-
                                       final playing = playerState?.playing;
                                       if (playing != true) {
                                         return SizedBox(

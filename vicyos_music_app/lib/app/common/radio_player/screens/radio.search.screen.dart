@@ -33,10 +33,10 @@ class RadioSearchScreen extends StatelessWidget {
 
       if (trimmedText.isEmpty) {
         foundStations.clear();
-        isSearchingSongsStreamNotifier("");
-        isSearchingSongsStreamNotifier("");
+        isSearchingSongsNotifier("");
+        isSearchingSongsNotifier("");
         //
-        isSearchTypingStreamNotifier(false);
+        isSearchTypingNotifier(false);
         return;
       }
 
@@ -50,7 +50,7 @@ class RadioSearchScreen extends StatelessWidget {
           foundStations.clear();
           debugPrint("🔎 Searching for: '$trimmedText'");
 
-          isSearchTypingStreamNotifier(true);
+          isSearchTypingNotifier(true);
 
           await searchRadioStationsByName(radioStationList, trimmedText);
         },
@@ -60,10 +60,10 @@ class RadioSearchScreen extends StatelessWidget {
     void clearSearch() {
       searchBoxController.clear();
       foundStations.clear();
-      isSearchingSongsStreamNotifier("");
+      isSearchingSongsNotifier("");
 
       //
-      isSearchTypingStreamNotifier(false);
+      isSearchTypingNotifier(false);
       //
       foundStations.clear();
     }

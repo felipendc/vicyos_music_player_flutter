@@ -12,7 +12,7 @@ List<AudioInfo> foundSongs = <AudioInfo>[];
 
 Future<void> searchSongFilesByName(
     List<FolderSources> folders, String searchTerm) async {
-  isSearchingSongsStreamNotifier("searching");
+  isSearchingSongsNotifier("searching");
   Set<String> foundFilesPaths =
       {}; // Using a Set to store file paths and avoid duplicates
   foundFilesPaths.clear();
@@ -64,10 +64,10 @@ Future<void> searchSongFilesByName(
   }
 
   if (foundSongs.isEmpty) {
-    isSearchingSongsStreamNotifier("nothing_found");
+    isSearchingSongsNotifier("nothing_found");
     debugPrint("🚫 No matching files found.");
   } else {
-    isSearchingSongsStreamNotifier("finished");
+    isSearchingSongsNotifier("finished");
   }
 
   debugPrint("🎵 Final found files: ${foundSongs.map((s) => s.name).toList()}");
@@ -76,7 +76,7 @@ Future<void> searchSongFilesByName(
 //
 Future<void> searchRadioStationsByName(
     List<RadioStationInfo> radioStationsList, String searchTerm) async {
-  isSearchingSongsStreamNotifier("searching");
+  isSearchingSongsNotifier("searching");
   Set<String> foundStationNames =
       {}; // Using a Set to store station paths and avoid duplicates
   foundStationNames.clear();
@@ -111,10 +111,10 @@ Future<void> searchRadioStationsByName(
   }
 
   if (foundStations.isEmpty) {
-    isSearchingSongsStreamNotifier("nothing_found");
+    isSearchingSongsNotifier("nothing_found");
     debugPrint("🚫 No matching files found.");
   } else {
-    isSearchingSongsStreamNotifier("finished");
+    isSearchingSongsNotifier("finished");
   }
 
   debugPrint(

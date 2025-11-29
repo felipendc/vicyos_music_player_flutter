@@ -112,7 +112,7 @@ class HomePageFolderList extends StatelessWidget {
                                           onPressed: () async {
                                             musicFolderPaths.clear();
                                             listMusicFolders();
-                                            listPlaylistFolderStreamNotifier();
+                                            listPlaylistFolderNotifier();
                                           },
                                           icon: Image.asset(
                                             "assets/img/menu/autorenew.png",
@@ -122,7 +122,7 @@ class HomePageFolderList extends StatelessWidget {
                                       ),
                                     ),
                                     StreamBuilder(
-                                      stream: rebuildRadioScreenStreamController
+                                      stream: updateRadioScreensStreamController
                                           .stream,
                                       builder: (context, asyncSnapshot) {
                                         return Stack(
@@ -155,11 +155,11 @@ class HomePageFolderList extends StatelessWidget {
                                                   iconSize: 20,
                                                   onPressed: () async {
                                                     // Show Radio Mini Player
-                                                    hideMiniRadioPlayerStreamNotifier(
+                                                    hideMiniRadioPlayerNotifier(
                                                         false);
 
                                                     // Hide Mini Player
-                                                    hideMiniPlayerStreamNotifier(
+                                                    hideMiniPlayerNotifier(
                                                         true);
 
                                                     Navigator.push(
@@ -169,10 +169,10 @@ class HomePageFolderList extends StatelessWidget {
                                                       ),
                                                     ).whenComplete(
                                                       () {
-                                                        hideMiniRadioPlayerStreamNotifier(
+                                                        hideMiniRadioPlayerNotifier(
                                                             true);
                                                         // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                        hideMiniPlayerStreamNotifier(
+                                                        hideMiniPlayerNotifier(
                                                             false);
                                                       },
                                                     );
@@ -302,7 +302,7 @@ class HomePageFolderList extends StatelessWidget {
                               height: 70,
                               child: GestureDetector(
                                 onLongPress: () {
-                                  hideMiniPlayerStreamNotifier(true);
+                                  hideMiniPlayerNotifier(true);
                                   showModalBottomSheet<void>(
                                     backgroundColor: Colors.transparent,
                                     context: context,
@@ -316,7 +316,7 @@ class HomePageFolderList extends StatelessWidget {
                                       if (mainPlayerIsOpen) {
                                         mainPlayerIsOpen = false;
                                       } else {
-                                        hideMiniPlayerStreamNotifier(false);
+                                        hideMiniPlayerNotifier(false);
                                       }
 
                                       // "When the bottom sheet is closed, send a signal to show the mini player again."

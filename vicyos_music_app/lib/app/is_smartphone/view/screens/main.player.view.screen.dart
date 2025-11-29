@@ -460,7 +460,7 @@ class MainPlayerView extends StatelessWidget {
                           divisions: 20,
                           label: '${volumeSliderValue.round()}',
                           onChanged: (value) {
-                            systemVolumeStreamNotifier();
+                            systemVolumeNotifier();
 
                             setVolume(value);
                           },

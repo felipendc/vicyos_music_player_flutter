@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
@@ -16,6 +15,7 @@ import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
 
+int currentRadioIndex = 0;
 bool isRadioPlaying = false;
 bool isRadioPaused = false;
 bool isRadioStopped = isRadioOn ? false : true;
@@ -28,7 +28,6 @@ bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;
 late int radioStationErrorIndex;
-int currentRadioIndex = 0;
 
 // Radio Player
 late AudioPlayer radioPlayer;
@@ -51,8 +50,8 @@ void errorToFetchRadioStation(int index) {
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
   radioStationBtn = Colors.green;
-  radioScreenStreamNotifier();
-  switchingToRadioStreamNotifier();
+  updateRadioScreensNotifier();
+  switchingToRadioNotifier();
 
   // Close the tablet playlist bottomsheet if it is opened
   if (playlistBottomSheetTabletContext != null) {
@@ -70,10 +69,10 @@ Future<void> turnOffRadioStation() async {
   await radioPlayer.clearAudioSources();
   radioPlaylist.clear();
   currentRadioIndex = 0;
-  await getCurrentSongFullPathStreamControllerNotifier();
-  radioScreenStreamNotifier();
+  await updateRadioScreensNotifier();
+  updateRadioScreensNotifier();
   currentRadioStationID = "";
-  switchingToRadioStreamNotifier();
+  switchingToRadioNotifier();
 }
 
 Future<bool> checkStreamUrl(String url) async {
@@ -162,10 +161,10 @@ Future<void> playRadioStation(BuildContext context, int index) async {
             context, radioStationList[index].radioName);
       }
       await turnOffRadioStation();
-      getCurrentSongFullPathStreamControllerNotifier();
+      updateRadioScreensNotifier();
     }
 
-    debugPrint('Erro ao carregar a rádio: $e');
+    debugPrint('Error to load radio station: $e');
   }
 }
 
@@ -219,10 +218,10 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
             context, radioStationList[index].radioName);
       }
       await turnOffRadioStation();
-      getCurrentSongFullPathStreamControllerNotifier();
+      updateRadioScreensNotifier();
     }
 
-    debugPrint('Erro ao carregar a rádio: $e');
+    debugPrint('Error to load radio station: $e');
   }
 }
 
@@ -305,7 +304,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
         errorToFetchRadioStationCard(context, currentRadioStationName);
       }
       await turnOffRadioStation();
-      getCurrentSongFullPathStreamControllerNotifier();
+      updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio_player: $e');

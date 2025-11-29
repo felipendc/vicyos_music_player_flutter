@@ -3,7 +3,6 @@ import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart'
@@ -49,7 +48,7 @@ class RadioBottomPlayer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           StreamBuilder(
-                            stream: rebuildRadioScreenStreamController.stream,
+                            stream: updateRadioScreensStreamController.stream,
                             builder: (context, asyncSnapshot) {
                               return Stack(
                                 children: [
@@ -99,7 +98,7 @@ class RadioBottomPlayer extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    hideMiniRadioPlayerStreamNotifier(true);
+                                    hideMiniRadioPlayerNotifier(true);
 
                                     Navigator.push(
                                       context,
@@ -111,8 +110,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                         if (mainPlayerIsOpen) {
                                           mainPlayerIsOpen = false;
                                         }
-                                        hideMiniRadioPlayerStreamNotifier(
-                                            false);
+                                        hideMiniRadioPlayerNotifier(false);
                                       },
                                     );
                                   },
@@ -140,7 +138,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                                   maxWidth: width,
                                                   text: isRadioOn
                                                       ? currentRadioStationName
-                                                      : "The radio_player is turned off",
+                                                      : "The radio is turned off",
 
                                                   style: TextStyle(
                                                     color: TColor.primaryText
@@ -160,13 +158,14 @@ class RadioBottomPlayer extends StatelessWidget {
                                               width: media.width * 0.30,
                                               child: Row(
                                                 children: [
-                                                  StreamBuilder<PlaybackEvent>(
-                                                    stream: radioPlayer
-                                                        .playbackEventStream,
+                                                  StreamBuilder<void>(
+                                                    stream:
+                                                        updateRadioScreensStreamController
+                                                            .stream,
                                                     builder:
                                                         (context, snapshot) {
                                                       // Check if snapshot has data
-                                                      if (!snapshot.hasData) {
+                                                      if (!isRadioOn) {
                                                         return Text(
                                                           '0',
                                                           style: TextStyle(
@@ -175,26 +174,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                                               fontSize: 15),
                                                         );
                                                       }
-                                                      final eventState =
-                                                          snapshot.data!;
-                                                      final index = eventState
-                                                              .currentIndex ??
-                                                          -1;
-                                                      final playerState =
-                                                          radioPlayer
-                                                              .processingState;
-
                                                       return Text(
-                                                        (playerState ==
-                                                                    ProcessingState
-                                                                        .idle ||
-                                                                radioPlayer
-                                                                    .audioSources
-                                                                    .isEmpty)
-                                                            ? '0'
-                                                            : (index < 0)
-                                                                ? '0'
-                                                                : '${index + 1}',
+                                                        "${currentRadioIndex + 1}",
                                                         style: TextStyle(
                                                             color: TColor
                                                                 .secondaryText,
@@ -203,27 +184,19 @@ class RadioBottomPlayer extends StatelessWidget {
                                                     },
                                                   ),
                                                   StreamBuilder<void>(
-                                                    stream: radioPlayer
-                                                        .playbackEventStream,
+                                                    stream:
+                                                        updateRadioScreensStreamController
+                                                            .stream,
                                                     builder:
                                                         (context, snapshot) {
-                                                      return StreamBuilder<
-                                                          void>(
-                                                        stream:
-                                                            rebuildSongsListScreenStreamController
-                                                                .stream,
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          return Text(
-                                                            isRadioOn
-                                                                ? " of ${radioPlayer.audioSources.length}"
-                                                                : " of 0",
-                                                            style: TextStyle(
-                                                                color: TColor
-                                                                    .secondaryText,
-                                                                fontSize: 15),
-                                                          );
-                                                        },
+                                                      return Text(
+                                                        isRadioOn
+                                                            ? " of ${radioPlayer.audioSources.length}"
+                                                            : " of 0",
+                                                        style: TextStyle(
+                                                            color: TColor
+                                                                .secondaryText,
+                                                            fontSize: 15),
                                                       );
                                                     },
                                                   ),

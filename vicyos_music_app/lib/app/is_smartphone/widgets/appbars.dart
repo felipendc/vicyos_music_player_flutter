@@ -18,7 +18,7 @@ AppBar homePageAppBar() {
         onTap: () {
           musicFolderPaths.clear();
           listMusicFolders();
-          listPlaylistFolderStreamNotifier();
+          listPlaylistFolderNotifier();
         },
         child: Text(
           textAlign: TextAlign.center,
@@ -79,7 +79,7 @@ AppBar songsListAppBar(
             Icons.more_horiz_rounded,
           ),
           onPressed: () {
-            hideMiniPlayerStreamNotifier(true);
+            hideMiniPlayerNotifier(true);
             showModalBottomSheet<void>(
               backgroundColor: Colors.transparent,
               context: context,
@@ -89,10 +89,10 @@ AppBar songsListAppBar(
             ).whenComplete(
               () {
                 if (mainPlayerIsOpen) {
-                  hideMiniPlayerStreamNotifier(true);
+                  hideMiniPlayerNotifier(true);
                 } else {
                   // "When the bottom sheet is closed, send a signal to show the mini player again."
-                  hideMiniPlayerStreamNotifier(false);
+                  hideMiniPlayerNotifier(false);
                 }
               },
             );

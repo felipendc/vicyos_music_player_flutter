@@ -157,7 +157,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
                                     ),
                               onTap: () {
                                 audioPlayer.setSpeed(speedRatesToDouble[index]);
-                                rebuildSpeedRateBottomSheetStreamNotifier();
+                                rebuildSpeedRateBottomSheetNotifier();
                               },
                               trailing: (audioPlayer.speed ==
                                       speedRatesToDouble[index])

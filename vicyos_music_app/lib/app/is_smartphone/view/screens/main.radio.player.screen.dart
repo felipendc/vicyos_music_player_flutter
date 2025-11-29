@@ -47,16 +47,11 @@ class MainRadioPlayerView extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(media.width * 0.7),
-                  child: StreamBuilder<void>(
-                    stream: null,
-                    builder: (context, snapshot) {
-                      return Image.asset(
-                        "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
-                        width: media.width * 0.6,
-                        height: media.width * 0.6,
-                        fit: BoxFit.cover,
-                      );
-                    },
+                  child: Image.asset(
+                    "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
+                    width: media.width * 0.6,
+                    height: media.width * 0.6,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 ClipRRect(
@@ -134,47 +129,33 @@ class MainRadioPlayerView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                StreamBuilder<PlaybackEvent>(
-                  stream: radioPlayer.playbackEventStream,
+                StreamBuilder<void>(
+                  stream: updateRadioScreensStreamController.stream,
                   builder: (context, snapshot) {
                     // Check if snapshot has data
-                    if (!snapshot.hasData) {
+                    if (!isRadioOn) {
                       return Text(
                         '0',
                         style: TextStyle(
                             color: TColor.secondaryText, fontSize: 15),
                       );
                     }
-                    final eventState = snapshot.data!;
-                    final index = eventState.currentIndex ?? -1;
-                    final playerState = radioPlayer.processingState;
-
                     return Text(
-                      (playerState == ProcessingState.idle ||
-                              radioPlayer.audioSources.isEmpty)
-                          ? '0'
-                          : (index < 0)
-                              ? '0'
-                              : '${index + 1}',
+                      "${currentRadioIndex + 1}",
                       style:
                           TextStyle(color: TColor.secondaryText, fontSize: 15),
                     );
                   },
                 ),
                 StreamBuilder<void>(
-                  stream: radioPlayer.playbackEventStream,
+                  stream: updateRadioScreensStreamController.stream,
                   builder: (context, snapshot) {
-                    return StreamBuilder<void>(
-                      stream: rebuildSongsListScreenStreamController.stream,
-                      builder: (context, snapshot) {
-                        return Text(
-                          isRadioOn
-                              ? " of ${radioPlayer.audioSources.length}"
-                              : " of 0",
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 15),
-                        );
-                      },
+                    return Text(
+                      isRadioOn
+                          ? " of ${radioPlayer.audioSources.length}"
+                          : " of 0",
+                      style:
+                          TextStyle(color: TColor.secondaryText, fontSize: 15),
                     );
                   },
                 ),
@@ -207,7 +188,7 @@ class MainRadioPlayerView extends StatelessWidget {
                                 maxWidth: width,
                                 text: isRadioOn
                                     ? currentRadioStationName
-                                    : "The radio_player is turned off",
+                                    : "The radio is turned off",
                                 style: TextStyle(
                                   color:
                                       TColor.primaryText.withValues(alpha: 0.9),
@@ -349,7 +330,7 @@ class MainRadioPlayerView extends StatelessWidget {
                                               context, "Playback is shuffled");
                                         }
                                       }
-                                      radioShuffleModeStreamNotifier();
+                                      radioShuffleModeNotifier();
                                     },
                                     icon: Image.asset(
                                       radioPlayer.shuffleModeEnabled
@@ -417,7 +398,7 @@ class MainRadioPlayerView extends StatelessWidget {
                           divisions: 20,
                           label: '${volumeSliderValue.round()}',
                           onChanged: (value) {
-                            systemVolumeStreamNotifier();
+                            systemVolumeNotifier();
 
                             setVolume(value);
                           },
@@ -454,7 +435,6 @@ class MainRadioPlayerView extends StatelessWidget {
                   stream: radioPlayer.playerStateStream,
                   builder: (context, snapshot) {
                     final playerState = snapshot.data;
-
                     final playing = playerState?.playing;
                     if (playing != true) {
                       return SizedBox(

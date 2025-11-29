@@ -33,10 +33,10 @@ class SearchScreen extends StatelessWidget {
 
       if (trimmedText.isEmpty) {
         foundSongs.clear();
-        isSearchingSongsStreamNotifier("");
-        isSearchingSongsStreamNotifier("");
+        isSearchingSongsNotifier("");
+        isSearchingSongsNotifier("");
         //
-        isSearchTypingStreamNotifier(false);
+        isSearchTypingNotifier(false);
         return;
       }
 
@@ -50,7 +50,7 @@ class SearchScreen extends StatelessWidget {
           foundSongs.clear();
           debugPrint("🔎 Searching for: '$trimmedText'");
 
-          isSearchTypingStreamNotifier(true);
+          isSearchTypingNotifier(true);
 
           await searchSongFilesByName(musicFolderPaths, trimmedText);
         },
@@ -60,8 +60,8 @@ class SearchScreen extends StatelessWidget {
     void clearSearch() {
       searchBoxController.clear();
       foundSongs.clear();
-      isSearchingSongsStreamNotifier("");
-      isSearchTypingStreamNotifier(false);
+      isSearchingSongsNotifier("");
+      isSearchTypingNotifier(false);
       foundSongs.clear();
     }
 
@@ -167,7 +167,7 @@ class SearchScreen extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
-                          hideMiniPlayerStreamNotifier(true);
+                          hideMiniPlayerNotifier(true);
 
                           final result = await showModalBottomSheet<String>(
                             isScrollControlled: true,
@@ -182,7 +182,7 @@ class SearchScreen extends StatelessWidget {
                               isSongPreviewBottomSheetOpen = false;
 
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              hideMiniPlayerStreamNotifier(false);
+                              hideMiniPlayerNotifier(false);
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -198,7 +198,7 @@ class SearchScreen extends StatelessWidget {
 
                           if (result == "close_song_preview_bottom_sheet") {
                             foundSongs.clear();
-                            isSearchingSongsStreamNotifier("nothing_found");
+                            isSearchingSongsNotifier("nothing_found");
                           } else {
                             // Do not close the Player Preview bottom sheet
                           }
@@ -259,7 +259,7 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
-                              await hideMiniPlayerStreamNotifier(true);
+                              await hideMiniPlayerNotifier(true);
 
                               if (context.mounted) {
                                 final result =
@@ -277,7 +277,7 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
-                                        hideMiniPlayerStreamNotifier(false);
+                                        hideMiniPlayerNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }
@@ -287,8 +287,7 @@ class SearchScreen extends StatelessWidget {
                                 if (result ==
                                     "close_song_preview_bottom_sheet") {
                                   foundSongs.clear();
-                                  isSearchingSongsStreamNotifier(
-                                      "nothing_found");
+                                  isSearchingSongsNotifier("nothing_found");
                                 } else {
                                   // Do not close the Player Preview bottom sheet
                                 }
