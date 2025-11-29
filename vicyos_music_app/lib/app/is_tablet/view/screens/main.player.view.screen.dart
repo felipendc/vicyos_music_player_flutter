@@ -239,8 +239,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                             },
                           )
                         : StreamBuilder<void>(
-                            stream:
-                                rebuildCurrentSongIndexStreamController.stream,
+                            stream: currentSongNameStreamController.stream,
                             builder: (context, snapshot) {
                               return Text(
                                 (audioPlayer.audioSources.isEmpty)

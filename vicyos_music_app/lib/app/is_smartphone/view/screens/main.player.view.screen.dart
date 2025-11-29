@@ -196,7 +196,7 @@ class MainPlayerView extends StatelessWidget {
                   stream: clearCurrentPlaylistStreamController.stream,
                   builder: (context, snapshot) {
                     return StreamBuilder<void>(
-                        stream: rebuildCurrentSongIndexStreamController.stream,
+                        stream: currentSongNameStreamController.stream,
                         builder: (context, snapshot) {
                           return Text(
                             (audioPlayer.audioSources.isEmpty)

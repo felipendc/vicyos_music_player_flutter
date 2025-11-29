@@ -198,7 +198,7 @@ class BottomPlayer extends StatelessWidget {
                                             children: [
                                               StreamBuilder<void>(
                                                   stream:
-                                                      rebuildCurrentSongIndexStreamController
+                                                      currentSongNameStreamController
                                                           .stream,
                                                   builder: (context, snapshot) {
                                                     return Text(
