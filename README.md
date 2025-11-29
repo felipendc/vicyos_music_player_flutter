@@ -45,8 +45,8 @@ some podcasts `more precisely` for practicing English Listening.
 
 These instructions will help you get a copy of this project up and running on your local machine for development and testing purposes.
 
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_1.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_2.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_01.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/how-it-should-look-like_02.png">
 
 ### This project is currently compatible with:
 
