@@ -1,11 +1,30 @@
 // This function should be used on a flutter.initState or GetX.on_init_app();
+
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 
 void audioPlayerStreamListeners() {
+  // Getting the current song path and its folder
+  // Using Dart distinct()
+  audioPlayer.sequenceStateStream
+      .map((sequenceState) => sequenceState.currentSource)
+      .where((src) {
+    return src is UriAudioSource;
+  }).map((src) {
+    return src as UriAudioSource;
+  }).distinct((prev, next) {
+    return getCurrentSongFullPath(prev.uri.toString()) ==
+        getCurrentSongFullPath(next.uri.toString());
+  }).listen((gettingCurrentSource) {
+    final currentSource = gettingCurrentSource;
+
+    currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
+    currentSongFullPath = getCurrentSongFullPath(currentSource.uri.toString());
+    getCurrentSongFullPathNotifier();
+  });
+
   // I will need to use another state listener other than!
   audioPlayer.positionStream.listen(
     (position) {
@@ -66,11 +85,6 @@ void audioPlayerStreamListeners() {
     return prev == next;
   }).listen((sourceIndex) {
     currentIndex = sourceIndex ?? 0;
-
-    if (sourceIndex != null) {
-      currentSongIndexNotifier();
-      debugPrint("Playlist current index: $currentIndex");
-    }
   });
 }
 
@@ -87,15 +101,11 @@ void preLoadSongName() {
         if (index < 0 || index >= audioPlayer.sequence.length) return;
 
         final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
-
         currentSongName = currentMediaItem.title;
         currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
         currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
-
-        currentSongNameNotifier();
-        currentSongAlbumNotifier();
-
         currentIndex = index;
+        currentSongNameNotifier();
       }
     }
   });

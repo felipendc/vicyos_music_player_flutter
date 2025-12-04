@@ -90,23 +90,19 @@ void initVolumeControl() async {
       systemVolumeNotifier();
     },
   );
-  double currentVolume = await VolumeController.instance.getVolume();
-  volumeSliderValue = (currentVolume * 100);
 
   // Set the volume system volume UI to be hidden
   VolumeController.instance.showSystemUI = false;
 }
 
 void setVolume(double value) {
-  // Set the volume and keep the system volume UI hidden
-  // VolumeController.instance.showSystemUI = false;
+  // Set the volume
   double volume = value / 100;
   VolumeController.instance.setVolume(volume);
 }
 
 void setVolumeJustAudio(double value) {
-  // Set the volume and keep the system volume UI hidden
-  // VolumeController.instance.showSystemUI = false;
+  // Set the just_audio player volume
   double volume = value / 100;
   audioPlayer.setVolume(volume);
   VolumeController.instance.setVolume(audioPlayer.volume);
@@ -139,14 +135,12 @@ Future<void> cleanPlaylist() async {
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
   currentSongNameNotifier();
-  currentSongAlbumNotifier();
   getCurrentSongFolderNotifier();
   clearCurrentPlaylistNotifier();
   getCurrentSongFullPathNotifier();
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
-  currentSongIndexNotifier();
 }
 
 Future<void> playOrPause() async {

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
@@ -15,25 +14,6 @@ import 'package:vicyos_music/app/is_smartphone/view/screens/main.radio.player.sc
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
 
 void radioPlayerStreamListeners() {
-  // Getting the current song path and its folder
-  // Using Dart distinct()
-  audioPlayer.sequenceStateStream
-      .map((sequenceState) => sequenceState.currentSource)
-      .where((src) {
-    return src is UriAudioSource;
-  }).map((src) {
-    return src as UriAudioSource;
-  }).distinct((prev, next) {
-    return getCurrentSongFullPath(prev.uri.toString()) ==
-        getCurrentSongFullPath(next.uri.toString());
-  }).listen((gettingCurrentSource) {
-    final currentSource = gettingCurrentSource;
-
-    currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
-    currentSongFullPath = getCurrentSongFullPath(currentSource.uri.toString());
-    getCurrentSongFullPathNotifier();
-  });
-
   // Update radio_player stations list screen only when the current index changes
   int? lastRadioIndex;
   radioPlayer.playbackEventStream.listen((event) async {

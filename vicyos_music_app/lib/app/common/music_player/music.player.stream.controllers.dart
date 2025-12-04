@@ -9,9 +9,6 @@ StreamController<void> getCurrentSongFullPathStreamController =
 StreamController<void> getCurrentSongFolderStreamController =
     StreamController<void>.broadcast();
 
-StreamController<void> currentSongAlbumStreamController =
-    StreamController<void>.broadcast();
-
 StreamController<void> currentSongNameStreamController =
     StreamController<void>.broadcast();
 
@@ -48,8 +45,6 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
-StreamController<void> rebuildCurrentSongIndexStreamController =
-    StreamController<void>.broadcast();
 // Streams Notifiers Functions
 Future<void> getCurrentSongFullPathNotifier() async {
   getCurrentSongFullPathStreamController.sink.add(null);
@@ -104,10 +99,6 @@ void currentSongNameNotifier() {
   currentSongNameStreamController.sink.add(null);
 }
 
-void currentSongAlbumNotifier() {
-  currentSongAlbumStreamController.sink.add(null);
-}
-
 void repeatModeNotifier() {
   repeatModeStreamController.sink.add(null);
 }
@@ -118,8 +109,4 @@ void systemVolumeNotifier() {
 
 Future<void> hideMiniPlayerNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
-}
-
-void currentSongIndexNotifier() {
-  rebuildCurrentSongIndexStreamController.sink.add(null);
 }
