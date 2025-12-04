@@ -18,7 +18,6 @@ AppBar homePageAppBar() {
         onTap: () {
           musicFolderPaths.clear();
           listMusicFolders();
-          listPlaylistFolderNotifier();
         },
         child: Text(
           textAlign: TextAlign.center,

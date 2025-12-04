@@ -12,9 +12,6 @@ StreamController<void> getCurrentSongFolderStreamController =
 StreamController<void> currentSongNameStreamController =
     StreamController<void>.broadcast();
 
-StreamController<void> listPlaylistFolderStreamController =
-    StreamController<void>.broadcast();
-
 StreamController<void> clearCurrentPlaylistStreamController =
     StreamController<void>.broadcast();
 
@@ -33,8 +30,8 @@ StreamController<void> rebuildPlaylistCurrentLengthController =
 StreamController<void> rebuildSongsListScreenStreamController =
     StreamController<void>.broadcast();
 
-StreamController<String> rebuildHomePageFolderListStreamController =
-    StreamController<String>.broadcast();
+StreamController<FetchingSongs> rebuildHomePageFolderListStreamController =
+    StreamController<FetchingSongs>.broadcast();
 
 StreamController<void> rebuildSpeedRateBottomSheetStreamController =
     StreamController<void>.broadcast();
@@ -66,7 +63,7 @@ void rebuildSpeedRateBottomSheetNotifier() {
   rebuildSpeedRateBottomSheetStreamController.sink.add(null);
 }
 
-void rebuildHomePageFolderListNotifier(String value) {
+void rebuildHomePageFolderListNotifier(FetchingSongs value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 
@@ -88,11 +85,6 @@ void clearCurrentPlaylistNotifier() {
   audioPlayer.stop();
   songIsPlaying = false;
   clearCurrentPlaylistStreamController.sink.add(null);
-}
-
-void listPlaylistFolderNotifier() async {
-  playlistCurrentLength = musicFolderPaths.length;
-  listPlaylistFolderStreamController.sink.add(null);
 }
 
 void currentSongNameNotifier() {

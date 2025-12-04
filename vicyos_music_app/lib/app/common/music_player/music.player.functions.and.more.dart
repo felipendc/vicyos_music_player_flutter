@@ -21,6 +21,17 @@ import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
 
+enum FetchingSongs {
+  fetching,
+  noMusicFolderHasBeenFound,
+  musicFolderIsEmpty,
+  done,
+  nullValue,
+  permissionDenied,
+}
+
+bool appSettingsWasOpened = false;
+late bool isPermissionGranted;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
 late final TextEditingController searchBoxController;
 bool mainPlayerIsOpen = false;

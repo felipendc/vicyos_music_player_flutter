@@ -1,9 +1,10 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+
 // String internalStorage = '/storage/emulated/0/Music/';
-
-
 
 Future<void> requestAudioPermission() async {
   Permission permission;
@@ -33,12 +34,18 @@ Future<void> requestAudioPermission() async {
     status = await permission.request();
   }
 
-  // If permanently denied, open the app permission settings
-  if (status.isPermanentlyDenied) {
-    debugPrint("Permission permanently denied, opening app settings...");
-    await openAppSettings();
+// Check permission if permission is granted
+  if (status.isGranted) {
+    isPermissionGranted = true;
+  } else {
+    isPermissionGranted = false;
   }
 
+  // If permanently denied, open the app permission settings
+  // if (status.isPermanentlyDenied) {
+  //   debugPrint("Permission permanently denied, opening app settings...");
+  //   await openAppSettings();
+  // }
 }
 
 // Function to get Android SDK version

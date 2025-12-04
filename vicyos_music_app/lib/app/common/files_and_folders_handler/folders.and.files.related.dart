@@ -75,15 +75,15 @@ Future<String> getMusicFolderPath() async {
 }
 
 Future<void> listMusicFolders() async {
-  rebuildHomePageFolderListNotifier("fetching_files");
+  rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
   musicFolderPaths.clear();
   folderSongList.clear();
 
   String folderPath;
   int totalSongs;
 
-  Future<List<String>> audioFolder() async {
-    late List<String> audioFolders;
+  Future<List<String>> deviceMusicFolderPath() async {
+    List<String> audioFolders = [];
 
     if (Platform.isAndroid) {
       audioFolders =
@@ -96,7 +96,7 @@ Future<void> listMusicFolders() async {
     return audioFolders;
   }
 
-  for (var folder in await audioFolder()) {
+  for (var folder in await deviceMusicFolderPath()) {
     folderPath = folder;
     totalSongs = folderLength(folder);
     musicFolderPaths.add(FolderSources(path: folderPath, songs: totalSongs));
@@ -106,13 +106,19 @@ Future<void> listMusicFolders() async {
         .toString()
         .toString());
   }
-
-  if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
-    rebuildHomePageFolderListNotifier("there_is_no_music_folder");
-  } else if (musicFolderPaths.isNotEmpty) {
-    rebuildHomePageFolderListNotifier("fetching_files_done");
+  if (isPermissionGranted) {
+    if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
+      rebuildHomePageFolderListNotifier(
+          FetchingSongs.noMusicFolderHasBeenFound);
+    } else if (musicFolderPaths.isNotEmpty) {
+      rebuildHomePageFolderListNotifier(FetchingSongs.done);
+    } else if (musicFolderPaths.isEmpty) {
+      rebuildHomePageFolderListNotifier(FetchingSongs.musicFolderIsEmpty);
+    } else {
+      rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
+    }
   } else {
-    rebuildHomePageFolderListNotifier("Null");
+    rebuildHomePageFolderListNotifier(FetchingSongs.permissionDenied);
   }
 
   // rebuild the song list screen
@@ -281,7 +287,7 @@ Future<void> deleteSongFromStorage(
     }
     // ----------------------------------------------------------
     rebuildSongsListScreenNotifier();
-    rebuildHomePageFolderListNotifier("fetching_files_done");
+    rebuildHomePageFolderListNotifier(FetchingSongs.done);
     if (context.mounted) {
       Navigator.pop(context, "close_song_preview_bottom_sheet");
     }
