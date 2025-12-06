@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:vicyos_music/app/common/build_flags/build.flags.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/lifecycle_handler/permission.lifecycle.handler.dart';
@@ -131,78 +132,83 @@ class HomePageFolderList extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  StreamBuilder(
-                                    stream: updateRadioScreensStreamController
-                                        .stream,
-                                    builder: (context, asyncSnapshot) {
-                                      return Stack(
-                                        children: [
-                                          Positioned(
-                                            height: 78,
-                                            child: (isRadioOn)
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 9.2),
-                                                    child:
-                                                        LoadingAnimationWidget
-                                                            .progressiveDots(
-                                                      color: TColor
-                                                          .lightGray, // Colors.green,
-                                                      size: 20,
-                                                    ),
-                                                  )
-                                                : Container(),
-                                          ),
-                                          Material(
-                                            color: Colors.transparent,
-                                            // color: Colors.white30,
-                                            child: SizedBox(
-                                              width: 40,
-                                              height: 43,
-                                              child: IconButton(
-                                                splashRadius: 20,
-                                                iconSize: 20,
-                                                onPressed: () async {
-                                                  // Show Radio Mini Player
-                                                  hideMiniRadioPlayerNotifier(
-                                                      false);
+                                  (vicyosMusicAppHasRadio)
+                                      ? StreamBuilder(
+                                          stream:
+                                              updateRadioScreensStreamController
+                                                  .stream,
+                                          builder: (context, asyncSnapshot) {
+                                            return Stack(
+                                              children: [
+                                                Positioned(
+                                                  height: 78,
+                                                  child: (isRadioOn)
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 9.2),
+                                                          child: LoadingAnimationWidget
+                                                              .progressiveDots(
+                                                            color: TColor
+                                                                .lightGray, // Colors.green,
+                                                            size: 20,
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                ),
+                                                Material(
+                                                  color: Colors.transparent,
+                                                  // color: Colors.white30,
+                                                  child: SizedBox(
+                                                    width: 40,
+                                                    height: 43,
+                                                    child: IconButton(
+                                                      splashRadius: 20,
+                                                      iconSize: 20,
+                                                      onPressed: () async {
+                                                        // Show Radio Mini Player
+                                                        hideMiniRadioPlayerNotifier(
+                                                            false);
 
-                                                  // Hide Mini Player
-                                                  hideMiniPlayerNotifier(true);
+                                                        // Hide Mini Player
+                                                        hideMiniPlayerNotifier(
+                                                            true);
 
-                                                  Navigator.push(
-                                                    context,
-                                                    slideRightLeftTransition(
-                                                      RadioStationsScreen(
-                                                        scaffoldKey:
-                                                            mainRadioScreenKey,
+                                                        Navigator.push(
+                                                          context,
+                                                          slideRightLeftTransition(
+                                                            RadioStationsScreen(
+                                                              scaffoldKey:
+                                                                  mainRadioScreenKey,
+                                                            ),
+                                                          ),
+                                                        ).whenComplete(
+                                                          () {
+                                                            hideMiniRadioPlayerNotifier(
+                                                                true);
+                                                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                            hideMiniPlayerNotifier(
+                                                                false);
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: SizedBox(
+                                                        height: 60,
+                                                        child: Image.asset(
+                                                          "assets/img/radio/radio_icon.png",
+                                                          color:
+                                                              TColor.lightGray,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ).whenComplete(
-                                                    () {
-                                                      hideMiniRadioPlayerNotifier(
-                                                          true);
-                                                      // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                      hideMiniPlayerNotifier(
-                                                          false);
-                                                    },
-                                                  );
-                                                },
-                                                icon: SizedBox(
-                                                  height: 60,
-                                                  child: Image.asset(
-                                                    "assets/img/radio/radio_icon.png",
-                                                    color: TColor.lightGray,
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ),
+                                              ],
+                                            );
+                                          },
+                                        )
+                                      : Container(),
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(9, 0, 8, 0),
