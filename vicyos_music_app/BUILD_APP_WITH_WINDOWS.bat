@@ -1,2 +1,2 @@
 @echo off
-flutter clean && flutter pub get && flutter build apk --release && pause
+flutter clean && flutter pub get && flutter build apk -v --release && pause
