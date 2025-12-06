@@ -3,9 +3,6 @@ import 'dart:async';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 
 // Stream controllers
-StreamController<void> getCurrentSongFullPathStreamController =
-    StreamController<void>.broadcast();
-
 StreamController<void> getCurrentSongFolderStreamController =
     StreamController<void>.broadcast();
 
@@ -43,10 +40,6 @@ StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
 // Streams Notifiers Functions
-Future<void> getCurrentSongFullPathNotifier() async {
-  getCurrentSongFullPathStreamController.sink.add(null);
-}
-
 void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
 }

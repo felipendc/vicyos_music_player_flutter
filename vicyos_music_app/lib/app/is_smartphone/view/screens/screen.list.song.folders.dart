@@ -301,7 +301,7 @@ class HomePageFolderList extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<void>(
-                  stream: getCurrentSongFullPathStreamController.stream,
+                  stream: currentSongNameStreamController.stream,
                   builder: (context, snapshot) {
                     return Expanded(
                       child: (fetchingResult == FetchingSongs.done)

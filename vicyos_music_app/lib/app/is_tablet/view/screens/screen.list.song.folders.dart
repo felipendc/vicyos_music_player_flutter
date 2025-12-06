@@ -283,7 +283,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                   ),
                 ),
                 StreamBuilder<void>(
-                  stream: getCurrentSongFullPathStreamController.stream,
+                  stream: currentSongNameStreamController.stream,
                   builder: (context, snapshot) {
                     return Expanded(
                       flex: 1,

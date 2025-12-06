@@ -272,7 +272,7 @@ Future<void> deleteSongFromStorage(
       } else {
         await audioPlayer.removeAudioSourceAt(index);
         rebuildPlaylistCurrentLengthNotifier();
-        await getCurrentSongFullPathNotifier();
+        currentSongNameNotifier();
 
         // Update the current song name
         if (index < audioPlayer.audioSources.length) {

@@ -154,7 +154,7 @@ class RadioSearchScreen extends StatelessWidget {
             );
           } else if (isSearching == "finished") {
             return StreamBuilder<void>(
-              stream: getCurrentSongFullPathStreamController.stream,
+              stream: currentSongNameStreamController.stream,
               builder: (context, snapshot) {
                 return ListView.separated(
                   padding: const EdgeInsets.only(bottom: 112),

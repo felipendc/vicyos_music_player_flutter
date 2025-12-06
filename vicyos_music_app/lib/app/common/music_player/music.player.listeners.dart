@@ -11,19 +11,19 @@ void audioPlayerStreamListeners() {
   audioPlayer.sequenceStateStream
       .map((sequenceState) => sequenceState.currentSource)
       .where((src) {
-    return src is UriAudioSource;
-  }).map((src) {
-    return src as UriAudioSource;
-  }).distinct((prev, next) {
-    return getCurrentSongFullPath(prev.uri.toString()) ==
-        getCurrentSongFullPath(next.uri.toString());
-  }).listen((gettingCurrentSource) {
-    final currentSource = gettingCurrentSource;
+        return src is UriAudioSource;
+      })
+      .map((src) {
+        return src as UriAudioSource;
+      })
+      .distinct()
+      .listen((gettingCurrentSource) {
+        final currentSource = gettingCurrentSource;
 
-    currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
-    currentSongFullPath = getCurrentSongFullPath(currentSource.uri.toString());
-    getCurrentSongFullPathNotifier();
-  });
+        currentFolderPath = getCurrentSongFolder(currentSource.uri.toString());
+        currentSongFullPath =
+            getCurrentSongFullPath(currentSource.uri.toString());
+      });
 
   // I will need to use another state listener other than!
   audioPlayer.positionStream.listen(
@@ -88,10 +88,10 @@ void audioPlayerStreamListeners() {
   });
 }
 
-// This function will update the display the song title one the audio or folder is imported
+// Update and display the title, artist, album, and index of the song
+
 void preLoadSongName() {
   int? lastSongCurrentIndex;
-
   audioPlayer.currentIndexStream.listen((index) {
     if (lastSongCurrentIndex != index) {
       lastSongCurrentIndex = index;

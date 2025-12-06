@@ -148,7 +148,6 @@ Future<void> cleanPlaylist() async {
   currentSongNameNotifier();
   getCurrentSongFolderNotifier();
   clearCurrentPlaylistNotifier();
-  getCurrentSongFullPathNotifier();
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
