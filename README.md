@@ -52,8 +52,8 @@ These instructions will help you get a copy of this project up and running on yo
 
 #### Java 21 (LTS):
 
-- Java Version: `21.0.6+7`
-- Azul Zulu: `21.40.17`
+- Java Version: `21.0.9+10`
+- Azul Zulu: `21.46.19`
 - Link: https://www.azul.com/downloads/?version=java-21-lts&os=windows&architecture=x86-64-bit&package=jdk#zulu
 
 <!--
