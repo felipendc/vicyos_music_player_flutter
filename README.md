@@ -67,11 +67,12 @@ These instructions will help you get a copy of this project up and running on yo
 
 #### Android Studio:
 
-- Android Studio Otter | `2025.2.1 Patch 1 November 17, 2025`
-- ChromeOS: `android-studio-2025.2.1.8-cros.deb (1.2 GB)`
-- Mac (Apple Silicon): `android-studio-2025.2.1.8-mac_arm.dmg (1.5 GB)`
-- Mac (Intel): `android-studio-2025.2.1.8-mac.dmg (1.5 GB)`
-- Windows (64-bit): `android-studio-2025.2.1.8-windows.exe (1.4 GB)`
+- Android Studio Otter 2 Feature Drop | `2025.2.2 December 4, 2025`
+- ChromeOS: `android-studio-2025.2.2.7-cros.deb (1.2 GB)`
+- Mac (Apple Silicon): `android-studio-2025.2.2.7-mac_arm.dmg (1.5 GB)`
+- Mac (Intel): `android-studio-2025.2.2.7-mac.dmg (1.5 GB)`
+- Windows (64-bit): `android-studio-2025.2.2.7-windows.exe (1.4 GB)`
+- Linux: `android-studio-2025.2.2.7-linux.tar.gz (1.5 GB)`
 - LINK: https://developer.android.com/studio/archive
 - Flutter plugin for Android Studio: https://plugins.jetbrains.com/plugin/9212-flutter
 
