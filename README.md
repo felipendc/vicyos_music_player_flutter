@@ -101,22 +101,23 @@ These instructions will help you get a copy of this project up and running on yo
 
 ### Downloading this project
 
-Clone this repository: `git clone https://github.com/felipendc/vicyos_music_player_flutter.git` <br />
-Navigate to the project directory: `cd vicyos_music_player_flutter` <br />
+Shallow clone this repository: `git clone --depth 1 https://github.com/felipendc/vicyos_music_player_flutter.git` <br />
+Navigate to the project directory: `cd vicyos_music_player_flutter/vicyos_music_app` <br />
 
-<!-- Choose the one you want "GetX" or "StreamBuilder" UI state management. <br /> -->
 
 ### Installing or Compiling
 
-0. Open VS Code Editor
+
+0. Open VS Code Editor or Android Studio (recommended)
 1. Run `flutter clean` to make a clean build and avoid potential build errors.
 2. Run `flutter pub get` to install the required dependencies.
 3. Connect your device to the PC or start an emulator.
-4. Run `flutter run` to launch the app in Debug Mode.
-5. Or better yet! Build the App APK: `flutter clean; flutter pub get; flutter build apk --release`
-6. or just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
-7. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
-8. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
+4. Run `flutter run` to launch the app in debug mode.
+5. Or better yet! Build the App APK in release mode, the app will be much smoother: `flutter clean; flutter pub get; flutter build apk --release`
+6. Or just double click the file `BUILD_APP_WITH_WINDOWS.bat` if you are running Windows.
+7. The app will be built in `{projectDir}/build/app/outputs/flutter-apk/vicyos_music_app_v{version}_release.apk"`
+8. If the app won't list the audio folders once you open it up, make sure to grant permissions to acess and read the media files in the music folder.
+9. Make sure to disable "MIUI battery optimisations" otherwise, MIUI will force stop the player "when/while" you're listening to a song with the app in the background or when the screen is locked or turned off.
 
 ### Dependencies
 
