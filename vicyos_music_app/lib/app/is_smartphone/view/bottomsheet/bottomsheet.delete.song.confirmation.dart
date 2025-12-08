@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_media_delete/flutter_media_delete.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {
   final dynamic songPath;
@@ -24,7 +25,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Text(
-              "DELETE FILE FROM DEVICE",
+              AppLocalizations.of(context)!.delete_from_device_all_capitalized,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 color: TColor.org,
@@ -37,7 +38,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Are you sure?",
+                  AppLocalizations.of(context)!.are_you_sure,
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
                     color: TColor.primaryText80,
@@ -52,7 +53,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                       label: Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: Text(
-                          'Cancel',
+                          AppLocalizations.of(context)!.cancel,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: TColor.primaryText80,
@@ -70,7 +71,7 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                       label: Padding(
                         padding: const EdgeInsets.only(left: 15, right: 15),
                         child: Text(
-                          'Delete',
+                          AppLocalizations.of(context)!.delete,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: TColor.primaryText,

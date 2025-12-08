@@ -13,6 +13,7 @@ import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.statio
 import 'package:vicyos_music/app/common/radio_player/screens/radio.search.screen.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 final GlobalKey mainRadioScreenKey = GlobalKey();
 
@@ -60,7 +61,7 @@ class RadioStationsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Online",
+                                      AppLocalizations.of(context)!.online,
                                       style: TextStyle(
                                         color: TColor.primaryText28
                                             .withValues(alpha: 0.84),
@@ -81,7 +82,7 @@ class RadioStationsScreen extends StatelessWidget {
                                       width: 180,
                                       // color: Colors.grey,
                                       child: Text(
-                                        "Radio",
+                                        AppLocalizations.of(context)!.radio,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -228,7 +229,8 @@ class RadioStationsScreen extends StatelessWidget {
                                       false, // Disable the TextField to avoid interaction
                                   style: const TextStyle(color: Colors.white),
                                   decoration: InputDecoration(
-                                    hintText: 'Search...',
+                                    hintText: AppLocalizations.of(context)!
+                                        .search_with_ellipsis,
                                     hintStyle:
                                         const TextStyle(color: Colors.white60),
                                     filled: false,

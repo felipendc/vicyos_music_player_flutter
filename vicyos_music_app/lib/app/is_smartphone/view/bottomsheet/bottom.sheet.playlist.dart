@@ -7,6 +7,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
   const PlaylistBottomSheet({super.key});
@@ -72,7 +73,8 @@ class PlaylistBottomSheet extends StatelessWidget {
               child: Center(
                 child: FloatingActionButton.extended(
                   label: Text(
-                    'CLEAR PLAYLIST',
+                    AppLocalizations.of(context)!
+                        .clear_playlist_all_capitalized,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: TColor.org,
@@ -81,7 +83,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                   ),
                   onPressed: () {
                     // Clean playlist and rebuild the entire screen to clean the listview
-                    cleanPlaylist();
+                    cleanPlaylist(context);
                   },
                   backgroundColor: TColor.darkGray,
                 ),
@@ -175,13 +177,13 @@ class PlaylistBottomSheet extends StatelessWidget {
                                             ),
                                             "Has been removed from the playlist");
                                         if (playlistCurrentLength == 1) {
-                                          cleanPlaylist();
+                                          cleanPlaylist(context);
                                         } else {
                                           audioPlayer
                                               .removeAudioSourceAt(index);
                                           rebuildPlaylistCurrentLengthNotifier();
                                           if (currentIndex == index) {
-                                            preLoadSongName();
+                                            preLoadSongName(context);
                                           }
                                           rebuildPlaylistCurrentLengthNotifier();
                                         }

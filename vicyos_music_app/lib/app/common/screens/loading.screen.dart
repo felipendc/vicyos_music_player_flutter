@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class LoadingScreen extends StatelessWidget {
   final FetchingSongs currentStatus;
@@ -30,7 +31,9 @@ class LoadingScreen extends StatelessWidget {
                       color: TColor.bg,
                       child: Center(
                         child: Text(
-                          "No songs have been found in the music folder.",
+                          textAlign: TextAlign.center,
+                          AppLocalizations.of(context)!
+                              .no_songs_have_been_found_in_the_music_folder,
                           softWrap: true,
                           overflow: TextOverflow.visible,
                         ),
@@ -44,7 +47,9 @@ class LoadingScreen extends StatelessWidget {
                           color: TColor.bg,
                           child: Center(
                             child: Text(
-                              "There is no music folder on your device.",
+                              textAlign: TextAlign.center,
+                              AppLocalizations.of(context)!
+                                  .there_is_no_music_folder_on_your_device,
                               softWrap: true,
                               overflow: TextOverflow.visible,
                             ),
@@ -63,7 +68,8 @@ class LoadingScreen extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         textAlign: TextAlign.center,
-                                        "No permission to access\n the music folder has been granted.",
+                                        AppLocalizations.of(context)!
+                                            .no_audio_permission_has_been_granted,
                                         softWrap: true,
                                         overflow: TextOverflow.visible,
                                       ),
@@ -75,7 +81,10 @@ class LoadingScreen extends StatelessWidget {
                                 height: 20,
                               ),
                               ElevatedButton(
-                                child: Text("Grant Permission"),
+                                child: Text(
+                                    textAlign: TextAlign.center,
+                                    AppLocalizations.of(context)!
+                                        .grant_permission),
                                 onPressed: () async {
                                   appSettingsWasOpened =
                                       await openAppSettings();

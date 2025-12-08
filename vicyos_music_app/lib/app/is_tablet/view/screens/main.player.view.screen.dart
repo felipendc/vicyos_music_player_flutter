@@ -15,6 +15,7 @@ import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.speed.r
 import 'package:vicyos_music/app/is_tablet/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 final List<Color> colors = [
@@ -152,7 +153,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                 ),
                 isRadioOn
                     ? Text(
-                        "STREAMING",
+                        AppLocalizations.of(context)!.streaming_all_capitalized,
                         style: TextStyle(
                             color: TColor.secondaryText, fontSize: 14),
                       )
@@ -255,8 +256,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                             builder: (context, snapshot) {
                               return Text(
                                 isRadioOn
-                                    ? " of ${radioPlayer.audioSources.length}"
-                                    : " of 0",
+                                    ? " ${AppLocalizations.of(context)!.prepositionOf} ${radioPlayer.audioSources.length}"
+                                    : " ${AppLocalizations.of(context)!.prepositionOf} 0",
                                 style: TextStyle(
                                     color: TColor.secondaryText, fontSize: 15),
                               );
@@ -267,7 +268,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 rebuildPlaylistCurrentLengthController.stream,
                             builder: (context, snapshot) {
                               return Text(
-                                " of $playlistCurrentLength",
+                                " ${AppLocalizations.of(context)!.prepositionOf} $playlistCurrentLength",
                                 style: TextStyle(
                                     color: TColor.secondaryText, fontSize: 14),
                               );
@@ -326,7 +327,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   child: Text(
                                     isRadioOn
                                         ? currentRadioStationLocation
-                                        : "...",
+                                        : AppLocalizations.of(context)!
+                                            .ellipsis,
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -350,11 +352,6 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 stream:
                                     clearCurrentPlaylistStreamController.stream,
                                 builder: (context, snapshot) {
-                                  if (audioPlayer.audioSources.isEmpty) {
-                                    currentSongName = "The playlist is empty";
-                                    currentFolderPath =
-                                        'The song folder will be displayed here...';
-                                  }
                                   return Column(
                                     children: [
                                       SizedBox(
@@ -371,7 +368,12 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               key: ValueKey(currentSongName),
                                               // Set dynamically based on layout
                                               maxWidth: width,
-                                              text: currentSongName,
+                                              text: audioPlayer
+                                                      .audioSources.isEmpty
+                                                  ? AppLocalizations.of(
+                                                          context)!
+                                                      .the_playlist_is_empty
+                                                  : currentSongName,
                                               style: TextStyle(
                                                 color: TColor.primaryText
                                                     .withValues(alpha: 0.9),
@@ -389,7 +391,10 @@ class MainPlayerViewTablet extends StatelessWidget {
                                         padding: const EdgeInsets.fromLTRB(
                                             35, 0, 35, 0),
                                         child: Text(
-                                          currentFolderPath,
+                                          audioPlayer.audioSources.isEmpty
+                                              ? AppLocalizations.of(context)!
+                                                  .the_song_folder_will_be_displayed_here
+                                              : currentFolderPath,
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -537,16 +542,22 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                       .setShuffleModeEnabled(
                                                           false);
                                                   if (context.mounted) {
-                                                    showRadioLoopMode(context,
-                                                        "Repeating all");
+                                                    showRadioLoopMode(
+                                                        context,
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .repeating_all);
                                                   }
                                                 } else {
                                                   await radioPlayer
                                                       .setShuffleModeEnabled(
                                                           true);
                                                   if (context.mounted) {
-                                                    showRadioLoopMode(context,
-                                                        "Playback is shuffled");
+                                                    showRadioLoopMode(
+                                                        context,
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .playback_is_shuffled);
                                                   }
                                                 }
                                                 radioShuffleModeNotifier();

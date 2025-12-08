@@ -5,6 +5,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar homePageAppBar() {
   return AppBar(
@@ -126,7 +127,7 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "Vicyos Music",
+      AppLocalizations.of(context)!.vicyos_music,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
@@ -192,7 +193,7 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "SONG PREVIEW",
+      AppLocalizations.of(context)!.song_preview,
       style: TextStyle(
         fontWeight: FontWeight.w900,
         color: TColor.org,

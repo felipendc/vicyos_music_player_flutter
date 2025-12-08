@@ -11,6 +11,7 @@ import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/song.search.screen.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class SongsListScreen extends StatelessWidget {
   final String folderPath;
@@ -59,7 +60,7 @@ class SongsListScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Folder:",
+                                    AppLocalizations.of(context)!.folder_name,
                                     style: TextStyle(
                                       color: TColor.primaryText28
                                           .withValues(alpha: 0.84),
@@ -220,7 +221,8 @@ class SongsListScreen extends StatelessWidget {
                                 // Disable the TextField to avoid interaction
                                 style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                  hintText: 'Search...',
+                                  hintText: AppLocalizations.of(context)!
+                                      .search_with_ellipsis,
                                   hintStyle:
                                       const TextStyle(color: Colors.white60),
                                   filled: false,
@@ -387,7 +389,8 @@ class SongsListScreen extends StatelessWidget {
                                       songIsPlaying = true;
                                     }
                                   } else {
-                                    setFolderAsPlaylist(folderSongList, index);
+                                    setFolderAsPlaylist(
+                                        folderSongList, index, context);
                                     debugPrint(
                                         "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                                     debugPrint(

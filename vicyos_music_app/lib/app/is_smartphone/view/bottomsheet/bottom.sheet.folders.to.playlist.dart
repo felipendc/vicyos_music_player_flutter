@@ -6,6 +6,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
@@ -49,7 +50,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Folder Name:",
+                                AppLocalizations.of(context)!.folder_name,
                                 style: TextStyle(
                                   color: TColor.primaryText28
                                       .withValues(alpha: 0.84),
@@ -143,7 +144,8 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Add folder to the current playlist",
+                          AppLocalizations.of(context)!
+                              .add_folder_to_the_current_playlist,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,
@@ -152,12 +154,13 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Navigator.pop(context);
-                          addFolderToPlaylist(folderSongList);
+                          addFolderToPlaylist(folderSongList, context);
                           showAddedToPlaylist(
                               context,
                               "Folder",
                               folderName(folderPath),
-                              "Added to the current playlist");
+                              AppLocalizations.of(context)!
+                                  .added_to_the_current_playlist);
                         },
                       ),
                     ),
@@ -179,7 +182,8 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Play all the songs from this folder",
+                          AppLocalizations.of(context)!
+                              .play_all_the_songs_from_this_folder,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,
@@ -189,7 +193,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           mainPlayerIsOpen = true;
                           Navigator.pop(context);
-                          setFolderAsPlaylist(folderSongList, 0);
+                          setFolderAsPlaylist(folderSongList, 0, context);
 
                           Navigator.push(
                             context,

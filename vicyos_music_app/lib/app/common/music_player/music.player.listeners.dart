@@ -1,9 +1,11 @@
 // This function should be used on a flutter.initState or GetX.on_init_app();
 
 import 'package:audio_service/audio_service.dart';
+import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 void audioPlayerStreamListeners() {
   // Getting the current song path and its folder
@@ -90,7 +92,7 @@ void audioPlayerStreamListeners() {
 
 // Update and display the title, artist, album, and index of the song
 
-void preLoadSongName() {
+void preLoadSongName(BuildContext context) {
   int? lastSongCurrentIndex;
   audioPlayer.currentIndexStream.listen((index) {
     if (lastSongCurrentIndex != index) {
@@ -99,11 +101,17 @@ void preLoadSongName() {
       if (lastSongCurrentIndex != null) {
         if (index == null) return; // The song hasn't been loaded yet
         if (index < 0 || index >= audioPlayer.sequence.length) return;
-
         final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
         currentSongName = currentMediaItem.title;
-        currentSongArtistName = currentMediaItem.artist ?? "Unknown Artist";
-        currentSongAlbumName = currentMediaItem.album ?? "Unknown Album";
+        if (context.mounted) {
+          currentSongArtistName = currentMediaItem.artist ??
+              AppLocalizations.of(context)!.unknown_artist;
+        }
+        if (context.mounted) {
+          currentSongAlbumName = currentMediaItem.album ??
+              AppLocalizations.of(context)!.unknown_album;
+        }
+
         currentIndex = index;
         currentSongNameNotifier();
       }

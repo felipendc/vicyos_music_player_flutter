@@ -17,6 +17,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:volume_controller/volume_controller.dart';
 
 enum CurrentLoopMode { all, one, shuffle, off }
@@ -38,20 +39,20 @@ bool mainPlayerIsOpen = false;
 late bool audioPlayerWasPlaying;
 bool noDeviceMusicFolderFound = false;
 bool isSongPreviewBottomSheetOpen = false;
-String currentFolderPath = 'The song folder will be displayed here...';
+String currentFolderPath = ""; //""The song folder will be displayed here...";
 String currentSongFullPath = '';
 int playlistCurrentLength = 0;
 String currentLoopModeIcon = 'assets/img/repeat_mode/repeat_all.png';
 late double volumeSliderValue;
-String currentSongAlbumName = 'Unknown Album';
-String currentSongName = 'The playlist is empty';
+String currentSongAlbumName = ""; //""Unknown Album";
+String currentSongName = ""; //""The playlist is empty";
 Duration currentSongDurationPosition = Duration.zero;
 Duration currentSongTotalDuration = Duration.zero;
 double sleekCircularSliderPosition = 0.0;
 double sleekCircularSliderDuration = 100.0;
 List<FolderSources> musicFolderPaths = <FolderSources>[];
 List<AudioInfo> folderSongList = <AudioInfo>[];
-String currentSongArtistName = 'Unknown Artist';
+String currentSongArtistName = ""; //""Unknown Artist";
 late final File notificationPlayerAlbumArt;
 bool songIsPlaying = false;
 bool isStopped = false;
@@ -60,7 +61,7 @@ bool firstSongIndex = true;
 bool lastSongIndex = false;
 bool penultimateSongIndex = false;
 Duration currentPosition = Duration.zero;
-String currentLoopModeLabel = 'Repeat: All';
+String currentLoopModeLabel = ""; //"Repeat: All";
 late AudioPlayer audioPlayer;
 late final MediaItem mediaItem;
 final playlist = <AudioSource>[];
@@ -131,7 +132,7 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-Future<void> cleanPlaylist() async {
+Future<void> cleanPlaylist(BuildContext context) async {
   audioPlayer.stop();
   await audioPlayer.clearAudioSources();
   audioPlayer.audioSources.clear();
@@ -140,9 +141,18 @@ Future<void> cleanPlaylist() async {
   currentSongDurationPosition = Duration.zero;
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
-  currentSongName = "The playlist is empty";
-  currentSongAlbumName = "Unknown Album";
-  currentFolderPath = 'The song folder will be displayed here...';
+
+  if (context.mounted) {
+    currentSongName = AppLocalizations.of(context)!.the_playlist_is_empty;
+  }
+  if (context.mounted) {
+    currentSongAlbumName = AppLocalizations.of(context)!.unknown_album;
+  }
+
+  if (context.mounted) {
+    currentFolderPath =
+        AppLocalizations.of(context)!.the_song_folder_will_be_displayed_here;
+  }
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
   currentSongNameNotifier();
@@ -236,7 +246,7 @@ void repeatMode(BuildContext context) {
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_one.png";
     debugPrint("Repeat: One");
-    showLoopMode(context, "Repeating one");
+    showLoopMode(context, AppLocalizations.of(context)!.repeating_one);
   } else if (currentLoopMode == CurrentLoopMode.one) {
     currentLoopMode = CurrentLoopMode.shuffle;
     repeatModeNotifier();
@@ -244,7 +254,7 @@ void repeatMode(BuildContext context) {
     audioPlayer.setShuffleModeEnabled(true);
     currentLoopModeIcon = "assets/img/repeat_mode/shuffle_1.png";
     debugPrint("Repeat: Shuffle");
-    showLoopMode(context, "Playback is shuffled");
+    showLoopMode(context, AppLocalizations.of(context)!.playback_is_shuffled);
   } else if (currentLoopMode == CurrentLoopMode.shuffle) {
     currentLoopMode = CurrentLoopMode.off;
     repeatModeNotifier();
@@ -252,14 +262,14 @@ void repeatMode(BuildContext context) {
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_none.png";
     debugPrint("Repeat: Off");
-    showLoopMode(context, "Repeating off");
+    showLoopMode(context, AppLocalizations.of(context)!.repeating_off);
   } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
     repeatModeNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_all.png";
     debugPrint("Repeat: All");
-    showLoopMode(context, "Repeating all");
+    showLoopMode(context, AppLocalizations.of(context)!.repeating_all);
   }
 }
 
@@ -337,7 +347,7 @@ String formatDuration(Duration duration) {
   }
 }
 
-Future<void> pickFolder() async {
+Future<void> pickFolder(BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -379,11 +389,11 @@ Future<void> pickFolder() async {
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          // album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
@@ -401,7 +411,9 @@ Future<void> pickFolder() async {
         preload: true,
       );
       firstSongIndex = true;
-      preLoadSongName();
+      if (context.mounted) {
+        preLoadSongName(context);
+      }
 
       // await playOrPause();
     } else {
@@ -423,11 +435,11 @@ Future<void> pickFolder() async {
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          // album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
@@ -445,7 +457,7 @@ Future<void> pickFolder() async {
   }
 }
 
-Future<void> pickAndPlayAudio() async {
+Future<void> pickAndPlayAudio(BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -483,11 +495,11 @@ Future<void> pickAndPlayAudio() async {
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          // album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
@@ -502,7 +514,9 @@ Future<void> pickAndPlayAudio() async {
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
-      preLoadSongName();
+      if (context.mounted) {
+        preLoadSongName(context);
+      }
     } else {
       for (String filePath in selectedSongs) {
         // Try to extract metadata from the local file
@@ -522,11 +536,11 @@ Future<void> pickAndPlayAudio() async {
 
         final mediaItem = MediaItem(
           id: const Uuid().v4(),
-          // album: metadata?.albumName ?? 'Unknown Album',
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
           // Using the name of the file as the title by default
           title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
           artUri: Uri.file(notificationPlayerAlbumArt.path),
         );
 
@@ -546,7 +560,7 @@ Future<void> pickAndPlayAudio() async {
 //
 
 Future<void> setFolderAsPlaylist(
-    dynamic currentFolder, int currentIndex) async {
+    dynamic currentFolder, int currentIndex, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -568,11 +582,11 @@ Future<void> setFolderAsPlaylist(
 
     final mediaItem = MediaItem(
       id: const Uuid().v4(),
-      // album: metadata?.albumName ?? 'Unknown Album',
+      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
-      // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
@@ -593,12 +607,13 @@ Future<void> setFolderAsPlaylist(
   );
 
   firstSongIndex = true;
-  preLoadSongName();
+  preLoadSongName(context);
   playOrPause();
   rebuildPlaylistCurrentLengthNotifier();
 }
 
-Future<void> addFolderToPlaylist(dynamic currentFolder) async {
+Future<void> addFolderToPlaylist(
+    dynamic currentFolder, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -619,11 +634,11 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
 
       final mediaItem = MediaItem(
         id: const Uuid().v4(),
-        // album: metadata?.albumName ?? 'Unknown Album',
+        // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
-        // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
         artUri: Uri.file(notificationPlayerAlbumArt.path),
       );
 
@@ -644,7 +659,7 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
     );
 
     firstSongIndex = true;
-    preLoadSongName();
+    preLoadSongName(context);
     playOrPause();
     rebuildPlaylistCurrentLengthNotifier();
   } else {
@@ -664,11 +679,11 @@ Future<void> addFolderToPlaylist(dynamic currentFolder) async {
 
       final mediaItem = MediaItem(
         id: filePathAsId,
-        // album: metadata?.albumName ?? 'Unknown Album',
+        // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
         // Using the name of the file as the title by default
         title: fileNameWithoutExtension,
-        // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+        // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
         artUri: Uri.file(notificationPlayerAlbumArt.path),
       );
 
@@ -703,11 +718,11 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
 
     final mediaItem = MediaItem(
       id: const Uuid().v4(),
-      // album: metadata?.albumName ?? 'Unknown Album',
+      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
-      // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
@@ -720,10 +735,10 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
 
     audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
     firstSongIndex = true;
-    preLoadSongName();
+    preLoadSongName(context);
     playOrPause();
-    showAddedToPlaylist(
-        context, "Folder", songName(songPath), "Added to the playlist");
+    showAddedToPlaylist(context, "Folder", songName(songPath),
+        AppLocalizations.of(context)!.added_to_the_playlist);
     rebuildPlaylistCurrentLengthNotifier();
   } else {
     playlist.clear();
@@ -740,11 +755,11 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
 
     final mediaItem = MediaItem(
       id: const Uuid().v4(),
-      // album: metadata?.albumName ?? 'Unknown Album',
+      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
       // Using the name of the file as the title by default
       title: fileNameWithoutExtension,
-      // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
@@ -758,12 +773,12 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
 
     if (context.mounted) {
       showAddedToPlaylist(context, "Folder", songName(songPath),
-          "Added to the current playlist");
+          AppLocalizations.of(context)!.added_to_the_current_playlist);
     }
   }
 }
 
-void addToPlayNext(String playNextFilePath) {
+void addToPlayNext(String playNextFilePath, BuildContext context) {
   File audioFile = File(playNextFilePath);
   String fileNameWithoutExtension =
       path.basenameWithoutExtension(playNextFilePath);
@@ -778,11 +793,11 @@ void addToPlayNext(String playNextFilePath) {
 
   final mediaItem = MediaItem(
     id: filePathAsId,
-    // album: metadata?.albumName ?? 'Unknown Album',
+    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
     // Using the name of the file as the title by default
     title: fileNameWithoutExtension,
-    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
@@ -798,7 +813,7 @@ void addToPlayNext(String playNextFilePath) {
 
     audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
     firstSongIndex = true;
-    preLoadSongName();
+    preLoadSongName(context);
     rebuildPlaylistCurrentLengthNotifier();
     playOrPause();
   } else {

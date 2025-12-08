@@ -6,6 +6,7 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar homePageAppBar() {
   return AppBar(
@@ -106,7 +107,9 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
         stream: switchingToRadioStreamController.stream,
         builder: (context, asyncSnapshot) {
           return Text(
-            isRadioOn ? "Vicyos Radio" : "Vicyos Music",
+            isRadioOn
+                ? AppLocalizations.of(context)!.vicyos_radio
+                : AppLocalizations.of(context)!.vicyos_music,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -175,7 +178,7 @@ AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "SONG PREVIEW",
+      AppLocalizations.of(context)!.song_preview,
       style: TextStyle(
         fontWeight: FontWeight.w900,
         color: TColor.org,

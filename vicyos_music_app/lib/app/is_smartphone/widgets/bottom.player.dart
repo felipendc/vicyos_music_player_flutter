@@ -7,6 +7,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.navigation.animation.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.player.view.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class BottomPlayer extends StatelessWidget {
   const BottomPlayer({super.key});
@@ -175,7 +176,13 @@ class BottomPlayer extends StatelessWidget {
                                                         currentSongName),
                                                     // Set dynamically based on layout
                                                     maxWidth: width,
-                                                    text: currentSongName,
+                                                    text: audioPlayer
+                                                            .audioSources
+                                                            .isEmpty
+                                                        ? AppLocalizations.of(
+                                                                context)!
+                                                            .the_playlist_is_empty
+                                                        : currentSongName,
                                                     style: TextStyle(
                                                       color: TColor.primaryText
                                                           .withValues(
@@ -218,7 +225,7 @@ class BottomPlayer extends StatelessWidget {
                                                         .stream,
                                                 builder: (context, snapshot) {
                                                   return Text(
-                                                    " of $playlistCurrentLength",
+                                                    " ${AppLocalizations.of(context)!.prepositionOf} $playlistCurrentLength",
                                                     style: TextStyle(
                                                         color: TColor
                                                             .secondaryText,

@@ -7,6 +7,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/widgets/music_visualizer.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class PlaylistBottomSheetTablet extends StatelessWidget {
   const PlaylistBottomSheetTablet({super.key});
@@ -104,7 +105,7 @@ class PlaylistBottomSheetTablet extends StatelessWidget {
                         stream: rebuildPlaylistCurrentLengthController.stream,
                         builder: (context, snapshot) {
                           return Text(
-                            " of $playlistCurrentLength",
+                            " ${AppLocalizations.of(context)!.prepositionOf} $playlistCurrentLength",
                             style: TextStyle(
                               color: TColor.secondaryText,
                               fontSize: 18,
@@ -126,7 +127,8 @@ class PlaylistBottomSheetTablet extends StatelessWidget {
                   child: Center(
                     child: FloatingActionButton.extended(
                       label: Text(
-                        'CLEAR PLAYLIST',
+                        AppLocalizations.of(context)!
+                            .clear_playlist_all_capitalized,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: TColor.org,
@@ -136,7 +138,7 @@ class PlaylistBottomSheetTablet extends StatelessWidget {
                       onPressed: () {
                         if (audioPlayer.audioSources.isNotEmpty) {
                           // Clean playlist and rebuild the entire screen to clean the listview
-                          cleanPlaylist();
+                          cleanPlaylist(context);
                         }
                       },
                       backgroundColor: TColor.darkGray,
@@ -259,13 +261,13 @@ class PlaylistBottomSheetTablet extends StatelessWidget {
                                               ),
                                               "Has been removed from the playlist");
                                           if (playlistCurrentLength == 1) {
-                                            cleanPlaylist();
+                                            cleanPlaylist(context);
                                           } else {
                                             audioPlayer
                                                 .removeAudioSourceAt(index);
                                             rebuildPlaylistCurrentLengthNotifier();
                                             if (currentIndex == index) {
-                                              preLoadSongName();
+                                              preLoadSongName(context);
                                             }
                                             rebuildPlaylistCurrentLengthNotifier();
                                           }

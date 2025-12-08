@@ -9,6 +9,7 @@ import 'package:vicyos_music/app/is_smartphone/navigation_animation/main.player.
     show mainPlayerSlideUpDownTransition;
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class RadioBottomPlayer extends StatelessWidget {
   const RadioBottomPlayer({super.key});
@@ -140,7 +141,9 @@ class RadioBottomPlayer extends StatelessWidget {
                                                   maxWidth: width,
                                                   text: isRadioOn
                                                       ? currentRadioStationName
-                                                      : "The radio is turned off",
+                                                      : AppLocalizations.of(
+                                                              context)!
+                                                          .the_radio_is_turned_off,
 
                                                   style: TextStyle(
                                                     color: TColor.primaryText
@@ -193,8 +196,8 @@ class RadioBottomPlayer extends StatelessWidget {
                                                         (context, snapshot) {
                                                       return Text(
                                                         isRadioOn
-                                                            ? " of ${radioPlayer.audioSources.length}"
-                                                            : " of 0",
+                                                            ? " ${AppLocalizations.of(context)!.prepositionOf} ${radioPlayer.audioSources.length}"
+                                                            : " ${AppLocalizations.of(context)!.prepositionOf} 0",
                                                         style: TextStyle(
                                                             color: TColor
                                                                 .secondaryText,

@@ -12,6 +12,7 @@ import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visuali
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 final List<Color> colors = [
@@ -121,7 +122,7 @@ class MainRadioPlayerView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "STREAMING",
+                  AppLocalizations.of(context)!.streaming_all_capitalized,
                   style: TextStyle(color: TColor.secondaryText, fontSize: 15),
                 ),
               ],
@@ -155,8 +156,8 @@ class MainRadioPlayerView extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       isRadioOn
-                          ? " of ${radioPlayer.audioSources.length}"
-                          : " of 0",
+                          ? " ${AppLocalizations.of(context)!.prepositionOf} ${radioPlayer.audioSources.length}"
+                          : " ${AppLocalizations.of(context)!.prepositionOf} 0",
                       style:
                           TextStyle(color: TColor.secondaryText, fontSize: 15),
                     );
@@ -191,7 +192,8 @@ class MainRadioPlayerView extends StatelessWidget {
                                 maxWidth: width,
                                 text: isRadioOn
                                     ? currentRadioStationName
-                                    : "The radio is turned off",
+                                    : AppLocalizations.of(context)!
+                                        .the_radio_is_turned_off,
                                 style: TextStyle(
                                   color:
                                       TColor.primaryText.withValues(alpha: 0.9),
@@ -208,7 +210,9 @@ class MainRadioPlayerView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                           child: Text(
-                            isRadioOn ? currentRadioStationLocation : "...",
+                            isRadioOn
+                                ? currentRadioStationLocation
+                                : AppLocalizations.of(context)!.ellipsis,
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -323,14 +327,18 @@ class MainRadioPlayerView extends StatelessWidget {
                                             .setShuffleModeEnabled(false);
                                         if (context.mounted) {
                                           showRadioLoopMode(
-                                              context, "Repeating all");
+                                              context,
+                                              AppLocalizations.of(context)!
+                                                  .repeating_all);
                                         }
                                       } else {
                                         await radioPlayer
                                             .setShuffleModeEnabled(true);
                                         if (context.mounted) {
                                           showRadioLoopMode(
-                                              context, "Playback is shuffled");
+                                              context,
+                                              AppLocalizations.of(context)!
+                                                  .playback_is_shuffled);
                                         }
                                       }
                                       radioShuffleModeNotifier();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 void showLoopMode(BuildContext context, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
@@ -45,7 +46,7 @@ void showLoopMode(BuildContext context, String message) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "REPEAT MODE:",
+                      AppLocalizations.of(context)!.repeat_mode_all_capitalized,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart'
     show pickAndPlayAudio, pickFolder;
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class ImportFilesBottomSheet extends StatelessWidget {
   const ImportFilesBottomSheet({super.key});
@@ -32,7 +33,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              "ADD TO PLAYLIST",
+              AppLocalizations.of(context)!.add_to_playlist_all_capitalized,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 color: TColor.org,
@@ -58,7 +59,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Import folder",
+                          AppLocalizations.of(context)!.import_folder,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 19,
@@ -66,7 +67,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          await pickFolder();
+                          await pickFolder(context);
                         },
                       ),
                     ),
@@ -88,7 +89,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Add songs",
+                          AppLocalizations.of(context)!.add_songs,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 19,
@@ -96,7 +97,7 @@ class ImportFilesBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          await pickAndPlayAudio();
+                          await pickAndPlayAudio(context);
                         },
                       ),
                     ),

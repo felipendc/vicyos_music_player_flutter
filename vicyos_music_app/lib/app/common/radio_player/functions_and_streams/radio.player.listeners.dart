@@ -30,7 +30,7 @@ void radioPlayerStreamListeners() {
       if (mediaItem.title != currentRadioStationName) {
         // Getting the current station info
         currentRadioStationName = mediaItem.title;
-        currentRadioStationLocation = mediaItem.album ?? "...";
+        currentRadioStationLocation = mediaItem.album!;
         currentRadioStationID = mediaItem.id;
 
         //debugPrint("CURRENT INDEX ID $currentIndex: ${mediaItem.id}");

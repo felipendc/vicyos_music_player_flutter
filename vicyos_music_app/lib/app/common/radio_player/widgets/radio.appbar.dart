@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar mainRadioPlayerViewAppBar(BuildContext context) {
   return AppBar(
@@ -25,7 +26,7 @@ AppBar mainRadioPlayerViewAppBar(BuildContext context) {
     centerTitle: true,
     backgroundColor: TColor.bg,
     title: Text(
-      "Vicyos Radio",
+      AppLocalizations.of(context)!.vicyos_radio,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(

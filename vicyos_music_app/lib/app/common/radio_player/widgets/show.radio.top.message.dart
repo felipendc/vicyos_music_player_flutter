@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 void showRadioLoopMode(BuildContext context, String message) {
   OverlayEntry overlayEntry = OverlayEntry(
@@ -47,7 +48,7 @@ void showRadioLoopMode(BuildContext context, String message) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "REPEAT MODE:",
+                      AppLocalizations.of(context)!.repeat_mode_all_capitalized,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.white,
@@ -140,7 +141,8 @@ void errorToFetchRadioStationCard(BuildContext context, String radio) {
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      "ERROR TO PLAY RADIO STATION",
+                      AppLocalizations.of(context)!
+                          .error_to_play_radio_station_all_capitalized,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ],

@@ -8,6 +8,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
@@ -306,7 +307,8 @@ class SongPreviewBottomSheet extends StatelessWidget {
                 children: [
                   FloatingActionButton.extended(
                     label: Text(
-                      'ADD TO PLAYLIST',
+                      AppLocalizations.of(context)!
+                          .add_to_playlist_all_capitalized,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: TColor.focusStart,

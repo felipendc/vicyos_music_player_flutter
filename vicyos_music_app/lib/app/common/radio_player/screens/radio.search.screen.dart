@@ -10,6 +10,7 @@ import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.statio
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart' show AppLocalizations;
 
 class RadioSearchScreen extends StatelessWidget {
   const RadioSearchScreen({super.key});
@@ -95,7 +96,7 @@ class RadioSearchScreen extends StatelessWidget {
           onChanged: onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: AppLocalizations.of(context)!.search_with_ellipsis,
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
             fillColor: const Color(0xff24273A), // TextField background color
@@ -149,7 +150,7 @@ class RadioSearchScreen extends StatelessWidget {
                     size: 40,
                   ),
                 ),
-                Text("Just a sec..."),
+                Text(AppLocalizations.of(context)!.just_a_sec),
               ],
             );
           } else if (isSearching == "finished") {
@@ -351,8 +352,8 @@ class RadioSearchScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                const Center(
-                  child: Text('No search results',
+                Center(
+                  child: Text(AppLocalizations.of(context)!.no_search_results,
                       style: TextStyle(color: Colors.white)),
                 ),
               ],

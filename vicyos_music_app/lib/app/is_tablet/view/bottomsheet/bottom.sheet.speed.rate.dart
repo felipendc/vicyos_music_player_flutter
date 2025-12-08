@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 List<String> speedRates = [
   "2.0",
@@ -98,7 +99,7 @@ class SpeedRateBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 7),
             Text(
-              "PLAYBACK SPEED",
+              AppLocalizations.of(context)!.playback_speed_all_capitalized,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 color: TColor.org,
@@ -143,7 +144,8 @@ class SpeedRateBottomSheet extends StatelessWidget {
                                           color: TColor.focus,
                                         ),
                               title: (speedRates[index] == "1.0")
-                                  ? Text("${speedRates[index]}x  -  Default",
+                                  ? Text(
+                                      "${speedRates[index]}x  -  ${AppLocalizations.of(context)!.default_playback_speed}",
                                       style: TextStyle(
                                         color: TColor.primaryText80,
                                         fontSize: 19,

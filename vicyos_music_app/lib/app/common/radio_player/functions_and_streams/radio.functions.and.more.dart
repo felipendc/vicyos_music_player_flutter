@@ -11,6 +11,7 @@ import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.statio
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
@@ -122,7 +123,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist();
+  cleanPlaylist(context);
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
@@ -132,12 +133,12 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 
     final mediaItem = MediaItem(
       id: radioStation.id,
-      // album: metadata?.albumName ?? 'Unknown Album',
+      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
       // Using the name of the file as the title by default
       title: radioStation.radioName,
       album: radioStation.radioLocation,
-      // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
     );
 
@@ -183,19 +184,19 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist();
+  cleanPlaylist(context);
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: foundStations[index].id,
-    // album: metadata?.albumName ?? 'Unknown Album',
+    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
     // Using the name of the file as the title by default
     title: foundStations[index].radioName,
     album: foundStations[index].radioLocation,
-    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
@@ -251,19 +252,21 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist();
+  cleanPlaylist(context);
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: currentRadioStationID,
-    // album: metadata?.albumName ?? 'Unknown Album',
+    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
     // Using the name of the file as the title by default
     title: currentRadioStationName,
-    album: currentRadioStationLocation,
-    // artist: metadata?.albumArtistName ?? 'Unknown Artist',
+    album: currentRadioStationLocation.isEmpty
+        ? AppLocalizations.of(context)!.ellipsis
+        : currentRadioStationLocation,
+    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 

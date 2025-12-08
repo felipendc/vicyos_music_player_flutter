@@ -10,6 +10,7 @@ import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -95,7 +96,7 @@ class SearchScreen extends StatelessWidget {
           onChanged: onTextChanged, // Detects text changes
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: AppLocalizations.of(context)!.search_with_ellipsis,
             hintStyle: const TextStyle(color: Colors.white60),
             filled: true,
             fillColor: const Color(0xff24273A), // TextField background color
@@ -149,7 +150,7 @@ class SearchScreen extends StatelessWidget {
                     size: 40,
                   ),
                 ),
-                Text("Just a sec..."),
+                Text(AppLocalizations.of(context)!.just_a_sec),
               ],
             );
           } else if (isSearching == "finished") {
@@ -292,7 +293,7 @@ class SearchScreen extends StatelessWidget {
                             },
                           ),
                           onTap: () {
-                            setFolderAsPlaylist(foundSongs, index);
+                            setFolderAsPlaylist(foundSongs, index, context);
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                             debugPrint('Tapped on ${(foundSongs[index].path)}');
@@ -313,8 +314,8 @@ class SearchScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                const Center(
-                  child: Text('No search results',
+                Center(
+                  child: Text(AppLocalizations.of(context)!.no_search_results,
                       style: TextStyle(color: Colors.white)),
                 ),
               ],

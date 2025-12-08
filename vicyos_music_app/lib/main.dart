@@ -5,8 +5,10 @@ import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/splash_screen/splash.screen.dart';
 import 'package:vicyos_music/app/common/status_bar_theme/status.bar.theme.color.matching.dart';
+import 'package:vicyos_music/l10n/get_system_locale.dart';
 
 import 'app/common/on_init_app/on.init.app.dart';
+import 'l10n/app_localizations.dart';
 
 // flutter clean; flutter pub get; flutter build apk --release
 
@@ -17,7 +19,6 @@ void main() async {
     androidNotificationChannelName: 'Vicyos Music',
     androidNotificationOngoing: true,
   );
-
   await onInitPlayer();
 
   runApp(const MyApp());
@@ -46,7 +47,10 @@ class MyApp extends StatelessWidget {
         }
       },
       child: MaterialApp(
-        title: 'Vicyos Music',
+        locale: getAppLocale(), // Set the app default language
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: "Vicyos Music",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: "Circular Std",

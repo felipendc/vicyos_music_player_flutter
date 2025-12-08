@@ -10,6 +10,7 @@ import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.spe
 import 'package:vicyos_music/app/is_smartphone/widgets/appbars.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/marquee.text.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 final List<Color> colors = [
@@ -212,7 +213,7 @@ class MainPlayerView extends StatelessWidget {
                   stream: rebuildPlaylistCurrentLengthController.stream,
                   builder: (context, snapshot) {
                     return Text(
-                      " of $playlistCurrentLength",
+                      " ${AppLocalizations.of(context)!.prepositionOf} $playlistCurrentLength",
                       style:
                           TextStyle(color: TColor.secondaryText, fontSize: 15),
                     );
@@ -233,11 +234,6 @@ class MainPlayerView extends StatelessWidget {
                     return StreamBuilder<void>(
                       stream: clearCurrentPlaylistStreamController.stream,
                       builder: (context, snapshot) {
-                        if (audioPlayer.audioSources.isEmpty) {
-                          currentSongName = "The playlist is empty";
-                          currentFolderPath =
-                              'The song folder will be displayed here...';
-                        }
                         return Column(
                           children: [
                             SizedBox(
@@ -253,7 +249,10 @@ class MainPlayerView extends StatelessWidget {
                                     key: ValueKey(currentSongName),
                                     // Set dynamically based on layout
                                     maxWidth: width,
-                                    text: currentSongName,
+                                    text: audioPlayer.audioSources.isEmpty
+                                        ? AppLocalizations.of(context)!
+                                            .the_playlist_is_empty
+                                        : currentSongName,
                                     style: TextStyle(
                                       color: TColor.primaryText
                                           .withValues(alpha: 0.9),
@@ -270,7 +269,10 @@ class MainPlayerView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                               child: Text(
-                                currentFolderPath,
+                                audioPlayer.audioSources.isEmpty
+                                    ? AppLocalizations.of(context)!
+                                        .the_song_folder_will_be_displayed_here
+                                    : currentFolderPath,
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

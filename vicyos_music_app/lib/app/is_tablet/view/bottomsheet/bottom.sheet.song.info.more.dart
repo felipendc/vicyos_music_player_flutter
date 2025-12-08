@@ -5,6 +5,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.functions.and.
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 import 'bottomsheet.delete.song.confirmation.dart';
 
@@ -48,7 +49,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Song Name:",
+                                AppLocalizations.of(context)!.song_name,
                                 style: TextStyle(
                                   color: TColor.primaryText28
                                       .withValues(alpha: 0.84),
@@ -143,7 +144,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Song Preview",
+                          AppLocalizations.of(context)!.song_preview,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,
@@ -206,7 +207,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Add to Play Next",
+                          AppLocalizations.of(context)!.add_to_play_next,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,
@@ -214,7 +215,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () {
-                          addToPlayNext(fullFilePath);
+                          addToPlayNext(fullFilePath, context);
                           Navigator.pop(context);
                           showAddedToPlaylist(context, "Song",
                               songName(fullFilePath), "Added to play next");
@@ -233,7 +234,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Share",
+                          AppLocalizations.of(context)!.share,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,
@@ -258,7 +259,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          "Delete from device",
+                          AppLocalizations.of(context)!.delete_from_device,
                           style: TextStyle(
                             color: TColor.primaryText80,
                             fontSize: 18,

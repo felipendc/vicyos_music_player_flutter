@@ -16,6 +16,7 @@ import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.fol
 import 'package:vicyos_music/app/is_smartphone/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class HomePageFolderList extends StatelessWidget {
   HomePageFolderList({super.key}) {
@@ -75,7 +76,7 @@ class HomePageFolderList extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Welcome to...",
+                                    AppLocalizations.of(context)!.welcome_to,
                                     style: TextStyle(
                                       color: TColor.primaryText28
                                           .withValues(alpha: 0.84),
@@ -92,7 +93,7 @@ class HomePageFolderList extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Vicyos Music",
+                                    AppLocalizations.of(context)!.vicyos_music,
                                     style: TextStyle(
                                       color: TColor.primaryText
                                           .withValues(alpha: 0.84),
@@ -282,7 +283,8 @@ class HomePageFolderList extends StatelessWidget {
                                 // Disable the TextField to avoid interaction
                                 style: const TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
-                                  hintText: 'Search...',
+                                  hintText: AppLocalizations.of(context)!
+                                      .search_with_ellipsis,
                                   hintStyle:
                                       const TextStyle(color: Colors.white60),
                                   filled: false,
@@ -399,9 +401,9 @@ class HomePageFolderList extends StatelessWidget {
                                         ),
                                       ),
                                       subtitle: Text(
-                                        musicFolderPaths[index].songs > 1
-                                            ? '${musicFolderPaths[index].songs.toString()} songs'
-                                            : '${musicFolderPaths[index].songs.toString()} song',
+                                        AppLocalizations.of(context)!
+                                            .number_of_songs_in_folder(
+                                                musicFolderPaths[index].songs),
                                         style: const TextStyle(
                                             fontFamily: "Circular Std",
                                             fontSize: 15,
