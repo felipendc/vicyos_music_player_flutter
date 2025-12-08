@@ -221,7 +221,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get add_folder_to_the_current_playlist => 'Adicionar pasta à playlist atual';
 
   @override
-  String get added_to_the_current_playlist => 'Adicionada à playlist atual';
+  String get added_to_the_current_playlist => 'Adicionado à playlist atual';
 
   @override
   String get play_all_the_songs_from_this_folder => 'Reproduzir todas as músicas desta pasta';
@@ -299,7 +299,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get unknown_artist => 'Artista desconhecido';
 
   @override
-  String get added_to_the_playlist => 'Adicionada à playlist';
+  String get added_to_the_playlist => 'Adicionado à playlist';
 
   @override
   String get repeat_mode_all_capitalized => 'MODO DE REPETIÇÃO:';
