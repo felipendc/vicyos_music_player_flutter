@@ -390,11 +390,17 @@ abstract class AppLocalizations {
   /// **'Removed from the playlist'**
   String get removed_from_the_playlist;
 
-  /// No description provided for @this_file_was_shared_using_the_vicyos_music_app.
+  /// No description provided for @single_shared_file.
   ///
   /// In en, this message translates to:
   /// **'This file was shared via the Vicyos Music app.'**
-  String get this_file_was_shared_using_the_vicyos_music_app;
+  String get single_shared_file;
+
+  /// No description provided for @multiple_shared_files.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{} =1{This file was shared using the Vicyos Music app.} other{These {count} files were shared using the Vicyos Music app.}}'**
+  String multiple_shared_files(num count);
 
   /// No description provided for @number_of_songs_in_folder.
   ///

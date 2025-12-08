@@ -156,7 +156,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get removed_from_the_playlist => 'Removed from the playlist';
 
   @override
-  String get this_file_was_shared_using_the_vicyos_music_app => 'This file was shared via the Vicyos Music app.';
+  String get single_shared_file => 'This file was shared via the Vicyos Music app.';
+
+  @override
+  String multiple_shared_files(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'These $count files were shared using the Vicyos Music app.',
+      one: 'This file was shared using the Vicyos Music app.',
+      zero: '',
+    );
+    return '$_temp0';
+  }
 
   @override
   String number_of_songs_in_folder(num count) {

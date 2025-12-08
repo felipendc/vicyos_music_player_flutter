@@ -234,8 +234,7 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
   if (shareFile is String) {
     await SharePlus.instance.share(
       ShareParams(
-        text: AppLocalizations.of(context)!
-            .this_file_was_shared_using_the_vicyos_music_app,
+        text: AppLocalizations.of(context)!.single_shared_file,
         files: [XFile(shareFile)],
       ),
     );
@@ -244,8 +243,8 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
     List<XFile> files = shareFile.map((path) => XFile(path)).toList();
     await SharePlus.instance.share(
       ShareParams(
-        text:
-            "These ${shareFile.length} audio files 🎵, were shared using the Vicyos Music app.",
+        text: AppLocalizations.of(context)!
+            .multiple_shared_files(shareFile.length),
         files: files,
       ),
     );

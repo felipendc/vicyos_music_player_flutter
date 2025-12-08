@@ -49,8 +49,15 @@
   "grant_permission": "Conceder permissão",
   "deleted_successfully": "Deletado com sucesso!",
   "removed_from_the_playlist": "Removido da playlist",
-  "this_file_was_shared_using_the_vicyos_music_app": "Este arquivo foi compartilhado usando o aplicativo Vicyos Music.",
+  "single_shared_file": "Este arquivo foi compartilhado usando o aplicativo Vicyos Music.",
 
+
+  "multiple_shared_files": "{count, plural, =0{} =1{Esse arquivo foi compartilhado usando o Vicyos Music app.} other{Esses {count} arquivos foram compartilhados usando o aplicativo Vicyos Music.}}",
+  "@multiple_shared_files": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "number_of_songs_in_folder": "{count, plural, =0{Nenhuma música} =1{1 música} other{{count} músicas}}",
   "@number_of_songs_in_folder": {
     "placeholders": {
