@@ -11,6 +11,7 @@ import 'app/common/on_init_app/on.init.app.dart';
 import 'l10n/app_localizations.dart';
 
 // flutter clean; flutter pub get; flutter build apk --release
+// flutter gen-l10n
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
