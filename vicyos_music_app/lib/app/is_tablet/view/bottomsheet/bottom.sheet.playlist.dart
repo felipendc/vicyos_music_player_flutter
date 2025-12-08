@@ -255,11 +255,13 @@ class PlaylistBottomSheetTablet extends StatelessWidget {
                                         color: TColor.focusSecondary,
                                         onPressed: () {
                                           showFileDeletedMessage(
-                                              context,
-                                              songName(
-                                                songFullPath(index: index),
-                                              ),
-                                              "Has been removed from the playlist");
+                                            context,
+                                            songName(
+                                              songFullPath(index: index),
+                                            ),
+                                            AppLocalizations.of(context)!
+                                                .removed_from_the_playlist,
+                                          );
                                           if (playlistCurrentLength == 1) {
                                             cleanPlaylist(context);
                                           } else {

@@ -120,9 +120,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get unknown_artist => 'Unknown Artist';
 
   @override
-  String get repeat_all => 'Repeat: All';
-
-  @override
   String get added_to_the_playlist => 'Added to the playlist';
 
   @override
@@ -151,6 +148,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get grant_permission => 'Grant Permission';
+
+  @override
+  String get deleted_successfully => 'Deleted successfully';
+
+  @override
+  String get removed_from_the_playlist => 'Removed from the playlist';
+
+  @override
+  String get this_file_was_shared_using_the_vicyos_music_app => 'This file was shared via the Vicyos Music app.';
 
   @override
   String number_of_songs_in_folder(num count) {
@@ -309,6 +315,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get grant_permission => 'Conceder permissão';
+
+  @override
+  String get deleted_successfully => 'Deletado com sucesso!';
+
+  @override
+  String get removed_from_the_playlist => 'Removido da playlist';
+
+  @override
+  String get this_file_was_shared_using_the_vicyos_music_app => 'Este arquivo foi compartilhado usando o aplicativo Vicyos Music.';
 
   @override
   String number_of_songs_in_folder(num count) {

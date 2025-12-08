@@ -318,12 +318,6 @@ abstract class AppLocalizations {
   /// **'Unknown Artist'**
   String get unknown_artist;
 
-  /// No description provided for @repeat_all.
-  ///
-  /// In en, this message translates to:
-  /// **'Repeat: All'**
-  String get repeat_all;
-
   /// No description provided for @added_to_the_playlist.
   ///
   /// In en, this message translates to:
@@ -383,6 +377,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Grant Permission'**
   String get grant_permission;
+
+  /// No description provided for @deleted_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted successfully'**
+  String get deleted_successfully;
+
+  /// No description provided for @removed_from_the_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from the playlist'**
+  String get removed_from_the_playlist;
+
+  /// No description provided for @this_file_was_shared_using_the_vicyos_music_app.
+  ///
+  /// In en, this message translates to:
+  /// **'This file was shared via the Vicyos Music app.'**
+  String get this_file_was_shared_using_the_vicyos_music_app;
 
   /// No description provided for @number_of_songs_in_folder.
   ///

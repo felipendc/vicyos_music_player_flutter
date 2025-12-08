@@ -37,7 +37,6 @@
   "unknown_album": "Álbum desconhecido",
   "the_playlist_is_empty": "A playlist está vazia",
   "unknown_artist": "Artista desconhecido",
-
   "added_to_the_playlist": "Adicionada à playlist",
   "repeat_mode_all_capitalized": "MODO DE REPETIÇÃO:",
   "repeating_one": "Repetindo uma",
@@ -48,6 +47,9 @@
   "there_is_no_music_folder_on_your_device": "A pasta 'Music' ou 'Músicas' não existe no seu dispositivo.",
   "no_audio_permission_has_been_granted": "Nenhuma permissão para acessar\na pasta de músicas foi concedida.",
   "grant_permission": "Conceder permissão",
+  "deleted_successfully": "Deletado com sucesso!",
+  "removed_from_the_playlist": "Removido da playlist",
+  "this_file_was_shared_using_the_vicyos_music_app": "Este arquivo foi compartilhado usando o aplicativo Vicyos Music.",
 
   "number_of_songs_in_folder": "{count, plural, =0{Nenhuma música} =1{1 música} other{{count} músicas}}",
   "@number_of_songs_in_folder": {

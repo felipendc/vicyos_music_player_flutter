@@ -37,7 +37,6 @@
   "unknown_album": "Unknown Album",
   "the_playlist_is_empty": "The playlist is empty",
   "unknown_artist": "Unknown Artist",
-  "repeat_all": "Repeat: All",
   "added_to_the_playlist": "Added to the playlist",
   "repeat_mode_all_capitalized": "REPEAT MODE:",
   "repeating_one": "Repeating one",
@@ -48,6 +47,9 @@
   "there_is_no_music_folder_on_your_device": "There is no music folder on your device.",
   "no_audio_permission_has_been_granted": "No permission to access\nthe music folder has been granted.",
   "grant_permission": "Grant Permission",
+  "deleted_successfully": "Deleted successfully",
+  "removed_from_the_playlist": "Removed from the playlist",
+  "this_file_was_shared_using_the_vicyos_music_app": "This file was shared via the Vicyos Music app.",
 
   "number_of_songs_in_folder": "{count, plural, =0{No songs} =1{1 song} other{{count} songs}}",
   "@number_of_songs_in_folder": {

@@ -11,6 +11,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/permission_handler/permission.handler.dart'
     show requestAudioPermission;
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
+import 'package:vicyos_music/l10n/app_localizations.dart';
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestAudioPermission();
@@ -229,11 +230,12 @@ String getFileExtension(String filePath) {
   return fileExtension;
 }
 
-Future<void> sharingFiles(dynamic shareFile) async {
+Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
   if (shareFile is String) {
     await SharePlus.instance.share(
       ShareParams(
-        text: 'This file was shared using the Vicyos Music app.',
+        text: AppLocalizations.of(context)!
+            .this_file_was_shared_using_the_vicyos_music_app,
         files: [XFile(shareFile)],
       ),
     );
@@ -300,6 +302,9 @@ Future<void> deleteSongFromStorage(
   }
   if (context.mounted) {
     showFileDeletedMessage(
-        context, songName(songPath), "Has been deleted successfully");
+      context,
+      songName(songPath),
+      AppLocalizations.of(context)!.deleted_successfully,
+    );
   }
 }

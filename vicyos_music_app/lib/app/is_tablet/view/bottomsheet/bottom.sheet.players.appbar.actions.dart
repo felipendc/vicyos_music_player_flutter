@@ -178,7 +178,7 @@ class PlayersAppBarActionsBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
 
-                          await sharingFiles(fullFilePath);
+                          await sharingFiles(fullFilePath, context);
                         },
                       ),
                     ),
