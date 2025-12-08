@@ -168,7 +168,7 @@ This project uses the following dependencies:
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/radio_2.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/radio_3.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/radio_4.png">
-<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.9_tablet_mode/40.png">
+<img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/SCREENSHOTS/V3.0.9/40.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/11.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/12.png">
 <img src="https://github.com/felipendc/vicyos_music_player_flutter/blob/main/others/SCREENSHOTS_DEMO/read_banners/13.png">
