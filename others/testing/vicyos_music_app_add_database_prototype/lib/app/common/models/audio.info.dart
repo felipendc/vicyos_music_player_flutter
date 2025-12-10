@@ -10,4 +10,22 @@ class AudioInfo {
     this.size,
     this.format,
   });
+
+  static AudioInfo fromMap(Map<String, dynamic> map) {
+    return AudioInfo(
+      path: map['path'],
+      name: map['name'],
+      size: map['size'],
+      format: map['format'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "path": path,
+      "name": name,
+      "size": size,
+      "format": format,
+    };
+  }
 }

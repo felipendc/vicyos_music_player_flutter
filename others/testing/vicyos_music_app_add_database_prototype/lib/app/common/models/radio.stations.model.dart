@@ -7,7 +7,6 @@ class RadioStationInfo {
   String radioLocation;
   String radioUrl;
   String radioStation;
-
   String? ratioStationLogo;
   RadioStationConnectionStatus? stationStatus;
 
@@ -21,4 +20,32 @@ class RadioStationInfo {
     this.ratioStationLogo,
     this.stationStatus,
   });
+
+  static RadioStationInfo fromMap(Map<String, dynamic> map) {
+    return RadioStationInfo(
+      id: map["id"],
+      radioSimpleName: map['radioSimpleName'],
+      radioName: map['radioName'],
+      radioLocation: map['radioLocation'],
+      radioUrl: map['radioUrl'],
+      radioStation: map['radioStation'],
+      ratioStationLogo: map['ratioStationLogo'],
+      stationStatus: map['stationStatus'] != null
+          ? RadioStationConnectionStatus.values.byName(map['stationStatus'])
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "radioSimpleName": radioSimpleName,
+      "radioName": radioName,
+      "radioLocation": radioLocation,
+      "radioUrl": radioUrl,
+      "radioStation": radioStation,
+      "ratioStationLogo": ratioStationLogo,
+      "stationStatus": stationStatus?.name,
+    };
+  }
 }
