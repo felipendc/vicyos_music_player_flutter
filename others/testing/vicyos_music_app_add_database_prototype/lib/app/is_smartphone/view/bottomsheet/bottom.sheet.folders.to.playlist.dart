@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
@@ -11,13 +12,18 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
   final int folderIndex;
+  final List<AudioInfo> folderSongList;
+
   const FolderToPlaylistBottomSheet(
-      {super.key, required this.folderPath, required this.folderIndex});
+      {super.key,
+      required this.folderPath,
+      required this.folderIndex,
+      required this.folderSongList});
 
   @override
   Widget build(BuildContext context) {
     // Filter all songs from folderPath and add them to controller.musicFolderContents
-    filterSongsOnlyToList(folderPath: folderPath);
+    // filterSongsOnlyToList(folderPath: folderPath);
 
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
@@ -156,9 +162,8 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Navigator.pop(context);
-                          addFolderToPlaylist(
-                              musicFolderContents[folderIndex].songPathsList,
-                              context);
+                          addFolderToPlaylist(folderSongList, context);
+                          print("aaaaaaa $folderSongList");
                           showAddedToPlaylist(
                               context,
                               "Folder",
@@ -197,10 +202,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           mainPlayerIsOpen = true;
                           Navigator.pop(context);
-                          setFolderAsPlaylist(
-                              musicFolderContents[folderIndex].songPathsList,
-                              0,
-                              context);
+                          setFolderAsPlaylist(folderSongList, 0, context);
 
                           Navigator.push(
                             context,

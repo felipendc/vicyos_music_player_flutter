@@ -291,7 +291,8 @@ Future<void> deleteSongFromStorage(
     BuildContext context, String wasDeleted, String songPath) async {
   if (wasDeleted == "Files deleted successfully") {
     // ----------------------------------------------------------
-    musicFolderContents.clear();
+    // todo
+    // musicFolderContents.clear();
 
     // Re-sync the folder list
     await getMusicFoldersContent();

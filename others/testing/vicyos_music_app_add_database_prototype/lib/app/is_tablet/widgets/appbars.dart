@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.stream.controllers.dart';
@@ -18,7 +19,6 @@ AppBar homePageAppBar() {
     title: Center(
       child: GestureDetector(
         onTap: () async {
-          musicFolderContents.clear();
           await getMusicFoldersContent();
         },
         child: Text(
@@ -37,10 +37,12 @@ AppBar homePageAppBar() {
   );
 }
 
-AppBar songsListAppBar(
-    {required String folderPath,
-    required BuildContext context,
-    required int folderIndex}) {
+AppBar songsListAppBar({
+  required String folderPath,
+  required BuildContext context,
+  required int folderIndex,
+  required List<AudioInfo> folderSongList,
+}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -89,6 +91,7 @@ AppBar songsListAppBar(
                 return FolderToPlaylistBottomSheet(
                   folderPath: folderPath,
                   folderIndex: folderIndex,
+                  folderSongList: folderSongList,
                 );
               },
             );
