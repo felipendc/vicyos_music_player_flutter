@@ -285,7 +285,7 @@ class SongsListScreen extends StatelessWidget {
                         future: AppDatabase.instance
                             .getFolderContentByPath(folderPath),
                         builder: (context, snapshot) {
-                          final songs = snapshot.data!;
+                          final songs = snapshot.data ?? [];
 
                           return Expanded(
                             child: ListView.separated(

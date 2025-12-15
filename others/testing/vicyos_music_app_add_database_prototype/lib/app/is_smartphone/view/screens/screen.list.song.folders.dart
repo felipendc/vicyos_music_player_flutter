@@ -44,6 +44,7 @@ class HomePageFolderList extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     // Fetch the songs folders
+    // todo
     getMusicFoldersContent();
 
     return StreamBuilder<FetchingSongs>(
@@ -314,7 +315,7 @@ class HomePageFolderList extends StatelessWidget {
                     return FutureBuilder<List<FolderSources>>(
                         future: AppDatabase.instance.getFolders(),
                         builder: (context, snapshot) {
-                          final songFolderList = snapshot.data!;
+                          final songFolderList = snapshot.data ?? [];
 
                           return Expanded(
                             child: (fetchingResult == FetchingSongs.done)

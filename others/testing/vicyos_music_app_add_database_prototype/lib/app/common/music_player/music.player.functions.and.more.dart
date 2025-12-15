@@ -49,8 +49,6 @@ Duration currentSongDurationPosition = Duration.zero;
 Duration currentSongTotalDuration = Duration.zero;
 double sleekCircularSliderPosition = 0.0;
 double sleekCircularSliderDuration = 100.0;
-// List<FolderSources> musicFolderContents = <FolderSources>[];
-// List<AudioInfo> musicFolderContents = <AudioInfo>[];
 String currentSongArtistName = ""; //""Unknown Artist";
 late final File notificationPlayerAlbumArt;
 bool songIsPlaying = false;

@@ -295,7 +295,7 @@ class HomePageFolderListTablet extends StatelessWidget {
                     return FutureBuilder<List<FolderSources>>(
                         future: AppDatabase.instance.getFolders(),
                         builder: (context, snapshot) {
-                          final songFolderList = snapshot.data!;
+                          final songFolderList = snapshot.data ?? [];
 
                           return Expanded(
                             flex: 1,

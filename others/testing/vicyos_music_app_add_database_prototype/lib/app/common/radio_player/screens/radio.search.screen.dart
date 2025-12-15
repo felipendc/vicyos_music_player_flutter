@@ -9,7 +9,7 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart' show AppLocalizations;
 
 class RadioSearchScreen extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/common/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/common/radio_player/widgets/show.radio.top.message.dart';
-import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
+import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/app/common/services/audio.output.service.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/is_tablet/view/screens/main.player.view.screen.dart';
