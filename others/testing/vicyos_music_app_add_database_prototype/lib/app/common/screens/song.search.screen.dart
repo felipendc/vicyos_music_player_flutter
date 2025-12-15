@@ -3,21 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/common/search_bar_handler/search.songs.stations.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
+import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
-import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
+
+List<AudioInfo> searchSongFromDataBase = [];
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Set the preferred orientations to landscape mode when this screen is built
+    // Set the preferred orientations to portrait mode when this screen is built
     setScreenOrientation();
 
     TextEditingController searchBoxController = TextEditingController();
@@ -33,7 +36,7 @@ class SearchScreen extends StatelessWidget {
       String trimmedText = text.trim();
 
       if (trimmedText.isEmpty) {
-        foundSongs.clear();
+        searchSongFromDataBase.clear();
         isSearchingSongsNotifier("");
         isSearchingSongsNotifier("");
         //
@@ -44,30 +47,28 @@ class SearchScreen extends StatelessWidget {
       // Create a new timer that will execute the search after 800ms
       // This will fix the issue where the function returns wrong results
       //  This is because the function didn't even had time to clear the
-      //  foundSongs and foundFilesPaths lists
+      //  searchSongFromDataBase
       debounce = Timer(
         Duration(milliseconds: 800),
         () async {
-          foundSongs.clear();
+          searchSongFromDataBase.clear();
           debugPrint("🔎 Searching for: '$trimmedText'");
 
           isSearchTypingNotifier(true);
 
           // todo
-          // await searchSongFilesByName(musicFolderContents, trimmedText);
+          searchSongFromDataBase =
+              await AppDatabase.instance.searchSongs(trimmedText);
         },
       );
     }
 
     void clearSearch() {
       searchBoxController.clear();
-      foundSongs.clear();
+      searchSongFromDataBase.clear();
       isSearchingSongsNotifier("");
-
-      //
       isSearchTypingNotifier(false);
-      //
-      foundSongs.clear();
+      searchSongFromDataBase.clear();
     }
 
     return Scaffold(
@@ -160,7 +161,7 @@ class SearchScreen extends StatelessWidget {
               builder: (context, snapshot) {
                 return ListView.separated(
                   padding: const EdgeInsets.only(bottom: 112),
-                  itemCount: foundSongs.length,
+                  itemCount: searchSongFromDataBase.length,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       height: 67,
@@ -172,6 +173,7 @@ class SearchScreen extends StatelessWidget {
                             audioPlayerWasPlaying = false;
                           }
                           isSongPreviewBottomSheetOpen = true;
+                          hideMiniPlayerNotifier(true);
 
                           final result = await showModalBottomSheet<String>(
                             isScrollControlled: true,
@@ -179,12 +181,14 @@ class SearchScreen extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return SongPreviewBottomSheet(
-                                  songPath: foundSongs[index].path);
+                                  songPath: searchSongFromDataBase[index].path);
                             },
                           ).whenComplete(
                             () {
                               isSongPreviewBottomSheetOpen = false;
 
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              hideMiniPlayerNotifier(false);
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -199,15 +203,15 @@ class SearchScreen extends StatelessWidget {
                           );
 
                           if (result == "close_song_preview_bottom_sheet") {
-                            foundSongs.clear();
+                            searchSongFromDataBase.clear();
                             isSearchingSongsNotifier("nothing_found");
                           } else {
                             // Do not close the Player Preview bottom sheet
                           }
                         },
                         child: ListTile(
-                          key: ValueKey(foundSongs[index].path),
-                          leading: (foundSongs[index].path ==
+                          key: ValueKey(searchSongFromDataBase[index].path),
+                          leading: (searchSongFromDataBase[index].path ==
                                   currentSongFullPath)
                               ? Padding(
                                   padding: const EdgeInsets.only(
@@ -233,7 +237,7 @@ class SearchScreen extends StatelessWidget {
                                   size: 36,
                                 ),
                           title: Text(
-                            foundSongs[index].name,
+                            searchSongFromDataBase[index].name,
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -244,7 +248,7 @@ class SearchScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            "${foundSongs[index].size!} MB  |  ${foundSongs[index].format!}",
+                            "${searchSongFromDataBase[index].size!} MB  |  ${searchSongFromDataBase[index].format!}",
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -261,6 +265,8 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
+                              await hideMiniPlayerNotifier(true);
+
                               if (context.mounted) {
                                 final result =
                                     await showModalBottomSheet<String>(
@@ -268,7 +274,8 @@ class SearchScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
-                                      fullFilePath: foundSongs[index].path,
+                                      fullFilePath:
+                                          searchSongFromDataBase[index].path,
                                     );
                                   },
                                 ).whenComplete(
@@ -277,6 +284,7 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
+                                        hideMiniPlayerNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }
@@ -285,7 +293,7 @@ class SearchScreen extends StatelessWidget {
                                 );
                                 if (result ==
                                     "close_song_preview_bottom_sheet") {
-                                  foundSongs.clear();
+                                  searchSongFromDataBase.clear();
                                   isSearchingSongsNotifier("nothing_found");
                                 } else {
                                   // Do not close the Player Preview bottom sheet
@@ -294,10 +302,12 @@ class SearchScreen extends StatelessWidget {
                             },
                           ),
                           onTap: () {
-                            setFolderAsPlaylist(foundSongs, index, context);
+                            setFolderAsPlaylist(
+                                searchSongFromDataBase, index, context);
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
-                            debugPrint('Tapped on ${(foundSongs[index].path)}');
+                            debugPrint(
+                                'Tapped on ${(searchSongFromDataBase[index].path)}');
                           },
                         ),
                       ),

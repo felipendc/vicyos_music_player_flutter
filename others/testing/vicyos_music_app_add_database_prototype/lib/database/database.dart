@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/models/folder.sources.dart';
+import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
@@ -285,6 +287,37 @@ class AppDatabase {
     final List decoded = jsonDecode(result.first['folder_content'] as String);
 
     return decoded.map((e) => AudioInfo.fromMap(e)).toList();
+  }
+
+  // Procurar por músicas
+  Future<List<AudioInfo>> searchSongs(String query) async {
+    isSearchingSongsNotifier("searching");
+    final db = await AppDatabase.instance.database;
+
+    final result = await db.query('music_folders');
+
+    final List<AudioInfo> matches = [];
+
+    for (final row in result) {
+      final List songs = jsonDecode(row['folder_content'] as String);
+
+      for (final song in songs) {
+        final name = (song['name'] as String).toLowerCase();
+
+        if (name.contains(query.toLowerCase())) {
+          matches.add(AudioInfo.fromMap(song));
+        }
+      }
+    }
+    if (matches.isEmpty) {
+      isSearchingSongsNotifier("nothing_found");
+      debugPrint("🚫 No matching files found.");
+    } else {
+      isSearchingSongsNotifier("finished");
+    }
+
+    debugPrint("🎵 Final found files: ${matches.map((s) => s.path).toList()}");
+    return matches;
   }
 
   Future _createDB(Database db, int version) async {

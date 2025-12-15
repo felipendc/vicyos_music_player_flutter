@@ -13,9 +13,9 @@ import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio
 import 'package:vicyos_music/app/common/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/screens/loading.screen.dart';
+import 'package:vicyos_music/app/common/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/screens/list.songs.screen.dart';
-import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';

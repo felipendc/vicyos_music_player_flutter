@@ -7,10 +7,10 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/common/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
-import 'package:vicyos_music/app/is_smartphone/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
