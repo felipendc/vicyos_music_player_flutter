@@ -21,7 +21,7 @@ class AppDatabase {
   }
 
   Future<Database> _initDB(String filePath) async {
-    print('📦 Iniciando banco de dados...');
+    // debugPrint('📦 Initiating database...');
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
@@ -57,7 +57,7 @@ class AppDatabase {
 
     final newSongs = folder.songPathsList.map((e) => e.path).toSet();
 
-    // 🆕 Pasta nova
+    // Adding a new folder
     if (existing == null) {
       await db.insert('music_folders', {
         'folder_path': folder.folderPath,
@@ -69,17 +69,17 @@ class AppDatabase {
       return;
     }
 
-    // 📂 Pasta já existe → comparar
+    // 📂 If the folder already exist → Compare
     final oldSongs = (jsonDecode(existing['folder_content']) as List)
         .map((e) => e['path'] as String)
         .toSet();
 
-    // ✅ Nada mudou → NÃO TOCA NO BANCO
+    // ✅ If nothing has changed  → DON'T CHANGE ANYTHING IN THE DATABASE
     if (oldSongs.length == newSongs.length && oldSongs.containsAll(newSongs)) {
       return;
     }
 
-    // 🔄 Atualiza só se mudou
+    // 🔄  Update only if something has changed
     await db.update(
       'music_folders',
       {
@@ -93,7 +93,7 @@ class AppDatabase {
     );
   }
 
-  // Retorna o model de _music_folders pra acessar folders[index].value
+  // Return the music_folders model to access the music_folders[index].value
   Future<List<FolderSources>> getFolders() async {
     final db = await AppDatabase.instance.database;
 
@@ -103,47 +103,25 @@ class AppDatabase {
       return FolderSources(
         folderPath: row['folder_path'] as String,
         folderSongCount: row['song_count'] as int,
-        songPathsList: const [], // carregar depois
+        songPathsList: const [], // Load it later
       );
     }).toList();
   }
 
-  // Retorna uma lista de folder_path para o list.view
+  // Return a list of folder_path to the list.view
   Future<List<String>> getFolderPaths() async {
     final db = await AppDatabase.instance.database;
 
     final result = await db.query(
       'music_folders',
       columns: ['folder_path'],
-      orderBy: 'folder_path ASC', // opcional
+      orderBy: 'folder_path ASC', // Optional
     );
 
     return result.map((row) => row['folder_path'] as String).toList();
   }
 
-  // // Saving various folder at once
-  // Future<void> insertFolders(List<FolderSources> folders) async {
-  //   final db = await AppDatabase.instance.database;
-  //   final batch = db.batch();
-  //
-  //   for (final folder in folders) {
-  //     batch.insert(
-  //       'music_folders',
-  //       {
-  //         'folder_path': folder.folderPath,
-  //         'song_count': folder.folderSongCount,
-  //         'folder_content': jsonEncode(
-  //           folder.songPathsList.map((e) => e.toMap()).toList(),
-  //         ),
-  //       },
-  //       conflictAlgorithm: ConflictAlgorithm.replace,
-  //     );
-  //   }
-  //
-  //   await batch.commit(noResult: true);
-  // }
-
-  // Buscar todas as pastas do banco
+  // Look for all the folders in the database
   Future<List<String>> getAllFolderPathsFromDB() async {
     final db = await AppDatabase.instance.database;
 
@@ -152,6 +130,7 @@ class AppDatabase {
     return result.map((e) => e['folder_path'] as String).toList();
   }
 
+  // Remove deleted folders from the database
   Future<void> removeDeletedFoldersFromDB(
     List<String> deviceFolders,
   ) async {
@@ -168,12 +147,12 @@ class AppDatabase {
           where: 'folder_path = ?',
           whereArgs: [dbPath],
         );
-        print('🗑 Pasta removida do banco: $dbPath');
+        print('🗑 Folder removed from database: $dbPath');
       }
     }
   }
 
-  // Verificar se a tabela music_folder está vazia
+  // Check if the music_folder table is empty
   Future<bool> musicFoldersIsEmpty() async {
     final db = await AppDatabase.instance.database;
 
@@ -184,38 +163,19 @@ class AppDatabase {
     return (result ?? 0) == 0;
   }
 
-  // Reading the database and converting it to FolderSources
-  // Future<List<FolderSources>> getFolders() async {
-  //   final db = await AppDatabase.instance.database;
-  //
-  //   final result = await db.query('music_folders');
-  //
-  //   return result.map((row) {
-  //     final songs = (jsonDecode(row['folder_content'] as String) as List)
-  //         .map((e) => AudioInfo.fromMap(e as Map<String, dynamic>))
-  //         .toList();
-  //
-  //     return FolderSources(
-  //       folderPath: row['folder_path'] as String,
-  //       folderSongCount: row['song_count'] as int,
-  //       songPathsList: songs,
-  //     );
-  //   }).toList();
-  // }
-
-  // Delete audio path from all playlists
+  // Delete an audio path from all playlists
   Future<void> deleteAudioPath(String audioPath) async {
     final db = await database;
 
     await db.transaction((txn) async {
-      // 1️⃣ Remove de TODAS as playlists
+      // Remove from all playlist
       await txn.delete(
         'playlist_audios',
         where: 'audio_path = ?',
         whereArgs: [audioPath],
       );
 
-      // 2️⃣ Busca todas as pastas
+      //  Fetch all folders
       final folders = await txn.query('music_folders');
 
       for (final folder in folders) {
@@ -230,10 +190,9 @@ class AppDatabase {
           (e) => e['path'] == audioPath,
         );
 
-        // Não tinha essa música nessa pasta
         if (decoded.length == originalLength) continue;
 
-        // 🧹 Se a pasta ficou vazia → apaga ela
+        // If the folder is now empty, delete it
         if (decoded.isEmpty) {
           await txn.delete(
             'music_folders',
@@ -241,7 +200,7 @@ class AppDatabase {
             whereArgs: [folder['id']],
           );
         } else {
-          // 🔄 Atualiza pasta normalmente
+          // 🔄 Update the folder normally
           await txn.update(
             'music_folders',
             {
@@ -257,11 +216,11 @@ class AppDatabase {
   }
 
   Future<void> deleteDatabaseFile() async {
-    print('📦 Deletando banco de dados...');
+    print('Deleting the database...');
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'vicyos_music.db');
 
-    // Fecha se estiver aberto
+    // Close the database if it is open
     if (_database != null) {
       await _database!.close();
       _database = null;
@@ -270,7 +229,7 @@ class AppDatabase {
     await deleteDatabase(path);
   }
 
-  // Acessar a lista de musicas da pasta através do folder_path
+  // Access the folder music list through the folder_path
   Future<List<AudioInfo>> getFolderContentByPath(String folderPath) async {
     final db = await database;
 
@@ -289,7 +248,7 @@ class AppDatabase {
     return decoded.map((e) => AudioInfo.fromMap(e)).toList();
   }
 
-  // Procurar por músicas
+  // Search for songs
   Future<List<AudioInfo>> searchSongs(String query) async {
     isSearchingSongsNotifier("searching");
     final db = await AppDatabase.instance.database;
@@ -322,7 +281,7 @@ class AppDatabase {
 
   Future _createDB(Database db, int version) async {
     // -------------------------------
-    // 1) Tabela de Playlists
+    // 1)  Playlists Table
     // -------------------------------
     await db.execute('''
     CREATE TABLE playlists (
@@ -332,7 +291,7 @@ class AppDatabase {
   ''');
 
     // -------------------------------
-    // 2) Tabela de Pastas com JSON
+    // 2) Folder tables with JSON
     // -------------------------------
     await db.execute('''
     CREATE TABLE music_folders (
@@ -344,7 +303,7 @@ class AppDatabase {
     ''');
 
     // ---------------------------------------------
-    // 3) Playlists ↔ Áudios (AGORA SALVA PATH)
+    // 3) Playlists ↔ Audios (NOW SAVES THE PATH)
     // ---------------------------------------------
     await db.execute('''
     CREATE TABLE playlist_audios (
@@ -355,7 +314,7 @@ class AppDatabase {
     );
     ''');
 
-    // ✅ 4) ÍNDICE
+    // ✅ 4) INDEX
     await db.execute('''
     CREATE INDEX idx_playlist_audio_path
     ON playlist_audios (audio_path);

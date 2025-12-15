@@ -56,7 +56,6 @@ class SearchScreen extends StatelessWidget {
 
           isSearchTypingNotifier(true);
 
-          // todo
           searchSongFromDataBase =
               await AppDatabase.instance.searchSongs(trimmedText);
         },

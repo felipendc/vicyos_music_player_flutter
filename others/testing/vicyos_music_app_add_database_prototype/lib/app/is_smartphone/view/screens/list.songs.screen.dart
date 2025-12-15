@@ -35,12 +35,6 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        // Filter all songs from folderPath and add them to musicFolderContents
-        filterSongsOnlyToList(folderPath: folderPath);
-
-        // Filter all songs from folderPath and add them to musicFolderContents
-        filterSongsOnlyToList(folderPath: folderPath);
-
         debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
@@ -56,7 +50,6 @@ class SongsListScreen extends StatelessWidget {
                     ),
                     height: 130, // Loading enabled
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(

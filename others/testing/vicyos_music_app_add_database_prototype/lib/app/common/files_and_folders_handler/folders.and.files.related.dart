@@ -143,29 +143,14 @@ Future<void> getMusicFoldersContent() async {
     final folderSongPathsList =
         await filterSongsOnlyToList(folderPath: musicFolder);
 
-    // Não usar mas a lista musicFolderContents
-    // musicFolderContents.add(FolderSources(
-    //     folderPath: folderPath,
-    //     folderSongCount: totalSongs,
-    //     songPathsList: folderSongPathsList));
-
+    // Populating the database with folder paths and its song list
     await AppDatabase.instance.syncFolder(
       FolderSources(
           folderPath: folderPath,
           folderSongCount: totalSongs,
           songPathsList: folderSongPathsList),
     );
-    // print(
-    //   musicFolderContents.map((folder) {
-    //     return '📁 Pasta: ${folder.folderPath}\n'
-    //         '🎵 Total: ${folder.folderSongCount}\n'
-    //         'Songs:\n'
-    //         '${folder.songPathsList.map((s) => s.name).join('\n')}\n'
-    //         '----------------------';
-    //   }).join('\n\n'),
-    // );
   }
-  // await AppDatabase.instance.musicFoldersIsEmpty();
 
   if (isPermissionGranted) {
     if (noDeviceMusicFolderFound == true) {
@@ -185,17 +170,6 @@ Future<void> getMusicFoldersContent() async {
     } else {
       rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
     }
-
-    // if (noDeviceMusicFolderFound == true && musicFolderContents.isEmpty) {
-    //   rebuildHomePageFolderListNotifier(
-    //       FetchingSongs.noMusicFolderHasBeenFound);
-    // } else if (musicFolderContents.isNotEmpty) {
-    //   rebuildHomePageFolderListNotifier(FetchingSongs.done);
-    // } else if (musicFolderContents.isEmpty) {
-    //   rebuildHomePageFolderListNotifier(FetchingSongs.musicFolderIsEmpty);
-    // } else {
-    //   rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
-    // }
   } else {
     rebuildHomePageFolderListNotifier(FetchingSongs.permissionDenied);
   }
@@ -291,8 +265,6 @@ Future<void> deleteSongFromStorage(
     BuildContext context, String wasDeleted, String songPath) async {
   if (wasDeleted == "Files deleted successfully") {
     // ----------------------------------------------------------
-    // todo
-    // musicFolderContents.clear();
 
     // Re-sync the folder list
     await getMusicFoldersContent();

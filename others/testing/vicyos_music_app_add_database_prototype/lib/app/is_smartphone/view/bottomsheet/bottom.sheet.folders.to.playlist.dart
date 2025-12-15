@@ -22,9 +22,6 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter all songs from folderPath and add them to controller.musicFolderContents
-    // filterSongsOnlyToList(folderPath: folderPath);
-
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),

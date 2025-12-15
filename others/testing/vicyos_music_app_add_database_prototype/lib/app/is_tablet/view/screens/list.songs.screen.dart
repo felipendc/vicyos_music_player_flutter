@@ -35,13 +35,8 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        // Filter all songs from folderPath and add them to musicFolderContents
-        filterSongsOnlyToList(folderPath: folderPath);
-
-        // Filter all songs from folderPath and add them to musicFolderContents
-        filterSongsOnlyToList(folderPath: folderPath);
-
         debugPrint("REBUILD LIST SONG: $folderPath");
+
         return SafeArea(
           child: Scaffold(
             // appBar: songsListAppBar(
@@ -407,7 +402,7 @@ class SongsListScreen extends StatelessWidget {
                                                         "No other screen is open.");
                                                   } else {
                                                     debugPrint(
-                                                        " There are other open screens .");
+                                                        "There are other open screens .");
                                                   }
                                                 }
                                               },
