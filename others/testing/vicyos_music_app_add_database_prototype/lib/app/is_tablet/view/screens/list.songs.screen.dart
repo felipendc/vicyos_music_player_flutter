@@ -15,7 +15,9 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class SongsListScreen extends StatelessWidget {
   final String folderPath;
-  const SongsListScreen({super.key, required this.folderPath});
+  final int folderIndex;
+  const SongsListScreen(
+      {super.key, required this.folderPath, required this.folderIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,10 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        // Filter all songs from folderPath and add them to folderSongList
+        // Filter all songs from folderPath and add them to musicFolderContents
         filterSongsOnlyToList(folderPath: folderPath);
 
-        // Filter all songs from folderPath and add them to folderSongList
+        // Filter all songs from folderPath and add them to musicFolderContents
         filterSongsOnlyToList(folderPath: folderPath);
 
         debugPrint("REBUILD LIST SONG: $folderPath");
@@ -137,7 +139,11 @@ class SongsListScreen extends StatelessWidget {
                                             context: context,
                                             builder: (BuildContext context) {
                                               return FolderToPlaylistBottomSheet(
-                                                  folderPath: folderPath);
+                                                folderPath: musicFolderContents[
+                                                        folderIndex]
+                                                    .folderPath,
+                                                folderIndex: folderIndex,
+                                              );
                                             },
                                           );
                                         },
@@ -252,7 +258,8 @@ class SongsListScreen extends StatelessWidget {
                     return Expanded(
                       child: ListView.separated(
                         padding: const EdgeInsets.only(bottom: 112),
-                        itemCount: folderSongList.length,
+                        itemCount:
+                            musicFolderContents[folderIndex].folderSongCount,
                         itemBuilder: (context, index) {
                           return SizedBox(
                             height: 67,
@@ -271,7 +278,10 @@ class SongsListScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongPreviewBottomSheet(
-                                        songPath: folderSongList[index].path);
+                                        songPath:
+                                            musicFolderContents[folderIndex]
+                                                .songPathsList[index]
+                                                .path);
                                   },
                                 ).whenComplete(() {
                                   isSongPreviewBottomSheetOpen = false;
@@ -291,8 +301,12 @@ class SongsListScreen extends StatelessWidget {
                                 });
                               },
                               child: ListTile(
-                                key: ValueKey(folderSongList[index].path),
-                                leading: (folderSongList[index].path ==
+                                key: ValueKey(musicFolderContents[folderIndex]
+                                    .songPathsList[index]
+                                    .path),
+                                leading: (musicFolderContents[folderIndex]
+                                            .songPathsList[index]
+                                            .path ==
                                         currentSongFullPath)
                                     ? Padding(
                                         padding: const EdgeInsets.only(
@@ -324,7 +338,9 @@ class SongsListScreen extends StatelessWidget {
                                         size: 36,
                                       ),
                                 title: Text(
-                                  folderSongList[index].name,
+                                  musicFolderContents[folderIndex]
+                                      .songPathsList[index]
+                                      .name,
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -335,7 +351,7 @@ class SongsListScreen extends StatelessWidget {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  "${folderSongList[index].size!} MB  •  ${folderSongList[index].format!}",
+                                  "${musicFolderContents[folderIndex].songPathsList[index].size!} MB  •  ${musicFolderContents[folderIndex].songPathsList[index]..format!}",
                                   textAlign: TextAlign.start,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -359,7 +375,9 @@ class SongsListScreen extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return SongInfoMoreBottomSheet(
                                             fullFilePath:
-                                                folderSongList[index].path,
+                                                musicFolderContents[folderIndex]
+                                                    .songPathsList[index]
+                                                    .path,
                                           );
                                         },
                                       ).whenComplete(
@@ -379,7 +397,9 @@ class SongsListScreen extends StatelessWidget {
                                   },
                                 ),
                                 onTap: () {
-                                  if (folderSongList[index].path ==
+                                  if (musicFolderContents[folderIndex]
+                                          .songPathsList[index]
+                                          .path ==
                                       currentSongFullPath) {
                                     if (songIsPlaying) {
                                       audioPlayer.pause();
@@ -390,11 +410,14 @@ class SongsListScreen extends StatelessWidget {
                                     }
                                   } else {
                                     setFolderAsPlaylist(
-                                        folderSongList, index, context);
+                                        musicFolderContents[folderIndex]
+                                            .songPathsList,
+                                        index,
+                                        context);
                                     debugPrint(
                                         "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                                     debugPrint(
-                                        'Tapped on ${(folderSongList[index].path)}');
+                                        'Tapped on ${(musicFolderContents[folderIndex].songPathsList[index].path)}');
                                   }
                                 },
                               ),

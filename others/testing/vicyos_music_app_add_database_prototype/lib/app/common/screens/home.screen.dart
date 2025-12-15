@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
 
     // Fetch the songs folders first, if it's a tablet
     if (deviceType == DeviceType.tablet) {
-      listMusicFolders(); // must return a Widget
+      getMusicFoldersContent(); // must return a Widget
     }
 
     return deviceType == DeviceType.smartphone

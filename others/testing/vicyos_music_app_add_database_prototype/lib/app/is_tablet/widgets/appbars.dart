@@ -18,8 +18,8 @@ AppBar homePageAppBar() {
     title: Center(
       child: GestureDetector(
         onTap: () async {
-          musicFolderPaths.clear();
-          await listMusicFolders();
+          musicFolderContents.clear();
+          await getMusicFoldersContent();
         },
         child: Text(
           textAlign: TextAlign.center,
@@ -38,7 +38,9 @@ AppBar homePageAppBar() {
 }
 
 AppBar songsListAppBar(
-    {required String folderPath, required BuildContext context}) {
+    {required String folderPath,
+    required BuildContext context,
+    required int folderIndex}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -84,7 +86,10 @@ AppBar songsListAppBar(
               backgroundColor: Colors.transparent,
               context: context,
               builder: (BuildContext context) {
-                return FolderToPlaylistBottomSheet(folderPath: folderPath);
+                return FolderToPlaylistBottomSheet(
+                  folderPath: folderPath,
+                  folderIndex: folderIndex,
+                );
               },
             );
           },

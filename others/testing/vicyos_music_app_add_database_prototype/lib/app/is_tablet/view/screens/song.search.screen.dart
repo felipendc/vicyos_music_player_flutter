@@ -53,7 +53,7 @@ class SearchScreen extends StatelessWidget {
 
           isSearchTypingNotifier(true);
 
-          await searchSongFilesByName(musicFolderPaths, trimmedText);
+          await searchSongFilesByName(musicFolderContents, trimmedText);
         },
       );
     }

@@ -50,8 +50,8 @@ Duration currentSongDurationPosition = Duration.zero;
 Duration currentSongTotalDuration = Duration.zero;
 double sleekCircularSliderPosition = 0.0;
 double sleekCircularSliderDuration = 100.0;
-List<FolderSources> musicFolderPaths = <FolderSources>[];
-List<AudioInfo> folderSongList = <AudioInfo>[];
+List<FolderSources> musicFolderContents = <FolderSources>[];
+// List<AudioInfo> musicFolderContents = <AudioInfo>[];
 String currentSongArtistName = ""; //""Unknown Artist";
 late final File notificationPlayerAlbumArt;
 bool songIsPlaying = false;
@@ -559,8 +559,8 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
 
 //
 
-Future<void> setFolderAsPlaylist(
-    dynamic currentFolder, int currentIndex, BuildContext context) async {
+Future<void> setFolderAsPlaylist(List<AudioInfo> currentFolder,
+    int currentIndex, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -613,7 +613,7 @@ Future<void> setFolderAsPlaylist(
 }
 
 Future<void> addFolderToPlaylist(
-    dynamic currentFolder, BuildContext context) async {
+    List<AudioInfo> currentFolder, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }

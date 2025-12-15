@@ -16,8 +16,8 @@ class MainSyncScreen extends StatelessWidget {
             label: const Text('Sync Music Folder'),
             icon: const Icon(Icons.add),
             onPressed: () {
-              debugPrint(musicFolderPaths.toString());
-              listMusicFolders();
+              debugPrint(musicFolderContents.toString());
+              getMusicFoldersContent();
             },
             backgroundColor: TColor.darkGray,
           ),
