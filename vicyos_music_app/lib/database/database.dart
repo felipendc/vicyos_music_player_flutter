@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:vicyos_music/app/common/models/audio.info.dart';
-import 'package:vicyos_music/app/common/models/folder.sources.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
@@ -314,7 +314,7 @@ class AppDatabase {
     );
     ''');
 
-    // ✅ 4) INDEX
+    // 4) INDEX
     await db.execute('''
     CREATE INDEX idx_playlist_audio_path
     ON playlist_audios (audio_path);
