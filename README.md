@@ -148,6 +148,8 @@ This project uses the following dependencies:
 - `flutter_media_delete 1.0.1` TA Flutter plugin designed for deleting media files using scoped storage on Android versions Q (API 29) and above.
 - `loading_animation_widget 1.3.0` Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
 - `http: 1.6.0` - A composable, multi-platform, Future-based API for HTTP requests..
+- `sqflite: 2.4.2` - Flutter plugin for SQLite, a self-contained, high-reliability, embedded, SQL database engine.
+
 ### Submit a pull request
 
 1. Fork the project.
