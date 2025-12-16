@@ -1,11 +1,24 @@
 import 'package:audioplayers/audioplayers.dart' as audio_players;
+import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.player.listeners.dart';
 
 Future<void> onInitPlayer() async {
+  // Init WidgetsBinding
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Init JustAudioBackground
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Vicyos Music',
+    androidNotificationOngoing: true,
+  );
+
+  // Volume Control Listener
   initVolumeControl();
 
   // Song Preview Player.

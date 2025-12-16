@@ -299,7 +299,7 @@ class SongsListScreen extends StatelessWidget {
                                         backgroundColor: Colors.transparent,
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return SongPreviewBottomSheet(
+                                          return SongPreviewBottomSheetTablet(
                                               songPath: song.path);
                                         },
                                       ).whenComplete(() {

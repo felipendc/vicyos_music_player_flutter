@@ -147,7 +147,7 @@ class AppDatabase {
           where: 'folder_path = ?',
           whereArgs: [dbPath],
         );
-        print('🗑 Folder removed from database: $dbPath');
+        debugPrint('Folder removed from database: $dbPath');
       }
     }
   }
@@ -216,7 +216,7 @@ class AppDatabase {
   }
 
   Future<void> deleteDatabaseFile() async {
-    print('Deleting the database...');
+    debugPrint('Deleting the database...');
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'vicyos_music.db');
 

@@ -160,7 +160,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(folderSongList, context);
-                          print("aaaaaaa $folderSongList");
+
                           showAddedToPlaylist(
                               context,
                               "Folder",

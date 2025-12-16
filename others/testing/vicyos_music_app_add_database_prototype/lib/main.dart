@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/common/splash_screen/splash.screen.dart';
 import 'package:vicyos_music/app/common/status_bar_theme/status.bar.theme.color.matching.dart';
-import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/get_system_locale.dart';
 
 import 'app/common/on_init_app/on.init.app.dart';
@@ -15,43 +13,9 @@ import 'l10n/app_localizations.dart';
 // flutter gen-l10n
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Vicyos Music',
-    androidNotificationOngoing: true,
-  );
-
-  // /////////
-  // await AppDatabase.instance.deleteDatabaseFile(); // Delete database
-
-  //  Init database
-  final bancoDeDados = await AppDatabase.instance.database;
-
-  // Buscar todas as tabelas
-  final tabelas = await bancoDeDados
-      .rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
-
-  print("Tabelas no banco de dados");
-
-  for (final table in tabelas) {
-    final name = table['name'];
-    print('\n📁 Tabela: $name');
-
-    final rows = await bancoDeDados.query(name as String);
-    for (final row in rows) {
-      print(row);
-    }
-  }
-  print(
-      "fim das tabelas\n ----------------------------------------------------");
-  // /////////////
-
+  systemStatusAndNavigationBarMainTheme();
   await onInitPlayer();
   runApp(const MyApp());
-
-// Set the status bar and system navigation bar color to match the app theme
-  systemStatusAndNavigationBarMainTheme();
 }
 
 class MyApp extends StatelessWidget {

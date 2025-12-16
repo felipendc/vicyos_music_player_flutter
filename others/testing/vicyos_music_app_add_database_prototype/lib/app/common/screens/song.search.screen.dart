@@ -10,6 +10,7 @@ import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.da
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/is_smartphone/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/is_smartphone/widgets/music_visualizer.dart';
+import 'package:vicyos_music/app/is_tablet/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -179,8 +180,13 @@ class SearchScreen extends StatelessWidget {
                             backgroundColor: Colors.transparent,
                             context: context,
                             builder: (BuildContext context) {
-                              return SongPreviewBottomSheet(
-                                  songPath: searchSongFromDataBase[index].path);
+                              return deviceType == DeviceType.tablet
+                                  ? SongPreviewBottomSheetTablet(
+                                      songPath:
+                                          searchSongFromDataBase[index].path)
+                                  : SongPreviewBottomSheet(
+                                      songPath:
+                                          searchSongFromDataBase[index].path);
                             },
                           ).whenComplete(
                             () {

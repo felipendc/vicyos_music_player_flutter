@@ -11,9 +11,9 @@ import 'package:vicyos_music/app/is_tablet/widgets/marquee.text.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
-class SongPreviewBottomSheet extends StatelessWidget {
+class SongPreviewBottomSheetTablet extends StatelessWidget {
   final String songPath;
-  const SongPreviewBottomSheet({super.key, required this.songPath});
+  const SongPreviewBottomSheetTablet({super.key, required this.songPath});
 
   @override
   Widget build(BuildContext context) {
