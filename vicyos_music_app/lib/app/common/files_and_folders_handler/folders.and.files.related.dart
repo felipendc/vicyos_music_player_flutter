@@ -11,6 +11,7 @@ import 'package:vicyos_music/app/common/music_player/music.player.stream.control
 import 'package:vicyos_music/app/common/permission_handler/permission.handler.dart'
     show requestAudioPermission;
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
@@ -55,7 +56,7 @@ String songName(String songPath) {
   return songNameWithoutExtension;
 }
 
-Future<String> getMusicFolderPath() async {
+Future<String> getMusicFolderPathWindowsOrLinux() async {
   // Get the user directory
   Directory userDirectory;
 
@@ -75,46 +76,97 @@ Future<String> getMusicFolderPath() async {
   return musicFolderPath;
 }
 
-Future<void> listMusicFolders() async {
+Future<List<AudioInfo>> filterSongsOnlyToList(
+    {required String folderPath}) async {
+  final List<AudioInfo> musicFolderContents = <AudioInfo>[];
+  final Set<String> audioExtensions = {
+    '.mp3',
+    '.m4a',
+    '.ogg',
+    '.wav',
+    '.aac',
+    '.midi'
+  };
+  Directory? folderDirectory = Directory(folderPath);
+
+  final directorySongList = folderDirectory.listSync();
+
+  final List<String> audioFiles = directorySongList
+      .where(
+        (entity) {
+          if (entity is File) {
+            String extension = entity.path
+                .substring(entity.path.lastIndexOf('.'))
+                .toLowerCase();
+
+            return audioExtensions.contains(extension);
+          }
+          return false;
+        },
+      )
+      .map((entity) => entity.path)
+      .toList();
+
+  for (var songPath in audioFiles) {
+    musicFolderContents.add(
+      AudioInfo(
+        name: songName(songPath),
+        path: songPath,
+        size: getFileSize(songPath),
+        format: getFileExtension(songPath),
+      ),
+    );
+  }
+  return musicFolderContents;
+}
+
+Future<List<String>> deviceMusicFolderPath() async {
+  List<String> audioFolders = [];
+
+  if (Platform.isAndroid) {
+    audioFolders = await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
+  } else if (Platform.isWindows) {
+    audioFolders = await getFoldersWithAudioFiles(
+        await getMusicFolderPathWindowsOrLinux());
+    debugPrint(audioFolders.toString());
+  }
+  return audioFolders;
+}
+
+Future<void> getMusicFoldersContent() async {
+  // musicFolderContents.clear(); //remover em breve
   rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
-  musicFolderPaths.clear();
-  folderSongList.clear();
 
-  String folderPath;
-  int totalSongs;
+  for (var musicFolder in await deviceMusicFolderPath()) {
+    final folderPath = musicFolder;
+    final totalSongs = folderLength(musicFolder);
+    final folderSongPathsList =
+        await filterSongsOnlyToList(folderPath: musicFolder);
 
-  Future<List<String>> deviceMusicFolderPath() async {
-    List<String> audioFolders = [];
-
-    if (Platform.isAndroid) {
-      audioFolders =
-          await getFoldersWithAudioFiles('/storage/emulated/0/Music/');
-    } else if (Platform.isWindows) {
-      audioFolders = await getFoldersWithAudioFiles(await getMusicFolderPath());
-      debugPrint(audioFolders.toString());
-    }
-
-    return audioFolders;
+    // Populating the database with folder paths and its song list
+    await AppDatabase.instance.syncFolder(
+      FolderSources(
+          folderPath: folderPath,
+          folderSongCount: totalSongs,
+          songPathsList: folderSongPathsList),
+    );
   }
 
-  for (var folder in await deviceMusicFolderPath()) {
-    folderPath = folder;
-    totalSongs = folderLength(folder);
-    musicFolderPaths.add(FolderSources(path: folderPath, songs: totalSongs));
-    debugPrint(musicFolderPaths
-        .map((index) => index)
-        .map((index) => index.path)
-        .toString()
-        .toString());
-  }
   if (isPermissionGranted) {
-    if (noDeviceMusicFolderFound == true && musicFolderPaths.isEmpty) {
+    if (noDeviceMusicFolderFound == true) {
+      // Delete database
+      await AppDatabase.instance.deleteDatabaseFile();
       rebuildHomePageFolderListNotifier(
           FetchingSongs.noMusicFolderHasBeenFound);
-    } else if (musicFolderPaths.isNotEmpty) {
+      //
+    } else if (!await AppDatabase.instance.musicFoldersIsEmpty()) {
+      // Database isn't empty!
       rebuildHomePageFolderListNotifier(FetchingSongs.done);
-    } else if (musicFolderPaths.isEmpty) {
+      //
+    } else if (await AppDatabase.instance.musicFoldersIsEmpty()) {
+      // Database is empty
       rebuildHomePageFolderListNotifier(FetchingSongs.musicFolderIsEmpty);
+      //
     } else {
       rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
     }
@@ -154,48 +206,6 @@ int folderLength(String folderPath) {
       .toList();
 
   return folderLength.length;
-}
-
-void filterSongsOnlyToList({required String folderPath}) {
-  folderSongList.clear();
-  final Set<String> audioExtensions = {
-    '.mp3',
-    '.m4a',
-    '.ogg',
-    '.wav',
-    '.aac',
-    '.midi'
-  };
-  Directory? folderDirectory = Directory(folderPath);
-
-  final directorySongList = folderDirectory.listSync();
-
-  final List<String> audioFiles = directorySongList
-      .where(
-        (entity) {
-          if (entity is File) {
-            String extension = entity.path
-                .substring(entity.path.lastIndexOf('.'))
-                .toLowerCase();
-
-            return audioExtensions.contains(extension);
-          }
-          return false;
-        },
-      )
-      .map((entity) => entity.path)
-      .toList();
-
-  for (var songPath in audioFiles) {
-    folderSongList.add(
-      AudioInfo(
-        name: songName(songPath),
-        path: songPath,
-        size: getFileSize(songPath),
-        format: getFileExtension(songPath),
-      ),
-    );
-  }
 }
 
 String songFullPath({required int index}) {
@@ -255,11 +265,9 @@ Future<void> deleteSongFromStorage(
     BuildContext context, String wasDeleted, String songPath) async {
   if (wasDeleted == "Files deleted successfully") {
     // ----------------------------------------------------------
-    musicFolderPaths.clear();
-    folderSongList.clear();
 
-    // Re sync the folder list
-    await listMusicFolders();
+    // Re-sync the folder list
+    await getMusicFoldersContent();
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(

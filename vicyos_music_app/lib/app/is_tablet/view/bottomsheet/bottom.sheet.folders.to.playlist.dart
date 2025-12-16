@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/common/models/audio.info.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/common/widgets/show.top.message.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
-  const FolderToPlaylistBottomSheet({super.key, required this.folderPath});
+  final int folderIndex;
+  final List<AudioInfo> folderSongList;
+  const FolderToPlaylistBottomSheet(
+      {super.key,
+      required this.folderPath,
+      required this.folderIndex,
+      required this.folderSongList});
 
   @override
   Widget build(BuildContext context) {
-    // Filter all songs from folderPath and add them to controller.folderSongList
-    filterSongsOnlyToList(folderPath: folderPath);
-
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
         top: Radius.circular(25),

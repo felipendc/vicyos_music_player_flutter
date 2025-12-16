@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/screen_orientation/is_tablet.dart';
 import 'package:vicyos_music/app/common/screen_orientation/screen.orientation.dart';
@@ -14,18 +13,9 @@ import 'l10n/app_localizations.dart';
 // flutter gen-l10n
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Vicyos Music',
-    androidNotificationOngoing: true,
-  );
-  await onInitPlayer();
-
-  runApp(const MyApp());
-
-// Set the status bar and system navigation bar color to match the app theme
   systemStatusAndNavigationBarMainTheme();
+  await onInitPlayer();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

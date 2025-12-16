@@ -166,7 +166,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (BuildContext context) {
-                                return SongPreviewBottomSheet(
+                                return SongPreviewBottomSheetTablet(
                                     songPath: fullFilePath);
                               }).whenComplete(
                             () {

@@ -12,7 +12,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/common/models/audio.info.dart';
-import 'package:vicyos_music/app/common/models/folder.sources.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/common/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/common/radio_player/functions_and_streams/radio.functions.and.more.dart';
@@ -50,8 +49,6 @@ Duration currentSongDurationPosition = Duration.zero;
 Duration currentSongTotalDuration = Duration.zero;
 double sleekCircularSliderPosition = 0.0;
 double sleekCircularSliderDuration = 100.0;
-List<FolderSources> musicFolderPaths = <FolderSources>[];
-List<AudioInfo> folderSongList = <AudioInfo>[];
 String currentSongArtistName = ""; //""Unknown Artist";
 late final File notificationPlayerAlbumArt;
 bool songIsPlaying = false;
@@ -559,8 +556,8 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
 
 //
 
-Future<void> setFolderAsPlaylist(
-    dynamic currentFolder, int currentIndex, BuildContext context) async {
+Future<void> setFolderAsPlaylist(List<AudioInfo> currentFolder,
+    int currentIndex, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
@@ -613,7 +610,7 @@ Future<void> setFolderAsPlaylist(
 }
 
 Future<void> addFolderToPlaylist(
-    dynamic currentFolder, BuildContext context) async {
+    List<AudioInfo> currentFolder, BuildContext context) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }

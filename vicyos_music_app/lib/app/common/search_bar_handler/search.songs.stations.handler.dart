@@ -23,7 +23,7 @@ Future<void> searchSongFilesByName(
 
   debugPrint("🔎 Searching for: '$searchQuery'");
 
-  for (String folder in folders.map((folder) => folder.path).toList()) {
+  for (String folder in folders.map((folder) => folder.folderPath).toList()) {
     Directory dir = Directory(folder);
 
     if (await dir.exists()) {

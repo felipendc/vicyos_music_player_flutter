@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/common/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/common/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/common/music_player/music.player.functions.and.more.dart';
 
 class MainSyncScreen extends StatelessWidget {
   const MainSyncScreen({super.key});
@@ -16,8 +15,7 @@ class MainSyncScreen extends StatelessWidget {
             label: const Text('Sync Music Folder'),
             icon: const Icon(Icons.add),
             onPressed: () {
-              debugPrint(musicFolderPaths.toString());
-              listMusicFolders();
+              getMusicFoldersContent();
             },
             backgroundColor: TColor.darkGray,
           ),
