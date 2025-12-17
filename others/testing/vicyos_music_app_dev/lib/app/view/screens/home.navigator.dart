@@ -10,8 +10,8 @@ import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
 import 'package:vicyos_music/app/widgets/bottom.player.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeNavigator extends StatelessWidget {
+  HomeNavigator({super.key});
 
   final GlobalKey<NavigatorState> navigatorKeySmartphone =
       GlobalKey<NavigatorState>();
