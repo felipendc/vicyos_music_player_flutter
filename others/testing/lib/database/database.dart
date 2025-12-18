@@ -133,6 +133,11 @@ class AppDatabase {
         allSongs.add(AudioInfo.fromMap(song));
       }
     }
+
+    allSongs.sort(
+      (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+    );
+
     return allSongs;
   }
 

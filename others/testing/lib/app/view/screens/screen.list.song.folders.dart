@@ -17,7 +17,7 @@ import 'package:vicyos_music/app/view/screens/favorite.song.screen.dart';
 import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/view/screens/playlists.screen.dart';
-import 'package:vicyos_music/app/view/screens/show.all.songs.sreen.dart';
+import 'package:vicyos_music/app/view/screens/show.all.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
