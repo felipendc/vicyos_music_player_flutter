@@ -50,8 +50,15 @@
   "deleted_successfully": "Deleted successfully",
   "removed_from_the_playlist": "Removed from the playlist",
   "single_shared_file": "This file was shared via the Vicyos Music app.",
+  "songs": "All Songs",
+  "all_songs": "All Songs",
 
-
+  "total_of_songs": "{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}",
+  "@total_of_songs": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "multiple_shared_files": "{count, plural, =0{} =1{This file was shared using the Vicyos Music app.} other{These {count} files were shared using the Vicyos Music app.}}",
   "@multiple_shared_files": {
     "placeholders": {

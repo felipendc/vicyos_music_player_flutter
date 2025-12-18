@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
@@ -15,15 +13,10 @@ import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-class SongsListScreen extends StatelessWidget {
-  final String folderPath;
-  final int folderIndex;
-  final List<AudioInfo> folderSongList;
-  const SongsListScreen(
-      {super.key,
-      required this.folderPath,
-      required this.folderIndex,
-      required this.folderSongList});
+class ShowAllSongsScreen extends StatelessWidget {
+  const ShowAllSongsScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,248 +28,209 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             body: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 13.0),
                   child: Container(
                     decoration: BoxDecoration(
                       // color: Colors.grey,
                       color: Color(0xff181B2C),
                     ),
-                    height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.folder_name,
-                                    style: TextStyle(
-                                      color: TColor.primaryText28
-                                          .withValues(alpha: 0.84),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      shadows: [
-                                        Shadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.2),
-                                          offset: Offset(1, 1),
-                                          blurRadius: 3,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 180,
-                                    // color: Colors.grey,
-                                    child: Text(
-                                      folderName(folderPath),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: TColor.primaryText
-                                            .withValues(alpha: 0.84),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                        shadows: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withValues(alpha: 0.2),
-                                            spreadRadius: 5,
-                                            blurRadius: 8,
-                                            offset: Offset(2, 4),
+                    // height: deviceTypeIsTablet() ? 140 : 135,
+                    // Loading enabled
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 30,
+                                        // color: Colors.grey,
+                                        child: Text(
+                                          folderName(
+                                            AppLocalizations.of(context)!
+                                                .all_songs,
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: SizedBox(
-                                      width: 35,
-                                      height: 35,
-                                      child: IconButton(
-                                        splashRadius: 20,
-                                        iconSize: 10,
-                                        onPressed: () async {
-                                          Navigator.pop(context);
-                                        },
-                                        icon: Image.asset(
-                                          "assets/img/menu/arrow_back_ios.png",
-                                          color: TColor.lightGray,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: TColor.primaryText
+                                                .withValues(alpha: 0.84),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                            shadows: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withValues(alpha: 0.2),
+                                                spreadRadius: 5,
+                                                blurRadius: 8,
+                                                offset: Offset(2, 4),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: SizedBox(
-                                      width: 45,
-                                      height: 45,
-                                      child: FutureBuilder(
+                                      FutureBuilder(
                                           future: AppDatabase.instance
-                                              .getFolderContentByPath(
-                                                  folderPath),
-                                          builder: (context, musicSnapshot) {
-                                            //
-                                            final folderSongList =
-                                                musicSnapshot.data ?? [];
-                                            return IconButton(
-                                              splashRadius: 20,
-                                              iconSize: 10,
-                                              onPressed: () async {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  hideMiniPlayerNotifier(true);
-                                                }
+                                              .getAllMusicPathsFromDB(),
+                                          builder: (context, snapshot) {
+                                            final totalOfSongs =
+                                                snapshot.data ?? [];
 
-                                                showModalBottomSheet<void>(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return FolderToPlaylistBottomSheet(
-                                                      folderPath: folderPath,
-                                                      folderIndex: folderIndex,
-                                                      folderSongList:
-                                                          folderSongList,
-                                                    );
-                                                  },
-                                                ).whenComplete(
-                                                  () {
-                                                    if (deviceTypeIsSmartphone()) {
-                                                      if (mainPlayerIsOpen) {
-                                                        hideMiniPlayerNotifier(
-                                                            true);
-                                                      } else {
-                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
-                                                    }
-                                                  },
-                                                );
-                                              },
-                                              icon: Image.asset(
-                                                "assets/img/menu/menu_open.png",
-                                                color: TColor.lightGray,
+                                            return Text(
+                                              AppLocalizations.of(context)!
+                                                  .total_of_songs(
+                                                      totalOfSongs.length),
+                                              style: TextStyle(
+                                                color: TColor.primaryText28
+                                                    .withValues(alpha: 0.84),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                shadows: [
+                                                  Shadow(
+                                                    color: Colors.black
+                                                        .withValues(alpha: 0.2),
+                                                    offset: Offset(1, 1),
+                                                    blurRadius: 3,
+                                                  ),
+                                                ],
                                               ),
                                             );
                                           }),
-                                    ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            media.width * 0.2),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withValues(alpha: 0.2),
-                                            spreadRadius: 5,
-                                            blurRadius: 8,
-                                            offset: Offset(2, 4),
-                                          ),
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            media.width * 0.2),
-                                        child: StreamBuilder<void>(
-                                          stream: null,
-                                          builder: (context, snapshot) {
-                                            return Image.asset(
-                                              "assets/img/pics/default.png",
-                                              width: deviceTypeIsTablet()
-                                                  ? 130 * 0.44
-                                                  : media.width * 0.13,
-                                              height: deviceTypeIsTablet()
-                                                  ? 130 * 0.44
-                                                  : media.width * 0.13,
-                                              fit: BoxFit.cover,
-                                            );
+                                ),
+                                Row(
+                                  children: [
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: SizedBox(
+                                        width: 35,
+                                        height: 35,
+                                        child: IconButton(
+                                          splashRadius: 20,
+                                          iconSize: 10,
+                                          onPressed: () {
+                                            Navigator.pop(context);
                                           },
+                                          icon: Image.asset(
+                                            "assets/img/menu/arrow_back_ios.png",
+                                            color: TColor.lightGray,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withValues(alpha: 0.2),
+                                              spreadRadius: 5,
+                                              blurRadius: 8,
+                                              offset: Offset(2, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              media.width * 0.2),
+                                          child: StreamBuilder<void>(
+                                            stream: null,
+                                            builder: (context, snapshot) {
+                                              return Image.asset(
+                                                "assets/img/pics/default.png",
+                                                width: deviceTypeIsTablet()
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
+                                                height: deviceTypeIsTablet()
+                                                    ? 130 * 0.44
+                                                    : media.width * 0.13,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        // Search Box
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
-                          child: GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  slideRightLeftTransition(
-                                    const SearchScreen(),
-                                  )).whenComplete(
-                                () {
-                                  searchBoxController.dispose();
-                                  searchBoxController.dispose();
-                                },
-                              );
-                            },
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: const Color(
-                                    0xff24273A), // Background color of the container
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: TextField(
-                                // Attach FocusNode to the TextField
-                                autofocus:
-                                    false, // Ensure the TextField doesn't autofocus
-                                enabled:
-                                    false, // Disable the TextField to avoid interaction
-                                style: const TextStyle(color: Colors.white),
-                                decoration: InputDecoration(
-                                  hintText: AppLocalizations.of(context)!
-                                      .search_with_ellipsis,
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white60),
-                                  filled: false,
-                                  fillColor: Colors
-                                      .transparent, // Transparent background for TextField
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 12, horizontal: 0),
-                                  border: InputBorder
-                                      .none, // Removing border from TextField
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(left: 50),
-                                    child: const Icon(Icons.search,
-                                        color: Colors.white70),
+                          // Search Box
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
+                            child: GestureDetector(
+                              onTap: () async {
+                                Navigator.push(
+                                    context,
+                                    slideRightLeftTransition(
+                                      const SearchScreen(),
+                                    )).whenComplete(
+                                  () {
+                                    searchBoxController.dispose();
+                                    searchBoxController.dispose();
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                decoration: BoxDecoration(
+                                  color: const Color(
+                                      0xff24273A), // Background color of the container
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                child: TextField(
+                                  // Attach FocusNode to the TextField
+                                  autofocus:
+                                      false, // Ensure the TextField doesn't autofocus
+                                  enabled:
+                                      false, // Disable the TextField to avoid interaction
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    hintText: AppLocalizations.of(context)!
+                                        .search_with_ellipsis,
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white60),
+                                    filled: false,
+                                    fillColor: Colors
+                                        .transparent, // Transparent background for TextField
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 12, horizontal: 0),
+                                    border: InputBorder
+                                        .none, // Removing border from TextField
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.only(left: 50),
+                                      child: const Icon(Icons.search,
+                                          color: Colors.white70),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -284,8 +238,7 @@ class SongsListScreen extends StatelessWidget {
                     stream: currentSongNameStreamController.stream,
                     builder: (context, snapshot) {
                       return FutureBuilder(
-                          future: AppDatabase.instance
-                              .getFolderContentByPath(folderPath),
+                          future: AppDatabase.instance.getAllMusicPathsFromDB(),
                           builder: (context, snapshot) {
                             final songs = snapshot.data ?? [];
 
@@ -458,10 +411,6 @@ class SongsListScreen extends StatelessWidget {
                                           } else {
                                             setFolderAsPlaylist(
                                                 songs, index, context);
-                                            debugPrint(
-                                                "SONG DIRECTORY: $folderPath");
-                                            debugPrint(
-                                                'Tapped on $folderIndex');
                                           }
                                         },
                                       ),

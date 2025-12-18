@@ -159,6 +159,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get single_shared_file => 'This file was shared via the Vicyos Music app.';
 
   @override
+  String get songs => 'All Songs';
+
+  @override
+  String get all_songs => 'All Songs';
+
+  @override
+  String total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count songs',
+      one: 'Total: 1 song',
+      zero: 'Total: O songs',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String multiple_shared_files(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -336,6 +354,24 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get single_shared_file => 'Este arquivo foi compartilhado usando o aplicativo Vicyos Music.';
+
+  @override
+  String get songs => 'Músicas';
+
+  @override
+  String get all_songs => 'Todas as Músicas';
+
+  @override
+  String total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count músicas',
+      one: 'Total: 1 música',
+      zero: 'Total: 0 músicas',
+    );
+    return '$_temp0';
+  }
 
   @override
   String multiple_shared_files(num count) {

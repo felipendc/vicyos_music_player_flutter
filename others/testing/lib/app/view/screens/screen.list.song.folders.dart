@@ -13,8 +13,11 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream
 import 'package:vicyos_music/app/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
+import 'package:vicyos_music/app/view/screens/favorite.song.screen.dart';
 import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/loading.screen.dart';
+import 'package:vicyos_music/app/view/screens/playlists.screen.dart';
+import 'package:vicyos_music/app/view/screens/show.all.songs.sreen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
@@ -58,13 +61,15 @@ class HomePageFolderList extends StatelessWidget {
             body: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 13.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      // color: Colors.grey,
-                      color: Color(0xff181B2C),
-                    ),
-                    height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
+                        // color: Colors.grey,
+                        // color: Color(0xff181B2C),
+                        ),
+                    // height: deviceTypeIsTablet()
+                    //     ? 132 /*129*/
+                    //     : 127 /*124*/, // Loading enabled
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -266,10 +271,92 @@ class HomePageFolderList extends StatelessWidget {
                             ],
                           ),
                         ),
+                        // Search + Tabs
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     // Custom tabs
+                        //
+                        //     Padding(
+                        //       padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        //       child: Container(
+                        //         padding:
+                        //             const EdgeInsets.symmetric(horizontal: 16),
+                        //         height: 44,
+                        //         // width: 350,
+                        //         decoration: BoxDecoration(
+                        //           color: const Color(
+                        //               0xff24273A), //const Color(0xff24273A),
+                        //           // Background color of the container
+                        //           borderRadius: BorderRadius.circular(20),
+                        //         ),
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.center,
+                        //           children: [
+                        //             SizedBox(width: 5),
+                        //             Text(
+                        //               "Músicas",
+                        //               style: TextStyle(
+                        //                   color: Colors.white70,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w500),
+                        //             ),
+                        //             SizedBox(width: 20),
+                        //             Text(
+                        //               "Favoritos",
+                        //               style: TextStyle(
+                        //                   color: Colors.white70,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w500),
+                        //             ),
+                        //             SizedBox(width: 20),
+                        //             Text(
+                        //               "Playlists",
+                        //               style: TextStyle(
+                        //                   color: Colors.white70,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w500),
+                        //             ),
+                        //             SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //       ),
+                        //     ),
+                        //
+                        //     // 🔍 Search icon
+                        //     Padding(
+                        //       padding: const EdgeInsets.fromLTRB(10, 5, 15, 8),
+                        //       child: GestureDetector(
+                        //         onTap: () {
+                        //           Navigator.push(
+                        //             context,
+                        //             slideRightLeftTransition(
+                        //               const SearchScreen(),
+                        //             ),
+                        //           );
+                        //         },
+                        //         child: Container(
+                        //           width: 50,
+                        //           height: 45,
+                        //           decoration: BoxDecoration(
+                        //             color: const Color(0xff24273A),
+                        //             borderRadius: BorderRadius.circular(20),
+                        //           ),
+                        //           child: const Icon(
+                        //             Icons.search,
+                        //             color: Colors.white70,
+                        //             size: 22,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
 
-                        // Search Box
+                        // ========================================================================
+                        // Search
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
                               Navigator.push(
@@ -279,7 +366,6 @@ class HomePageFolderList extends StatelessWidget {
                                 ),
                               ).whenComplete(
                                 () {
-                                  searchBoxController.dispose();
                                   searchBoxController.dispose();
                                 },
                               );
@@ -325,6 +411,92 @@ class HomePageFolderList extends StatelessWidget {
                     ),
                   ),
                 ),
+                //
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Container(
+                    height: 37,
+                    // width: 350,
+                    decoration: BoxDecoration(
+                      // color: Colors.white54,
+                      // color: const Color(
+                      //     0xff24273A), //const Color(0xff24273A),
+                      // Background color of the container
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child: Text(
+                            "Músicas",
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                ShowAllSongsScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        Text(
+                          "  •  ",
+                          style: TextStyle(
+                              color: TColor.secondaryText,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        GestureDetector(
+                          child: Text(
+                            "Favoritos",
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                FavoriteSongsScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                        Text(
+                          "  •  ",
+                          style: TextStyle(
+                              color: TColor.secondaryText,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        GestureDetector(
+                          child: Text(
+                            "Playlists",
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                PlaylistsScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // ========================================================================
                 StreamBuilder<void>(
                   stream: currentSongNameStreamController.stream,
                   builder: (context, snapshot) {

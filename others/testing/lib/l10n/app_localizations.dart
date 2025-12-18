@@ -396,6 +396,24 @@ abstract class AppLocalizations {
   /// **'This file was shared via the Vicyos Music app.'**
   String get single_shared_file;
 
+  /// No description provided for @songs.
+  ///
+  /// In en, this message translates to:
+  /// **'All Songs'**
+  String get songs;
+
+  /// No description provided for @all_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'All Songs'**
+  String get all_songs;
+
+  /// No description provided for @total_of_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}'**
+  String total_of_songs(num count);
+
   /// No description provided for @multiple_shared_files.
   ///
   /// In en, this message translates to:

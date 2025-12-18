@@ -121,6 +121,21 @@ class AppDatabase {
     return result.map((row) => row['folder_path'] as String).toList();
   }
 
+  // Look for all the Music in the database
+  Future<List<AudioInfo>> getAllMusicPathsFromDB() async {
+    final db = await AppDatabase.instance.database;
+    final result = await db.query('music_folders');
+    final List<AudioInfo> allSongs = [];
+
+    for (final row in result) {
+      final List songs = jsonDecode(row['folder_content'] as String);
+      for (final song in songs) {
+        allSongs.add(AudioInfo.fromMap(song));
+      }
+    }
+    return allSongs;
+  }
+
   // Look for all the folders in the database
   Future<List<String>> getAllFolderPathsFromDB() async {
     final db = await AppDatabase.instance.database;
