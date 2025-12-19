@@ -247,7 +247,7 @@ class SearchScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            "${searchSongFromDataBase[index].size!} MB  |  ${searchSongFromDataBase[index].format!}",
+                            "${searchSongFromDataBase[index].size} MB  |  ${searchSongFromDataBase[index].format}",
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

@@ -429,7 +429,7 @@ class HomePageFolderList extends StatelessWidget {
                       children: [
                         GestureDetector(
                           child: Text(
-                            AppLocalizations.of(context)!.all_songs,
+                            AppLocalizations.of(context)!.songs,
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 16,

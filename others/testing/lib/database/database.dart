@@ -51,13 +51,13 @@ class AppDatabase {
 
   // Saving and syncing folders one by one
   Future<void> syncFolder(FolderSources folder) async {
-    final db = await AppDatabase.instance.database;
+    final db = await database;
 
     final existing = await _getFolderByPath(db, folder.folderPath);
 
     final newSongs = folder.songPathsList.map((e) => e.path).toSet();
 
-    // Adding a new folder
+    // New folder
     if (existing == null) {
       await db.insert('music_folders', {
         'folder_path': folder.folderPath,
@@ -69,17 +69,25 @@ class AppDatabase {
       return;
     }
 
-    // 📂 If the folder already exist → Compare
-    final oldSongs = (jsonDecode(existing['folder_content']) as List)
-        .map((e) => e['path'] as String)
-        .toSet();
+    // Old content
+    final List oldDecoded = jsonDecode(existing['folder_content'] as String);
 
-    // ✅ If nothing has changed  → DON'T CHANGE ANYTHING IN THE DATABASE
+    final oldSongs = oldDecoded.map((e) => e['path'] as String).toSet();
+
+    // Files removed from device
+    final removedSongs = oldSongs.difference(newSongs);
+
+    // Delete the song removed from all tables
+    for (final removedPath in removedSongs) {
+      await deleteAudioPath(removedPath);
+    }
+
+    // If nothing hasn't been changed
     if (oldSongs.length == newSongs.length && oldSongs.containsAll(newSongs)) {
       return;
     }
 
-    // 🔄  Update only if something has changed
+    // Update the folder
     await db.update(
       'music_folders',
       {
@@ -195,6 +203,13 @@ class AppDatabase {
         whereArgs: [audioPath],
       );
 
+      // Delete from favorites
+      await txn.delete(
+        'favorites',
+        where: 'path = ?',
+        whereArgs: [audioPath],
+      );
+
       //  Fetch all folders
       final folders = await txn.query('music_folders');
 
@@ -202,13 +217,9 @@ class AppDatabase {
         // final List decoded = jsonDecode(folder['folder_content'] as String);
         final decoded = jsonDecode(folder['folder_content'] as String);
         if (decoded is! List) continue;
-        decoded.removeWhere((e) => e['path'] == audioPath);
-
         final originalLength = decoded.length;
 
-        decoded.removeWhere(
-          (e) => e['path'] == audioPath,
-        );
+        decoded.removeWhere((e) => e['path'] == audioPath);
 
         if (decoded.length == originalLength) continue;
 
@@ -299,6 +310,70 @@ class AppDatabase {
     return matches;
   }
 
+  // Add a song to favorite
+  Future<bool> addToFavorites(AudioInfo audio) async {
+    final db = await database;
+
+    final id = await db.insert(
+      'favorites',
+      audio.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+
+    return id > 0;
+  }
+
+  // Verify if the song has already been added to favorites
+  Future<bool> isFavorite(String path) async {
+    final db = await database;
+
+    final result = await db.query(
+      'favorites',
+      where: 'path = ?',
+      whereArgs: [path],
+      limit: 1,
+    );
+
+    return result.isNotEmpty;
+  }
+
+  // Remove from favorites (toggle ❤️)
+  Future<void> removeFromFavorites(String path) async {
+    final db = await database;
+
+    await db.delete(
+      'favorites',
+      where: 'path = ?',
+      whereArgs: [path],
+    );
+  }
+
+  // Complete Toggle (better UI)
+  Future<bool> toggleFavorite(AudioInfo audio) async {
+    final exists = await isFavorite(audio.path);
+
+    if (exists) {
+      await removeFromFavorites(audio.path);
+      return false;
+    } else {
+      await addToFavorites(audio);
+      return true;
+    }
+  }
+
+  // Get all favorites
+  Future<List<AudioInfo>> getFavorites() async {
+    final db = await database;
+
+    final result = await db.query(
+      'favorites',
+      orderBy: 'name COLLATE NOCASE ASC',
+    );
+
+    return result.map((e) => AudioInfo.fromMap(e)).toList();
+  }
+
+  // Create database
   Future _createDB(Database db, int version) async {
     // -------------------------------
     // 1)  Playlists Table
@@ -334,7 +409,26 @@ class AppDatabase {
     );
     ''');
 
-    // 4) INDEX
+    // ---------------------------------------------
+    // 4) Save to Favorites
+    // ---------------------------------------------
+    await db.execute('''
+    CREATE TABLE favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      path TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      size TEXT NOT NULL,
+      format TEXT NOT NULL
+    );
+    ''');
+
+    // 5) Index for favorites.path (fast lookup)
+    await db.execute('''
+    CREATE INDEX idx_favorites_path
+    ON favorites (path);
+    ''');
+
+    // 6) INDEX
     await db.execute('''
     CREATE INDEX idx_playlist_audio_path
     ON playlist_audios (audio_path);

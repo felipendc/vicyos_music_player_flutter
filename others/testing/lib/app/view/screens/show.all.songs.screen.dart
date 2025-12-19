@@ -341,7 +341,7 @@ class ShowAllSongsScreen extends StatelessWidget {
                                           ),
                                         ),
                                         subtitle: Text(
-                                          "${song.size!} MB  •  ${song.format!}",
+                                          "${song.size} MB  •  ${song.format}",
                                           textAlign: TextAlign.start,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,

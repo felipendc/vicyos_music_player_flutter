@@ -16,6 +16,7 @@ void main() async {
   systemStatusAndNavigationBarMainTheme();
   await onInitPlayer();
   runApp(const MyApp());
+  // await AppDatabase.instance.deleteDatabaseFile();
 }
 
 class MyApp extends StatelessWidget {
