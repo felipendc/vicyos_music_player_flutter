@@ -299,6 +299,7 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
     rebuildSongsListScreenNotifier();
     rebuildHomePageFolderListNotifier(FetchingSongs.done);
+    currentSongNavigationRouteNotifier();
     if (context.mounted) {
       Navigator.pop(context, "close_song_preview_bottom_sheet");
     }
