@@ -365,7 +365,8 @@ class HomePageFolderList extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       if (activeNavigationButton ==
-                                          NavigationButtons.music)
+                                              NavigationButtons.music &&
+                                          audioPlayer.audioSources.isNotEmpty)
                                         Positioned(
                                           top: 29,
                                           child: ClipRRect(
@@ -413,7 +414,8 @@ class HomePageFolderList extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       if (activeNavigationButton ==
-                                          NavigationButtons.favorites)
+                                              NavigationButtons.favorites &&
+                                          audioPlayer.audioSources.isNotEmpty)
                                         Positioned(
                                           top: 29,
                                           child: ClipRRect(
@@ -461,7 +463,8 @@ class HomePageFolderList extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       if (activeNavigationButton ==
-                                          NavigationButtons.playlists)
+                                              NavigationButtons.playlists &&
+                                          audioPlayer.audioSources.isNotEmpty)
                                         Positioned(
                                           top: 29,
                                           child: ClipRRect(
