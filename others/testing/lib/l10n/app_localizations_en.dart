@@ -165,6 +165,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get all_songs => 'All Songs';
 
   @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get playlists => 'Playlists';
+
+  @override
   String total_of_songs(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

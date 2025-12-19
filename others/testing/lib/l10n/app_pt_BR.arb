@@ -52,6 +52,8 @@
   "single_shared_file": "Este arquivo foi compartilhado usando o aplicativo Vicyos Music.",
   "songs": "Músicas",
   "all_songs": "Todas as Músicas",
+  "favorites": "Favoritos",
+  "playlists": "Playlists",
 
   "total_of_songs": "{count, plural, =0{Total: 0 músicas} =1{Total: 1 música} other{Total: {count} músicas}}",
   "@total_of_songs": {

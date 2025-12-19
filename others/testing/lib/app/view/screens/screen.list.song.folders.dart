@@ -429,7 +429,7 @@ class HomePageFolderList extends StatelessWidget {
                       children: [
                         GestureDetector(
                           child: Text(
-                            "Músicas",
+                            AppLocalizations.of(context)!.all_songs,
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 16,
@@ -453,7 +453,7 @@ class HomePageFolderList extends StatelessWidget {
                         ),
                         GestureDetector(
                           child: Text(
-                            "Favoritos",
+                            AppLocalizations.of(context)!.favorites,
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 16,
@@ -477,7 +477,7 @@ class HomePageFolderList extends StatelessWidget {
                         ),
                         GestureDetector(
                           child: Text(
-                            "Playlists",
+                            AppLocalizations.of(context)!.playlists,
                             style: TextStyle(
                                 color: Colors.white70,
                                 fontSize: 16,
