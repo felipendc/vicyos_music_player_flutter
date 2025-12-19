@@ -60,8 +60,7 @@ Future<void> turnOnRadioStation() async {
 
   switchingToRadioNotifier();
 
-  // updateRadioScreensStreamController.add(null); // ✅ UMA VEZ
-  updateRadioScreensNotifier(); // 🔔 avisa a UI
+  updateRadioScreensNotifier();
 }
 
 Future<void> turnOffRadioStation() async {
@@ -70,18 +69,16 @@ Future<void> turnOffRadioStation() async {
   isRadioPaused = false;
   radioStationBtn = const Color(0xFFFF0F7B);
 
-  currentRadioStationID = ""; // 🔥 ANTES de notificar
+  currentRadioStationID = "";
   currentRadioIndex = 0;
 
   await radioPlayer.stop();
-  // ❗ evite limpar fontes se for religar depois
-  // await radioPlayer.clearAudioSources();
+  await radioPlayer.clearAudioSources();
 
   radioPlaylist.clear();
 
   switchingToRadioNotifier();
 
-  // updateRadioScreensStreamController.add(null); // ✅ UMA VEZ
   updateRadioScreensNotifier();
 
   if (radioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
@@ -91,9 +88,8 @@ Future<void> turnOffRadioStation() async {
 
 Future<bool> checkStreamUrl(String url) async {
   try {
-    final response = await http.head(Uri.parse(url)).timeout(
-          const Duration(seconds: 5),
-        );
+    final response =
+        await http.head(Uri.parse(url)).timeout(const Duration(seconds: 5));
 
     // If the server responds with 200, 206, or 302 — the URL is valid
     return response.statusCode == 200 ||
@@ -153,10 +149,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     );
 
     radioPlaylist.add(
-      AudioSource.uri(
-        Uri.parse(radioStationUrl),
-        tag: mediaItem,
-      ),
+      AudioSource.uri(Uri.parse(radioStationUrl), tag: mediaItem),
     );
   }
 
@@ -179,7 +172,9 @@ Future<void> playRadioStation(BuildContext context, int index) async {
       errorToFetchRadioStation(index);
       if (context.mounted) {
         errorToFetchRadioStationCard(
-            context, radioStationList[index].radioName);
+          context,
+          radioStationList[index].radioName,
+        );
       }
       await turnOffRadioStation();
       await updateRadioScreensNotifier();
@@ -237,7 +232,9 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
       errorToFetchRadioStation(index);
       if (context.mounted) {
         errorToFetchRadioStationCard(
-            context, radioStationList[index].radioName);
+          context,
+          radioStationList[index].radioName,
+        );
       }
       await turnOffRadioStation();
       await updateRadioScreensNotifier();
@@ -282,10 +279,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   );
 
   radioPlaylist.add(
-    AudioSource.uri(
-      Uri.parse(currentRadioIndexUrl),
-      tag: mediaItem,
-    ),
+    AudioSource.uri(Uri.parse(currentRadioIndexUrl), tag: mediaItem),
   );
 
   try {
@@ -316,7 +310,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
       // to toggle the radio_player offline signal icon
       for (RadioStationInfo station in [
         ...radioStationList,
-        ...foundStations
+        ...foundStations,
       ]) {
         String stationId = station.radioUrl;
         if (stationId.contains(currentRadioIndexUrl)) {
