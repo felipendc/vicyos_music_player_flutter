@@ -16,7 +16,9 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 List<AudioInfo> searchSongFromDataBase = [];
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +182,8 @@ class SearchScreen extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return SongPreviewBottomSheet(
-                                  songPath: searchSongFromDataBase[index].path);
+                                songPath: searchSongFromDataBase[index].path,
+                              );
                             },
                           ).whenComplete(
                             () {
@@ -302,7 +305,10 @@ class SearchScreen extends StatelessWidget {
                           ),
                           onTap: () {
                             setFolderAsPlaylist(
-                                searchSongFromDataBase, index, context);
+                              currentFolder: searchSongFromDataBase,
+                              currentIndex: index,
+                              context: context,
+                            );
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                             debugPrint(

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart'
+    show currentSongNavigationRouteNotifier;
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
@@ -50,37 +52,38 @@ void errorToFetchRadioStation(int index) {
 
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
+  isRadioPaused = false;
   radioStationBtn = Colors.green;
-  updateRadioScreensNotifier();
+
+  activeNavigationButton = NavigationButtons.none;
+  currentSongNavigationRouteNotifier();
+
   switchingToRadioNotifier();
 
-  // Close the tablet audioPlayer playlist bottomsheet if it is opened
-  if (playlistBottomSheetTabletContext != null) {
-    Navigator.pop(playlistBottomSheetTabletContext!);
-  }
-
-  // Close the tablet audioPlayer playback speed bottomsheet if it is opened
-  if (audioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
-    Navigator.pop(audioPlayerPlaybackSpeedBottomSheetTabletContext!);
-  }
+  // updateRadioScreensStreamController.add(null); // ✅ UMA VEZ
+  updateRadioScreensNotifier(); // 🔔 avisa a UI
 }
 
 Future<void> turnOffRadioStation() async {
-  // Ordered instructions:
   stationHasBeenSearched = false;
   isRadioOn = false;
   isRadioPaused = false;
-  radioStationBtn = Color(0xFFFF0F7B);
-  await radioPlayer.stop();
-  await radioPlayer.clearAudioSources();
-  radioPlaylist.clear();
+  radioStationBtn = const Color(0xFFFF0F7B);
+
+  currentRadioStationID = ""; // 🔥 ANTES de notificar
   currentRadioIndex = 0;
-  await updateRadioScreensNotifier();
-  updateRadioScreensNotifier();
-  currentRadioStationID = "";
+
+  await radioPlayer.stop();
+  // ❗ evite limpar fontes se for religar depois
+  // await radioPlayer.clearAudioSources();
+
+  radioPlaylist.clear();
+
   switchingToRadioNotifier();
 
-  // Close the tablet radioPlayer playback speed bottomsheet if it is opened
+  // updateRadioScreensStreamController.add(null); // ✅ UMA VEZ
+  updateRadioScreensNotifier();
+
   if (radioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
     Navigator.pop(radioPlayerPlaybackSpeedBottomSheetTabletContext!);
   }
@@ -122,8 +125,15 @@ Future<void> playRadioStation(BuildContext context, int index) async {
   stationHasBeenSearched = false;
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
+  currentRadioIndex = index;
+
+  // Set the currentRadioStationID to avoid StreamBuilder won't updating the listview
+  currentRadioStationID = radioStationList[index].id;
+
   turnOnRadioStation();
-  cleanPlaylist(context);
+  if (context.mounted) {
+    cleanPlaylist(context);
+  }
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
@@ -172,11 +182,12 @@ Future<void> playRadioStation(BuildContext context, int index) async {
             context, radioStationList[index].radioName);
       }
       await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio station: $e');
   }
+  updateRadioScreensNotifier();
 }
 
 Future<void> playSearchedRadioStation(BuildContext context, int index) async {
@@ -229,7 +240,7 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
             context, radioStationList[index].radioName);
       }
       await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio station: $e');
@@ -317,7 +328,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
         errorToFetchRadioStationCard(context, currentRadioStationName);
       }
       await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio_player: $e');

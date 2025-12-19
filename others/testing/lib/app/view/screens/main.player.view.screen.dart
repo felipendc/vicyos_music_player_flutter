@@ -23,7 +23,9 @@ final List<Color> colors = [
 final List<int> duration = [900, 700, 600, 800, 500];
 
 class MainPlayerView extends StatelessWidget {
-  const MainPlayerView({super.key});
+  const MainPlayerView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class MainPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: mainPlayerViewAppBar(context),
+      appBar: mainPlayerViewAppBar(context: context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

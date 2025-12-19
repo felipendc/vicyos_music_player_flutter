@@ -140,6 +140,8 @@ class SongsListScreen extends StatelessWidget {
                                               splashRadius: 20,
                                               iconSize: 10,
                                               onPressed: () async {
+                                                activeNavigationButton =
+                                                    NavigationButtons.music;
                                                 if (deviceTypeIsSmartphone()) {
                                                   hideMiniPlayerNotifier(true);
                                                 }
@@ -155,6 +157,9 @@ class SongsListScreen extends StatelessWidget {
                                                       folderIndex: folderIndex,
                                                       folderSongList:
                                                           folderSongList,
+                                                      fileCurrentRoute:
+                                                          NavigationButtons
+                                                              .music,
                                                     );
                                                   },
                                                 ).whenComplete(
@@ -228,6 +233,7 @@ class SongsListScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
                           child: GestureDetector(
                             onTap: () async {
+                              activeNavigationButton = NavigationButtons.music;
                               Navigator.push(
                                   context,
                                   slideRightLeftTransition(
@@ -317,7 +323,8 @@ class SongsListScreen extends StatelessWidget {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
-                                                songPath: song.path);
+                                              songPath: song.path,
+                                            );
                                           },
                                         ).whenComplete(
                                           () {
@@ -409,6 +416,8 @@ class SongsListScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
+                                            activeNavigationButton =
+                                                NavigationButtons.music;
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
@@ -446,6 +455,8 @@ class SongsListScreen extends StatelessWidget {
                                           },
                                         ),
                                         onTap: () {
+                                          activeNavigationButton =
+                                              NavigationButtons.music;
                                           if (song.path ==
                                               currentSongFullPath) {
                                             if (songIsPlaying) {
@@ -457,7 +468,10 @@ class SongsListScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                                songs, index, context);
+                                              currentFolder: songs,
+                                              currentIndex: index,
+                                              context: context,
+                                            );
                                             debugPrint(
                                                 "SONG DIRECTORY: $folderPath");
                                             debugPrint(

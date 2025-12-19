@@ -178,6 +178,7 @@ class ShowAllSongsScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
+                              activeNavigationButton = NavigationButtons.music;
                               Navigator.push(
                                   context,
                                   slideRightLeftTransition(
@@ -266,7 +267,8 @@ class ShowAllSongsScreen extends StatelessWidget {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
-                                                songPath: song.path);
+                                              songPath: song.path,
+                                            );
                                           },
                                         ).whenComplete(
                                           () {
@@ -358,6 +360,8 @@ class ShowAllSongsScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
+                                            activeNavigationButton =
+                                                NavigationButtons.music;
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
@@ -395,6 +399,8 @@ class ShowAllSongsScreen extends StatelessWidget {
                                           },
                                         ),
                                         onTap: () {
+                                          activeNavigationButton =
+                                              NavigationButtons.music;
                                           if (song.path ==
                                               currentSongFullPath) {
                                             if (songIsPlaying) {
@@ -406,7 +412,10 @@ class ShowAllSongsScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                                songs, index, context);
+                                              currentFolder: songs,
+                                              currentIndex: index,
+                                              context: context,
+                                            );
                                           }
                                         },
                                       ),

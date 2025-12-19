@@ -46,7 +46,9 @@ class MainPlayerViewTablet extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: mainPlayerViewAppBarTablet(context),
+      appBar: mainPlayerViewAppBarTablet(
+        context: context,
+      ),
       body: StreamBuilder(
         stream: switchingToRadioStreamController.stream,
         builder: (context, asyncSnapshot) {

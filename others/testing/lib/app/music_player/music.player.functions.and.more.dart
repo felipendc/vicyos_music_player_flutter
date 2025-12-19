@@ -33,7 +33,7 @@ enum FetchingSongs {
   permissionDenied,
 }
 
-NavigationButtons currentNavigationButton = NavigationButtons.music;
+NavigationButtons activeNavigationButton = NavigationButtons.none;
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
@@ -167,7 +167,8 @@ Future<void> cleanPlaylist(BuildContext context) async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
-  currentSongNavigationRouteNotifier(NavigationButtons.none);
+  activeNavigationButton = NavigationButtons.none;
+  currentSongNavigationRouteNotifier();
 }
 
 Future<void> playOrPause() async {
@@ -566,13 +567,18 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
 
 //
 
-Future<void> setFolderAsPlaylist(List<AudioInfo> currentFolder,
-    int currentIndex, BuildContext context) async {
+Future<void> setFolderAsPlaylist({
+  required List<AudioInfo> currentFolder,
+  required int currentIndex,
+  required BuildContext context,
+}) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
   stopSong();
   playlist.clear();
+
+  currentSongNavigationRouteNotifier();
 
   for (AudioInfo filePath in currentFolder) {
     // File audioFile = File(filePath.path);
@@ -619,11 +625,16 @@ Future<void> setFolderAsPlaylist(List<AudioInfo> currentFolder,
   rebuildPlaylistCurrentLengthNotifier();
 }
 
-Future<void> addFolderToPlaylist(
-    List<AudioInfo> currentFolder, BuildContext context) async {
+Future<void> addFolderToPlaylist({
+  required List<AudioInfo> currentFolder,
+  required BuildContext context,
+}) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
+
+  currentSongNavigationRouteNotifier();
+
   if (audioPlayer.audioSources.isEmpty) {
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
@@ -705,10 +716,16 @@ Future<void> addFolderToPlaylist(
   }
 }
 
-Future<void> addSongToPlaylist(BuildContext context, songPath) async {
+Future<void> addSongToPlaylist({
+  required BuildContext context,
+  songPath,
+}) async {
   if (isRadioOn) {
     turnOffRadioStation();
   }
+
+  currentSongNavigationRouteNotifier();
+
   if (audioPlayer.audioSources.isEmpty) {
     audioPlayerWasPlaying = true;
     playlist.clear();
@@ -785,7 +802,12 @@ Future<void> addSongToPlaylist(BuildContext context, songPath) async {
   }
 }
 
-void addToPlayNext(String playNextFilePath, BuildContext context) {
+void addToPlayNext({
+  required String playNextFilePath,
+  required BuildContext context,
+}) {
+  currentSongNavigationRouteNotifier();
+
   File audioFile = File(playNextFilePath);
   String fileNameWithoutExtension =
       path.basenameWithoutExtension(playNextFilePath);

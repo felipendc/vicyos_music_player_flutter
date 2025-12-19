@@ -13,7 +13,11 @@ import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
   final String songPath;
-  const SongPreviewBottomSheet({super.key, required this.songPath});
+
+  const SongPreviewBottomSheet({
+    super.key,
+    required this.songPath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,10 @@ class SongPreviewBottomSheet extends StatelessWidget {
             ? media.height * 0.76
             : media.height * 0.62, // Adjust the height
         child: Scaffold(
-          appBar: previewPlayerViewAppBar(context, songPath),
+          appBar: previewPlayerViewAppBar(
+            context: context,
+            filePath: songPath,
+          ),
           body: Container(
             color: TColor.bg,
             // height:  media.height * 0.5, // Adjust the height
@@ -338,7 +345,10 @@ class SongPreviewBottomSheet extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await addSongToPlaylist(context, songPath);
+                        await addSongToPlaylist(
+                          context: context,
+                          songPath: songPath,
+                        );
                         rebuildPlaylistCurrentLengthNotifier();
                       },
                       backgroundColor: TColor.darkGray,

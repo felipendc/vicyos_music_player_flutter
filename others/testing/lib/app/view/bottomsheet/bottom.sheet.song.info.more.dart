@@ -12,7 +12,11 @@ import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
   final dynamic fullFilePath;
-  const SongInfoMoreBottomSheet({super.key, required this.fullFilePath});
+
+  const SongInfoMoreBottomSheet({
+    super.key,
+    required this.fullFilePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +173,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return SongPreviewBottomSheet(
-                                    songPath: fullFilePath);
+                                  songPath: fullFilePath,
+                                );
                               }).whenComplete(
                             () {
                               isSongPreviewBottomSheetOpen = false;
@@ -221,7 +226,10 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () {
-                          addToPlayNext(fullFilePath, context);
+                          addToPlayNext(
+                            playNextFilePath: fullFilePath,
+                            context: context,
+                          );
                           Navigator.pop(context);
                           showAddedToPlaylist(context, "Song",
                               songName(fullFilePath), "Added to play next");

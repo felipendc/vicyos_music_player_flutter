@@ -272,94 +272,13 @@ class HomePageFolderList extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // Search + Tabs
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     // Custom tabs
-                        //
-                        //     Padding(
-                        //       padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        //       child: Container(
-                        //         padding:
-                        //             const EdgeInsets.symmetric(horizontal: 16),
-                        //         height: 44,
-                        //         // width: 350,
-                        //         decoration: BoxDecoration(
-                        //           color: const Color(
-                        //               0xff24273A), //const Color(0xff24273A),
-                        //           // Background color of the container
-                        //           borderRadius: BorderRadius.circular(20),
-                        //         ),
-                        //         child: Row(
-                        //           mainAxisAlignment: MainAxisAlignment.center,
-                        //           children: [
-                        //             SizedBox(width: 5),
-                        //             Text(
-                        //               "Músicas",
-                        //               style: TextStyle(
-                        //                   color: Colors.white70,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w500),
-                        //             ),
-                        //             SizedBox(width: 20),
-                        //             Text(
-                        //               "Favoritos",
-                        //               style: TextStyle(
-                        //                   color: Colors.white70,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w500),
-                        //             ),
-                        //             SizedBox(width: 20),
-                        //             Text(
-                        //               "Playlists",
-                        //               style: TextStyle(
-                        //                   color: Colors.white70,
-                        //                   fontSize: 16,
-                        //                   fontWeight: FontWeight.w500),
-                        //             ),
-                        //             SizedBox(width: 5),
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     ),
-                        //
-                        //     // 🔍 Search icon
-                        //     Padding(
-                        //       padding: const EdgeInsets.fromLTRB(10, 5, 15, 8),
-                        //       child: GestureDetector(
-                        //         onTap: () {
-                        //           Navigator.push(
-                        //             context,
-                        //             slideRightLeftTransition(
-                        //               const SearchScreen(),
-                        //             ),
-                        //           );
-                        //         },
-                        //         child: Container(
-                        //           width: 50,
-                        //           height: 45,
-                        //           decoration: BoxDecoration(
-                        //             color: const Color(0xff24273A),
-                        //             borderRadius: BorderRadius.circular(20),
-                        //           ),
-                        //           child: const Icon(
-                        //             Icons.search,
-                        //             color: Colors.white70,
-                        //             size: 22,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
 
-                        // ========================================================================
                         // Search
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
+                              activeNavigationButton = NavigationButtons.music;
                               Navigator.push(
                                 context,
                                 slideRightLeftTransition(
@@ -445,7 +364,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (currentNavigationButton ==
+                                      if (activeNavigationButton ==
                                           NavigationButtons.music)
                                         Positioned(
                                           top: 29,
@@ -462,6 +381,8 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
+                                  activeNavigationButton =
+                                      NavigationButtons.music;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -491,7 +412,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (currentNavigationButton ==
+                                      if (activeNavigationButton ==
                                           NavigationButtons.favorites)
                                         Positioned(
                                           top: 29,
@@ -508,6 +429,8 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
+                                  activeNavigationButton =
+                                      NavigationButtons.favorites;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -537,7 +460,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (currentNavigationButton ==
+                                      if (activeNavigationButton ==
                                           NavigationButtons.playlists)
                                         Positioned(
                                           top: 29,
@@ -554,6 +477,8 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
+                                  activeNavigationButton =
+                                      NavigationButtons.playlists;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -613,6 +538,9 @@ class HomePageFolderList extends StatelessWidget {
                                                         folderSongList:
                                                             folderSongList,
                                                         folderIndex: index,
+                                                        fileCurrentRoute:
+                                                            NavigationButtons
+                                                                .music,
                                                       );
                                                     },
                                                   ).whenComplete(
@@ -719,6 +647,9 @@ class HomePageFolderList extends StatelessWidget {
                                                         splashRadius: 20,
                                                         iconSize: 10,
                                                         onPressed: () async {
+                                                          activeNavigationButton =
+                                                              NavigationButtons
+                                                                  .music;
                                                           Navigator.push(
                                                             context,
                                                             slideRightLeftTransition(

@@ -27,5 +27,5 @@ void switchingToRadioNotifier() {
 }
 
 Future<void> updateRadioScreensNotifier() async {
-  updateRadioScreensStreamController.sink.add(null);
+  updateRadioScreensStreamController.add(null);
 }

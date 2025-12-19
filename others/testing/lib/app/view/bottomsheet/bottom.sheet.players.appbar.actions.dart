@@ -9,8 +9,11 @@ import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
   final dynamic fullFilePath;
-  const PlayerPreviewAppBarActionsBottomSheet(
-      {super.key, required this.fullFilePath});
+
+  const PlayerPreviewAppBarActionsBottomSheet({
+    super.key,
+    required this.fullFilePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +152,10 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                           ),
                           contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                           onTap: () {
-                            addToPlayNext(fullFilePath, context);
+                            addToPlayNext(
+                              playNextFilePath: fullFilePath,
+                              context: context,
+                            );
                             Navigator.pop(context);
                             showAddedToPlaylist(context, "Song",
                                 songName(fullFilePath), "Added to play next");

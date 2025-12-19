@@ -6,7 +6,7 @@ class FavoriteSongsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var media = MediaQuery.sizeOf(context);
+    // var media = MediaQuery.sizeOf(context);
     return Scaffold(
       body: Center(
         child: ClipRRect(

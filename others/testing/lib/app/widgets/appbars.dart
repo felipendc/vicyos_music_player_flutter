@@ -6,7 +6,9 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-AppBar mainPlayerViewAppBarTablet(BuildContext context) {
+AppBar mainPlayerViewAppBarTablet({
+  required BuildContext context,
+}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -66,7 +68,9 @@ AppBar mainPlayerViewAppBarTablet(BuildContext context) {
   );
 }
 
-AppBar mainPlayerViewAppBar(BuildContext context) {
+AppBar mainPlayerViewAppBar({
+  required BuildContext context,
+}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -132,7 +136,10 @@ AppBar mainPlayerViewAppBar(BuildContext context) {
   );
 }
 
-AppBar previewPlayerViewAppBar(BuildContext context, String filePath) {
+AppBar previewPlayerViewAppBar({
+  required BuildContext context,
+  required String filePath,
+}) {
   return AppBar(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5))),
