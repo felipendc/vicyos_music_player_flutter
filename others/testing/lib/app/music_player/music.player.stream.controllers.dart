@@ -39,6 +39,9 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<NavigationButtons> currentSongNavigationRouteController =
+    StreamController<NavigationButtons>.broadcast();
+
 // Streams Notifiers Functions
 void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
@@ -94,4 +97,8 @@ void systemVolumeNotifier() {
 
 Future<void> hideMiniPlayerNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
+}
+
+Future<void> currentSongNavigationRouteNotifier(NavigationButtons value) async {
+  currentSongNavigationRouteController.sink.add(value);
 }

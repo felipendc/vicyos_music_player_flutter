@@ -20,6 +20,8 @@ import 'package:vicyos_music/app/widgets/show.top.message.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+enum NavigationButtons { music, favorites, playlists, none }
+
 enum CurrentLoopMode { all, one, shuffle, off }
 
 enum FetchingSongs {
@@ -31,6 +33,7 @@ enum FetchingSongs {
   permissionDenied,
 }
 
+NavigationButtons currentNavigationButton = NavigationButtons.music;
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
@@ -164,6 +167,7 @@ Future<void> cleanPlaylist(BuildContext context) async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
+  currentSongNavigationRouteNotifier(NavigationButtons.none);
 }
 
 Future<void> playOrPause() async {

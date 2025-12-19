@@ -19,6 +19,7 @@ import 'package:vicyos_music/app/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/view/screens/playlists.screen.dart';
 import 'package:vicyos_music/app/view/screens/show.all.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
+import 'package:vicyos_music/app/widgets/aurora.bar.dart';
 import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
@@ -424,76 +425,146 @@ class HomePageFolderList extends StatelessWidget {
                       // Background color of the container
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Text(
-                            AppLocalizations.of(context)!.songs,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              slideRightLeftTransition(
-                                ShowAllSongsScreen(),
+                    child: StreamBuilder(
+                        stream: currentSongNavigationRouteController.stream,
+                        builder: (context, asyncSnapshot) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: SizedBox(
+                                  // color: Colors.white54,
+                                  height: 32, // 27,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.songs,
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      if (currentNavigationButton ==
+                                          NavigationButtons.music)
+                                        Positioned(
+                                          top: 29,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(80),
+                                            child: SizedBox(
+                                              width: 40,
+                                              child: const AuroraBar(height: 3),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    slideRightLeftTransition(
+                                      ShowAllSongsScreen(),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                        Text(
-                          "  •  ",
-                          style: TextStyle(
-                              color: TColor.secondaryText,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        GestureDetector(
-                          child: Text(
-                            AppLocalizations.of(context)!.favorites,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              slideRightLeftTransition(
-                                FavoriteSongsScreen(),
+                              Text(
+                                "  •  ",
+                                style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
                               ),
-                            );
-                          },
-                        ),
-                        Text(
-                          "  •  ",
-                          style: TextStyle(
-                              color: TColor.secondaryText,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        GestureDetector(
-                          child: Text(
-                            AppLocalizations.of(context)!.playlists,
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              slideRightLeftTransition(
-                                PlaylistsScreen(),
+                              GestureDetector(
+                                child: SizedBox(
+                                  // color: Colors.white54,
+                                  height: 32, // 27,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.favorites,
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      if (currentNavigationButton ==
+                                          NavigationButtons.favorites)
+                                        Positioned(
+                                          top: 29,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(80),
+                                            child: SizedBox(
+                                              width: 40,
+                                              child: const AuroraBar(height: 3),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    slideRightLeftTransition(
+                                      FavoriteSongsScreen(),
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                              Text(
+                                "  •  ",
+                                style: TextStyle(
+                                    color: TColor.secondaryText,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              GestureDetector(
+                                child: SizedBox(
+                                  // color: Colors.white54,
+                                  height: 32, // 27,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.playlists,
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      if (currentNavigationButton ==
+                                          NavigationButtons.playlists)
+                                        Positioned(
+                                          top: 29,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(80),
+                                            child: SizedBox(
+                                              width: 40,
+                                              child: const AuroraBar(height: 3),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    slideRightLeftTransition(
+                                      PlaylistsScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }),
                   ),
                 ),
                 // ========================================================================
