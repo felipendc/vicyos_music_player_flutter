@@ -364,7 +364,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (activeNavigationButton ==
+                                      if (miuiNavigationButtonsBehavior() ==
                                               NavigationButtons.music &&
                                           audioPlayer.audioSources.isNotEmpty)
                                         Positioned(
@@ -411,7 +411,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (activeNavigationButton ==
+                                      if (miuiNavigationButtonsBehavior() ==
                                               NavigationButtons.favorites &&
                                           audioPlayer.audioSources.isNotEmpty)
                                         Positioned(
@@ -458,7 +458,7 @@ class HomePageFolderList extends StatelessWidget {
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      if (activeNavigationButton ==
+                                      if (miuiNavigationButtonsBehavior() ==
                                               NavigationButtons.playlists &&
                                           audioPlayer.audioSources.isNotEmpty)
                                         Positioned(

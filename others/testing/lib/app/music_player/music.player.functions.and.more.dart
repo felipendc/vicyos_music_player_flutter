@@ -10,6 +10,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vicyos_music/app/build_flags/build.flags.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
@@ -900,4 +901,12 @@ void addToPlayNext({
     rebuildPlaylistCurrentLengthNotifier();
   }
   rebuildFavoriteScreenNotifier();
+}
+
+NavigationButtons miuiNavigationButtonsBehavior() {
+  if (navigationButtonsHasMiuiBehavior) {
+    return activeNavigationButton;
+  } else {
+    return songCurrentRouteType;
+  }
 }

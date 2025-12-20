@@ -3,6 +3,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:vicyos_music/app/build_flags/build.flags.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
@@ -105,6 +106,11 @@ void preLoadSongName(BuildContext context) {
         // Accessing the enum playedFromRoute from MediaItem extras
         songCurrentRouteType = currentMediaItem.extras?['playedFromRoute'];
         debugPrint("current song route type: $songCurrentRouteType");
+        // If the navigationButtonsHasMiuiBehavior if disabled,
+        // update the navigation buttons whenever the player changes the song index
+        if (!navigationButtonsHasMiuiBehavior) {
+          currentSongNavigationRouteNotifier();
+        }
 
         currentSongName = currentMediaItem.title;
         if (context.mounted) {
