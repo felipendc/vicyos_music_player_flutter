@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
@@ -12,16 +13,18 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
-  final String songPath;
+  final AudioInfo songModel;
+  final NavigationButtons audioRoute;
 
   const SongPreviewBottomSheet({
     super.key,
-    required this.songPath,
+    required this.songModel,
+    required this.audioRoute,
   });
 
   @override
   Widget build(BuildContext context) {
-    previewSong(songPath);
+    previewSong(songModel.path);
     var media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
@@ -36,7 +39,8 @@ class SongPreviewBottomSheet extends StatelessWidget {
         child: Scaffold(
           appBar: previewPlayerViewAppBar(
             context: context,
-            filePath: songPath,
+            filePath: songModel.path,
+            audioRoute: audioRoute,
           ),
           body: Container(
             color: TColor.bg,
@@ -200,10 +204,10 @@ class SongPreviewBottomSheet extends StatelessWidget {
                               return MarqueeText(
                                 centerText: true,
                                 // Forces rebuild when song changes
-                                key: ValueKey(songName(songPath)),
+                                key: ValueKey(songName(songModel.name)),
                                 maxWidth:
                                     width, // Set dynamically based on layout
-                                text: songName(songPath),
+                                text: songName(songModel.name),
                                 style: TextStyle(
                                   color:
                                       TColor.primaryText.withValues(alpha: 0.9),
@@ -347,7 +351,8 @@ class SongPreviewBottomSheet extends StatelessWidget {
                       onPressed: () async {
                         await addSongToPlaylist(
                           context: context,
-                          songPath: songPath,
+                          songPath: songModel.path,
+                          audioRoute: audioRoute,
                         );
                         rebuildPlaylistCurrentLengthNotifier();
                       },

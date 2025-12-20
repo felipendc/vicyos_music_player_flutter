@@ -48,6 +48,7 @@ class MainPlayerViewTablet extends StatelessWidget {
     return Scaffold(
       appBar: mainPlayerViewAppBarTablet(
         context: context,
+        audioRoute: songCurrentRouteType,
       ),
       body: StreamBuilder(
         stream: switchingToRadioStreamController.stream,

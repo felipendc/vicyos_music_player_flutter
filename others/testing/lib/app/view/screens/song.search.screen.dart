@@ -182,7 +182,8 @@ class SearchScreen extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return SongPreviewBottomSheet(
-                                songPath: searchSongFromDataBase[index].path,
+                                songModel: searchSongFromDataBase[index],
+                                audioRoute: NavigationButtons.music,
                               );
                             },
                           ).whenComplete(
@@ -276,8 +277,9 @@ class SearchScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
-                                      fullFilePath:
-                                          searchSongFromDataBase[index].path,
+                                      songModel: searchSongFromDataBase[index],
+                                      isFromFavoriteScreen: false,
+                                      audioRoute: NavigationButtons.music,
                                     );
                                   },
                                 ).whenComplete(
@@ -308,6 +310,7 @@ class SearchScreen extends StatelessWidget {
                               currentFolder: searchSongFromDataBase,
                               currentIndex: index,
                               context: context,
+                              audioRoute: NavigationButtons.music,
                             );
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");

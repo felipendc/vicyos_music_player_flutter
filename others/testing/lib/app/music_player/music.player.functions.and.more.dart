@@ -33,6 +33,7 @@ enum FetchingSongs {
   permissionDenied,
 }
 
+NavigationButtons songCurrentRouteType = NavigationButtons.none;
 NavigationButtons activeNavigationButton = NavigationButtons.none;
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;
@@ -571,6 +572,7 @@ Future<void> setFolderAsPlaylist({
   required List<AudioInfo> currentFolder,
   required int currentIndex,
   required BuildContext context,
+  required NavigationButtons audioRoute,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -601,6 +603,9 @@ Future<void> setFolderAsPlaylist({
       title: fileNameWithoutExtension,
       // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
+      extras: {
+        "playedFromRoute": audioRoute,
+      },
     );
 
     playlist.add(
@@ -628,6 +633,7 @@ Future<void> setFolderAsPlaylist({
 Future<void> addFolderToPlaylist({
   required List<AudioInfo> currentFolder,
   required BuildContext context,
+  required NavigationButtons audioRoute,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -658,6 +664,9 @@ Future<void> addFolderToPlaylist({
         title: fileNameWithoutExtension,
         // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
         artUri: Uri.file(notificationPlayerAlbumArt.path),
+        extras: {
+          "playedFromRoute": audioRoute,
+        },
       );
 
       playlist.add(
@@ -703,6 +712,9 @@ Future<void> addFolderToPlaylist({
         title: fileNameWithoutExtension,
         // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
         artUri: Uri.file(notificationPlayerAlbumArt.path),
+        extras: {
+          "playedFromRoute": audioRoute,
+        },
       );
 
       await audioPlayer.addAudioSource(
@@ -719,6 +731,7 @@ Future<void> addFolderToPlaylist({
 Future<void> addSongToPlaylist({
   required BuildContext context,
   songPath,
+  required NavigationButtons audioRoute,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -748,6 +761,9 @@ Future<void> addSongToPlaylist({
       title: fileNameWithoutExtension,
       // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
+      extras: {
+        "playedFromRoute": audioRoute,
+      },
     );
 
     playlist.add(
@@ -785,6 +801,9 @@ Future<void> addSongToPlaylist({
       title: fileNameWithoutExtension,
       // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
+      extras: {
+        "playedFromRoute": audioRoute,
+      },
     );
 
     await audioPlayer.addAudioSource(
@@ -805,6 +824,7 @@ Future<void> addSongToPlaylist({
 void addToPlayNext({
   required String playNextFilePath,
   required BuildContext context,
+  required NavigationButtons audioRoute,
 }) {
   currentSongNavigationRouteNotifier();
 
@@ -828,6 +848,9 @@ void addToPlayNext({
     title: fileNameWithoutExtension,
     // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
+    extras: {
+      "playedFromRoute": audioRoute,
+    },
   );
 
   if (audioPlayer.audioSources.isEmpty) {

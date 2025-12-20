@@ -13,14 +13,13 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
   final String folderPath;
   final int folderIndex;
   final List<AudioInfo> folderSongList;
-  final NavigationButtons fileCurrentRoute;
 
-  const FolderToPlaylistBottomSheet(
-      {super.key,
-      required this.folderPath,
-      required this.folderIndex,
-      required this.folderSongList,
-      required this.fileCurrentRoute});
+  const FolderToPlaylistBottomSheet({
+    super.key,
+    required this.folderPath,
+    required this.folderIndex,
+    required this.folderSongList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -162,9 +161,9 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(
-                            currentFolder: folderSongList,
-                            context: context,
-                          );
+                              currentFolder: folderSongList,
+                              context: context,
+                              audioRoute: NavigationButtons.music);
 
                           showAddedToPlaylist(
                               context,
@@ -210,6 +209,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             currentFolder: folderSongList,
                             currentIndex: 0,
                             context: context,
+                            audioRoute: NavigationButtons.music,
                           );
 
                           if (deviceTypeIsTablet()) {

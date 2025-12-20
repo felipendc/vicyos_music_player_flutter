@@ -34,7 +34,10 @@ class MainPlayerView extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: mainPlayerViewAppBar(context: context),
+      appBar: mainPlayerViewAppBar(
+        context: context,
+        audioRoute: songCurrentRouteType,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

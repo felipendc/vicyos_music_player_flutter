@@ -345,7 +345,8 @@ class HomePageFolderList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: StreamBuilder(
-                        stream: currentSongNavigationRouteController.stream,
+                        stream:
+                            currentSongNavigationRouteStreamController.stream,
                         builder: (context, asyncSnapshot) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -541,9 +542,6 @@ class HomePageFolderList extends StatelessWidget {
                                                         folderSongList:
                                                             folderSongList,
                                                         folderIndex: index,
-                                                        fileCurrentRoute:
-                                                            NavigationButtons
-                                                                .music,
                                                       );
                                                     },
                                                   ).whenComplete(

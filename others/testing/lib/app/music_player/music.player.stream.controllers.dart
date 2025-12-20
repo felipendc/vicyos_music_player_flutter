@@ -39,7 +39,10 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
-StreamController<void> currentSongNavigationRouteController =
+StreamController<void> currentSongNavigationRouteStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<void> rebuildFavoriteScreenStreamController =
     StreamController<void>.broadcast();
 
 // Streams Notifiers Functions
@@ -100,5 +103,9 @@ Future<void> hideMiniPlayerNotifier(bool value) async {
 }
 
 Future<void> currentSongNavigationRouteNotifier() async {
-  currentSongNavigationRouteController.sink.add(null);
+  currentSongNavigationRouteStreamController.sink.add(null);
+}
+
+Future<void> rebuildFavoriteScreenNotifier() async {
+  rebuildFavoriteScreenStreamController.sink.add(null);
 }

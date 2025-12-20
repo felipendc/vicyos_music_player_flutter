@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/widgets/show.top.message.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
   final dynamic fullFilePath;
-
+  final NavigationButtons audioRoute;
   const PlayerPreviewAppBarActionsBottomSheet({
     super.key,
     required this.fullFilePath,
+    required this.audioRoute,
   });
 
   @override
@@ -24,7 +27,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: isSongPreviewBottomSheetOpen ? 300 : 230, // Adjust the height
+        height: isSongPreviewBottomSheetOpen ? 380 : 310, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,6 +133,94 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
+                    FutureBuilder<bool>(
+                      future: AppDatabase.instance.isFavorite(fullFilePath),
+                      builder: (context, asyncSnapshot) {
+                        // Treating the waiting
+                        if (asyncSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox();
+                        }
+
+                        // If has error show a blank screen
+                        if (asyncSnapshot.hasError) {
+                          return const SizedBox();
+                        }
+
+                        // If snapshot doesn't have data return false
+                        final songIsFavorite = asyncSnapshot.data ?? false;
+
+                        if (songIsFavorite) {
+                          return Material(
+                            color: Colors.transparent,
+                            child: ListTile(
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 17),
+                                child: ImageIcon(
+                                  AssetImage(
+                                      "assets/img/bottomsheet/star_treamline.png"),
+                                  color: TColor.focus,
+                                  size: 29,
+                                ),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(context)!
+                                    .remove_from_favorites,
+                                style: TextStyle(
+                                  color: TColor.primaryText80,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                              onTap: () async {
+                                Navigator.pop(context);
+
+                                await AppDatabase.instance
+                                    .removeFromFavorites(fullFilePath, context);
+                                rebuildFavoriteScreenNotifier();
+                              },
+                            ),
+                          );
+                        } else {
+                          return Material(
+                            color: Colors.transparent,
+                            child: ListTile(
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 17),
+                                child: ImageIcon(
+                                  AssetImage(
+                                      "assets/img/bottomsheet/star_treamline.png"),
+                                  color: TColor.focus,
+                                  size: 29,
+                                ),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(context)!.add_to_favorites,
+                                style: TextStyle(
+                                  color: TColor.primaryText80,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                              onTap: () async {
+                                Navigator.pop(context);
+
+                                // Get the AudioInfo model of the file path from db
+                                final songPathAsModel = await AppDatabase
+                                    .instance
+                                    .returnSongPathAsModel(fullFilePath);
+
+                                await AppDatabase.instance
+                                    .addToFavorites(songPathAsModel.first);
+                                rebuildFavoriteScreenNotifier();
+                              },
+                            ),
+                          );
+                        }
+                      },
+                    ),
                     if (isSongPreviewBottomSheetOpen)
                       Material(
                         color: Colors.transparent,
@@ -155,6 +246,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                             addToPlayNext(
                               playNextFilePath: fullFilePath,
                               context: context,
+                              audioRoute: audioRoute,
                             );
                             Navigator.pop(context);
                             showAddedToPlaylist(context, "Song",

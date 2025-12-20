@@ -54,7 +54,8 @@
   "all_songs": "All Songs",
   "favorites": "Favorites",
   "playlists": "Playlists",
-
+  "add_to_favorites": "Add to favorites",
+  "remove_from_favorites": "Remove from favorites",
 
   "total_of_songs": "{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}",
   "@total_of_songs": {

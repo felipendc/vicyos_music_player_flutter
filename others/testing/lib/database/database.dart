@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 
 class AppDatabase {
@@ -279,6 +282,33 @@ class AppDatabase {
     return decoded.map((e) => AudioInfo.fromMap(e)).toList();
   }
 
+  // Search for a song path and return its model
+  Future<List<AudioInfo>> returnSongPathAsModel(String songPath) async {
+    final db = await AppDatabase.instance.database;
+
+    final result = await db.query('music_folders');
+
+    final List<AudioInfo> matches = [];
+
+    for (final row in result) {
+      final List songs = jsonDecode(row['folder_content'] as String);
+
+      for (final song in songs) {
+        final name = (song['path'] as String).toLowerCase();
+
+        if (name.contains(songPath.toLowerCase())) {
+          matches.add(AudioInfo.fromMap(song));
+        }
+      }
+    }
+    if (matches.isEmpty) {
+      debugPrint("🚫 No matching files found.");
+    } else {}
+
+    debugPrint("🎵 Final found files: ${matches.map((s) => s.path).toList()}");
+    return matches;
+  }
+
   // Search for songs
   Future<List<AudioInfo>> searchSongs(String query) async {
     isSearchingSongsNotifier("searching");
@@ -338,22 +368,55 @@ class AppDatabase {
   }
 
   // Remove from favorites (toggle ❤️)
-  Future<void> removeFromFavorites(String path) async {
+  Future<void> removeFromFavorites(
+      String songPath, BuildContext context) async {
     final db = await database;
 
     await db.delete(
       'favorites',
       where: 'path = ?',
-      whereArgs: [path],
+      whereArgs: [songPath],
     );
+
+    // Check if the file is present on the playlist...
+    final int index = audioPlayer.audioSources.indexWhere(
+        (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath);
+
+    if (index != -1) {
+      if (songPath == currentSongFullPath &&
+          audioPlayer.audioSources.length == 1) {
+        // Clean playlist and rebuild the entire screen to clean the listview
+        if (context.mounted) {
+          cleanPlaylist(context);
+        }
+      } else {
+        await audioPlayer.removeAudioSourceAt(index);
+        rebuildPlaylistCurrentLengthNotifier();
+        currentSongNameNotifier();
+
+        // Update the current song name
+        if (index < audioPlayer.audioSources.length) {
+          String newCurrentSongFullPath = Uri.decodeFull(
+              (audioPlayer.audioSources[index] as UriAudioSource)
+                  .uri
+                  .toString());
+          currentSongName = songName(newCurrentSongFullPath);
+        }
+      }
+      currentSongNameNotifier();
+    }
   }
 
   // Complete Toggle (better UI)
-  Future<bool> toggleFavorite(AudioInfo audio) async {
+  // Add if isn't in favorites or delete if it is in favorites table
+  Future<bool> toggleFavorite(AudioInfo audio, BuildContext context) async {
     final exists = await isFavorite(audio.path);
 
     if (exists) {
-      await removeFromFavorites(audio.path);
+      if (context.mounted) {
+        await removeFromFavorites(audio.path, context);
+      }
+
       return false;
     } else {
       await addToFavorites(audio);

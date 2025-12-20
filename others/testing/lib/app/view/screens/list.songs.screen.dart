@@ -157,9 +157,6 @@ class SongsListScreen extends StatelessWidget {
                                                       folderIndex: folderIndex,
                                                       folderSongList:
                                                           folderSongList,
-                                                      fileCurrentRoute:
-                                                          NavigationButtons
-                                                              .music,
                                                     );
                                                   },
                                                 ).whenComplete(
@@ -323,7 +320,9 @@ class SongsListScreen extends StatelessWidget {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
-                                              songPath: song.path,
+                                              songModel: song,
+                                              audioRoute:
+                                                  NavigationButtons.music,
                                             );
                                           },
                                         ).whenComplete(
@@ -430,7 +429,10 @@ class SongsListScreen extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
-                                                    fullFilePath: song.path,
+                                                    songModel: song,
+                                                    isFromFavoriteScreen: false,
+                                                    audioRoute:
+                                                        NavigationButtons.music,
                                                   );
                                                 },
                                               ).whenComplete(
@@ -458,7 +460,9 @@ class SongsListScreen extends StatelessWidget {
                                           activeNavigationButton =
                                               NavigationButtons.music;
                                           if (song.path ==
-                                              currentSongFullPath) {
+                                                  currentSongFullPath &&
+                                              songCurrentRouteType ==
+                                                  NavigationButtons.music) {
                                             if (songIsPlaying) {
                                               audioPlayer.pause();
                                               songIsPlaying = false;
@@ -468,10 +472,11 @@ class SongsListScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                              currentFolder: songs,
-                                              currentIndex: index,
-                                              context: context,
-                                            );
+                                                currentFolder: songs,
+                                                currentIndex: index,
+                                                context: context,
+                                                audioRoute:
+                                                    NavigationButtons.music);
                                             debugPrint(
                                                 "SONG DIRECTORY: $folderPath");
                                             debugPrint(

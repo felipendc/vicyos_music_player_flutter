@@ -171,6 +171,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playlists => 'Playlists';
 
   @override
+  String get add_to_favorites => 'Add to favorites';
+
+  @override
+  String get remove_from_favorites => 'Remove from favorites';
+
+  @override
   String total_of_songs(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

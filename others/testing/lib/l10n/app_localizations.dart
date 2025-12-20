@@ -420,6 +420,18 @@ abstract class AppLocalizations {
   /// **'Playlists'**
   String get playlists;
 
+  /// No description provided for @add_to_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get add_to_favorites;
+
+  /// No description provided for @remove_from_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get remove_from_favorites;
+
   /// No description provided for @total_of_songs.
   ///
   /// In en, this message translates to:

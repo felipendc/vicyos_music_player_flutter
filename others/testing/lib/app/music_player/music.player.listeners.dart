@@ -91,7 +91,6 @@ void audioPlayerStreamListeners() {
 }
 
 // Update and display the title, artist, album, and index of the song
-
 void preLoadSongName(BuildContext context) {
   int? lastSongCurrentIndex;
   audioPlayer.currentIndexStream.listen((index) {
@@ -102,6 +101,11 @@ void preLoadSongName(BuildContext context) {
         if (index == null) return; // The song hasn't been loaded yet
         if (index < 0 || index >= audioPlayer.sequence.length) return;
         final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+
+        // Accessing the enum playedFromRoute from MediaItem extras
+        songCurrentRouteType = currentMediaItem.extras?['playedFromRoute'];
+        debugPrint("current song route type: $songCurrentRouteType");
+
         currentSongName = currentMediaItem.title;
         if (context.mounted) {
           currentSongArtistName = currentMediaItem.artist ??

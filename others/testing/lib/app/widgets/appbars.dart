@@ -8,6 +8,7 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar mainPlayerViewAppBarTablet({
   required BuildContext context,
+  required NavigationButtons audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(
@@ -55,6 +56,7 @@ AppBar mainPlayerViewAppBarTablet({
                           builder: (BuildContext context) {
                             return PlayerPreviewAppBarActionsBottomSheet(
                               fullFilePath: currentSongFullPath,
+                              audioRoute: audioRoute,
                             );
                           },
                         );
@@ -70,6 +72,7 @@ AppBar mainPlayerViewAppBarTablet({
 
 AppBar mainPlayerViewAppBar({
   required BuildContext context,
+  required NavigationButtons audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(
@@ -123,6 +126,7 @@ AppBar mainPlayerViewAppBar({
                     builder: (BuildContext context) {
                       return PlayerPreviewAppBarActionsBottomSheet(
                         fullFilePath: currentSongFullPath,
+                        audioRoute: audioRoute,
                       );
                     },
                   );
@@ -139,6 +143,7 @@ AppBar mainPlayerViewAppBar({
 AppBar previewPlayerViewAppBar({
   required BuildContext context,
   required String filePath,
+  required NavigationButtons audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(
@@ -188,6 +193,7 @@ AppBar previewPlayerViewAppBar({
                   builder: (BuildContext context) {
                     return PlayerPreviewAppBarActionsBottomSheet(
                       fullFilePath: filePath,
+                      audioRoute: audioRoute,
                     );
                   },
                 );
