@@ -173,8 +173,8 @@ Future<void> cleanPlaylist(BuildContext context) async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
-  activeNavigationButton = NavigationButtons.none; // manual attribution
-  songCurrentRouteType = NavigationButtons.none; // via listener
+  activeNavigationButton = NavigationButtons.none; // Manual attribution
+  songCurrentRouteType = NavigationButtons.none; // Via listener
   currentSongNavigationRouteNotifier();
 }
 
@@ -587,7 +587,7 @@ Future<void> setFolderAsPlaylist({
   stopSong();
   playlist.clear();
 
-  activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
+  activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
   currentSongNavigationRouteNotifier();
 
   for (AudioInfo filePath in currentFolder) {
@@ -652,7 +652,7 @@ Future<void> addFolderToPlaylist({
   currentSongNavigationRouteNotifier();
 
   if (audioPlayer.audioSources.isEmpty) {
-    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
+    activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
       // File audioFile = File(filePath.path);
@@ -753,7 +753,7 @@ Future<void> addSongToPlaylist({
   currentSongNavigationRouteNotifier();
 
   if (audioPlayer.audioSources.isEmpty) {
-    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
+    activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
     audioPlayerWasPlaying = true;
     playlist.clear();
     // File audioFile = File(songPath);
@@ -843,7 +843,7 @@ void addToPlayNext({
   required NavigationButtons audioRouteEmptyPlaylist,
 }) {
   if (audioPlayer.audioSources.isEmpty) {
-    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
+    activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
   }
   currentSongNavigationRouteNotifier();
 

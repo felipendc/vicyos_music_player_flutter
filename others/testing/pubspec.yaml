@@ -130,6 +130,7 @@ flutter:
     - assets/img/bottomsheet/
     - assets/img/player/
     - assets/img/menu/
+    - assets/img/playlist/
 
     #   - images/a_dot_ham.jpeg
     # An image asset can refer to one or more resolution-specific "variants", see

@@ -162,9 +162,7 @@ class AppDatabase {
   }
 
   // Remove deleted folders from the database
-  Future<void> removeDeletedFoldersFromDB(
-    List<String> deviceFolders,
-  ) async {
+  Future<void> removeDeletedFoldersFromDB(List<String> deviceFolders) async {
     final db = await AppDatabase.instance.database;
 
     final dbFolders = await getAllFolderPathsFromDB();
@@ -207,11 +205,7 @@ class AppDatabase {
       );
 
       // Delete from favorites
-      await txn.delete(
-        'favorites',
-        where: 'path = ?',
-        whereArgs: [audioPath],
-      );
+      await txn.delete('favorites', where: 'path = ?', whereArgs: [audioPath]);
 
       //  Fetch all folders
       final folders = await txn.query('music_folders');
@@ -369,18 +363,17 @@ class AppDatabase {
 
   // Remove from favorites (toggle ❤️)
   Future<void> removeFromFavorites(
-      String songPath, BuildContext context) async {
+    String songPath,
+    BuildContext context,
+  ) async {
     final db = await database;
 
-    await db.delete(
-      'favorites',
-      where: 'path = ?',
-      whereArgs: [songPath],
-    );
+    await db.delete('favorites', where: 'path = ?', whereArgs: [songPath]);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(
-        (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath);
+      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
+    );
 
     if (index != -1) {
       if (songPath == currentSongFullPath &&
@@ -397,9 +390,8 @@ class AppDatabase {
         // Update the current song name
         if (index < audioPlayer.audioSources.length) {
           String newCurrentSongFullPath = Uri.decodeFull(
-              (audioPlayer.audioSources[index] as UriAudioSource)
-                  .uri
-                  .toString());
+            (audioPlayer.audioSources[index] as UriAudioSource).uri.toString(),
+          );
           currentSongName = songName(newCurrentSongFullPath);
         }
       }
