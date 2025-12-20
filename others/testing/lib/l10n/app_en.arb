@@ -38,6 +38,7 @@
   "the_playlist_is_empty": "The playlist is empty",
   "unknown_artist": "Unknown Artist",
   "added_to_the_playlist": "Added to the playlist",
+  "added_to_play_next": "Added to play next",
   "repeat_mode_all_capitalized": "REPEAT MODE:",
   "repeating_one": "Repeating one",
   "playback_is_shuffled": "Playback is shuffled",

@@ -278,7 +278,6 @@ class HomePageFolderList extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
                           child: GestureDetector(
                             onTap: () async {
-                              activeNavigationButton = NavigationButtons.music;
                               Navigator.push(
                                 context,
                                 slideRightLeftTransition(
@@ -383,8 +382,6 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
-                                  activeNavigationButton =
-                                      NavigationButtons.music;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -432,8 +429,6 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
-                                  activeNavigationButton =
-                                      NavigationButtons.favorites;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -481,8 +476,6 @@ class HomePageFolderList extends StatelessWidget {
                                   ),
                                 ),
                                 onTap: () {
-                                  activeNavigationButton =
-                                      NavigationButtons.playlists;
                                   Navigator.push(
                                     context,
                                     slideRightLeftTransition(
@@ -648,9 +641,6 @@ class HomePageFolderList extends StatelessWidget {
                                                         splashRadius: 20,
                                                         iconSize: 10,
                                                         onPressed: () async {
-                                                          activeNavigationButton =
-                                                              NavigationButtons
-                                                                  .music;
                                                           Navigator.push(
                                                             context,
                                                             slideRightLeftTransition(

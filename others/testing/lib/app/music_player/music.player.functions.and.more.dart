@@ -33,8 +33,12 @@ enum FetchingSongs {
   permissionDenied,
 }
 
+// From audioPlayer.listener
 NavigationButtons songCurrentRouteType = NavigationButtons.none;
+
+// Manual listener only when playlist is empty
 NavigationButtons activeNavigationButton = NavigationButtons.none;
+
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
@@ -168,7 +172,8 @@ Future<void> cleanPlaylist(BuildContext context) async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
-  activeNavigationButton = NavigationButtons.none;
+  activeNavigationButton = NavigationButtons.none; // manual attribution
+  songCurrentRouteType = NavigationButtons.none; // via listener
   currentSongNavigationRouteNotifier();
 }
 
@@ -573,6 +578,7 @@ Future<void> setFolderAsPlaylist({
   required int currentIndex,
   required BuildContext context,
   required NavigationButtons audioRoute,
+  required NavigationButtons audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -580,6 +586,7 @@ Future<void> setFolderAsPlaylist({
   stopSong();
   playlist.clear();
 
+  activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
   currentSongNavigationRouteNotifier();
 
   for (AudioInfo filePath in currentFolder) {
@@ -628,12 +635,14 @@ Future<void> setFolderAsPlaylist({
   preLoadSongName(context);
   playOrPause();
   rebuildPlaylistCurrentLengthNotifier();
+  rebuildFavoriteScreenNotifier();
 }
 
 Future<void> addFolderToPlaylist({
   required List<AudioInfo> currentFolder,
   required BuildContext context,
   required NavigationButtons audioRoute,
+  required NavigationButtons audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -642,6 +651,7 @@ Future<void> addFolderToPlaylist({
   currentSongNavigationRouteNotifier();
 
   if (audioPlayer.audioSources.isEmpty) {
+    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
       // File audioFile = File(filePath.path);
@@ -726,12 +736,14 @@ Future<void> addFolderToPlaylist({
       rebuildPlaylistCurrentLengthNotifier();
     }
   }
+  rebuildFavoriteScreenNotifier();
 }
 
 Future<void> addSongToPlaylist({
   required BuildContext context,
   songPath,
   required NavigationButtons audioRoute,
+  required NavigationButtons audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -740,6 +752,7 @@ Future<void> addSongToPlaylist({
   currentSongNavigationRouteNotifier();
 
   if (audioPlayer.audioSources.isEmpty) {
+    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
     audioPlayerWasPlaying = true;
     playlist.clear();
     // File audioFile = File(songPath);
@@ -819,13 +832,18 @@ Future<void> addSongToPlaylist({
           AppLocalizations.of(context)!.added_to_the_current_playlist);
     }
   }
+  rebuildFavoriteScreenNotifier();
 }
 
 void addToPlayNext({
   required String playNextFilePath,
   required BuildContext context,
   required NavigationButtons audioRoute,
+  required NavigationButtons audioRouteEmptyPlaylist,
 }) {
+  if (audioPlayer.audioSources.isEmpty) {
+    activeNavigationButton = audioRouteEmptyPlaylist; // manual attribution
+  }
   currentSongNavigationRouteNotifier();
 
   File audioFile = File(playNextFilePath);
@@ -881,4 +899,5 @@ void addToPlayNext({
 
     rebuildPlaylistCurrentLengthNotifier();
   }
+  rebuildFavoriteScreenNotifier();
 }

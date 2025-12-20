@@ -55,7 +55,9 @@ Future<void> turnOnRadioStation() async {
   isRadioPaused = false;
   radioStationBtn = Colors.green;
 
-  activeNavigationButton = NavigationButtons.none;
+  activeNavigationButton = NavigationButtons.none; // manual attribution
+  songCurrentRouteType = NavigationButtons.none; // via listener
+
   currentSongNavigationRouteNotifier();
 
   switchingToRadioNotifier();

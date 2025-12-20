@@ -140,8 +140,6 @@ class SongsListScreen extends StatelessWidget {
                                               splashRadius: 20,
                                               iconSize: 10,
                                               onPressed: () async {
-                                                activeNavigationButton =
-                                                    NavigationButtons.music;
                                                 if (deviceTypeIsSmartphone()) {
                                                   hideMiniPlayerNotifier(true);
                                                 }
@@ -230,7 +228,6 @@ class SongsListScreen extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
                           child: GestureDetector(
                             onTap: () async {
-                              activeNavigationButton = NavigationButtons.music;
                               Navigator.push(
                                   context,
                                   slideRightLeftTransition(
@@ -415,8 +412,6 @@ class SongsListScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
-                                            activeNavigationButton =
-                                                NavigationButtons.music;
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
@@ -457,8 +452,6 @@ class SongsListScreen extends StatelessWidget {
                                           },
                                         ),
                                         onTap: () {
-                                          activeNavigationButton =
-                                              NavigationButtons.music;
                                           if (song.path ==
                                                   currentSongFullPath &&
                                               songCurrentRouteType ==
@@ -472,11 +465,14 @@ class SongsListScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                                currentFolder: songs,
-                                                currentIndex: index,
-                                                context: context,
-                                                audioRoute:
-                                                    NavigationButtons.music);
+                                              currentFolder: songs,
+                                              currentIndex: index,
+                                              context: context,
+                                              audioRoute:
+                                                  NavigationButtons.music,
+                                              audioRouteEmptyPlaylist:
+                                                  NavigationButtons.music,
+                                            );
                                             debugPrint(
                                                 "SONG DIRECTORY: $folderPath");
                                             debugPrint(

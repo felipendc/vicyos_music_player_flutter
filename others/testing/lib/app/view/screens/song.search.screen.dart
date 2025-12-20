@@ -311,6 +311,7 @@ class SearchScreen extends StatelessWidget {
                               currentIndex: index,
                               context: context,
                               audioRoute: NavigationButtons.music,
+                              audioRouteEmptyPlaylist: NavigationButtons.music,
                             );
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");

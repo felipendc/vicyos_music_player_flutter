@@ -360,10 +360,14 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             playNextFilePath: songModel.path,
                             context: context,
                             audioRoute: audioRoute,
+                            audioRouteEmptyPlaylist: audioRoute,
                           );
                           Navigator.pop(context);
-                          showAddedToPlaylist(context, "Song",
-                              songName(songModel.path), "Added to play next");
+                          showAddedToPlaylist(
+                              context,
+                              "Song",
+                              songName(songModel.path),
+                              AppLocalizations.of(context)!.added_to_play_next);
                         },
                       ),
                     ),

@@ -161,9 +161,11 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           addFolderToPlaylist(
-                              currentFolder: folderSongList,
-                              context: context,
-                              audioRoute: NavigationButtons.music);
+                            currentFolder: folderSongList,
+                            context: context,
+                            audioRoute: NavigationButtons.music,
+                            audioRouteEmptyPlaylist: NavigationButtons.music,
+                          );
 
                           showAddedToPlaylist(
                               context,
@@ -210,6 +212,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             currentIndex: 0,
                             context: context,
                             audioRoute: NavigationButtons.music,
+                            audioRouteEmptyPlaylist: NavigationButtons.music,
                           );
 
                           if (deviceTypeIsTablet()) {

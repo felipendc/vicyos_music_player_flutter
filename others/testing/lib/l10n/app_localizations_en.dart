@@ -123,6 +123,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get added_to_the_playlist => 'Added to the playlist';
 
   @override
+  String get added_to_play_next => 'Added to play next';
+
+  @override
   String get repeat_mode_all_capitalized => 'REPEAT MODE:';
 
   @override

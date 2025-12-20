@@ -123,6 +123,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get added_to_the_playlist => 'Added to the playlist';
 
   @override
+  String get added_to_play_next => 'Added to play next';
+
+  @override
   String get repeat_mode_all_capitalized => 'REPEAT MODE:';
 
   @override
@@ -330,6 +333,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get added_to_the_playlist => 'Adicionado à playlist';
+
+  @override
+  String get added_to_play_next => 'Adicionado para tocar em seguida';
 
   @override
   String get repeat_mode_all_capitalized => 'MODO DE REPETIÇÃO:';

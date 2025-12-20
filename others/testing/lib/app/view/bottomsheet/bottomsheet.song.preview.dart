@@ -353,6 +353,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                           context: context,
                           songPath: songModel.path,
                           audioRoute: audioRoute,
+                          audioRouteEmptyPlaylist: audioRoute,
                         );
                         rebuildPlaylistCurrentLengthNotifier();
                       },

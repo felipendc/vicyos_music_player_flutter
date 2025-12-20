@@ -247,10 +247,15 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                               playNextFilePath: fullFilePath,
                               context: context,
                               audioRoute: audioRoute,
+                              audioRouteEmptyPlaylist: audioRoute,
                             );
                             Navigator.pop(context);
-                            showAddedToPlaylist(context, "Song",
-                                songName(fullFilePath), "Added to play next");
+                            showAddedToPlaylist(
+                                context,
+                                "Song",
+                                songName(fullFilePath),
+                                AppLocalizations.of(context)!
+                                    .added_to_play_next);
                           },
                         ),
                       ),

@@ -177,7 +177,6 @@ class FavoriteSongsScreen extends StatelessWidget {
                         //   padding: const EdgeInsets.fromLTRB(10, 5, 10, 8),
                         //   child: GestureDetector(
                         //     onTap: () async {
-                        //       activeNavigationButton = NavigationButtons.favorites;
                         //       Navigator.push(
                         //           context,
                         //           slideRightLeftTransition(
@@ -361,9 +360,6 @@ class FavoriteSongsScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
-                                            activeNavigationButton =
-                                                NavigationButtons.favorites;
-                                            NavigationButtons.favorites;
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
@@ -405,8 +401,6 @@ class FavoriteSongsScreen extends StatelessWidget {
                                           },
                                         ),
                                         onTap: () {
-                                          activeNavigationButton =
-                                              NavigationButtons.favorites;
                                           if (song.path ==
                                                   currentSongFullPath &&
                                               songCurrentRouteType ==
@@ -424,6 +418,8 @@ class FavoriteSongsScreen extends StatelessWidget {
                                               currentIndex: index,
                                               context: context,
                                               audioRoute:
+                                                  NavigationButtons.favorites,
+                                              audioRouteEmptyPlaylist:
                                                   NavigationButtons.favorites,
                                             );
                                           }

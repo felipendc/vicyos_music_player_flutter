@@ -324,6 +324,12 @@ abstract class AppLocalizations {
   /// **'Added to the playlist'**
   String get added_to_the_playlist;
 
+  /// No description provided for @added_to_play_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to play next'**
+  String get added_to_play_next;
+
   /// No description provided for @repeat_mode_all_capitalized.
   ///
   /// In en, this message translates to:
