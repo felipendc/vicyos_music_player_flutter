@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 
@@ -428,21 +429,121 @@ class AppDatabase {
     return result.map((e) => AudioInfo.fromMap(e)).toList();
   }
 
+  /////////////////////////////////////////////////////////////////////////////////////
+
+  Future<void> createEmptyPlaylist(String name) async {
+    final db = await database;
+
+    await db.insert(
+      'playlists',
+      {
+        'playlist_name': name,
+        'playlist_songs': jsonEncode([]),
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  Future<void> createPlaylistWithAudio(
+    String name,
+    AudioInfo audio,
+  ) async {
+    final db = await database;
+
+    await db.insert(
+      'playlists',
+      {
+        'playlist_name': name,
+        'playlist_songs': jsonEncode([audio.toMap()]),
+      },
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+    );
+  }
+
+  Future<void> addAudioToPlaylist(
+    int playlistId,
+    AudioInfo audio,
+  ) async {
+    final db = await database;
+
+    final result = await db.query(
+      'playlists',
+      columns: ['playlist_songs'],
+      where: 'id = ?',
+      whereArgs: [playlistId],
+    );
+
+    if (result.isEmpty) return;
+
+    final List list = jsonDecode(result.first['playlist_songs'] as String);
+
+    // prevent duplicate audio (by path)
+    final exists = list.any((e) => e['path'] == audio.path);
+    if (exists) return;
+
+    list.add(audio.toMap());
+
+    await db.update(
+      'playlists',
+      {
+        'playlist_songs': jsonEncode(list),
+      },
+      where: 'id = ?',
+      whereArgs: [playlistId],
+    );
+  }
+
+  Future<void> renamePlaylist(
+    int playlistId,
+    String newName,
+  ) async {
+    final db = await database;
+
+    await db.update(
+      'playlists',
+      {'playlist_name': newName},
+      where: 'id = ?',
+      whereArgs: [playlistId],
+    );
+  }
+
+  Future<void> deletePlaylist(int playlistId) async {
+    final db = await database;
+
+    await db.delete(
+      'playlists',
+      where: 'id = ?',
+      whereArgs: [playlistId],
+    );
+  }
+
+  Future<List<Playlists>> getAllPlaylists() async {
+    final db = await database;
+
+    final result = await db.query(
+      'playlists',
+      orderBy: 'playlist_name COLLATE NOCASE ASC',
+    );
+
+    return result.map((row) {
+      final List<dynamic> decodedSongs =
+          jsonDecode(row['playlist_songs'] as String);
+
+      return Playlists(
+        playlistName: row['playlist_name'] as String,
+        playlistSongs: decodedSongs
+            .map((e) => AudioInfo.fromMap(e as Map<String, dynamic>))
+            .toList(),
+      );
+    }).toList();
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////
   // Create database
   Future _createDB(Database db, int version) async {
-    // -------------------------------
-    // 1)  Playlists Table
-    // -------------------------------
-    await db.execute('''
-    CREATE TABLE playlists (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL
-    );
-  ''');
-
-    // -------------------------------
-    // 2) Folder tables with JSON
-    // -------------------------------
+    // ---------------------------------------------
+    // 1) Music folders (JSON based)
+    // ---------------------------------------------
     await db.execute('''
     CREATE TABLE music_folders (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -450,22 +551,21 @@ class AppDatabase {
       song_count INTEGER NOT NULL,
       folder_content TEXT NOT NULL
     );
-    ''');
+  ''');
 
     // ---------------------------------------------
-    // 3) Playlists ↔ Audios (NOW SAVES THE PATH)
+    // 2) Playlists (JSON based, can be empty)
     // ---------------------------------------------
     await db.execute('''
-    CREATE TABLE playlist_audios (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      playlist_id INTEGER NOT NULL,
-      audio_path TEXT NOT NULL,
-      FOREIGN KEY (playlist_id) REFERENCES playlists (id) ON DELETE CASCADE
+   CREATE TABLE playlists (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    playlist_name TEXT UNIQUE NOT NULL,
+    playlist_songs TEXT NOT NULL
     );
     ''');
 
     // ---------------------------------------------
-    // 4) Save to Favorites
+    // 3) Favorites
     // ---------------------------------------------
     await db.execute('''
     CREATE TABLE favorites (
@@ -475,18 +575,11 @@ class AppDatabase {
       size TEXT NOT NULL,
       format TEXT NOT NULL
     );
-    ''');
+  ''');
 
-    // 5) Index for favorites.path (fast lookup)
     await db.execute('''
     CREATE INDEX idx_favorites_path
     ON favorites (path);
-    ''');
-
-    // 6) INDEX
-    await db.execute('''
-    CREATE INDEX idx_playlist_audio_path
-    ON playlist_audios (audio_path);
-    ''');
+  ''');
   }
 }

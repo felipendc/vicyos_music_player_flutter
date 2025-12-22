@@ -250,7 +250,7 @@ class PlaylistsScreen extends StatelessWidget {
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 0.8,
+                                    childAspectRatio: 0.9,
                                     crossAxisSpacing: 16,
                                     mainAxisSpacing: 16,
                                   ),
