@@ -1,0 +1,106 @@
+
+
+WHAT I'M CURRENTLY DOING?
+
+
+
+#####################################################################
+Na tela de playlist: 
+  Uma bottomsheet a opção: 
+    criar uma nova playlist
+    deletar uma playlist
+
+
+Não vai precisar de código future, apenas texto com criar e deletar 
+usando a tradução e uma função anonima chamando as bsht pra criar e del.
+
+
+############
+ELA VAI ABRIR UMA POP UP para:
+CRIAR UMA PLAYLIST:
+DELETAR UMA PLAYLIST:
+  Um novo pop up será exibido [listando as playlist], e pela função anônima eu passo que eu vou fazer del ou criar.
+  pra criar, eu passo a função para criar uma nova playlist:
+    Criar: Uma nova pop up com textfield será exibido [botões p/ cancelar e criar], digito o nome da playlist e clico em criar.
+    Deletar: Uma nova pop up será exibida e listará todas as playlists criadas. Ao clicar em cima de uma playlist, 
+             uma bottomsheet aparecerá [com botões: Cancelar e Deletar]. Ela receberá o nome da playlist (index) pelo construtor
+
+
+
+#####################################################################
+DENTRO DA PLAYLIST TERÁ UM BOTÃO PARA CHAMAR UMA BOTTOMSHEET PARA:
+
+Renomear e deletar uma playlist....
+
+RENOMEAR A PLAYLIST:
+  Abrirá uma bottomsheet com TEXT FIELD [E um botão Cancelar e Salvar] para renomear a playlist
+    Pegar o index da playlist e chamar a função para renomear 
+
+DELETAR A PLAYLIST:
+  Deletar: Uma nova pop up será exibida e listará todas as playlists criadas. Ao clicar em cima de uma playlist, 
+           uma bottomsheet aparecerá [com botões: Cancelar e Deletar]. Ela receberá o nome da playlist (index) pelo construtor
+
+
+#####################################################################
+POP UPS:
+
+
+Ciar bottomsheet pop up para LISTAR AS PLAYLIST (COM ESSE POP UP EU PASSO OQ FAZER COM ELA PELO INDEX (){})
+
+Ciar bottomsheet pop up para CRIAR UMA PLAYLIST (Textfield, Nome da playlist... Cancelar Criar)
+Ciar bottomsheet pop up para RENOMEAR UMA PLAYLIST (Textfield, Renomear... Cancelar, Salvar )
+Ciar bottomsheet pop up para DE CONFIRMAÇÃO [DELETAR] (Excluir: Excluir a playlist XXXX)
+
+#####################################################################
+NAS OUTRAS TELAS DE MÚSICA E FAVORITOS:
+
+ADD UMA OPÇÃO NO BOTOTMSHEET PARA ADD MÚSICA Á UMA PLAYLIST:
+  UMA BOTTOMSHET: QUE LISTA AS PLAYLISTS (PRO USUÁRIO ADD A MÚSICA LÁ)
+    Ao clicar no index playlist, a função para addtofavorite será chamada  e receberá o parâmetro.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WHAT DO I STILL NEED TO DO?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#################################################################################################################
+AppLocalizations.of(context)!.added_to_play_next,
+
+
+
