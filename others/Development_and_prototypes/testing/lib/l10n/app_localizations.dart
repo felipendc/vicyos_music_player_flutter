@@ -438,6 +438,36 @@ abstract class AppLocalizations {
   /// **'Remove from favorites'**
   String get remove_from_favorites;
 
+  /// No description provided for @delete_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete a playlist'**
+  String get delete_a_playlist;
+
+  /// No description provided for @what_to_do.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do?'**
+  String get what_to_do;
+
+  /// No description provided for @create_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}'**
+  String create_a_playlist(num count);
+
+  /// No description provided for @total_of_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 playlists} =1{Total: 1 playlist} other{Total: {count} playlists}}'**
+  String total_of_playlist(num count);
+
+  /// No description provided for @playlist_total_of_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{songs} =1{song} other{songs}}'**
+  String playlist_total_of_songs(num count);
+
   /// No description provided for @total_of_songs.
   ///
   /// In en, this message translates to:

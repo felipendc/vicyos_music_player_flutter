@@ -17,6 +17,7 @@ void main() async {
   await onInitPlayer();
   runApp(const MyApp());
   // await AppDatabase.instance.deleteDatabaseFile();
+  // await AppDatabase.instance.createEmptyPlaylist("Primeira Playlist");
 }
 
 class MyApp extends StatelessWidget {

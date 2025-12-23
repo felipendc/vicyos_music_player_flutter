@@ -180,6 +180,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remove_from_favorites => 'Remove from favorites';
 
   @override
+  String get delete_a_playlist => 'Delete a playlist';
+
+  @override
+  String get what_to_do => 'What to do?';
+
+  @override
+  String create_a_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Create a new playlist',
+      one: 'Create a new playlist',
+      zero: 'Create a playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count playlists',
+      one: 'Total: 1 playlist',
+      zero: '0 playlists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playlist_total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'songs',
+      one: 'song',
+      zero: 'songs',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String total_of_songs(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

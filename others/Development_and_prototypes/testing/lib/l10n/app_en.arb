@@ -57,7 +57,28 @@
   "playlists": "Playlists",
   "add_to_favorites": "Add to favorites",
   "remove_from_favorites": "Remove from favorites",
+  "delete_a_playlist": "Delete a playlist",
+  "what_to_do": "What to do?",
 
+  "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
+  "@create_a_playlist": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "total_of_playlist": "{count, plural, =0{0 playlists} =1{Total: 1 playlist} other{Total: {count} playlists}}",
+  "@total_of_playlist": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "playlist_total_of_songs": "{count, plural, =0{songs} =1{song} other{songs}}",
+  "@playlist_total_of_songs": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "total_of_songs": "{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}",
   "@total_of_songs": {
     "placeholders": {

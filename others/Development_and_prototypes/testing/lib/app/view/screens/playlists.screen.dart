@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/bottom.fade.dart';
-import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/lifecycle_handler/permission.lifecycle.handler.dart';
-import 'package:vicyos_music/app/models/folder.sources.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottomsheet.playlist.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class PlaylistsScreen extends StatelessWidget {
-  PlaylistsScreen({super.key}) {
-    _lifecycle = PermissionLifecycleHandler(
-      onResume: () async {
-        if (appSettingsWasOpened) {
-          await getMusicFoldersContent();
-        }
-
-        appSettingsWasOpened = false;
-      },
-    );
-  }
-
-  // ignore: unused_field
-  late final PermissionLifecycleHandler _lifecycle;
+  const PlaylistsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +20,6 @@ class PlaylistsScreen extends StatelessWidget {
     setScreenOrientation();
 
     var media = MediaQuery.sizeOf(context);
-
-    // Fetch the songs folders
-    // todo
-    getMusicFoldersContent();
 
     return StreamBuilder<FetchingSongs>(
       stream: rebuildHomePageFolderListStreamController.stream,
@@ -89,23 +71,31 @@ class PlaylistsScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    "Total: 0 playlists",
-                                    style: TextStyle(
-                                      color: TColor.primaryText28
-                                          .withValues(alpha: 0.84),
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                      shadows: [
-                                        Shadow(
-                                          color: Colors.black
-                                              .withValues(alpha: 0.2),
-                                          offset: Offset(1, 1),
-                                          blurRadius: 3,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  FutureBuilder<List<Playlists>>(
+                                      future: AppDatabase.instance
+                                          .getAllPlaylists(),
+                                      builder: (context, snapshot) {
+                                        final playlists = snapshot.data ?? [];
+                                        return Text(
+                                          AppLocalizations.of(context)!
+                                              .total_of_playlist(
+                                                  playlists.length),
+                                          style: TextStyle(
+                                            color: TColor.primaryText28
+                                                .withValues(alpha: 0.84),
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            shadows: [
+                                              Shadow(
+                                                color: Colors.black
+                                                    .withValues(alpha: 0.2),
+                                                offset: Offset(1, 1),
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
                                 ],
                               ),
                               Row(
@@ -126,6 +116,70 @@ class PlaylistsScreen extends StatelessWidget {
                                           color: TColor.lightGray,
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: SizedBox(
+                                      width: 45,
+                                      height: 45,
+                                      child: FutureBuilder<List<Playlists>>(
+                                          future: AppDatabase.instance
+                                              .getAllPlaylists(),
+                                          builder: (context, musicSnapshot) {
+                                            // Treating the waiting
+                                            if (musicSnapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const SizedBox();
+                                            }
+
+                                            // If has error show a blank screen
+                                            if (musicSnapshot.hasError) {
+                                              return const SizedBox();
+                                            }
+
+                                            //
+                                            final playlists =
+                                                musicSnapshot.data ?? [];
+                                            print(
+                                                "listar playlists ${playlists.first.playlistName}");
+                                            return IconButton(
+                                              splashRadius: 20,
+                                              iconSize: 10,
+                                              onPressed: () async {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  hideMiniPlayerNotifier(true);
+                                                }
+
+                                                showModalBottomSheet<void>(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return PlaylistScreenBottomSheet();
+                                                  },
+                                                ).whenComplete(
+                                                  () {
+                                                    if (deviceTypeIsSmartphone()) {
+                                                      if (mainPlayerIsOpen) {
+                                                        hideMiniPlayerNotifier(
+                                                            true);
+                                                      } else {
+                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                        hideMiniPlayerNotifier(
+                                                            false);
+                                                      }
+                                                    }
+                                                  },
+                                                );
+                                              },
+                                              icon: Image.asset(
+                                                "assets/img/menu/menu_open.png",
+                                                color: TColor.lightGray,
+                                              ),
+                                            );
+                                          }),
                                     ),
                                   ),
                                   Padding(
@@ -234,10 +288,10 @@ class PlaylistsScreen extends StatelessWidget {
                 StreamBuilder<void>(
                   stream: currentSongNameStreamController.stream,
                   builder: (context, snapshot) {
-                    return FutureBuilder<List<FolderSources>>(
-                        future: AppDatabase.instance.getFolders(),
+                    return FutureBuilder<List<Playlists>>(
+                        future: AppDatabase.instance.getAllPlaylists(),
                         builder: (context, snapshot) {
-                          final songFolderList = snapshot.data ?? [];
+                          final playlists = snapshot.data ?? [];
 
                           return Expanded(
                             flex: 1,
@@ -246,7 +300,7 @@ class PlaylistsScreen extends StatelessWidget {
                                 GridView.builder(
                                   padding: const EdgeInsets.fromLTRB(
                                       16, 16, 16, 120),
-                                  itemCount: 5,
+                                  itemCount: playlists.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -256,8 +310,9 @@ class PlaylistsScreen extends StatelessWidget {
                                   ),
                                   itemBuilder: (context, index) {
                                     return PlaylistCard(
-                                        playlistModelTest:
-                                            playlistModelTest[index]);
+                                      playlistModel: playlists,
+                                      index: index,
+                                    );
                                   },
                                 ),
 
@@ -279,9 +334,11 @@ class PlaylistsScreen extends StatelessWidget {
 }
 
 class PlaylistCard extends StatelessWidget {
-  final PlaylistModelTest playlistModelTest;
+  final List<Playlists> playlistModel;
+  final int index;
 
-  const PlaylistCard({super.key, required this.playlistModelTest});
+  const PlaylistCard(
+      {super.key, required this.playlistModel, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +392,7 @@ class PlaylistCard extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Image.asset(
-                    playlistModelTest.image,
+                    "assets/img/playlist/playlist_flaticon.png",
                     height: 90,
                     fit: BoxFit.contain,
                     // color: TColor.focus,
@@ -347,7 +404,7 @@ class PlaylistCard extends StatelessWidget {
 
               /// name
               Text(
-                playlistModelTest.name,
+                playlistModel[index].playlistName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -366,7 +423,7 @@ class PlaylistCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '10',
+                        playlistModel[index].playlistSongs.length.toString(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -377,7 +434,8 @@ class PlaylistCard extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        'músicas',
+                        AppLocalizations.of(context)!.playlist_total_of_songs(
+                            playlistModel[index].playlistSongs.length),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
