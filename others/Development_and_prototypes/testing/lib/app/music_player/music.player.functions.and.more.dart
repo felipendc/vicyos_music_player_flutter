@@ -11,13 +11,15 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vicyos_music/app/build_flags/build.flags.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/components/show.top.message.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:volume_controller/volume_controller.dart';
 
@@ -909,4 +911,18 @@ NavigationButtons miuiNavigationButtonsBehavior() {
   } else {
     return songCurrentRouteType;
   }
+}
+
+Future<bool> playlistNameAlreadyExist(String text) async {
+  String trimmedText = text.trim().toLowerCase();
+  if (trimmedText.isEmpty) return false;
+
+  final List<Playlists> playlist = await AppDatabase.instance.getAllPlaylists();
+
+  for (var playlistName in playlist) {
+    if (playlistName.playlistName.toLowerCase() == trimmedText) {
+      return true;
+    }
+  }
+  return false;
 }

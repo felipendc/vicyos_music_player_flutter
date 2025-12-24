@@ -59,6 +59,15 @@
   "remove_from_favorites": "Remover dos favoritos",
   "delete_a_playlist": "Deletar uma playlist",
   "what_to_do": "Oque fazer?",
+  "create": "Criar",
+  "this_name_has_already_been_used": "Esse nome já foi usado",
+  "please_try_another_one": "Por favor, tente outro nome",
+  "create_a_playlist_text_field_hint": "Ex: As melhores...",
+  "new_playlist": "Nova playlist",
+  "choose_a_name": "Escolha um nome:",
+  "choose_a_playlist": "Escolha uma playlist",
+  "playlist_deleted_successfully": "Playlist deletada com sucesso!",
+  "playlist_created_successfully": "Playlist criada com sucesso!",
 
   "create_a_playlist": "{count, plural, =0{Criar uma playlist} =1{Criar uma nova playlist} other{Cria uma nova playlist}}",
   "@create_a_playlist": {

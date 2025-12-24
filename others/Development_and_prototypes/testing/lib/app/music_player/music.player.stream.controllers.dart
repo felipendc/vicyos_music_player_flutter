@@ -45,6 +45,9 @@ StreamController<void> currentSongNavigationRouteStreamController =
 StreamController<void> rebuildFavoriteScreenStreamController =
     StreamController<void>.broadcast();
 
+StreamController<void> rebuildPlaylistScreenStreamController =
+    StreamController<void>.broadcast();
+
 // Streams Notifiers Functions
 void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
@@ -108,4 +111,8 @@ Future<void> currentSongNavigationRouteNotifier() async {
 
 Future<void> rebuildFavoriteScreenNotifier() async {
   rebuildFavoriteScreenStreamController.sink.add(null);
+}
+
+Future<void> rebuildPlaylistScreenSNotifier() async {
+  rebuildPlaylistScreenStreamController.sink.add(null);
 }

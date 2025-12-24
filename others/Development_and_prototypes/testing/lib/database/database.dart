@@ -198,13 +198,6 @@ class AppDatabase {
     final db = await database;
 
     await db.transaction((txn) async {
-      // Remove from all playlist
-      await txn.delete(
-        'playlist_audios',
-        where: 'audio_path = ?',
-        whereArgs: [audioPath],
-      );
-
       // Delete from favorites
       await txn.delete('favorites', where: 'path = ?', whereArgs: [audioPath]);
 
@@ -240,6 +233,28 @@ class AppDatabase {
             whereArgs: [folder['id']],
           );
         }
+      }
+
+      // Remove from playlists (JSON-based)
+      final playlists = await txn.query('playlists');
+
+      for (final playlist in playlists) {
+        final decoded = jsonDecode(playlist['playlist_songs'] as String);
+        if (decoded is! List) continue;
+
+        final originalLength = decoded.length;
+        decoded.removeWhere((e) => e['path'] == audioPath);
+
+        if (decoded.length == originalLength) continue;
+
+        await txn.update(
+          'playlists',
+          {
+            'playlist_songs': jsonEncode(decoded),
+          },
+          where: 'id = ?',
+          whereArgs: [playlist['id']],
+        );
       }
     });
   }
@@ -507,13 +522,13 @@ class AppDatabase {
     );
   }
 
-  Future<void> deletePlaylist(int playlistId) async {
+  Future<void> deletePlaylist(String playlistName) async {
     final db = await database;
 
     await db.delete(
       'playlists',
-      where: 'id = ?',
-      whereArgs: [playlistId],
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
     );
   }
 
@@ -522,7 +537,7 @@ class AppDatabase {
 
     final result = await db.query(
       'playlists',
-      orderBy: 'playlist_name COLLATE NOCASE ASC',
+      orderBy: 'id DESC', // The last created is listed first
     );
 
     return result.map((row) {

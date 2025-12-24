@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/build_flags/build.flags.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/aurora.bar.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/lifecycle_handler/permission.lifecycle.handler.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
@@ -19,8 +21,6 @@ import 'package:vicyos_music/app/view/screens/loading.screen.dart';
 import 'package:vicyos_music/app/view/screens/playlists.screen.dart';
 import 'package:vicyos_music/app/view/screens/show.all.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/components/aurora.bar.dart';
-import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 

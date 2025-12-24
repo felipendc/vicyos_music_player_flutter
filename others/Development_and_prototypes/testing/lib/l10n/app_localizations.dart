@@ -393,7 +393,7 @@ abstract class AppLocalizations {
   /// No description provided for @removed_from_the_playlist.
   ///
   /// In en, this message translates to:
-  /// **'Removed from the playlist'**
+  /// **'Removed from the playlist!'**
   String get removed_from_the_playlist;
 
   /// No description provided for @single_shared_file.
@@ -449,6 +449,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What to do?'**
   String get what_to_do;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @this_name_has_already_been_used.
+  ///
+  /// In en, this message translates to:
+  /// **'This name is already in use'**
+  String get this_name_has_already_been_used;
+
+  /// No description provided for @please_try_another_one.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try another one'**
+  String get please_try_another_one;
+
+  /// No description provided for @create_a_playlist_text_field_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. The best ones...'**
+  String get create_a_playlist_text_field_hint;
+
+  /// No description provided for @new_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'New playlist'**
+  String get new_playlist;
+
+  /// No description provided for @choose_a_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a name:'**
+  String get choose_a_name;
+
+  /// No description provided for @choose_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a playlist'**
+  String get choose_a_playlist;
+
+  /// No description provided for @playlist_deleted_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist deleted successfully!'**
+  String get playlist_deleted_successfully;
+
+  /// No description provided for @playlist_created_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist created successfully!'**
+  String get playlist_created_successfully;
 
   /// No description provided for @create_a_playlist.
   ///

@@ -156,7 +156,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleted_successfully => 'Deleted successfully';
 
   @override
-  String get removed_from_the_playlist => 'Removed from the playlist';
+  String get removed_from_the_playlist => 'Removed from the playlist!';
 
   @override
   String get single_shared_file => 'This file was shared via the Vicyos Music app.';
@@ -184,6 +184,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get what_to_do => 'What to do?';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get this_name_has_already_been_used => 'This name is already in use';
+
+  @override
+  String get please_try_another_one => 'Please try another one';
+
+  @override
+  String get create_a_playlist_text_field_hint => 'e.g. The best ones...';
+
+  @override
+  String get new_playlist => 'New playlist';
+
+  @override
+  String get choose_a_name => 'Choose a name:';
+
+  @override
+  String get choose_a_playlist => 'Choose a playlist';
+
+  @override
+  String get playlist_deleted_successfully => 'Playlist deleted successfully!';
+
+  @override
+  String get playlist_created_successfully => 'Playlist created successfully!';
 
   @override
   String create_a_playlist(num count) {

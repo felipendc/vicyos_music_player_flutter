@@ -21,12 +21,9 @@ class PlaylistsScreen extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
 
-    return StreamBuilder<FetchingSongs>(
-      stream: rebuildHomePageFolderListStreamController.stream,
+    return StreamBuilder<void>(
+      stream: rebuildPlaylistScreenStreamController.stream,
       builder: (context, snapshot) {
-        final FetchingSongs fetchingResult =
-            snapshot.data ?? FetchingSongs.nullValue;
-
         return SafeArea(
           child: Scaffold(
             body: Column(
@@ -138,11 +135,6 @@ class PlaylistsScreen extends StatelessWidget {
                                               return const SizedBox();
                                             }
 
-                                            //
-                                            final playlists =
-                                                musicSnapshot.data ?? [];
-                                            print(
-                                                "listar playlists ${playlists.first.playlistName}");
                                             return IconButton(
                                               splashRadius: 20,
                                               iconSize: 10,
@@ -151,7 +143,9 @@ class PlaylistsScreen extends StatelessWidget {
                                                   hideMiniPlayerNotifier(true);
                                                 }
 
-                                                showModalBottomSheet<void>(
+                                                final result =
+                                                    await showModalBottomSheet<
+                                                        String>(
                                                   backgroundColor:
                                                       Colors.transparent,
                                                   context: context,
@@ -161,18 +155,29 @@ class PlaylistsScreen extends StatelessWidget {
                                                   },
                                                 ).whenComplete(
                                                   () {
-                                                    if (deviceTypeIsSmartphone()) {
-                                                      if (mainPlayerIsOpen) {
-                                                        hideMiniPlayerNotifier(
-                                                            true);
-                                                      } else {
-                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
-                                                    }
+                                                    // if (deviceTypeIsSmartphone()) {
+                                                    //   // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                    //
+                                                    //   hideMiniPlayerNotifier(
+                                                    //       false);
+                                                    // }
                                                   },
                                                 );
+
+                                                if (result ==
+                                                    "hide_bottom_player") {
+                                                  if (deviceTypeIsSmartphone()) {
+                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                    hideMiniPlayerNotifier(
+                                                        true);
+                                                  }
+                                                } else {
+                                                  if (deviceTypeIsSmartphone()) {
+                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                    hideMiniPlayerNotifier(
+                                                        false);
+                                                  }
+                                                }
                                               },
                                               icon: Image.asset(
                                                 "assets/img/menu/menu_open.png",

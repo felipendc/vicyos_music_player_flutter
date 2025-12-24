@@ -3,8 +3,8 @@ import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
-import 'package:vicyos_music/app/navigation_animation/main.player.navigation.animation.dart';
-import 'package:vicyos_music/app/view/screens/main.player.view.screen.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.create.playlist.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.delete.playlist.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -104,7 +104,7 @@ class PlaylistScreenBottomSheet extends StatelessWidget {
                                       splashRadius: 20,
                                       iconSize: 10,
                                       onPressed: () async {
-                                        Navigator.pop(context);
+                                        Navigator.pop(context, "");
                                       },
                                       icon: Image.asset(
                                         "assets/img/menu/close.png",
@@ -168,14 +168,31 @@ class PlaylistScreenBottomSheet extends StatelessWidget {
                               contentPadding:
                                   const EdgeInsets.fromLTRB(0, 4, 0, 4),
                               onTap: () async {
-                                Navigator.pop(context);
+                                if (deviceTypeIsSmartphone()) {
+                                  hideMiniPlayerNotifier(true);
+                                }
+                                Navigator.pop(context, "hide_bottom_player");
 
-                                // showAddedToPlaylist(
-                                //     context,
-                                //     "Folder",
-                                //     folderName(folderPath),
-                                //     AppLocalizations.of(context)!
-                                //         .added_to_the_current_playlist);
+                                final result =
+                                    await showModalBottomSheet<String>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CreatePlaylistBottomSheet();
+                                  },
+                                );
+
+                                if (result == "hide_bottom_player") {
+                                  if (deviceTypeIsSmartphone()) {
+                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    hideMiniPlayerNotifier(true);
+                                  }
+                                } else {
+                                  if (deviceTypeIsSmartphone()) {
+                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    hideMiniPlayerNotifier(false);
+                                  }
+                                }
                               },
                             ),
                           ),
@@ -207,32 +224,29 @@ class PlaylistScreenBottomSheet extends StatelessWidget {
                                   const EdgeInsets.fromLTRB(0, 4, 0, 4),
                               onTap: () async {
                                 if (deviceTypeIsSmartphone()) {
-                                  mainPlayerIsOpen = true;
+                                  hideMiniPlayerNotifier(true);
                                 }
-                                Navigator.pop(context);
+                                Navigator.pop(context, "hide_bottom_player");
 
-                                //
-                                // showAddedToPlaylist(
-                                //     context,
-                                //     "Folder",
-                                //     folderName(folderPath),
-                                //     AppLocalizations.of(context)!
-                                //         .playing_all_the_songs_from_this_folder);
+                                final result =
+                                    await showModalBottomSheet<String>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return DeletePlaylistBottomSheet();
+                                  },
+                                );
 
-                                if (deviceTypeIsSmartphone()) {
-                                  Navigator.push(
-                                    context,
-                                    mainPlayerSlideUpDownTransition(
-                                      MainPlayerView(),
-                                    ),
-                                  ).whenComplete(
-                                    () {
-                                      if (mainPlayerIsOpen) {
-                                        mainPlayerIsOpen = false;
-                                      }
-                                      hideMiniPlayerNotifier(false);
-                                    },
-                                  );
+                                if (result == "hide_bottom_player") {
+                                  if (deviceTypeIsSmartphone()) {
+                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    hideMiniPlayerNotifier(true);
+                                  }
+                                } else {
+                                  if (deviceTypeIsSmartphone()) {
+                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    hideMiniPlayerNotifier(false);
+                                  }
                                 }
                               },
                             ),
