@@ -516,18 +516,6 @@ class HomePageFolderList extends StatelessWidget {
                                                 .getFolderContentByPath(
                                                     folder.folderPath),
                                             builder: (context, musicSnapshot) {
-                                              // Treating the waiting
-                                              if (musicSnapshot
-                                                      .connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const SizedBox();
-                                              }
-
-                                              // If has error show a blank screen
-                                              if (musicSnapshot.hasError) {
-                                                return const SizedBox();
-                                              }
-                                              //
                                               final folderSongList =
                                                   musicSnapshot.data ?? [];
 

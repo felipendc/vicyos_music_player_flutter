@@ -287,17 +287,6 @@ class SongsListScreen extends StatelessWidget {
                           future: AppDatabase.instance
                               .getFolderContentByPath(folderPath),
                           builder: (context, snapshot) {
-                            // Treating the waiting
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const SizedBox();
-                            }
-
-                            // If has error show a blank screen
-                            if (snapshot.hasError) {
-                              return const SizedBox();
-                            }
-
                             final songs = snapshot.data ?? [];
 
                             return Expanded(

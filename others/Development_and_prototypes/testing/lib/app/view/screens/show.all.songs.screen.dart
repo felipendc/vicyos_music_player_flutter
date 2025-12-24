@@ -237,17 +237,6 @@ class ShowAllSongsScreen extends StatelessWidget {
                       return FutureBuilder(
                           future: AppDatabase.instance.getAllMusicPathsFromDB(),
                           builder: (context, snapshot) {
-                            // Treating the waiting
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const SizedBox();
-                            }
-
-                            // If has error show a blank screen
-                            if (snapshot.hasError) {
-                              return const SizedBox();
-                            }
-
                             final songs = snapshot.data ?? [];
 
                             return Expanded(
