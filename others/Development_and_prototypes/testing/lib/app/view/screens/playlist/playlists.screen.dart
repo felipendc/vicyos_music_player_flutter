@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/bottom.fade.dart';
+import 'package:vicyos_music/app/components/playlist.card.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottomsheet.playlist.screen.dart';
+import 'package:vicyos_music/app/view/screens/playlist/playlist.songs.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
@@ -72,6 +74,16 @@ class PlaylistsScreen extends StatelessWidget {
                                       future: AppDatabase.instance
                                           .getAllPlaylists(),
                                       builder: (context, snapshot) {
+                                        // Treating the waiting
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const SizedBox();
+                                        }
+
+                                        // If has error show a blank screen
+                                        if (snapshot.hasError) {
+                                          return const SizedBox();
+                                        }
                                         final playlists = snapshot.data ?? [];
                                         return Text(
                                           AppLocalizations.of(context)!
@@ -288,14 +300,24 @@ class PlaylistsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                //
 
+                // List of playlist in Grid view
                 StreamBuilder<void>(
                   stream: currentSongNameStreamController.stream,
                   builder: (context, snapshot) {
                     return FutureBuilder<List<Playlists>>(
                         future: AppDatabase.instance.getAllPlaylists(),
                         builder: (context, snapshot) {
+                          // Treating the waiting
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          }
+
+                          // If has error show a blank screen
+                          if (snapshot.hasError) {
+                            return const SizedBox();
+                          }
                           final playlists = snapshot.data ?? [];
 
                           return Expanded(
@@ -314,14 +336,27 @@ class PlaylistsScreen extends StatelessWidget {
                                     mainAxisSpacing: 16,
                                   ),
                                   itemBuilder: (context, index) {
-                                    return PlaylistCard(
-                                      playlistModel: playlists,
-                                      index: index,
+                                    return GestureDetector(
+                                      child: PlaylistCard(
+                                        playlistModel: playlists,
+                                        index: index,
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          slideRightLeftTransition(
+                                            PlaylistSongs(
+                                              playlistModel: playlists,
+                                              index: index,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                 ),
 
-                                /// OVERLAY WITH GRADIENT
+                                // OVERLAY WITH GRADIENT
                                 const BottomFade(),
                               ],
                             ),
@@ -337,165 +372,3 @@ class PlaylistsScreen extends StatelessWidget {
     );
   }
 }
-
-class PlaylistCard extends StatelessWidget {
-  final List<Playlists> playlistModel;
-  final int index;
-
-  const PlaylistCard(
-      {super.key, required this.playlistModel, required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color(0xff272A3E),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.06),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.18),
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-
-          // subtle top highlight
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.03),
-            blurRadius: 4,
-            offset: const Offset(0, -1),
-          ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            child:
-                // Play
-                Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: Colors.white10,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.play_arrow,
-                size: 20,
-                color: Colors.white70,
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-
-              /// Image
-              Expanded(
-                child: Center(
-                  child: Image.asset(
-                    "assets/img/playlist/playlist_flaticon.png",
-                    height: 90,
-                    fit: BoxFit.contain,
-                    // color: TColor.focus,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              /// name
-              Text(
-                playlistModel[index].playlistName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: TColor.lightGray,
-                ),
-              ),
-
-              const SizedBox(height: 0),
-
-              /// Total songs
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        playlistModel[index].playlistSongs.length.toString(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white60,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        AppLocalizations.of(context)!.playlist_total_of_songs(
-                            playlistModel[index].playlistSongs.length),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white60,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// To be deleted!
-class PlaylistModelTest {
-  final String image;
-  final String name;
-
-  PlaylistModelTest({
-    required this.image,
-    required this.name,
-  });
-}
-
-// To be deleted!
-List<PlaylistModelTest> playlistModelTest = [
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "As melhores",
-  ),
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "Praticar inglês Angela",
-  ),
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "Áudio livros",
-  ),
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "name",
-  ),
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "name",
-  ),
-  PlaylistModelTest(
-    image: "assets/img/playlist/playlist_flaticon.png",
-    name: "name",
-  ),
-];

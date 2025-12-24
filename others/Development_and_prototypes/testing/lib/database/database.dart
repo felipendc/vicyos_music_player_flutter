@@ -508,17 +508,17 @@ class AppDatabase {
     );
   }
 
-  Future<void> renamePlaylist(
-    int playlistId,
-    String newName,
-  ) async {
+  Future<void> renamePlaylist({
+    required String currentName,
+    required String newName,
+  }) async {
     final db = await database;
 
     await db.update(
       'playlists',
       {'playlist_name': newName},
-      where: 'id = ?',
-      whereArgs: [playlistId],
+      where: 'playlist_name = ?',
+      whereArgs: [currentName],
     );
   }
 

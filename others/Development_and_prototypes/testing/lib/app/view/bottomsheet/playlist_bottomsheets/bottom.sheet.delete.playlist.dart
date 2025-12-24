@@ -135,6 +135,16 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                   return FutureBuilder<List<Playlists>>(
                       future: AppDatabase.instance.getAllPlaylists(),
                       builder: (context, snapshot) {
+                        // Treating the waiting
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox();
+                        }
+
+                        // If has error show a blank screen
+                        if (snapshot.hasError) {
+                          return const SizedBox();
+                        }
                         final playlists = snapshot.data ?? [];
 
                         return Expanded(
@@ -156,7 +166,7 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                                         leading: Icon(
                                           Icons.queue_music_rounded,
                                           color: TColor.focusSecondary,
-                                          size: 40,
+                                          size: 44,
                                         ),
                                         title: Text(
                                           playlist.playlistName,

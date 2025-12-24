@@ -18,7 +18,7 @@ import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playli
 import 'package:vicyos_music/app/view/screens/favorite.song.screen.dart';
 import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/loading.screen.dart';
-import 'package:vicyos_music/app/view/screens/playlists.screen.dart';
+import 'package:vicyos_music/app/view/screens/playlist/playlists.screen.dart';
 import 'package:vicyos_music/app/view/screens/show.all.songs.screen.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/database/database.dart';
@@ -496,6 +496,16 @@ class HomePageFolderList extends StatelessWidget {
                     return FutureBuilder<List<FolderSources>>(
                         future: AppDatabase.instance.getFolders(),
                         builder: (context, snapshot) {
+                          // Treating the waiting
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          }
+
+                          // If has error show a blank screen
+                          if (snapshot.hasError) {
+                            return const SizedBox();
+                          }
                           final songFolderList = snapshot.data ?? [];
 
                           return Expanded(
@@ -516,6 +526,17 @@ class HomePageFolderList extends StatelessWidget {
                                                 .getFolderContentByPath(
                                                     folder.folderPath),
                                             builder: (context, musicSnapshot) {
+                                              // Treating the waiting
+                                              if (musicSnapshot
+                                                      .connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const SizedBox();
+                                              }
+
+                                              // If has error show a blank screen
+                                              if (musicSnapshot.hasError) {
+                                                return const SizedBox();
+                                              }
                                               //
                                               final folderSongList =
                                                   musicSnapshot.data ?? [];

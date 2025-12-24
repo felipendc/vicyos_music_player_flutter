@@ -504,6 +504,48 @@ abstract class AppLocalizations {
   /// **'Playlist created successfully!'**
   String get playlist_created_successfully;
 
+  /// No description provided for @playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist'**
+  String get playlist;
+
+  /// No description provided for @rename_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename this playlist'**
+  String get rename_this_playlist;
+
+  /// No description provided for @delete_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this playlist'**
+  String get delete_this_playlist;
+
+  /// No description provided for @rename_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename playlist'**
+  String get rename_playlist;
+
+  /// No description provided for @choose_a_new_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new name:'**
+  String get choose_a_new_name;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @playlist_renamed_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Renamed successfully!'**
+  String get playlist_renamed_successfully;
+
   /// No description provided for @create_a_playlist.
   ///
   /// In en, this message translates to:

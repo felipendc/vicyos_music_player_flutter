@@ -68,6 +68,13 @@
   "choose_a_playlist": "Choose a playlist",
   "playlist_deleted_successfully": "Playlist deleted successfully!",
   "playlist_created_successfully": "Playlist created successfully!",
+  "playlist": "Playlist",
+  "rename_this_playlist": "Rename this playlist",
+  "delete_this_playlist": "Delete this playlist",
+  "rename_playlist": "Rename playlist",
+  "choose_a_new_name": "Choose a new name:",
+  "save": "Save",
+  "playlist_renamed_successfully": "Renamed successfully!",
 
   "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
   "@create_a_playlist": {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vicyos_music/app/components/bottom.player.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/widgets/radio.bottom.player.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/screens/screen.list.song.folders.dart';
+import 'package:vicyos_music/app/view/screens/list.music.folders.screen.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
-import 'package:vicyos_music/app/components/bottom.player.dart';
 
 class HomeNavigator extends StatelessWidget {
   HomeNavigator({super.key});

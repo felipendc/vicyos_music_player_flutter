@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
@@ -9,7 +10,6 @@ import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -84,6 +84,17 @@ class FavoriteSongsScreen extends StatelessWidget {
                                         future:
                                             AppDatabase.instance.getFavorites(),
                                         builder: (context, snapshot) {
+                                          // Treating the waiting
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const SizedBox();
+                                          }
+
+                                          // If has error show a blank screen
+                                          if (snapshot.hasError) {
+                                            return const SizedBox();
+                                          }
+
                                           final totalOfFavorites =
                                               snapshot.data ?? [];
 
@@ -237,6 +248,17 @@ class FavoriteSongsScreen extends StatelessWidget {
                       return FutureBuilder(
                           future: AppDatabase.instance.getFavorites(),
                           builder: (context, snapshot) {
+                            // Treating the waiting
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const SizedBox();
+                            }
+
+                            // If has error show a blank screen
+                            if (snapshot.hasError) {
+                              return const SizedBox();
+                            }
+
                             final favoriteSong = snapshot.data ?? [];
 
                             return Expanded(

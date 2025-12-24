@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/music_visualizer.dart';
-import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.playlist.song.menu.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-class SongsListScreen extends StatelessWidget {
-  final String folderPath;
-  final int folderIndex;
-  final List<AudioInfo> folderSongList;
-  const SongsListScreen(
-      {super.key,
-      required this.folderPath,
-      required this.folderIndex,
-      required this.folderSongList});
+class PlaylistSongs extends StatelessWidget {
+  final List<Playlists> playlistModel;
+  final int index;
+
+  const PlaylistSongs(
+      {super.key, required this.playlistModel, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,6 @@ class SongsListScreen extends StatelessWidget {
     return StreamBuilder<void>(
       stream: rebuildSongsListScreenStreamController.stream,
       builder: (context, snapshot) {
-        debugPrint("REBUILD LIST SONG: $folderPath");
         return SafeArea(
           child: Scaffold(
             body: Column(
@@ -60,7 +55,7 @@ class SongsListScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!.folder_name,
+                                    "${AppLocalizations.of(context)!.playlist}:",
                                     style: TextStyle(
                                       color: TColor.primaryText28
                                           .withValues(alpha: 0.84),
@@ -80,26 +75,54 @@ class SongsListScreen extends StatelessWidget {
                                     height: 30,
                                     width: 180,
                                     // color: Colors.grey,
-                                    child: Text(
-                                      folderName(folderPath),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: TColor.primaryText
-                                            .withValues(alpha: 0.84),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                        shadows: [
-                                          BoxShadow(
-                                            color: Colors.black
-                                                .withValues(alpha: 0.2),
-                                            spreadRadius: 5,
-                                            blurRadius: 8,
-                                            offset: Offset(2, 4),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    child: StreamBuilder(
+                                        stream:
+                                            rebuildPlaylistScreenStreamController
+                                                .stream,
+                                        builder: (context, asyncSnapshot) {
+                                          return FutureBuilder<List<Playlists>>(
+                                              future: AppDatabase.instance
+                                                  .getAllPlaylists(),
+                                              builder: (context, snapshot) {
+                                                // Treating the waiting
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const SizedBox();
+                                                }
+
+                                                // If has error show a blank screen
+                                                if (snapshot.hasError) {
+                                                  return const SizedBox();
+                                                }
+                                                final playlists =
+                                                    snapshot.data ?? [];
+                                                final playlistIndex =
+                                                    playlists[index];
+                                                return Text(
+                                                  playlistIndex.playlistName,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: TColor.primaryText
+                                                        .withValues(
+                                                            alpha: 0.84),
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w600,
+                                                    shadows: [
+                                                      BoxShadow(
+                                                        color: Colors.black
+                                                            .withValues(
+                                                                alpha: 0.2),
+                                                        spreadRadius: 5,
+                                                        blurRadius: 8,
+                                                        offset: Offset(2, 4),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        }),
                                   ),
                                 ],
                               ),
@@ -130,8 +153,7 @@ class SongsListScreen extends StatelessWidget {
                                       height: 45,
                                       child: FutureBuilder(
                                           future: AppDatabase.instance
-                                              .getFolderContentByPath(
-                                                  folderPath),
+                                              .getAllPlaylists(),
                                           builder: (context, musicSnapshot) {
                                             // Treating the waiting
                                             if (musicSnapshot.connectionState ==
@@ -143,10 +165,10 @@ class SongsListScreen extends StatelessWidget {
                                             if (musicSnapshot.hasError) {
                                               return const SizedBox();
                                             }
-
                                             //
-                                            final folderSongList =
+                                            final playlist =
                                                 musicSnapshot.data ?? [];
+
                                             return IconButton(
                                               splashRadius: 20,
                                               iconSize: 10,
@@ -155,33 +177,42 @@ class SongsListScreen extends StatelessWidget {
                                                   hideMiniPlayerNotifier(true);
                                                 }
 
-                                                showModalBottomSheet<void>(
+                                                final result =
+                                                    await showModalBottomSheet<
+                                                        String>(
                                                   backgroundColor:
                                                       Colors.transparent,
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
-                                                    return FolderToPlaylistBottomSheet(
-                                                      folderPath: folderPath,
-                                                      folderIndex: folderIndex,
-                                                      folderSongList:
-                                                          folderSongList,
+                                                    return PlaylistSongMenuBottomSheet(
+                                                      playlistModel: playlist,
+                                                      index: index,
                                                     );
                                                   },
-                                                ).whenComplete(
-                                                  () {
-                                                    if (deviceTypeIsSmartphone()) {
-                                                      if (mainPlayerIsOpen) {
-                                                        hideMiniPlayerNotifier(
-                                                            true);
-                                                      } else {
-                                                        // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
-                                                    }
-                                                  },
                                                 );
+
+                                                if (result ==
+                                                    "playlist_was_deleted") {
+                                                  if (context.mounted) {
+                                                    Navigator.pop(context);
+                                                  }
+                                                }
+
+                                                if (result ==
+                                                    "hide_bottom_player") {
+                                                  if (deviceTypeIsSmartphone()) {
+                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                    hideMiniPlayerNotifier(
+                                                        true);
+                                                  }
+                                                } else {
+                                                  if (deviceTypeIsSmartphone()) {
+                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                    hideMiniPlayerNotifier(
+                                                        false);
+                                                  }
+                                                }
                                               },
                                               icon: Image.asset(
                                                 "assets/img/menu/menu_open.png",
@@ -295,28 +326,30 @@ class SongsListScreen extends StatelessWidget {
                     stream: currentSongNameStreamController.stream,
                     builder: (context, snapshot) {
                       return FutureBuilder(
-                          future: AppDatabase.instance
-                              .getFolderContentByPath(folderPath),
-                          builder: (context, snapshot) {
+                          future: AppDatabase.instance.getAllPlaylists(),
+                          builder: (context, musicSnapshot) {
                             // Treating the waiting
-                            if (snapshot.connectionState ==
+                            if (musicSnapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return const SizedBox();
                             }
 
                             // If has error show a blank screen
-                            if (snapshot.hasError) {
+                            if (musicSnapshot.hasError) {
                               return const SizedBox();
                             }
+                            //
+                            final playlist = musicSnapshot.data ?? [];
 
-                            final songs = snapshot.data ?? [];
+                            final playlistIndex = playlist[index];
 
                             return Expanded(
                               child: ListView.separated(
                                 padding: const EdgeInsets.only(bottom: 112),
-                                itemCount: songs.length,
+                                itemCount: playlistIndex.playlistSongs.length,
                                 itemBuilder: (context, index) {
-                                  final song = songs[index];
+                                  final song =
+                                      playlistIndex.playlistSongs[index];
                                   return SizedBox(
                                     height: 67,
                                     child: GestureDetector(
@@ -341,7 +374,7 @@ class SongsListScreen extends StatelessWidget {
                                             return SongPreviewBottomSheet(
                                               songModel: song,
                                               audioRoute:
-                                                  NavigationButtons.music,
+                                                  NavigationButtons.playlists,
                                             );
                                           },
                                         ).whenComplete(
@@ -449,7 +482,8 @@ class SongsListScreen extends StatelessWidget {
                                                     songModel: song,
                                                     isFromFavoriteScreen: false,
                                                     audioRoute:
-                                                        NavigationButtons.music,
+                                                        NavigationButtons
+                                                            .playlists,
                                                   );
                                                 },
                                               ).whenComplete(
@@ -477,7 +511,7 @@ class SongsListScreen extends StatelessWidget {
                                           if (song.path ==
                                                   currentSongFullPath &&
                                               songCurrentRouteType ==
-                                                  NavigationButtons.music) {
+                                                  NavigationButtons.playlists) {
                                             if (songIsPlaying) {
                                               audioPlayer.pause();
                                               songIsPlaying = false;
@@ -487,18 +521,15 @@ class SongsListScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                              currentFolder: songs,
+                                              currentFolder:
+                                                  playlistIndex.playlistSongs,
                                               currentIndex: index,
                                               context: context,
                                               audioRoute:
-                                                  NavigationButtons.music,
+                                                  NavigationButtons.playlists,
                                               audioRouteEmptyPlaylist:
-                                                  NavigationButtons.music,
+                                                  NavigationButtons.playlists,
                                             );
-                                            debugPrint(
-                                                "SONG DIRECTORY: $folderPath");
-                                            debugPrint(
-                                                'Tapped on $folderIndex');
                                           }
                                         },
                                       ),
