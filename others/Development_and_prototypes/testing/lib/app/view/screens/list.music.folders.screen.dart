@@ -496,16 +496,6 @@ class HomePageFolderList extends StatelessWidget {
                     return FutureBuilder<List<FolderSources>>(
                         future: AppDatabase.instance.getFolders(),
                         builder: (context, snapshot) {
-                          // Treating the waiting
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const SizedBox();
-                          }
-
-                          // If has error show a blank screen
-                          if (snapshot.hasError) {
-                            return const SizedBox();
-                          }
                           final songFolderList = snapshot.data ?? [];
 
                           return Expanded(

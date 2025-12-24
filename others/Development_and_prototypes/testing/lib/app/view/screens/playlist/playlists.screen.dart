@@ -74,16 +74,6 @@ class PlaylistsScreen extends StatelessWidget {
                                       future: AppDatabase.instance
                                           .getAllPlaylists(),
                                       builder: (context, snapshot) {
-                                        // Treating the waiting
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const SizedBox();
-                                        }
-
-                                        // If has error show a blank screen
-                                        if (snapshot.hasError) {
-                                          return const SizedBox();
-                                        }
                                         final playlists = snapshot.data ?? [];
                                         return Text(
                                           AppLocalizations.of(context)!
@@ -308,16 +298,6 @@ class PlaylistsScreen extends StatelessWidget {
                     return FutureBuilder<List<Playlists>>(
                         future: AppDatabase.instance.getAllPlaylists(),
                         builder: (context, snapshot) {
-                          // Treating the waiting
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const SizedBox();
-                          }
-
-                          // If has error show a blank screen
-                          if (snapshot.hasError) {
-                            return const SizedBox();
-                          }
                           final playlists = snapshot.data ?? [];
 
                           return Expanded(

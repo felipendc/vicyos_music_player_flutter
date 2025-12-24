@@ -328,16 +328,6 @@ class PlaylistSongs extends StatelessWidget {
                       return FutureBuilder(
                           future: AppDatabase.instance.getAllPlaylists(),
                           builder: (context, musicSnapshot) {
-                            // Treating the waiting
-                            if (musicSnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const SizedBox();
-                            }
-
-                            // If has error show a blank screen
-                            if (musicSnapshot.hasError) {
-                              return const SizedBox();
-                            }
                             //
                             final playlist = musicSnapshot.data ?? [];
 
