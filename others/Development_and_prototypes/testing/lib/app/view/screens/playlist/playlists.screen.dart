@@ -326,8 +326,8 @@ class PlaylistsScreen extends StatelessWidget {
                                           context,
                                           slideRightLeftTransition(
                                             PlaylistSongs(
+                                              playlistModelIndex: index,
                                               playlistModel: playlists,
-                                              index: index,
                                             ),
                                           ),
                                         );
@@ -336,8 +336,9 @@ class PlaylistsScreen extends StatelessWidget {
                                   },
                                 ),
 
-                                // OVERLAY WITH GRADIENT
-                                const BottomFade(),
+                                // OVERLAY WITH GRADIENT ONLY FOR SMARTPHONE
+                                if (deviceType == DeviceType.smartphone)
+                                  const BottomFade(),
                               ],
                             ),
                           );

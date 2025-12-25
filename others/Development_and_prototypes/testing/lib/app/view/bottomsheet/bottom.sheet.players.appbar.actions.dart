@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
-import 'package:vicyos_music/app/components/show.top.message.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.add.song.to.playlist.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -27,7 +29,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: isSongPreviewBottomSheetOpen ? 380 : 310, // Adjust the height
+        height: isSongPreviewBottomSheetOpen ? 430 : 365, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,6 +135,67 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: ImageIcon(
+                            AssetImage(
+                                "assets/img/bottomsheet/add_to_playlist_flaticon.png"),
+                            color: TColor.focus,
+                            size: 29,
+                          ),
+
+                          // Icon(
+                          //   Icons.library_music,
+                          //   color: TColor.focusSecondary,
+                          //   size: 30,
+                          // ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.add_to_a_playlist,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          List<AudioInfo> songModel = await AppDatabase.instance
+                              .returnSongPathAsModel(fullFilePath);
+                          if (context.mounted) {
+                            Navigator.pop(context, "hide_bottom_player");
+                          }
+
+                          if (deviceTypeIsSmartphone()) {
+                            await hideMiniPlayerNotifier(true);
+                          }
+
+                          if (context.mounted) {
+                            final result = await showModalBottomSheet<String>(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AddSongToPlaylistBottomSheet(
+                                    songModel: songModel.first,
+                                  );
+                                });
+
+                            if (result == "hide_bottom_player") {
+                              if (deviceTypeIsSmartphone()) {
+                                await hideMiniPlayerNotifier(true);
+                              }
+                            } else {
+                              if (deviceTypeIsSmartphone()) {
+                                await hideMiniPlayerNotifier(false);
+                              }
+                            }
+                          }
+                        },
+                      ),
+                    ),
                     FutureBuilder<bool>(
                       future: AppDatabase.instance.isFavorite(fullFilePath),
                       builder: (context, asyncSnapshot) {

@@ -475,17 +475,17 @@ class AppDatabase {
     );
   }
 
-  Future<void> addAudioToPlaylist(
-    int playlistId,
-    AudioInfo audio,
-  ) async {
+  Future<void> addAudioToPlaylist({
+    required String playlistName,
+    required AudioInfo audio,
+  }) async {
     final db = await database;
 
     final result = await db.query(
       'playlists',
       columns: ['playlist_songs'],
-      where: 'id = ?',
-      whereArgs: [playlistId],
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
     );
 
     if (result.isEmpty) return;
@@ -503,8 +503,8 @@ class AppDatabase {
       {
         'playlist_songs': jsonEncode(list),
       },
-      where: 'id = ?',
-      whereArgs: [playlistId],
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
     );
   }
 
@@ -551,6 +551,38 @@ class AppDatabase {
             .toList(),
       );
     }).toList();
+  }
+
+  Future<void> removeAudioFromPlaylist({
+    required String playlistName,
+    required String audioPath,
+  }) async {
+    final db = await database;
+
+    // 1. Get the playlist by name
+    final result = await db.query(
+      'playlists',
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
+    );
+
+    if (result.isEmpty) return;
+
+    // 2. Decode playlist songs (JSON → List)
+    final List decoded = jsonDecode(result.first['playlist_songs'] as String);
+
+    // 3. Remove the audio by its path
+    decoded.removeWhere((e) => e['path'] == audioPath);
+
+    // 4. Update the playlist with the new list
+    await db.update(
+      'playlists',
+      {
+        'playlist_songs': jsonEncode(decoded),
+      },
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
+    );
   }
 
   /////////////////////////////////////////////////////////////////////////////////////

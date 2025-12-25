@@ -147,83 +147,75 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                         }
                         final playlists = snapshot.data ?? [];
 
-                        return Expanded(
-                          flex: 1,
-                          child: Stack(
-                            children: [
-                              ListView.separated(
-                                padding: const EdgeInsets.only(
-                                  bottom: 50,
-                                ),
-                                itemCount: playlists.length,
-                                itemBuilder: (context, index) {
-                                  final playlist = playlists[index];
+                        return ListView.separated(
+                          padding: const EdgeInsets.only(
+                            bottom: 50,
+                          ),
+                          itemCount: playlists.length,
+                          itemBuilder: (context, index) {
+                            final playlist = playlists[index];
 
-                                  return SizedBox(
-                                    height: 70,
-                                    child: GestureDetector(
-                                      child: ListTile(
-                                        leading: Icon(
-                                          Icons.queue_music_rounded,
-                                          color: TColor.focusSecondary,
-                                          size: 44,
-                                        ),
-                                        title: Text(
-                                          playlist.playlistName,
-                                          textAlign: TextAlign.start,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: TColor.lightGray,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                          "${playlist.playlistSongs.length} ${AppLocalizations.of(context)!.playlist_total_of_songs(playlist.playlistSongs.length)}",
-                                          style: const TextStyle(
-                                              fontFamily: "Circular Std",
-                                              fontSize: 15,
-                                              color: Colors.white70),
-                                        ),
-                                        trailing: Material(
-                                          color: Colors.transparent,
-                                          child: IconButton(
-                                            splashRadius: 20,
-                                            iconSize: 26,
-                                            onPressed: () async {
-                                              if (context.mounted) {
-                                                deletePlaylistSnackBar(
-                                                    context: context,
-                                                    text: playlist.playlistName,
-                                                    message: AppLocalizations
-                                                            .of(context)!
-                                                        .playlist_deleted_successfully);
-                                              }
-                                              await AppDatabase.instance
-                                                  .deletePlaylist(
-                                                      playlist.playlistName);
-                                              rebuildPlaylistScreenSNotifier();
-                                            },
-                                            icon: Icon(
-                                              Icons.delete_forever_rounded,
-                                              size: 26,
-                                              color: TColor.focusSecondary,
-                                            ),
-                                          ),
-                                        ),
-                                        onTap: null,
+                            return SizedBox(
+                              height: 70,
+                              child: GestureDetector(
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.queue_music_rounded,
+                                    color: TColor.focusSecondary,
+                                    size: 44,
+                                  ),
+                                  title: Text(
+                                    playlist.playlistName,
+                                    textAlign: TextAlign.start,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: TColor.lightGray,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    "${playlist.playlistSongs.length} ${AppLocalizations.of(context)!.playlist_total_of_songs(playlist.playlistSongs.length)}",
+                                    style: const TextStyle(
+                                        fontFamily: "Circular Std",
+                                        fontSize: 15,
+                                        color: Colors.white70),
+                                  ),
+                                  trailing: Material(
+                                    color: Colors.transparent,
+                                    child: IconButton(
+                                      splashRadius: 20,
+                                      iconSize: 26,
+                                      onPressed: () async {
+                                        if (context.mounted) {
+                                          deletePlaylistSnackBar(
+                                              context: context,
+                                              text: playlist.playlistName,
+                                              message: AppLocalizations.of(
+                                                      context)!
+                                                  .playlist_deleted_successfully);
+                                        }
+                                        await AppDatabase.instance
+                                            .deletePlaylist(
+                                                playlist.playlistName);
+                                        rebuildPlaylistScreenSNotifier();
+                                      },
+                                      icon: Icon(
+                                        Icons.delete_forever_rounded,
+                                        size: 26,
+                                        color: TColor.focusSecondary,
                                       ),
                                     ),
-                                  );
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return Container();
-                                },
-                              )
-                            ],
-                          ),
+                                  ),
+                                  onTap: null,
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container();
+                          },
                         );
                       });
                 },

@@ -234,6 +234,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playlist_renamed_successfully => 'Renamed successfully!';
 
   @override
+  String get add_to_a_playlist => 'Add to a playlist';
+
+  @override
+  String get added_successfully => 'Added successfully';
+
+  @override
+  String get create_a_new_playlist => 'Create a new playlist';
+
+  @override
+  String get removed_from_this_playlist => 'Remove from this playlist';
+
+  @override
   String create_a_playlist(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

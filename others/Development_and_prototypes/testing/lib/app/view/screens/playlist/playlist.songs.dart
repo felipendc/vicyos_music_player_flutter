@@ -16,10 +16,13 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class PlaylistSongs extends StatelessWidget {
   final List<Playlists> playlistModel;
-  final int index;
+  final int playlistModelIndex;
 
-  const PlaylistSongs(
-      {super.key, required this.playlistModel, required this.index});
+  const PlaylistSongs({
+    super.key,
+    required this.playlistModel,
+    required this.playlistModelIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +99,8 @@ class PlaylistSongs extends StatelessWidget {
                                                 }
                                                 final playlists =
                                                     snapshot.data ?? [];
-                                                final playlistIndex =
-                                                    playlists[index];
+                                                final playlistIndex = playlists[
+                                                    playlistModelIndex];
                                                 return Text(
                                                   playlistIndex.playlistName,
                                                   maxLines: 1,
@@ -187,7 +190,7 @@ class PlaylistSongs extends StatelessWidget {
                                                       (BuildContext context) {
                                                     return PlaylistSongMenuBottomSheet(
                                                       playlistModel: playlist,
-                                                      index: index,
+                                                      index: playlistModelIndex,
                                                     );
                                                   },
                                                 );
@@ -277,7 +280,6 @@ class PlaylistSongs extends StatelessWidget {
                                   )).whenComplete(
                                 () {
                                   searchBoxController.dispose();
-                                  searchBoxController.dispose();
                                 },
                               );
                             },
@@ -331,7 +333,13 @@ class PlaylistSongs extends StatelessWidget {
                             //
                             final playlist = musicSnapshot.data ?? [];
 
-                            final playlistIndex = playlist[index];
+                            // Avoid pixels out of range crash
+                            if (playlist.isEmpty ||
+                                playlistModelIndex >= playlist.length) {
+                              return const SizedBox();
+                            }
+
+                            final playlistIndex = playlist[playlistModelIndex];
 
                             return Expanded(
                               child: ListView.separated(
@@ -469,11 +477,21 @@ class PlaylistSongs extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    playlistSongModel:
+                                                        playlistModel[
+                                                                playlistModelIndex]
+                                                            .playlistSongs,
+                                                    playListName: playlistModel[
+                                                            playlistModelIndex]
+                                                        .playlistName,
+                                                    playlistSongIndex: index,
                                                     songModel: song,
                                                     isFromFavoriteScreen: false,
                                                     audioRoute:
                                                         NavigationButtons
                                                             .playlists,
+                                                    isFromPlaylistSongScreen:
+                                                        true,
                                                   );
                                                 },
                                               ).whenComplete(
@@ -511,6 +529,9 @@ class PlaylistSongs extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
+                                              playlistName: playlistModel[
+                                                      playlistModelIndex]
+                                                  .playlistName,
                                               currentFolder:
                                                   playlistIndex.playlistSongs,
                                               currentIndex: index,

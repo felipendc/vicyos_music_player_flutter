@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
-import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -277,6 +277,7 @@ class SearchScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
+                                      isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
                                       isFromFavoriteScreen: false,
                                       audioRoute: NavigationButtons.music,

@@ -75,7 +75,10 @@
   "choose_a_new_name": "Escolha um novo nome:",
   "save": "Salvar",
   "playlist_renamed_successfully": "Renomeada com sucesso!",
-
+  "add_to_a_playlist": "Adicionar a uma playlist",
+  "added_successfully": "Adicionado com sucesso!",
+  "create_a_new_playlist": "Criar uma nova playlist",
+  "removed_from_this_playlist": "Remover dessa playlist",
 
   "create_a_playlist": "{count, plural, =0{Criar uma playlist} =1{Criar uma nova playlist} other{Cria uma nova playlist}}",
   "@create_a_playlist": {

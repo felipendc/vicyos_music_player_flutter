@@ -374,6 +374,8 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    isFromPlaylistSongScreen:
+                                                        false,
                                                     songModel: song,
                                                     isFromFavoriteScreen: true,
                                                     audioRoute:

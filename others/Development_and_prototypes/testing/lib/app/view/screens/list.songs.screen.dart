@@ -417,13 +417,17 @@ class SongsListScreen extends StatelessWidget {
                                                   true);
                                             }
                                             if (context.mounted) {
-                                              showModalBottomSheet<String>(
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
                                                 backgroundColor:
                                                     Colors.transparent,
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    isFromPlaylistSongScreen:
+                                                        false,
                                                     songModel: song,
                                                     isFromFavoriteScreen: false,
                                                     audioRoute:
@@ -438,16 +442,24 @@ class SongsListScreen extends StatelessWidget {
                                                       debugPrint(
                                                           "No other screen is open.");
                                                     } else {
-                                                      if (deviceTypeIsSmartphone()) {
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
                                                       debugPrint(
                                                           "There are other open screens.");
                                                     }
                                                   }
                                                 },
                                               );
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      true);
+                                                }
+                                              } else {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      false);
+                                                }
+                                              }
                                             }
                                           },
                                         ),

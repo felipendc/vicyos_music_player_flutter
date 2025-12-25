@@ -42,6 +42,7 @@ NavigationButtons songCurrentRouteType = NavigationButtons.none;
 // Manual listener only when playlist is empty
 NavigationButtons activeNavigationButton = NavigationButtons.none;
 
+String playingFromPlaylist = "";
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;
 CurrentLoopMode currentLoopMode = CurrentLoopMode.all;
@@ -169,6 +170,7 @@ Future<void> cleanPlaylist(BuildContext context) async {
   }
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
+  playingFromPlaylist = "";
   currentSongNameNotifier();
   getCurrentSongFolderNotifier();
   clearCurrentPlaylistNotifier();
@@ -577,6 +579,7 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
 //
 
 Future<void> setFolderAsPlaylist({
+  String? playlistName,
   required List<AudioInfo> currentFolder,
   required int currentIndex,
   required BuildContext context,
@@ -588,6 +591,8 @@ Future<void> setFolderAsPlaylist({
   }
   stopSong();
   playlist.clear();
+
+  playingFromPlaylist = playlistName ?? "";
 
   activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
   currentSongNavigationRouteNotifier();
@@ -925,4 +930,33 @@ Future<bool> playlistNameAlreadyExist(String text) async {
     }
   }
   return false;
+}
+
+Future<void> removeSongPathFromCurrentPlaylist(
+    {required String songPath, required BuildContext context}) async {
+  // Check if the file is present on the playlist...
+  final int index = audioPlayer.audioSources.indexWhere(
+      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath);
+
+  if (index != -1) {
+    if (songPath == currentSongFullPath &&
+        audioPlayer.audioSources.length == 1) {
+      // Clean playlist and rebuild the entire screen to clean the listview
+      if (context.mounted) {
+        cleanPlaylist(context);
+      }
+    } else {
+      await audioPlayer.removeAudioSourceAt(index);
+      rebuildPlaylistCurrentLengthNotifier();
+      currentSongNameNotifier();
+
+      // Update the current song name
+      if (index < audioPlayer.audioSources.length) {
+        String newCurrentSongFullPath = Uri.decodeFull(
+            (audioPlayer.audioSources[index] as UriAudioSource).uri.toString());
+        currentSongName = songName(newCurrentSongFullPath);
+      }
+    }
+    currentSongNameNotifier();
+  }
 }
