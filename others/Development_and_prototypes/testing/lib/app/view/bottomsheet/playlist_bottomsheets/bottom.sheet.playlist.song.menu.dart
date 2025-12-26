@@ -248,10 +248,10 @@ class PlaylistSongMenuBottomSheet extends StatelessWidget {
                                 );
 
                                 if (result == "playlist_was_deleted") {
-                                  if (!context.mounted) return;
-                                  Navigator.pop(
-                                      context, "playlist_was_deleted");
-
+                                  if (context.mounted) {
+                                    Navigator.pop(
+                                        context, "playlist_was_deleted");
+                                  }
                                   if (deviceTypeIsSmartphone()) {
                                     // "When the bottom sheet is closed, send a signal to show the mini player again."
                                     hideMiniPlayerNotifier(false);

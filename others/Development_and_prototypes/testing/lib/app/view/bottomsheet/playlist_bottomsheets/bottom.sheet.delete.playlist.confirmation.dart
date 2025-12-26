@@ -90,9 +90,9 @@ class DeletePlaylistConfirmationBottomSheet extends StatelessWidget {
                         );
                         await AppDatabase.instance.deletePlaylist(playlistName);
 
-                        if (!context.mounted) return;
-                        Navigator.pop(context, "playlist_was_deleted");
-
+                        if (context.mounted) {
+                          Navigator.pop(context, "playlist_was_deleted");
+                        }
                         rebuildPlaylistScreenSNotifier();
                       },
                       backgroundColor: TColor.darkGray,

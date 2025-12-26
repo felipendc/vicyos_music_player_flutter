@@ -129,8 +129,9 @@ Future<void> playRadioStation(BuildContext context, int index) async {
   currentRadioStationID = radioStationList[index].id;
 
   turnOnRadioStation();
-  if (!context.mounted) return;
-  cleanPlaylist(context);
+  if (context.mounted) {
+    cleanPlaylist(context);
+  }
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
@@ -171,12 +172,12 @@ Future<void> playRadioStation(BuildContext context, int index) async {
       radioStationList[index].stationStatus =
           RadioStationConnectionStatus.error;
       errorToFetchRadioStation(index);
-      if (!context.mounted) return;
-      errorToFetchRadioStationCard(
-        context,
-        radioStationList[index].radioName,
-      );
-
+      if (context.mounted) {
+        errorToFetchRadioStationCard(
+          context,
+          radioStationList[index].radioName,
+        );
+      }
       await turnOffRadioStation();
       await updateRadioScreensNotifier();
     }
@@ -231,12 +232,12 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
       radioStationList[index].stationStatus =
           RadioStationConnectionStatus.error;
       errorToFetchRadioStation(index);
-      if (!context.mounted) return;
-      errorToFetchRadioStationCard(
-        context,
-        radioStationList[index].radioName,
-      );
-
+      if (context.mounted) {
+        errorToFetchRadioStationCard(
+          context,
+          radioStationList[index].radioName,
+        );
+      }
       await turnOffRadioStation();
       await updateRadioScreensNotifier();
     }
@@ -319,9 +320,9 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
         }
       }
 
-      if (!context.mounted) return;
-      errorToFetchRadioStationCard(context, currentRadioStationName);
-
+      if (context.mounted) {
+        errorToFetchRadioStationCard(context, currentRadioStationName);
+      }
       await turnOffRadioStation();
       await updateRadioScreensNotifier();
     }

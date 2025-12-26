@@ -84,9 +84,10 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                           () async {
                             FlutterMediaDelete.deleteMediaFile(songPath).then(
                               (wasDeleted) async {
-                                if (!context.mounted) return;
-                                await deleteSongFromStorage(
-                                    context, wasDeleted, songPath);
+                                if (context.mounted) {
+                                  await deleteSongFromStorage(
+                                      context, wasDeleted, songPath);
+                                }
                               },
                             );
                           },

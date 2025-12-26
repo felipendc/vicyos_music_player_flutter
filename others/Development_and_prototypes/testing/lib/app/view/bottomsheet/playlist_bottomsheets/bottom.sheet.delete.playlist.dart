@@ -134,6 +134,16 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                   return FutureBuilder<List<Playlists>>(
                       future: AppDatabase.instance.getAllPlaylists(),
                       builder: (context, snapshot) {
+                        // Treating the waiting
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const SizedBox();
+                        }
+
+                        // If has error show a blank screen
+                        if (snapshot.hasError) {
+                          return const SizedBox();
+                        }
                         final playlists = snapshot.data ?? [];
 
                         return ListView.separated(
@@ -177,14 +187,14 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                                       splashRadius: 20,
                                       iconSize: 26,
                                       onPressed: () async {
-                                        if (!context.mounted) return;
-                                        deletePlaylistSnackBar(
-                                            context: context,
-                                            text: playlist.playlistName,
-                                            message: AppLocalizations.of(
-                                                    context)!
-                                                .playlist_deleted_successfully);
-
+                                        if (context.mounted) {
+                                          deletePlaylistSnackBar(
+                                              context: context,
+                                              text: playlist.playlistName,
+                                              message: AppLocalizations.of(
+                                                      context)!
+                                                  .playlist_deleted_successfully);
+                                        }
                                         await AppDatabase.instance
                                             .deletePlaylist(
                                                 playlist.playlistName);

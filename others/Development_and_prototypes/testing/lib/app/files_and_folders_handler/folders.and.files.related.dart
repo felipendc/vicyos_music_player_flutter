@@ -277,8 +277,9 @@ Future<void> deleteSongFromStorage(
       if (songPath == currentSongFullPath &&
           audioPlayer.audioSources.length == 1) {
         // Clean playlist and rebuild the entire screen to clean the listview
-        if (!context.mounted) return;
-        cleanPlaylist(context);
+        if (context.mounted) {
+          cleanPlaylist(context);
+        }
       } else {
         await audioPlayer.removeAudioSourceAt(index);
         rebuildPlaylistCurrentLengthNotifier();
@@ -299,16 +300,19 @@ Future<void> deleteSongFromStorage(
     rebuildSongsListScreenNotifier();
     rebuildHomePageFolderListNotifier(FetchingSongs.done);
     currentSongNavigationRouteNotifier();
-    if (!context.mounted) return;
-    Navigator.pop(context, "close_song_preview_bottom_sheet");
+    if (context.mounted) {
+      Navigator.pop(context, "close_song_preview_bottom_sheet");
+    }
   } else if (wasDeleted != "Files deleted successfully") {
-    if (!context.mounted) return;
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
-  if (!context.mounted) return;
-  showFileDeletedMessage(
-    context,
-    songName(songPath),
-    AppLocalizations.of(context)!.deleted_successfully,
-  );
+  if (context.mounted) {
+    showFileDeletedMessage(
+      context,
+      songName(songPath),
+      AppLocalizations.of(context)!.deleted_successfully,
+    );
+  }
 }

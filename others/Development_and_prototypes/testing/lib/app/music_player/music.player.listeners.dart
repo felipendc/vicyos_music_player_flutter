@@ -113,13 +113,14 @@ void preLoadSongName(BuildContext context) {
         }
 
         currentSongName = currentMediaItem.title;
-        if (!context.mounted) return;
-        currentSongArtistName = currentMediaItem.artist ??
-            AppLocalizations.of(context)!.unknown_artist;
-
-        if (!context.mounted) return;
-        currentSongAlbumName = currentMediaItem.album ??
-            AppLocalizations.of(context)!.unknown_album;
+        if (context.mounted) {
+          currentSongArtistName = currentMediaItem.artist ??
+              AppLocalizations.of(context)!.unknown_artist;
+        }
+        if (context.mounted) {
+          currentSongAlbumName = currentMediaItem.album ??
+              AppLocalizations.of(context)!.unknown_album;
+        }
 
         currentIndex = index;
         currentSongNameNotifier();

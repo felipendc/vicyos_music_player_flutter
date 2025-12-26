@@ -268,42 +268,41 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
-                              final songIsFavorite = await AppDatabase.instance
-                                  .isFavorite(
-                                      searchSongFromDataBase[index].path);
                               await hideMiniPlayerNotifier(true);
 
-                              if (!context.mounted) return;
-                              final result = await showModalBottomSheet<String>(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SongInfoMoreBottomSheet(
-                                    songIsFavorite: songIsFavorite,
-                                    isFromPlaylistSongScreen: false,
-                                    songModel: searchSongFromDataBase[index],
-                                    isFromFavoriteScreen: false,
-                                    audioRoute: NavigationButtons.music,
-                                  );
-                                },
-                              ).whenComplete(
-                                () {
-                                  if (!context.mounted) return;
-                                  if (!Navigator.canPop(context)) {
-                                    debugPrint("No other screen is open.");
-                                  } else {
-                                    hideMiniPlayerNotifier(false);
-                                    debugPrint(
-                                        " There are other open screens .");
-                                  }
-                                },
-                              );
-                              if (result == "close_song_preview_bottom_sheet") {
-                                searchSongFromDataBase.clear();
-                                isSearchingSongsNotifier("nothing_found");
-                              } else {
-                                // Do not close the Player Preview bottom sheet
+                              if (context.mounted) {
+                                final result =
+                                    await showModalBottomSheet<String>(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return SongInfoMoreBottomSheet(
+                                      isFromPlaylistSongScreen: false,
+                                      songModel: searchSongFromDataBase[index],
+                                      isFromFavoriteScreen: false,
+                                      audioRoute: NavigationButtons.music,
+                                    );
+                                  },
+                                ).whenComplete(
+                                  () {
+                                    if (context.mounted) {
+                                      if (!Navigator.canPop(context)) {
+                                        debugPrint("No other screen is open.");
+                                      } else {
+                                        hideMiniPlayerNotifier(false);
+                                        debugPrint(
+                                            " There are other open screens .");
+                                      }
+                                    }
+                                  },
+                                );
+                                if (result ==
+                                    "close_song_preview_bottom_sheet") {
+                                  searchSongFromDataBase.clear();
+                                  isSearchingSongsNotifier("nothing_found");
+                                } else {
+                                  // Do not close the Player Preview bottom sheet
+                                }
                               }
                             },
                           ),

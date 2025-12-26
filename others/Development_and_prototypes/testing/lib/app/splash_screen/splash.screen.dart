@@ -17,11 +17,12 @@ class SplashScreen extends StatelessWidget {
         Future.delayed(
           const Duration(seconds: 3),
           () {
-            if (!context.mounted) return;
-            Navigator.pushReplacement(
-              context,
-              splashFadeTransition(context, HomeNavigator()),
-            );
+            if (context.mounted) {
+              Navigator.pushReplacement(
+                context,
+                splashFadeTransition(context, HomeNavigator()),
+              );
+            }
           },
         );
       },

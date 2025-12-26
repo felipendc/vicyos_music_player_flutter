@@ -362,48 +362,45 @@ class ShowAllSongsScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
-                                            final songIsFavorite =
-                                                await AppDatabase.instance
-                                                    .isFavorite(song.path);
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
                                             }
-                                            if (!context.mounted) return;
-                                            showModalBottomSheet<String>(
-                                              isScrollControlled: true,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return SongInfoMoreBottomSheet(
-                                                  songIsFavorite:
-                                                      songIsFavorite,
-                                                  isFromPlaylistSongScreen:
-                                                      false,
-                                                  songModel: song,
-                                                  isFromFavoriteScreen: false,
-                                                  audioRoute:
-                                                      NavigationButtons.music,
-                                                );
-                                              },
-                                            ).whenComplete(
-                                              () {
-                                                if (!context.mounted) return;
-                                                if (!Navigator.canPop(
-                                                    context)) {
-                                                  debugPrint(
-                                                      "No other screen is open.");
-                                                } else {
-                                                  if (deviceTypeIsSmartphone()) {
-                                                    hideMiniPlayerNotifier(
-                                                        false);
+                                            if (context.mounted) {
+                                              showModalBottomSheet<String>(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return SongInfoMoreBottomSheet(
+                                                    isFromPlaylistSongScreen:
+                                                        false,
+                                                    songModel: song,
+                                                    isFromFavoriteScreen: false,
+                                                    audioRoute:
+                                                        NavigationButtons.music,
+                                                  );
+                                                },
+                                              ).whenComplete(
+                                                () {
+                                                  if (context.mounted) {
+                                                    if (!Navigator.canPop(
+                                                        context)) {
+                                                      debugPrint(
+                                                          "No other screen is open.");
+                                                    } else {
+                                                      if (deviceTypeIsSmartphone()) {
+                                                        hideMiniPlayerNotifier(
+                                                            false);
+                                                      }
+                                                      debugPrint(
+                                                          "There are other open screens.");
+                                                    }
                                                   }
-                                                  debugPrint(
-                                                      "There are other open screens.");
-                                                }
-                                              },
-                                            );
+                                                },
+                                              );
+                                            }
                                           },
                                         ),
                                         onTap: () {
