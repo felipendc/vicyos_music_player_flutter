@@ -14,6 +14,7 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
+  final bool songIsFavorite;
   final AudioInfo songModel;
   final bool isFromFavoriteScreen;
   final NavigationButtons audioRoute;
@@ -31,6 +32,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
     this.playListName,
     this.playlistSongIndex,
     this.playlistSongModel,
+    required this.songIsFavorite,
   });
 
   @override
@@ -284,25 +286,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                       ),
                     if (!isFromFavoriteScreen)
-                      FutureBuilder<bool>(
-                        future: AppDatabase.instance.isFavorite(songModel.path),
-                        builder: (context, asyncSnapshot) {
-                          // Treating the waiting
-                          if (asyncSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const SizedBox();
-                          }
-
-                          // If has error show a blank screen
-                          if (asyncSnapshot.hasError) {
-                            return const SizedBox();
-                          }
-
-                          // If snapshot doesn't have data return false
-                          final songIsFavorite = asyncSnapshot.data ?? false;
-
-                          if (songIsFavorite) {
-                            return Material(
+                      (songIsFavorite)
+                          ? Material(
                               color: Colors.transparent,
                               child: ListTile(
                                 leading: Padding(
@@ -335,9 +320,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   }
                                 },
                               ),
-                            );
-                          } else {
-                            return Material(
+                            )
+                          : Material(
                               color: Colors.transparent,
                               child: ListTile(
                                 leading: Padding(
@@ -369,10 +353,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   }
                                 },
                               ),
-                            );
-                          }
-                        },
-                      ),
+                            ),
                     Material(
                       color: Colors.transparent,
                       child: ListTile(

@@ -412,6 +412,9 @@ class SongsListScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
+                                            final songIsFavorite =
+                                                await AppDatabase.instance
+                                                    .isFavorite(song.path);
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
@@ -420,12 +423,15 @@ class SongsListScreen extends StatelessWidget {
                                               final result =
                                                   await showModalBottomSheet<
                                                       String>(
+                                                isScrollControlled: true,
                                                 backgroundColor:
                                                     Colors.transparent,
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    songIsFavorite:
+                                                        songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,
                                                     songModel: song,

@@ -12,12 +12,14 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
+  final bool songIsFavorite;
   final dynamic fullFilePath;
   final NavigationButtons audioRoute;
   const PlayerPreviewAppBarActionsBottomSheet({
     super.key,
     required this.fullFilePath,
     required this.audioRoute,
+    required this.songIsFavorite,
   });
 
   @override
@@ -196,25 +198,8 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                         },
                       ),
                     ),
-                    FutureBuilder<bool>(
-                      future: AppDatabase.instance.isFavorite(fullFilePath),
-                      builder: (context, asyncSnapshot) {
-                        // Treating the waiting
-                        if (asyncSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const SizedBox();
-                        }
-
-                        // If has error show a blank screen
-                        if (asyncSnapshot.hasError) {
-                          return const SizedBox();
-                        }
-
-                        // If snapshot doesn't have data return false
-                        final songIsFavorite = asyncSnapshot.data ?? false;
-
-                        if (songIsFavorite) {
-                          return Material(
+                    (songIsFavorite)
+                        ? Material(
                             color: Colors.transparent,
                             child: ListTile(
                               leading: Padding(
@@ -244,9 +229,8 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 rebuildFavoriteScreenNotifier();
                               },
                             ),
-                          );
-                        } else {
-                          return Material(
+                          )
+                        : Material(
                             color: Colors.transparent,
                             child: ListTile(
                               leading: Padding(
@@ -280,10 +264,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 rebuildFavoriteScreenNotifier();
                               },
                             ),
-                          );
-                        }
-                      },
-                    ),
+                          ),
                     if (isSongPreviewBottomSheetOpen)
                       Material(
                         color: Colors.transparent,

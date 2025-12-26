@@ -268,15 +268,20 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
+                              final songIsFavorite = await AppDatabase.instance
+                                  .isFavorite(
+                                      searchSongFromDataBase[index].path);
                               await hideMiniPlayerNotifier(true);
 
                               if (context.mounted) {
                                 final result =
                                     await showModalBottomSheet<String>(
+                                  isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
+                                      songIsFavorite: songIsFavorite,
                                       isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
                                       isFromFavoriteScreen: false,
