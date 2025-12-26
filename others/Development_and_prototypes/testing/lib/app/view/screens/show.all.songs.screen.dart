@@ -362,6 +362,9 @@ class ShowAllSongsScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
+                                            final allSongsDatabase =
+                                                await AppDatabase.instance
+                                                    .getAllMusicPathsFromDB();
                                             final songIsFavorite =
                                                 await AppDatabase.instance
                                                     .isFavorite(song.path);
@@ -370,7 +373,9 @@ class ShowAllSongsScreen extends StatelessWidget {
                                                   true);
                                             }
                                             if (context.mounted) {
-                                              showModalBottomSheet<String>(
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
                                                 isScrollControlled: true,
                                                 backgroundColor:
                                                     Colors.transparent,
@@ -378,6 +383,9 @@ class ShowAllSongsScreen extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    listOfSongModel:
+                                                        allSongsDatabase,
+                                                    isFromSongsScreen: true,
                                                     songIsFavorite:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
@@ -388,24 +396,20 @@ class ShowAllSongsScreen extends StatelessWidget {
                                                         NavigationButtons.music,
                                                   );
                                                 },
-                                              ).whenComplete(
-                                                () {
-                                                  if (context.mounted) {
-                                                    if (!Navigator.canPop(
-                                                        context)) {
-                                                      debugPrint(
-                                                          "No other screen is open.");
-                                                    } else {
-                                                      if (deviceTypeIsSmartphone()) {
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
-                                                      debugPrint(
-                                                          "There are other open screens.");
-                                                    }
-                                                  }
-                                                },
                                               );
+
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  // Hide radio mini player if it is open
+                                                  hideMiniPlayerNotifier(true);
+                                                }
+                                              } else {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                  hideMiniPlayerNotifier(false);
+                                                }
+                                              }
                                             }
                                           },
                                         ),

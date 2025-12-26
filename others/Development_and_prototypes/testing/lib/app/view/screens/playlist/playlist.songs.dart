@@ -481,12 +481,12 @@ class PlaylistSongs extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    isFromSongsScreen: false,
                                                     songIsFavorite:
                                                         songIsFavorite,
-                                                    playlistSongModel:
-                                                        playlistModel[
-                                                                playlistModelIndex]
-                                                            .playlistSongs,
+                                                    listOfSongModel: playlistModel[
+                                                            playlistModelIndex]
+                                                        .playlistSongs,
                                                     playListName: playlistModel[
                                                             playlistModelIndex]
                                                         .playlistName,

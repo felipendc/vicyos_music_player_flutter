@@ -79,6 +79,8 @@
   "added_successfully": "Added successfully",
   "create_a_new_playlist": "Create a new playlist",
   "removed_from_this_playlist": "Remove from this playlist",
+  "multiple_selection": "Multiple selection",
+  "select_files": "Select songs:",
 
   "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
   "@create_a_playlist": {

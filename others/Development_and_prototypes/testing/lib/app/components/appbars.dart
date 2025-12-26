@@ -204,24 +204,27 @@ AppBar previewPlayerViewAppBar({
               onPressed: () async {
                 final songIsFavorite =
                     await AppDatabase.instance.isFavorite(filePath);
-                final result = await showModalBottomSheet<String>(
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return PlayerPreviewAppBarActionsBottomSheet(
-                      songIsFavorite: songIsFavorite,
-                      fullFilePath: filePath,
-                      audioRoute: audioRoute,
-                    );
-                  },
-                );
-                if (result == "close_song_preview_bottom_sheet") {
-                  if (context.mounted) {
-                    Navigator.pop(context, "close_song_preview_bottom_sheet");
+
+                if (context.mounted) {
+                  final result = await showModalBottomSheet<String>(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return PlayerPreviewAppBarActionsBottomSheet(
+                        songIsFavorite: songIsFavorite,
+                        fullFilePath: filePath,
+                        audioRoute: audioRoute,
+                      );
+                    },
+                  );
+                  if (result == "close_song_preview_bottom_sheet") {
+                    if (context.mounted) {
+                      Navigator.pop(context, "close_song_preview_bottom_sheet");
+                    }
+                  } else {
+                    // Do not close the Player Preview bottom sheet
                   }
-                } else {
-                  // Do not close the Player Preview bottom sheet
                 }
               },
             ),

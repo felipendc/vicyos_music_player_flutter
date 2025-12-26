@@ -570,6 +570,18 @@ abstract class AppLocalizations {
   /// **'Remove from this playlist'**
   String get removed_from_this_playlist;
 
+  /// No description provided for @multiple_selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple selection'**
+  String get multiple_selection;
+
+  /// No description provided for @select_files.
+  ///
+  /// In en, this message translates to:
+  /// **'Select songs:'**
+  String get select_files;
+
   /// No description provided for @create_a_playlist.
   ///
   /// In en, this message translates to:

@@ -5,9 +5,12 @@ import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.rel
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.add.song.to.playlist.dart';
+import 'package:vicyos_music/app/view/screens/multi.selection.screen.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -17,11 +20,12 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
   final bool songIsFavorite;
   final AudioInfo songModel;
   final bool isFromFavoriteScreen;
-  final NavigationButtons audioRoute;
   final bool isFromPlaylistSongScreen;
+  final bool isFromSongsScreen;
+  final NavigationButtons audioRoute;
   final String? playListName;
   final int? playlistSongIndex;
-  final List<AudioInfo>? playlistSongModel;
+  final List<AudioInfo>? listOfSongModel;
 
   const SongInfoMoreBottomSheet({
     super.key,
@@ -31,8 +35,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
     required this.isFromPlaylistSongScreen,
     this.playListName,
     this.playlistSongIndex,
-    this.playlistSongModel,
+    this.listOfSongModel,
     required this.songIsFavorite,
+    required this.isFromSongsScreen,
   });
 
   @override
@@ -44,7 +49,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 490, // Adjust the height
+        height: 560, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,6 +155,73 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
+                    ////////////////////////////////////////////////////
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 13),
+                          child:
+                              // ImageIcon(
+                              //
+                              //   AssetImage(
+                              //       "assets/img/bottomsheet/remove_song_flaticon.png"),
+                              //   color: TColor.focus,
+                              //   size: 33,
+                              // ),
+
+                              Icon(
+                            Icons.select_all_rounded,
+                            color: TColor.focusSecondary,
+                            size: 30,
+                          ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.multiple_selection,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Navigator.pop(context, "hide_bottom_player");
+
+                          if (deviceTypeIsSmartphone()) {
+                            // Hide radio mini player if it is open
+                            hideMiniRadioPlayerNotifier(true);
+                          }
+                          // Abrir uma tela de multi seleção
+                          // Passar uma lista de List<AudioInfo> listOfSongModel no parâmetro.
+                          // Ocultar o mini-player esperando um um result
+
+                          final result = await Navigator.push(
+                            context,
+                            slideRightLeftTransition(
+                              MultiSelectionScreen(
+                                songModelList: listOfSongModel ?? [],
+                                isFavoriteScreen: isFromFavoriteScreen,
+                                isPlaylistScreen: isFromPlaylistSongScreen,
+                                isSongScreen: isFromPlaylistSongScreen,
+                              ),
+                            ),
+                          );
+
+                          if (result == "hide_bottom_player") {
+                            if (deviceTypeIsSmartphone()) {
+                              // Hide radio mini player if it is open
+                              hideMiniRadioPlayerNotifier(true);
+                            }
+                          } else {
+                            if (deviceTypeIsSmartphone()) {
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              hideMiniPlayerNotifier(false);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                    ////////////////////////////////////////////////////////////////////////////////
                     if (isFromPlaylistSongScreen)
                       Material(
                         color: Colors.transparent,

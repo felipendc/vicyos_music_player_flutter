@@ -237,14 +237,14 @@ class FavoriteSongsScreen extends StatelessWidget {
                       return FutureBuilder(
                           future: AppDatabase.instance.getFavorites(),
                           builder: (context, snapshot) {
-                            final favoriteSong = snapshot.data ?? [];
+                            final favoriteSongs = snapshot.data ?? [];
 
                             return Expanded(
                               child: ListView.separated(
                                 padding: const EdgeInsets.only(bottom: 112),
-                                itemCount: favoriteSong.length,
+                                itemCount: favoriteSongs.length,
                                 itemBuilder: (context, index) {
-                                  final song = favoriteSong[index];
+                                  final song = favoriteSongs[index];
                                   return SizedBox(
                                     height: 67,
                                     child: GestureDetector(
@@ -370,7 +370,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                   true);
                                             }
                                             if (context.mounted) {
-                                              showModalBottomSheet<String>(
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
                                                 isScrollControlled: true,
                                                 backgroundColor:
                                                     Colors.transparent,
@@ -378,6 +380,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
+                                                    listOfSongModel:
+                                                        favoriteSongs,
+                                                    isFromSongsScreen: false,
                                                     songIsFavorite:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
@@ -407,6 +412,18 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                   }
                                                 },
                                               );
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      true);
+                                                }
+                                              } else {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      false);
+                                                }
+                                              }
                                             }
                                           },
                                         ),
@@ -424,7 +441,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                              currentFolder: favoriteSong,
+                                              currentFolder: favoriteSongs,
                                               currentIndex: index,
                                               context: context,
                                               audioRoute:

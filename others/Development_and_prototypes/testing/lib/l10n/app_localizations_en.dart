@@ -246,6 +246,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get removed_from_this_playlist => 'Remove from this playlist';
 
   @override
+  String get multiple_selection => 'Multiple selection';
+
+  @override
+  String get select_files => 'Select songs:';
+
+  @override
   String create_a_playlist(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

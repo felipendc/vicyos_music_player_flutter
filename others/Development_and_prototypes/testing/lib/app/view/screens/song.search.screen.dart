@@ -281,6 +281,8 @@ class SearchScreen extends StatelessWidget {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
+                                      listOfSongModel: searchSongFromDataBase,
+                                      isFromSongsScreen: true,
                                       songIsFavorite: songIsFavorite,
                                       isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
@@ -294,19 +296,28 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
-                                        hideMiniPlayerNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }
                                     }
                                   },
                                 );
+
                                 if (result ==
                                     "close_song_preview_bottom_sheet") {
                                   searchSongFromDataBase.clear();
                                   isSearchingSongsNotifier("nothing_found");
+                                }
+                                if (result == "hide_bottom_player") {
+                                  if (deviceTypeIsSmartphone()) {
+                                    // Hide radio mini player if it is open
+                                    hideMiniPlayerNotifier(true);
+                                  }
                                 } else {
-                                  // Do not close the Player Preview bottom sheet
+                                  if (deviceTypeIsSmartphone()) {
+                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                    hideMiniPlayerNotifier(false);
+                                  }
                                 }
                               }
                             },
