@@ -35,7 +35,6 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                 ),
                 height: 73, // Loading enabled
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(

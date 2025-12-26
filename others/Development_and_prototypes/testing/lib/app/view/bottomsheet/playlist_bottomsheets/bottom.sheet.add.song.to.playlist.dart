@@ -248,11 +248,17 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                       Navigator.pop(context, "hide_bottom_player");
 
                       final result = await showModalBottomSheet<String>(
+                        isScrollControlled: true,
                         backgroundColor: Colors.transparent,
                         context: context,
                         builder: (BuildContext context) {
-                          return CreatePlaylistAndAddSongBottomSheet(
-                            addSong: songModel,
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: CreatePlaylistAndAddSongBottomSheet(
+                              addSong: songModel,
+                            ),
                           );
                         },
                       );

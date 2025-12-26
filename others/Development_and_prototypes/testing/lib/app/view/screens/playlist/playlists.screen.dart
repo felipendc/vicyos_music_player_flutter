@@ -41,7 +41,6 @@ class PlaylistsScreen extends StatelessWidget {
                     //     ? 132 /*129*/
                     //     : 127 /*124*/, // Loading enabled
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(

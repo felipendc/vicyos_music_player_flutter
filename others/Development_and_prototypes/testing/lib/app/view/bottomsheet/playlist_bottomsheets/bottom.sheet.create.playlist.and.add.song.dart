@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
-import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -17,6 +17,7 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setScreenOrientation();
     TextEditingController playlistNameController = TextEditingController();
 
     return Padding(
@@ -42,7 +43,6 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                   ),
                   height: 73, // Loading enabled
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
@@ -139,59 +139,40 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                   children: [
                     Container(
                       color: TColor.bg,
-                      child: FutureBuilder<List<Playlists>>(
-                          future: AppDatabase.instance.getAllPlaylists(),
-                          builder: (context, musicSnapshot) {
-                            // Treating the waiting
-                            if (musicSnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const SizedBox();
-                            }
-
-                            // If has error show a blank screen
-                            if (musicSnapshot.hasError) {
-                              return const SizedBox();
-                            }
-
-                            return Padding(
-                              padding:
-                                  EdgeInsetsGeometry.only(left: 18, right: 18),
-                              child: TextField(
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                onChanged: null,
-                                controller: playlistNameController,
-                                decoration: InputDecoration(
-                                  hintText: AppLocalizations.of(context)!
-                                      .create_a_playlist_text_field_hint,
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white60),
-                                  labelStyle:
-                                      const TextStyle(color: Colors.white70),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(26),
-                                    borderSide: BorderSide(
-                                      color: TColor.focusSecondary
-                                          .withValues(alpha: 80),
-                                      width: 3,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(26),
-                                    borderSide: BorderSide(
-                                      color: TColor.focusSecondary
-                                          .withValues(alpha: 80),
-                                      width: 3,
-                                    ),
-                                  ),
-                                ),
-                                style: const TextStyle(color: Colors.white),
+                      child: Padding(
+                        padding: EdgeInsetsGeometry.only(left: 18, right: 18),
+                        child: TextField(
+                          autofocus: true,
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: playlistNameController,
+                          decoration: InputDecoration(
+                            hintText: AppLocalizations.of(context)!
+                                .create_a_playlist_text_field_hint,
+                            hintStyle: const TextStyle(color: Colors.white60),
+                            labelStyle: const TextStyle(color: Colors.white70),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26),
+                              borderSide: BorderSide(
+                                color:
+                                    TColor.focusSecondary.withValues(alpha: 80),
+                                width: 3,
                               ),
-                            );
-                          }),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(26),
+                              borderSide: BorderSide(
+                                color:
+                                    TColor.focusSecondary.withValues(alpha: 80),
+                                width: 3,
+                              ),
+                            ),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 20),
                     Row(

@@ -175,10 +175,18 @@ class PlaylistScreenBottomSheet extends StatelessWidget {
 
                                 final result =
                                     await showModalBottomSheet<String>(
+                                  isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return CreatePlaylistBottomSheet();
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom,
+                                      ),
+                                      child: CreatePlaylistBottomSheet(),
+                                    );
                                   },
                                 );
 

@@ -21,7 +21,7 @@ Future<void> searchSongFilesByName(
   String searchQuery =
       searchTerm.trim().toLowerCase(); // Normalize search query
 
-  debugPrint("🔎 Searching for: '$searchQuery'");
+  debugPrint("Searching for: '$searchQuery'");
 
   for (String folder in folders.map((folder) => folder.folderPath).toList()) {
     Directory dir = Directory(folder);
@@ -32,7 +32,7 @@ Future<void> searchSongFilesByName(
       for (var file in files) {
         if (file is File) {
           String fileName = file.uri.pathSegments.last.toLowerCase();
-          debugPrint("📂 File found: $fileName");
+          debugPrint("File found: $fileName");
 
           // Check if the file name contains the search term
           if (fileName.contains(searchQuery)) {
@@ -40,7 +40,7 @@ Future<void> searchSongFilesByName(
             if (!foundFilesPaths.contains(file.path)) {
               foundFilesPaths
                   .add(file.path); // Avoid duplicates based on the full path
-              debugPrint("✅ Match found: $fileName");
+              debugPrint("Match found: $fileName");
 
               try {
                 foundSongs.add(
@@ -52,7 +52,7 @@ Future<void> searchSongFilesByName(
                   ),
                 );
               } catch (e) {
-                debugPrint("❌ Error processing file: ${file.path} | Error: $e");
+                debugPrint("Error processing file: ${file.path} | Error: $e");
               }
             }
           }
@@ -65,12 +65,12 @@ Future<void> searchSongFilesByName(
 
   if (foundSongs.isEmpty) {
     isSearchingSongsNotifier("nothing_found");
-    debugPrint("🚫 No matching files found.");
+    debugPrint("No matching files found.");
   } else {
     isSearchingSongsNotifier("finished");
   }
 
-  debugPrint("🎵 Final found files: ${foundSongs.map((s) => s.name).toList()}");
+  debugPrint("Final found files: ${foundSongs.map((s) => s.name).toList()}");
 }
 
 //
@@ -85,11 +85,11 @@ Future<void> searchRadioStationsByName(
   String searchQuery =
       searchTerm.trim().toLowerCase(); // Normalize search query
 
-  debugPrint("🔎 Searching for: '$searchQuery'");
+  debugPrint("Searching for: '$searchQuery'");
 
   for (RadioStationInfo station in radioStationsList) {
     String stationName = station.radioName.toLowerCase();
-    debugPrint("📂 Station found: $stationName");
+    debugPrint("Station found: $stationName");
 
     // Check if the station name contains the search term
     if (stationName.contains(searchQuery)) {
@@ -97,14 +97,13 @@ Future<void> searchRadioStationsByName(
       if (!foundStationNames.contains(stationName)) {
         foundStationNames
             .add(stationName); // Avoid duplicates based on the full path
-        debugPrint("✅ Match found: $stationName");
+        debugPrint("Match found: $stationName");
 
         try {
           foundStations.add(station);
-          debugPrint("❌ RÁDIO ADDED: ${station.radioName} ");
+          debugPrint("RÁDIO ADDED: ${station.radioName} ");
         } catch (e) {
-          debugPrint(
-              "❌ Error processing file: ${station.radioName} | Error: $e");
+          debugPrint("Error processing file: ${station.radioName} | Error: $e");
         }
       }
     }
@@ -112,11 +111,11 @@ Future<void> searchRadioStationsByName(
 
   if (foundStations.isEmpty) {
     isSearchingSongsNotifier("nothing_found");
-    debugPrint("🚫 No matching files found.");
+    debugPrint("No matching files found.");
   } else {
     isSearchingSongsNotifier("finished");
   }
 
   debugPrint(
-      "🎵 Final found files: ${foundStations.map((s) => s.radioName).toList()}");
+      "Final found files: ${foundStations.map((s) => s.radioName).toList()}");
 }

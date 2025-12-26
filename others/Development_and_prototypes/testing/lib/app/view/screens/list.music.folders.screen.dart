@@ -48,7 +48,6 @@ class HomePageFolderList extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     // Fetch the songs folders
-    // todo
     getMusicFoldersContent();
 
     return StreamBuilder<FetchingSongs>(

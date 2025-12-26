@@ -25,7 +25,7 @@ class AppDatabase {
   }
 
   Future<Database> _initDB(String filePath) async {
-    // debugPrint('📦 Initiating database...');
+    // debugPrint('Initiating database...');
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
 
@@ -177,7 +177,6 @@ class AppDatabase {
           where: 'folder_path = ?',
           whereArgs: [dbPath],
         );
-        debugPrint('Folder removed from database: $dbPath');
       }
     }
   }
@@ -312,10 +311,10 @@ class AppDatabase {
       }
     }
     if (matches.isEmpty) {
-      debugPrint("🚫 No matching files found.");
+      debugPrint("No matching files found.");
     } else {}
 
-    debugPrint("🎵 Final found files: ${matches.map((s) => s.path).toList()}");
+    debugPrint("Final found files: ${matches.map((s) => s.path).toList()}");
     return matches;
   }
 
@@ -341,12 +340,12 @@ class AppDatabase {
     }
     if (matches.isEmpty) {
       isSearchingSongsNotifier("nothing_found");
-      debugPrint("🚫 No matching files found.");
+      debugPrint("No matching files found.");
     } else {
       isSearchingSongsNotifier("finished");
     }
 
-    debugPrint("🎵 Final found files: ${matches.map((s) => s.path).toList()}");
+    debugPrint("Final found files: ${matches.map((s) => s.path).toList()}");
     return matches;
   }
 
@@ -377,7 +376,7 @@ class AppDatabase {
     return result.isNotEmpty;
   }
 
-  // Remove from favorites (toggle ❤️)
+  // Remove from favorites (toggle)
   Future<void> removeFromFavorites(
     String songPath,
     BuildContext context,
@@ -443,8 +442,6 @@ class AppDatabase {
 
     return result.map((e) => AudioInfo.fromMap(e)).toList();
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////
 
   Future<void> createEmptyPlaylist(String name) async {
     final db = await database;
@@ -585,7 +582,6 @@ class AppDatabase {
     );
   }
 
-  /////////////////////////////////////////////////////////////////////////////////////
   // Create database
   Future _createDB(Database db, int version) async {
     // ---------------------------------------------
