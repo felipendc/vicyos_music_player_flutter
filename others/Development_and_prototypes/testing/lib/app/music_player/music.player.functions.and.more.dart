@@ -157,17 +157,16 @@ Future<void> cleanPlaylist(BuildContext context) async {
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
 
-  if (context.mounted) {
-    currentSongName = AppLocalizations.of(context)!.the_playlist_is_empty;
-  }
-  if (context.mounted) {
-    currentSongAlbumName = AppLocalizations.of(context)!.unknown_album;
-  }
+  if (!context.mounted) return;
+  currentSongName = AppLocalizations.of(context)!.the_playlist_is_empty;
 
-  if (context.mounted) {
-    currentFolderPath =
-        AppLocalizations.of(context)!.the_song_folder_will_be_displayed_here;
-  }
+  if (!context.mounted) return;
+  currentSongAlbumName = AppLocalizations.of(context)!.unknown_album;
+
+  if (!context.mounted) return;
+  currentFolderPath =
+      AppLocalizations.of(context)!.the_song_folder_will_be_displayed_here;
+
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
   playingFromPlaylist = "";
@@ -430,9 +429,8 @@ Future<void> pickFolder(BuildContext context) async {
         preload: true,
       );
       firstSongIndex = true;
-      if (context.mounted) {
-        preLoadSongName(context);
-      }
+      if (!context.mounted) return;
+      preLoadSongName(context);
 
       // await playOrPause();
     } else {
@@ -533,9 +531,8 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
-      if (context.mounted) {
-        preLoadSongName(context);
-      }
+      if (!context.mounted) return;
+      preLoadSongName(context);
     } else {
       for (String filePath in selectedSongs) {
         // Try to extract metadata from the local file
@@ -835,10 +832,9 @@ Future<void> addSongToPlaylist({
     );
     rebuildPlaylistCurrentLengthNotifier();
 
-    if (context.mounted) {
-      showAddedToPlaylist(context, "Folder", songName(songPath),
-          AppLocalizations.of(context)!.added_to_the_current_playlist);
-    }
+    if (!context.mounted) return;
+    showAddedToPlaylist(context, "Folder", songName(songPath),
+        AppLocalizations.of(context)!.added_to_the_current_playlist);
   }
   rebuildFavoriteScreenNotifier();
 }
@@ -942,9 +938,8 @@ Future<void> removeSongPathFromCurrentPlaylist(
     if (songPath == currentSongFullPath &&
         audioPlayer.audioSources.length == 1) {
       // Clean playlist and rebuild the entire screen to clean the listview
-      if (context.mounted) {
-        cleanPlaylist(context);
-      }
+      if (!context.mounted) return;
+      cleanPlaylist(context);
     } else {
       await audioPlayer.removeAudioSourceAt(index);
       rebuildPlaylistCurrentLengthNotifier();

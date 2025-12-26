@@ -197,9 +197,8 @@ class PlaylistSongs extends StatelessWidget {
 
                                                 if (result ==
                                                     "playlist_was_deleted") {
-                                                  if (context.mounted) {
-                                                    Navigator.pop(context);
-                                                  }
+                                                  if (!context.mounted) return;
+                                                  Navigator.pop(context);
                                                 }
 
                                                 if (result ==
@@ -465,54 +464,56 @@ class PlaylistSongs extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
+                                            final songIsFavorite =
+                                                await AppDatabase.instance
+                                                    .isFavorite(song.path);
                                             if (deviceTypeIsSmartphone()) {
                                               await hideMiniPlayerNotifier(
                                                   true);
                                             }
-                                            if (context.mounted) {
-                                              showModalBottomSheet<String>(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return SongInfoMoreBottomSheet(
-                                                    playlistSongModel:
-                                                        playlistModel[
-                                                                playlistModelIndex]
-                                                            .playlistSongs,
-                                                    playListName: playlistModel[
-                                                            playlistModelIndex]
-                                                        .playlistName,
-                                                    playlistSongIndex: index,
-                                                    songModel: song,
-                                                    isFromFavoriteScreen: false,
-                                                    audioRoute:
-                                                        NavigationButtons
-                                                            .playlists,
-                                                    isFromPlaylistSongScreen:
-                                                        true,
-                                                  );
-                                                },
-                                              ).whenComplete(
-                                                () {
-                                                  if (context.mounted) {
-                                                    if (!Navigator.canPop(
-                                                        context)) {
-                                                      debugPrint(
-                                                          "No other screen is open.");
-                                                    } else {
-                                                      if (deviceTypeIsSmartphone()) {
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
-                                                      debugPrint(
-                                                          "There are other open screens.");
-                                                    }
+                                            if (!context.mounted) return;
+                                            showModalBottomSheet<String>(
+                                              isScrollControlled: true,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return SongInfoMoreBottomSheet(
+                                                  songIsFavorite:
+                                                      songIsFavorite,
+                                                  playlistSongModel:
+                                                      playlistModel[
+                                                              playlistModelIndex]
+                                                          .playlistSongs,
+                                                  playListName: playlistModel[
+                                                          playlistModelIndex]
+                                                      .playlistName,
+                                                  playlistSongIndex: index,
+                                                  songModel: song,
+                                                  isFromFavoriteScreen: false,
+                                                  audioRoute: NavigationButtons
+                                                      .playlists,
+                                                  isFromPlaylistSongScreen:
+                                                      true,
+                                                );
+                                              },
+                                            ).whenComplete(
+                                              () {
+                                                if (!context.mounted) return;
+                                                if (!Navigator.canPop(
+                                                    context)) {
+                                                  debugPrint(
+                                                      "No other screen is open.");
+                                                } else {
+                                                  if (deviceTypeIsSmartphone()) {
+                                                    hideMiniPlayerNotifier(
+                                                        false);
                                                   }
-                                                },
-                                              );
-                                            }
+                                                  debugPrint(
+                                                      "There are other open screens.");
+                                                }
+                                              },
+                                            );
                                           },
                                         ),
                                         onTap: () {

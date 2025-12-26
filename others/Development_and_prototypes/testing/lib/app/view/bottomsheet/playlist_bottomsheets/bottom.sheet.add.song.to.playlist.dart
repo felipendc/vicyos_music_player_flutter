@@ -197,23 +197,22 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 26,
                                         onPressed: () async {
-                                          if (context.mounted) {
-                                            addedToAPlaylistSnackBar(
-                                                context: context,
-                                                text: songModel.name,
-                                                message: AppLocalizations.of(
-                                                        context)!
-                                                    .added_successfully);
-                                          }
+                                          if (!context.mounted) return;
+                                          addedToAPlaylistSnackBar(
+                                              context: context,
+                                              text: songModel.name,
+                                              message:
+                                                  AppLocalizations.of(context)!
+                                                      .added_successfully);
+
                                           await AppDatabase.instance
                                               .addAudioToPlaylist(
                                             playlistName: playlist.playlistName,
                                             audio: songModel,
                                           );
                                           rebuildPlaylistScreenSNotifier();
-                                          if (context.mounted) {
-                                            Navigator.pop(context);
-                                          }
+                                          if (!context.mounted) return;
+                                          Navigator.pop(context);
                                         },
                                         icon: Icon(
                                           Icons.add,

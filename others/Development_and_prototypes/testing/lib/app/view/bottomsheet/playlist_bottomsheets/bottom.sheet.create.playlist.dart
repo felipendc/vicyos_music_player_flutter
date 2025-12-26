@@ -196,14 +196,13 @@ class CreatePlaylistBottomSheet extends StatelessWidget {
                           onPressed: () async {
                             if (await playlistNameAlreadyExist(
                                 playlistNameController.text)) {
-                              if (context.mounted) {
-                                renamePlaylistSnackBar(
-                                    context: context,
-                                    text: AppLocalizations.of(context)!
-                                        .this_name_has_already_been_used,
-                                    message: AppLocalizations.of(context)!
-                                        .please_try_another_one);
-                              }
+                              if (!context.mounted) return;
+                              renamePlaylistSnackBar(
+                                  context: context,
+                                  text: AppLocalizations.of(context)!
+                                      .this_name_has_already_been_used,
+                                  message: AppLocalizations.of(context)!
+                                      .please_try_another_one);
                             } else {
                               if (playlistNameController.text.isNotEmpty) {
                                 await AppDatabase.instance.createEmptyPlaylist(
@@ -211,17 +210,16 @@ class CreatePlaylistBottomSheet extends StatelessWidget {
 
                                 rebuildPlaylistScreenSNotifier();
 
-                                if (context.mounted) {
-                                  createPlaylistSnackBar(
-                                      context: context,
-                                      text: playlistNameController.text,
-                                      message: AppLocalizations.of(context)!
-                                          .playlist_created_successfully);
-                                }
+                                if (!context.mounted) return;
+                                createPlaylistSnackBar(
+                                    context: context,
+                                    text: playlistNameController.text,
+                                    message: AppLocalizations.of(context)!
+                                        .playlist_created_successfully);
+
                                 playlistNameController.clear();
-                                if (context.mounted) {
-                                  Navigator.pop(context, "");
-                                }
+                                if (!context.mounted) return;
+                                Navigator.pop(context, "");
                               }
                             }
                           },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/bottomsheet/radio.bottom.sheet.speed.rate.dart';
@@ -11,7 +12,6 @@ import 'package:vicyos_music/app/radio_player/widgets/radio.appbar.dart';
 import 'package:vicyos_music/app/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
@@ -325,21 +325,19 @@ class MainRadioPlayerView extends StatelessWidget {
                                       if (radioPlayer.shuffleModeEnabled) {
                                         await radioPlayer
                                             .setShuffleModeEnabled(false);
-                                        if (context.mounted) {
-                                          showRadioLoopMode(
-                                              context,
-                                              AppLocalizations.of(context)!
-                                                  .repeating_all);
-                                        }
+                                        if (!context.mounted) return;
+                                        showRadioLoopMode(
+                                            context,
+                                            AppLocalizations.of(context)!
+                                                .repeating_all);
                                       } else {
                                         await radioPlayer
                                             .setShuffleModeEnabled(true);
-                                        if (context.mounted) {
-                                          showRadioLoopMode(
-                                              context,
-                                              AppLocalizations.of(context)!
-                                                  .playback_is_shuffled);
-                                        }
+                                        if (!context.mounted) return;
+                                        showRadioLoopMode(
+                                            context,
+                                            AppLocalizations.of(context)!
+                                                .playback_is_shuffled);
                                       }
                                       radioShuffleModeNotifier();
                                     },

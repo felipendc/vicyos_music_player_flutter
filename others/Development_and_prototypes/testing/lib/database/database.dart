@@ -394,9 +394,8 @@ class AppDatabase {
       if (songPath == currentSongFullPath &&
           audioPlayer.audioSources.length == 1) {
         // Clean playlist and rebuild the entire screen to clean the listview
-        if (context.mounted) {
-          cleanPlaylist(context);
-        }
+        if (!context.mounted) return;
+        cleanPlaylist(context);
       } else {
         await audioPlayer.removeAudioSourceAt(index);
         rebuildPlaylistCurrentLengthNotifier();

@@ -4,6 +4,7 @@ import 'package:vicyos_music/app/music_player/music.player.functions.and.more.da
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.players.appbar.actions.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar mainPlayerViewAppBarTablet({
@@ -47,14 +48,19 @@ AppBar mainPlayerViewAppBarTablet({
               icon: Image.asset("assets/img/menu/more_horiz.png"),
               onPressed: isRadioOn
                   ? null
-                  : () {
+                  : () async {
                       if (audioPlayer.audioSources.isEmpty) {
                       } else {
+                        final songIsFavorite = await AppDatabase.instance
+                            .isFavorite(currentSongFullPath);
+
+                        if (!context.mounted) return;
                         showModalBottomSheet<void>(
                           backgroundColor: Colors.transparent,
                           context: context,
                           builder: (BuildContext context) {
                             return PlayerPreviewAppBarActionsBottomSheet(
+                              songIsFavorite: songIsFavorite,
                               fullFilePath: currentSongFullPath,
                               audioRoute: audioRoute,
                             );
@@ -117,14 +123,19 @@ AppBar mainPlayerViewAppBar({
             child: IconButton(
               splashRadius: 20,
               icon: Image.asset("assets/img/menu/more_horiz.png"),
-              onPressed: () {
+              onPressed: () async {
                 if (audioPlayer.audioSources.isEmpty) {
                 } else {
+                  final songIsFavorite = await AppDatabase.instance
+                      .isFavorite(currentSongFullPath);
+
+                  if (!context.mounted) return;
                   showModalBottomSheet<void>(
                     backgroundColor: Colors.transparent,
                     context: context,
                     builder: (BuildContext context) {
                       return PlayerPreviewAppBarActionsBottomSheet(
+                        songIsFavorite: songIsFavorite,
                         fullFilePath: currentSongFullPath,
                         audioRoute: audioRoute,
                       );
@@ -187,20 +198,23 @@ AppBar previewPlayerViewAppBar({
               splashRadius: 20,
               icon: Image.asset("assets/img/menu/more_horiz.png"),
               onPressed: () async {
+                final songIsFavorite =
+                    await AppDatabase.instance.isFavorite(filePath);
+                if (!context.mounted) return;
                 final result = await showModalBottomSheet<String>(
                   backgroundColor: Colors.transparent,
                   context: context,
                   builder: (BuildContext context) {
                     return PlayerPreviewAppBarActionsBottomSheet(
+                      songIsFavorite: songIsFavorite,
                       fullFilePath: filePath,
                       audioRoute: audioRoute,
                     );
                   },
                 );
                 if (result == "close_song_preview_bottom_sheet") {
-                  if (context.mounted) {
-                    Navigator.pop(context, "close_song_preview_bottom_sheet");
-                  }
+                  if (!context.mounted) return;
+                  Navigator.pop(context, "close_song_preview_bottom_sheet");
                 } else {
                   // Do not close the Player Preview bottom sheet
                 }

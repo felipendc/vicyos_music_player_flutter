@@ -12,12 +12,14 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
+  final bool songIsFavorite;
   final dynamic fullFilePath;
   final NavigationButtons audioRoute;
   const PlayerPreviewAppBarActionsBottomSheet({
     super.key,
     required this.fullFilePath,
     required this.audioRoute,
+    required this.songIsFavorite,
   });
 
   @override
@@ -164,57 +166,38 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                         onTap: () async {
                           List<AudioInfo> songModel = await AppDatabase.instance
                               .returnSongPathAsModel(fullFilePath);
-                          if (context.mounted) {
-                            Navigator.pop(context, "hide_bottom_player");
-                          }
+                          if (!context.mounted) return;
+                          Navigator.pop(context, "hide_bottom_player");
 
                           if (deviceTypeIsSmartphone()) {
                             await hideMiniPlayerNotifier(true);
                           }
 
-                          if (context.mounted) {
-                            final result = await showModalBottomSheet<String>(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AddSongToPlaylistBottomSheet(
-                                    songModel: songModel.first,
-                                  );
-                                });
+                          if (!context.mounted) return;
+                          final result = await showModalBottomSheet<String>(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AddSongToPlaylistBottomSheet(
+                                  songModel: songModel.first,
+                                );
+                              });
 
-                            if (result == "hide_bottom_player") {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(true);
-                              }
-                            } else {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(false);
-                              }
+                          if (result == "hide_bottom_player") {
+                            if (deviceTypeIsSmartphone()) {
+                              await hideMiniPlayerNotifier(true);
+                            }
+                          } else {
+                            if (deviceTypeIsSmartphone()) {
+                              await hideMiniPlayerNotifier(false);
                             }
                           }
                         },
                       ),
                     ),
-                    FutureBuilder<bool>(
-                      future: AppDatabase.instance.isFavorite(fullFilePath),
-                      builder: (context, asyncSnapshot) {
-                        // Treating the waiting
-                        if (asyncSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const SizedBox();
-                        }
-
-                        // If has error show a blank screen
-                        if (asyncSnapshot.hasError) {
-                          return const SizedBox();
-                        }
-
-                        // If snapshot doesn't have data return false
-                        final songIsFavorite = asyncSnapshot.data ?? false;
-
-                        if (songIsFavorite) {
-                          return Material(
+                    (songIsFavorite)
+                        ? Material(
                             color: Colors.transparent,
                             child: ListTile(
                               leading: Padding(
@@ -244,9 +227,8 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 rebuildFavoriteScreenNotifier();
                               },
                             ),
-                          );
-                        } else {
-                          return Material(
+                          )
+                        : Material(
                             color: Colors.transparent,
                             child: ListTile(
                               leading: Padding(
@@ -280,10 +262,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 rebuildFavoriteScreenNotifier();
                               },
                             ),
-                          );
-                        }
-                      },
-                    ),
+                          ),
                     if (isSongPreviewBottomSheetOpen)
                       Material(
                         color: Colors.transparent,
@@ -377,14 +356,12 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                           );
 
                           if (result == "close_song_preview_bottom_sheet") {
-                            if (context.mounted) {
-                              Navigator.pop(
-                                  context, "close_song_preview_bottom_sheet");
-                            }
+                            if (!context.mounted) return;
+                            Navigator.pop(
+                                context, "close_song_preview_bottom_sheet");
                           } else {
-                            if (context.mounted) {
-                              Navigator.pop(context);
-                            }
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
                           }
                         },
                       ),
