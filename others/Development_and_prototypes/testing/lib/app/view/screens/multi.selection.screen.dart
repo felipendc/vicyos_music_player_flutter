@@ -82,7 +82,7 @@ class MultiSelectionScreen extends StatelessWidget {
                               SizedBox(
                                 width: 200,
                                 child: Text(
-                                  "100 Músicas selecionadas",
+                                  "10 músicas selecionadas",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -192,6 +192,7 @@ class MultiSelectionScreen extends StatelessWidget {
               ),
             ),
             ///////////////////
+
             Expanded(
               child: StreamBuilder<audio_players.PlayerState>(
                   stream: audioPlayerPreview.onPlayerStateChanged,
@@ -258,16 +259,34 @@ class MultiSelectionScreen extends StatelessWidget {
                                   fontSize: 15,
                                 ),
                               ),
-                              trailing: IconButton(
-                                splashRadius: 24,
-                                iconSize: 20,
-                                icon: Image.asset(
-                                  "assets/img/menu/more_vert.png",
-                                  color: TColor.lightGray,
+                              trailing: SizedBox(
+                                height: 35,
+                                width: 48,
+                                child:
+                                    // IconButton(
+                                    //   splashRadius: 24,
+                                    //   iconSize: 20,
+                                    //   icon: Image.asset(
+                                    //     "assets/img/bottomsheet/checked_box_flaticon.png",
+                                    //     color: Colors.green,
+                                    //   ),
+                                    //   onPressed: () async {
+                                    //     // todo:
+                                    //   },
+                                    // ),
+
+                                    IconButton(
+                                  splashRadius: 24,
+                                  iconSize: 20,
+                                  icon: Image.asset(
+                                    "assets/img/bottomsheet/unchecked_box_flaticon.png",
+                                    color: TColor.lightGray,
+                                  ),
+                                  onPressed: () async {
+                                    // todo:
+                                  },
                                 ),
-                                onPressed: () async {
-                                  // todo:
-                                },
+                                //
                               ),
                               onTap: () async {
                                 if (radioPlayer.playing) {
@@ -306,8 +325,14 @@ class MultiSelectionScreen extends StatelessWidget {
             ),
 
             ///////////////////
+            Divider(
+              color: Colors.white12,
+              indent: 25,
+              endIndent: 25,
+              height: 2,
+            ),
             SizedBox(
-              height: 70,
+              height: 90,
               // color: Colors.white24,
               child: Center(
                 child: TextButton(
