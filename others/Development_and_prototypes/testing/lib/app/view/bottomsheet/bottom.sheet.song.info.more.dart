@@ -155,22 +155,13 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
-                    ////////////////////////////////////////////////////
+                    ///////////////////////////////////////////////////////////////////
                     Material(
                       color: Colors.transparent,
                       child: ListTile(
                         leading: Padding(
                           padding: const EdgeInsets.only(left: 13),
-                          child:
-                              // ImageIcon(
-                              //
-                              //   AssetImage(
-                              //       "assets/img/bottomsheet/remove_song_flaticon.png"),
-                              //   color: TColor.focus,
-                              //   size: 33,
-                              // ),
-
-                              Icon(
+                          child: Icon(
                             Icons.select_all_rounded,
                             color: TColor.focusSecondary,
                             size: 30,
@@ -185,15 +176,19 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
+                          // Check if audioPlayer was currently playing a song
+                          if (audioPlayer.playerState.playing) {
+                            audioPlayerWasPlaying = true;
+                          } else {
+                            audioPlayerWasPlaying = false;
+                          }
+
                           Navigator.pop(context, "hide_bottom_player");
 
                           if (deviceTypeIsSmartphone()) {
                             // Hide radio mini player if it is open
                             hideMiniRadioPlayerNotifier(true);
                           }
-                          // Abrir uma tela de multi seleção
-                          // Passar uma lista de List<AudioInfo> listOfSongModel no parâmetro.
-                          // Ocultar o mini-player esperando um um result
 
                           final result = await Navigator.push(
                             context,
@@ -212,10 +207,38 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               // Hide radio mini player if it is open
                               hideMiniRadioPlayerNotifier(true);
                             }
+                            audioPlayerPreview.stop();
+                            audioPlayerPreview.release();
+
+                            if (audioPlayerWasPlaying) {
+                              Future.microtask(
+                                () async {
+                                  await audioPlayer.play();
+                                },
+                              );
+                            }
+
+                            if (isRadioOn && isRadioPaused) {
+                              radioPlayer.play();
+                            }
                           } else {
                             if (deviceTypeIsSmartphone()) {
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
                               hideMiniPlayerNotifier(false);
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
                             }
                           }
                         },

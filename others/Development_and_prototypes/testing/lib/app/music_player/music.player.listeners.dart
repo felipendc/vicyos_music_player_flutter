@@ -1,6 +1,7 @@
 // This function should be used on a flutter.initState or GetX.on_init_app();
 
 import 'package:audio_service/audio_service.dart';
+import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/build_flags/build.flags.dart';
@@ -89,6 +90,24 @@ void audioPlayerStreamListeners() {
   }).listen((sourceIndex) {
     currentIndex = sourceIndex ?? 0;
   });
+}
+
+void audioPlayerPreviewListener() {
+  // Check if the audioPlayerPreview is playing, paused, or stopped
+  audioPlayerPreview.onPlayerStateChanged.listen(
+    (audio_players.PlayerState state) {
+      if (state == audio_players.PlayerState.playing) {
+        debugPrint("Playing");
+        isPlayerPreviewPlaying = true;
+      } else if (state == audio_players.PlayerState.paused) {
+        debugPrint("Paused");
+        isPlayerPreviewPlaying = false;
+      } else if (state == audio_players.PlayerState.stopped) {
+        debugPrint("Stopped");
+        isPlayerPreviewPlaying = false;
+      }
+    },
+  );
 }
 
 // Update and display the title, artist, album, and index of the song

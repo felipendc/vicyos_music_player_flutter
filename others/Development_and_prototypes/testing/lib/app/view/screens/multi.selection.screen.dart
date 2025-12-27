@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/components/music_visualizer.dart';
+import 'package:vicyos_music/app/components/music_visualizer.player.preview.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
@@ -27,6 +27,7 @@ class MultiSelectionScreen extends StatelessWidget {
     setScreenOrientation();
 
     final bool thisIsSelectionScreen = true;
+    String currentSongPreview = "";
 
     var media = MediaQuery.sizeOf(context);
 
@@ -206,14 +207,14 @@ class MultiSelectionScreen extends StatelessWidget {
                           child: GestureDetector(
                             child: ListTile(
                               key: ValueKey(song.path),
-                              leading: (song.path == currentSongFullPath)
+                              leading: (song.path == currentSongPreview)
                                   ? Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, left: 5.0, bottom: 10.0),
                                       child: SizedBox(
                                         height: 27,
                                         width: 30,
-                                        child: MusicVisualizer(
+                                        child: MusicVisualizerPlayerPreview(
                                           barCount: 6,
                                           colors: [
                                             TColor.focus,
@@ -275,22 +276,23 @@ class MultiSelectionScreen extends StatelessWidget {
                                 if (audioPlayerWasPlaying) {
                                   await audioPlayer.pause();
                                 }
-                                if (playerState ==
-                                        audio_players.PlayerState.stopped ||
-                                    playerState ==
-                                        audio_players.PlayerState.completed ||
-                                    playerState == null) {
-                                  if (audioPlayer.playing == true) {
-                                    audioPlayer.pause();
-                                  }
+
+                                ///////// CONTROLLING THE PREVIEW PLAYER
+                                if (currentSongPreview != song.path) {
+                                  previewSong(song.path);
                                   audioPlayerPreview.resume();
-                                } else if (playerState ==
-                                    audio_players.PlayerState.paused) {
-                                  if (audioPlayer.playing == true) {
-                                    audioPlayer.pause();
+                                  currentSongPreview = song.path;
+                                } else {
+                                  if (playerState ==
+                                      audio_players.PlayerState.paused) {
+                                    audioPlayerPreview.resume();
                                   }
-                                  audioPlayerPreview.resume();
+                                  if (playerState ==
+                                      audio_players.PlayerState.playing) {
+                                    audioPlayerPreview.pause();
+                                  }
                                 }
+                                /////////
                               },
                             ),
                           ),

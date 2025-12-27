@@ -42,6 +42,8 @@ NavigationButtons songCurrentRouteType = NavigationButtons.none;
 // Manual listener only when playlist is empty
 NavigationButtons activeNavigationButton = NavigationButtons.none;
 
+late bool
+    isPlayerPreviewPlaying; // It will be initiated by the listener in the main()
 String playingFromPlaylist = "";
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;

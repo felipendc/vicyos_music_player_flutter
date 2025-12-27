@@ -25,6 +25,7 @@ Future<void> onInitPlayer() async {
   audioPlayerPreview = audio_players.AudioPlayer();
   audioPlayerPreview.setReleaseMode(audio_players.ReleaseMode.stop);
   audioPlayerPreviewEventStateStreamNotifier();
+  audioPlayerPreviewListener();
 
   // Radio Player
   radioPlayer = AudioPlayer();
