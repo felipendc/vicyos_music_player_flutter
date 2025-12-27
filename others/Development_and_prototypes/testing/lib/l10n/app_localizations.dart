@@ -582,6 +582,12 @@ abstract class AppLocalizations {
   /// **'Select songs:'**
   String get select_files;
 
+  /// No description provided for @total_of_songs_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 songs selected} =1{1 song selected} other{{count} songs selected}}'**
+  String total_of_songs_selected(num count);
+
   /// No description provided for @create_a_playlist.
   ///
   /// In en, this message translates to:

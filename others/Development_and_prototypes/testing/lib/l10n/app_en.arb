@@ -82,6 +82,13 @@
   "multiple_selection": "Multiple selection",
   "select_files": "Select songs:",
 
+
+  "total_of_songs_selected": "{count, plural, =0{0 songs selected} =1{1 song selected} other{{count} songs selected}}",
+  "@total_of_songs_selected": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
   "@create_a_playlist": {
     "placeholders": {

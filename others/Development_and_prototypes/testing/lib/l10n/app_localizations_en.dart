@@ -252,6 +252,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_files => 'Select songs:';
 
   @override
+  String total_of_songs_selected(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count songs selected',
+      one: '1 song selected',
+      zero: '0 songs selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String create_a_playlist(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

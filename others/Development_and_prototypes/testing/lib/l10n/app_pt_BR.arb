@@ -58,7 +58,7 @@
   "add_to_favorites": "Adicionar aos favoritos",
   "remove_from_favorites": "Remover dos favoritos",
   "delete_a_playlist": "Excluir uma playlist",
-  "what_to_do": "Oque fazer?",
+  "what_to_do": "O que fazer?",
   "create": "Criar",
   "this_name_has_already_been_used": "Esse nome já foi usado",
   "please_try_another_one": "Por favor, tente outro nome",
@@ -81,6 +81,14 @@
   "removed_from_this_playlist": "Remover dessa playlist",
   "multiple_selection": "Seleção múltipla",
   "select_files": "Selecionar músicas:",
+
+
+  "total_of_songs_selected": "{count, plural, =0{0 músicas selecionadas} =1{1 música selecionada} other{{count} músicas selecionadas}}",
+  "@total_of_songs_selected": {
+    "placeholders": {
+      "count": {}
+    }
+  },
 
   "create_a_playlist": "{count, plural, =0{Criar uma playlist} =1{Criar uma nova playlist} other{Cria uma nova playlist}}",
   "@create_a_playlist": {
