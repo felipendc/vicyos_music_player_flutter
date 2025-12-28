@@ -56,7 +56,11 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 615, // Adjust the height
+        height: (isFromFavoriteScreen)
+            ? 620
+            : (isFromPlaylistSongScreen)
+                ? 687
+                : 556, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
