@@ -83,6 +83,7 @@
   "select_files": "Select songs:",
   "zero_songs_selected": "0 songs selected",
   "select_something_first": "Select something first",
+  "choose_an_option": "Chose an option:",
 
 
   "deleted_successfully_plural": "{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}",
@@ -140,30 +141,35 @@
       "count": {}
     }
   },
+
   "total_of_playlist": "{count, plural, =0{0 playlists} =1{Total: 1 playlist} other{Total: {count} playlists}}",
   "@total_of_playlist": {
     "placeholders": {
       "count": {}
     }
   },
+
   "playlist_total_of_songs": "{count, plural, =0{songs} =1{song} other{songs}}",
   "@playlist_total_of_songs": {
     "placeholders": {
       "count": {}
     }
   },
+
   "total_of_songs": "{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}",
   "@total_of_songs": {
     "placeholders": {
       "count": {}
     }
   },
+
   "multiple_shared_files": "{count, plural, =0{} =1{This file was shared using the Vicyos Music app.} other{These {count} files were shared using the Vicyos Music app.}}",
   "@multiple_shared_files": {
     "placeholders": {
       "count": {}
     }
   },
+
   "number_of_songs_in_folder": "{count, plural, =0{No songs} =1{1 song} other{{count} songs}}",
   "@number_of_songs_in_folder": {
     "placeholders": {

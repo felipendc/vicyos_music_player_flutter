@@ -583,8 +583,6 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
   }
 }
 
-//
-
 Future<void> setFolderAsPlaylist({
   String? playlistName,
   required List<AudioInfo> currentFolder,

@@ -258,6 +258,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_something_first => 'Select something first';
 
   @override
+  String get choose_an_option => 'Chose an option:';
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -69,7 +69,10 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Arquivo selecionado(s)",
+                                AppLocalizations.of(context)!
+                                    .total_of_songs_selected(
+                                        selectedItemsFromMultiselectionScreen
+                                            .length),
                                 style: TextStyle(
                                   color: TColor.primaryText28
                                       .withValues(alpha: 0.84),
@@ -90,7 +93,8 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                 width: 270,
                                 // color: Colors.grey,
                                 child: Text(
-                                  "Escolha uma opção",
+                                  AppLocalizations.of(context)!
+                                      .choose_an_option,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -161,12 +165,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                               color: TColor.focus,
                               size: 33,
                             ),
-
-                            // Icon(
-                            //   Icons.library_music,
-                            //   color: TColor.focusSecondary,
-                            //   size: 30,
-                            // ),
                           ),
                           title: Text(
                             AppLocalizations.of(context)!

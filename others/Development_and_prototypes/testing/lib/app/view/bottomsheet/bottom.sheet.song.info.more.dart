@@ -155,7 +155,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                 color: TColor.bg,
                 child: ListView(
                   children: [
-                    ///////////////////////////////////////////////////////////////////
                     Material(
                       color: Colors.transparent,
                       child: ListTile(
@@ -246,7 +245,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         },
                       ),
                     ),
-                    ////////////////////////////////////////////////////////////////////////////////
+
                     if (isFromPlaylistSongScreen)
                       Material(
                         color: Colors.transparent,

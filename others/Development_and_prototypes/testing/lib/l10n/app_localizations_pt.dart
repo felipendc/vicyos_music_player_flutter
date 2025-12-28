@@ -258,6 +258,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get select_something_first => 'Select something first';
 
   @override
+  String get choose_an_option => 'Chose an option:';
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -666,6 +669,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get select_something_first => 'Selecione algo primeiro';
+
+  @override
+  String get choose_an_option => 'Escolha uma opção:';
 
   @override
   String deleted_successfully_plural(num count) {

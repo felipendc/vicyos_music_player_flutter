@@ -594,6 +594,12 @@ abstract class AppLocalizations {
   /// **'Select something first'**
   String get select_something_first;
 
+  /// No description provided for @choose_an_option.
+  ///
+  /// In en, this message translates to:
+  /// **'Chose an option:'**
+  String get choose_an_option;
+
   /// No description provided for @deleted_successfully_plural.
   ///
   /// In en, this message translates to:

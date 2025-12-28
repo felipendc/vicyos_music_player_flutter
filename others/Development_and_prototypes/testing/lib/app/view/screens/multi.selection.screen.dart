@@ -232,7 +232,6 @@ class MultiSelectionScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ///////////////////
 
             Expanded(
               child: StreamBuilder(
@@ -351,7 +350,7 @@ class MultiSelectionScreen extends StatelessWidget {
                                         await audioPlayer.pause();
                                       }
 
-                                      ///////// CONTROLLING THE PREVIEW PLAYER
+                                      ///////// CONTROLLING THE PREVIEW PLAYER //////
                                       if (currentSongPreview != song.path) {
                                         previewSong(song.path);
                                         audioPlayerPreview.resume();
@@ -366,7 +365,7 @@ class MultiSelectionScreen extends StatelessWidget {
                                           audioPlayerPreview.pause();
                                         }
                                       }
-                                      /////////
+                                      ///////////////////////////////////////////////
                                     },
                                   ),
                                 ),
