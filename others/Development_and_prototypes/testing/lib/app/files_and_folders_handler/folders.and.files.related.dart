@@ -248,9 +248,9 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
         files: [XFile(shareFile)],
       ),
     );
-  } else if (shareFile is List) {
+  } else if (shareFile is Set<AudioInfo>) {
     //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
-    List<XFile> files = shareFile.map((path) => XFile(path)).toList();
+    List<XFile> files = shareFile.map((path) => XFile(path.path)).toList();
     await SharePlus.instance.share(
       ShareParams(
         text: AppLocalizations.of(context)!
@@ -262,7 +262,10 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
 }
 
 Future<void> deleteSongFromStorage(
-    BuildContext context, String wasDeleted, String songPath) async {
+    {required BuildContext context,
+    required String wasDeleted,
+    required String songPath,
+    bool? multipleFiles}) async {
   if (wasDeleted == "Files deleted successfully") {
     // ----------------------------------------------------------
 
@@ -300,14 +303,20 @@ Future<void> deleteSongFromStorage(
     rebuildSongsListScreenNotifier();
     rebuildHomePageFolderListNotifier(FetchingSongs.done);
     currentSongNavigationRouteNotifier();
-    if (context.mounted) {
-      Navigator.pop(context, "close_song_preview_bottom_sheet");
+    if (multipleFiles != true || multipleFiles == null) {
+      if (context.mounted) {
+        Navigator.pop(context, "close_song_preview_bottom_sheet");
+      }
     }
   } else if (wasDeleted != "Files deleted successfully") {
-    if (context.mounted) {
-      Navigator.pop(context);
+    if (multipleFiles != true || multipleFiles == null) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
+
+  // if (multipleFiles != true || multipleFiles == null) {
   if (context.mounted) {
     showFileDeletedMessage(
       context,
@@ -315,4 +324,5 @@ Future<void> deleteSongFromStorage(
       AppLocalizations.of(context)!.deleted_successfully,
     );
   }
+  // }
 }

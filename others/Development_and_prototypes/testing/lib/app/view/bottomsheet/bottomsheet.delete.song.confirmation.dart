@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_media_delete/flutter_media_delete.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
+
+import '../../music_player/music.player.stream.controllers.dart';
 
 class DeleteSongConfirmationDialog extends StatelessWidget {
   final dynamic songPath;
@@ -82,14 +87,70 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                       onPressed: () async {
                         Future.microtask(
                           () async {
-                            FlutterMediaDelete.deleteMediaFile(songPath).then(
-                              (wasDeleted) async {
-                                if (context.mounted) {
-                                  await deleteSongFromStorage(
-                                      context, wasDeleted, songPath);
-                                }
-                              },
-                            );
+                            if (songPath is String) {
+                              print("xxxxxxx STRING  ${songPath}");
+
+                              FlutterMediaDelete.deleteMediaFile(
+                                      songPath.toString())
+                                  .then(
+                                (wasDeleted) async {
+                                  if (context.mounted) {
+                                    await deleteSongFromStorage(
+                                        context: context,
+                                        wasDeleted: wasDeleted,
+                                        songPath: songPath);
+                                  }
+                                },
+                              );
+                            } else if (songPath is Set<AudioInfo>) {
+                              print("xxxxxxx DYNAMIC  ${songPath}");
+
+                              Set<AudioInfo> selectedItemsTemp = {};
+
+                              for (AudioInfo song in songPath) {
+                                selectedItemsTemp.add(song);
+
+                                await FlutterMediaDelete.deleteMediaFile(
+                                        song.path.toString())
+                                    .then(
+                                  (wasDeleted) async {
+                                    if (context.mounted) {
+                                      await deleteSongFromStorage(
+                                          context: context,
+                                          wasDeleted: wasDeleted,
+                                          songPath: song.path,
+                                          multipleFiles: true);
+                                    }
+                                  },
+                                );
+                              }
+
+                              if (context.mounted) {
+                                showFileDeletedMessage(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .song_plural(songPath.length),
+                                  AppLocalizations.of(context)!
+                                      .deleted_successfully_plural(
+                                          songPath.length),
+                                );
+                              }
+
+                              //------------------------------------------
+                              for (AudioInfo song in selectedItemsTemp) {
+                                selectedItemsFromMultiselectionScreen
+                                    .remove(song);
+                                songModelListGlobal.remove(song);
+
+                                // Rebuild the top Container and the listview only
+                                rebuildMultiSelectionScreenNotifier();
+                              }
+                              //-----------------------------------------
+
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            }
                           },
                         );
                       },

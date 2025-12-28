@@ -383,7 +383,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                     listOfSongModel:
                                                         favoriteSongs,
                                                     isFromSongsScreen: false,
-                                                    songIsFavorite:
+                                                    songIsFavoriteScreen:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,

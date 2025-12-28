@@ -432,7 +432,7 @@ class SongsListScreen extends StatelessWidget {
                                                   return SongInfoMoreBottomSheet(
                                                     listOfSongModel: songs,
                                                     isFromSongsScreen: true,
-                                                    songIsFavorite:
+                                                    songIsFavoriteScreen:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,

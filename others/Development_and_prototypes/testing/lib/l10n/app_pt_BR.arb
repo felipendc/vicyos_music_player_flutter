@@ -81,7 +81,51 @@
   "removed_from_this_playlist": "Remover dessa playlist",
   "multiple_selection": "Seleção múltipla",
   "select_files": "Selecionar músicas:",
+  "zero_songs_selected": "Nenhuma música selecionada",
+  "select_something_first": "Selecione algo primeiro",
 
+
+  "deleted_successfully_plural": "{count, plural, =0{Deletadas com sucesso!} =1{Deletada com sucesso!} other{Deletadas com sucesso!}}",
+  "@deleted_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_to_play_next_plural": "{count, plural, =0{Adicionadas para tocar em seguida} =1{Adicionada para tocar em seguida} other{Adicionadas para tocar em seguida}}",
+  "@added_to_play_next_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_favorite_plural": "{count, plural, =0{Removidas dos favoritos!} =1{Removida dos favoritos!} other{Removidas dos favoritos!}}",
+  "@removed_from_the_favorite_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_playlist_plural": "{count, plural, =0{Removidas da playlist} =1{Removida da playlist} other{Removidas da playlist}}",
+  "@removed_from_the_playlist_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "song_plural": "{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}",
+  "@song_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_successfully_plural": "{count, plural, =0{Adicionadas com sucesso!} =1{Adicionada com sucesso!} other{Adicionadas com sucesso!}}",
+  "@added_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
 
   "total_of_songs_selected": "{count, plural, =0{0 músicas selecionadas} =1{1 música selecionada} other{{count} músicas selecionadas}}",
   "@total_of_songs_selected": {

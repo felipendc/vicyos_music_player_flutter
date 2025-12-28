@@ -10,11 +10,11 @@ import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class AddSongToPlaylistBottomSheet extends StatelessWidget {
-  final AudioInfo songModel;
+  final dynamic songModels;
 
   const AddSongToPlaylistBottomSheet({
     super.key,
-    required this.songModel,
+    required this.songModels,
   });
 
   @override
@@ -197,22 +197,61 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 26,
                                         onPressed: () async {
-                                          if (context.mounted) {
-                                            addedToAPlaylistSnackBar(
-                                                context: context,
-                                                text: songModel.name,
-                                                message: AppLocalizations.of(
-                                                        context)!
-                                                    .added_successfully);
-                                          }
-                                          await AppDatabase.instance
-                                              .addAudioToPlaylist(
-                                            playlistName: playlist.playlistName,
-                                            audio: songModel,
-                                          );
-                                          rebuildPlaylistScreenSNotifier();
-                                          if (context.mounted) {
-                                            Navigator.pop(context);
+                                          if (songModels is Set<AudioInfo>) {
+                                            if (context.mounted) {
+                                              addedToAPlaylistSnackBar(
+                                                  context: context,
+                                                  text: (songModels.length == 1)
+                                                      ? songModels.first.name
+                                                      : AppLocalizations.of(
+                                                              context)!
+                                                          .song_plural(
+                                                              songModels
+                                                                  .length),
+                                                  message: AppLocalizations.of(
+                                                          context)!
+                                                      .added_successfully_plural(
+                                                          songModels.length));
+                                            }
+
+                                            // Add each song<AudioInfo> from songModels to the playlist
+                                            for (AudioInfo song in songModels) {
+                                              await AppDatabase.instance
+                                                  .addAudioToPlaylist(
+                                                playlistName:
+                                                    playlist.playlistName,
+                                                audio: song,
+                                              );
+                                            }
+
+                                            rebuildPlaylistScreenSNotifier();
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
+                                          } else if (songModels is AudioInfo) {
+                                            if (context.mounted) {
+                                              addedToAPlaylistSnackBar(
+                                                  context: context,
+                                                  text: songModels.name,
+                                                  message: AppLocalizations.of(
+                                                          context)!
+                                                      .added_successfully);
+                                            }
+
+                                            // Add each song<AudioInfo> from songModels to the playlist
+                                            for (AudioInfo song in songModels) {
+                                              await AppDatabase.instance
+                                                  .addAudioToPlaylist(
+                                                playlistName:
+                                                    playlist.playlistName,
+                                                audio: song,
+                                              );
+                                            }
+
+                                            rebuildPlaylistScreenSNotifier();
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
                                           }
                                         },
                                         icon: Icon(
@@ -257,7 +296,7 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                               bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
                             child: CreatePlaylistAndAddSongBottomSheet(
-                              addSong: songModel,
+                              addSongs: songModels,
                             ),
                           );
                         },

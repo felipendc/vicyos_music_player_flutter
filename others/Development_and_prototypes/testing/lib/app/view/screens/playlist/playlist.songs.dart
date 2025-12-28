@@ -473,7 +473,9 @@ class PlaylistSongs extends StatelessWidget {
                                                   true);
                                             }
                                             if (context.mounted) {
-                                              showModalBottomSheet<String>(
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
                                                 isScrollControlled: true,
                                                 backgroundColor:
                                                     Colors.transparent,
@@ -482,7 +484,7 @@ class PlaylistSongs extends StatelessWidget {
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
                                                     isFromSongsScreen: false,
-                                                    songIsFavorite:
+                                                    songIsFavoriteScreen:
                                                         songIsFavorite,
                                                     listOfSongModel: playlistModel[
                                                             playlistModelIndex]
@@ -518,6 +520,18 @@ class PlaylistSongs extends StatelessWidget {
                                                   }
                                                 },
                                               );
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      true);
+                                                }
+                                              } else {
+                                                if (deviceTypeIsSmartphone()) {
+                                                  await hideMiniPlayerNotifier(
+                                                      false);
+                                                }
+                                              }
                                             }
                                           },
                                         ),

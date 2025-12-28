@@ -9,10 +9,10 @@ import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
-  final AudioInfo addSong;
+  final Set<AudioInfo> addSongs;
   const CreatePlaylistAndAddSongBottomSheet({
     super.key,
-    required this.addSong,
+    required this.addSongs,
   });
 
   @override
@@ -213,11 +213,13 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                                 await AppDatabase.instance.createEmptyPlaylist(
                                     playlistNameController.text);
 
-                                // Add a song to this playlist
-                                await AppDatabase.instance.addAudioToPlaylist(
-                                    playlistName: playlistNameController.text,
-                                    audio: addSong);
-                                rebuildPlaylistScreenSNotifier();
+                                for (AudioInfo song in addSongs) {
+                                  // Add a song to this playlist
+                                  await AppDatabase.instance.addAudioToPlaylist(
+                                      playlistName: playlistNameController.text,
+                                      audio: song);
+                                  rebuildPlaylistScreenSNotifier();
+                                }
 
                                 if (context.mounted) {
                                   createPlaylistSnackBar(

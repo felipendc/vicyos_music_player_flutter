@@ -283,7 +283,7 @@ class SearchScreen extends StatelessWidget {
                                     return SongInfoMoreBottomSheet(
                                       listOfSongModel: searchSongFromDataBase,
                                       isFromSongsScreen: true,
-                                      songIsFavorite: songIsFavorite,
+                                      songIsFavoriteScreen: songIsFavorite,
                                       isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
                                       isFromFavoriteScreen: false,

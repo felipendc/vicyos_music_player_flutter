@@ -181,7 +181,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AddSongToPlaylistBottomSheet(
-                                    songModel: songModel.first,
+                                    songModels: songModel.first,
                                   );
                                 });
 

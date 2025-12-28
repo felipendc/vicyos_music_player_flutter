@@ -2,97 +2,112 @@ import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/music_visualizer.player.preview.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.selection.info.more.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class MultiSelectionScreen extends StatelessWidget {
+  final String? playlistName;
   final bool isFavoriteScreen;
   final bool isSongScreen;
   final bool isPlaylistScreen;
   final List<AudioInfo> songModelList;
+  final NavigationButtons audioRoute;
+
   const MultiSelectionScreen({
     super.key,
     required this.isFavoriteScreen,
     required this.isSongScreen,
     required this.isPlaylistScreen,
     required this.songModelList,
+    required this.audioRoute,
+    this.playlistName,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Clear all the songs from the selectedItems and songModelListGlobal lists
+    // to avoid overload of unwanted files!
+    selectedItemsFromMultiselectionScreen.clear();
+    songModelListGlobal.clear();
+
+    // Make a copy of this list to manipulate the listview screen state
+    songModelListGlobal = songModelList;
+
     // Set the preferred orientations to portrait mode when this screen is built
     setScreenOrientation();
 
-    // final bool thisIsSelectionScreen = true;
     String currentSongPreview = "";
 
     bool selectAllItems = false;
 
-    Set<AudioInfo> selectedItems = <AudioInfo>{};
     var media = MediaQuery.sizeOf(context);
 
     return SafeArea(
       child: Scaffold(
-        body: StreamBuilder(
-            stream: rebuildMultiSelectionScreenStreamController.stream,
-            builder: (context, asyncSnapshot) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 13.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        // color: Colors.grey,
-                        color: Color(0xff181B2C),
-                      ),
-                      // height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 13.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.grey,
+                  color: Color(0xff181B2C),
+                ),
+                // height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 8, 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 30,
-                                      width: 200,
-                                      // color: Colors.grey,
-                                      child: Text(
-                                        AppLocalizations.of(context)!
-                                            .select_files,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: TColor.primaryText
-                                              .withValues(alpha: 0.84),
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          shadows: [
-                                            BoxShadow(
-                                              color: Colors.black
-                                                  .withValues(alpha: 0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 8,
-                                              offset: Offset(2, 4),
-                                            ),
-                                          ],
-                                        ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 30,
+                                width: 200,
+                                // color: Colors.grey,
+                                child: Text(
+                                  AppLocalizations.of(context)!.select_files,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: TColor.primaryText
+                                        .withValues(alpha: 0.84),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                    shadows: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.black.withValues(alpha: 0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 4),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 190,
-                                      child: Text(
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 190,
+                                child: StreamBuilder(
+                                    stream:
+                                        rebuildMultiSelectionScreenStreamController
+                                            .stream,
+                                    builder: (context, asyncSnapshot) {
+                                      return Text(
                                         AppLocalizations.of(context)!
                                             .total_of_songs_selected(
-                                                selectedItems.length),
+                                                selectedItemsFromMultiselectionScreen
+                                                    .length),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -109,125 +124,129 @@ class MultiSelectionScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Material(
+                                color: Colors.transparent,
+                                child: SizedBox(
+                                  width: 35,
+                                  height: 35,
+                                  child: IconButton(
+                                    splashRadius: 20,
+                                    iconSize: 10,
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Image.asset(
+                                      "assets/img/menu/arrow_back_ios.png",
+                                      color: TColor.lightGray,
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                Row(
-                                  children: [
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: IconButton(
-                                          splashRadius: 20,
-                                          iconSize: 10,
-                                          onPressed: () async {
-                                            Navigator.pop(context);
-                                          },
-                                          icon: Image.asset(
-                                            "assets/img/menu/arrow_back_ios.png",
-                                            color: TColor.lightGray,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: SizedBox(
-                                        width: 45,
-                                        height: 45,
-                                        child: IconButton(
-                                          splashRadius: 20,
-                                          iconSize: 10,
-                                          onPressed: () {
-                                            selectAllItems = !selectAllItems;
-                                            print(selectAllItems);
-                                            if (selectAllItems == true) {
-                                              selectedItems
-                                                  .addAll(songModelList);
-                                              rebuildMultiSelectionScreenNotifier();
-                                            } else {
-                                              selectedItems.clear();
-                                              rebuildMultiSelectionScreenNotifier();
-                                            }
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                child: SizedBox(
+                                  width: 45,
+                                  height: 45,
+                                  child: IconButton(
+                                    splashRadius: 20,
+                                    iconSize: 10,
+                                    onPressed: () {
+                                      selectAllItems = !selectAllItems;
+                                      print(selectAllItems);
+                                      if (selectAllItems == true) {
+                                        selectedItemsFromMultiselectionScreen
+                                            .addAll(songModelListGlobal);
+                                        rebuildMultiSelectionScreenNotifier();
+                                      } else {
+                                        selectedItemsFromMultiselectionScreen
+                                            .clear();
+                                        rebuildMultiSelectionScreenNotifier();
+                                      }
 
-                                            print(
-                                                "seleted length ${selectedItems.length}");
-                                          },
-                                          icon: Icon(
-                                            Icons.select_all_rounded,
-                                            color: TColor.lightGray,
-                                            size: 26,
-                                          ),
+                                      print(
+                                          "seleted length ${selectedItemsFromMultiselectionScreen.length}");
+                                    },
+                                    icon: Icon(
+                                      Icons.select_all_rounded,
+                                      color: TColor.lightGray,
+                                      size: 26,
+                                    ),
 
-                                          // Image.asset(
-                                          //   "assets/img/menu/menu_open.png",
-                                          //   color: TColor.lightGray,
-                                          // ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(9, 0, 8, 0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              media.width * 0.2),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black
-                                                  .withValues(alpha: 0.2),
-                                              spreadRadius: 5,
-                                              blurRadius: 8,
-                                              offset: Offset(2, 4),
-                                            ),
-                                          ],
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              media.width * 0.2),
-                                          child: StreamBuilder<void>(
-                                            stream: null,
-                                            builder: (context, snapshot) {
-                                              return Image.asset(
-                                                "assets/img/pics/default.png",
-                                                width: deviceTypeIsTablet()
-                                                    ? 130 * 0.44
-                                                    : media.width * 0.13,
-                                                height: deviceTypeIsTablet()
-                                                    ? 130 * 0.44
-                                                    : media.width * 0.13,
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    // Image.asset(
+                                    //   "assets/img/menu/menu_open.png",
+                                    //   color: TColor.lightGray,
+                                    // ),
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(9, 0, 8, 0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.black.withValues(alpha: 0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 8,
+                                        offset: Offset(2, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        media.width * 0.2),
+                                    child: StreamBuilder<void>(
+                                      stream: null,
+                                      builder: (context, snapshot) {
+                                        return Image.asset(
+                                          "assets/img/pics/default.png",
+                                          width: deviceTypeIsTablet()
+                                              ? 130 * 0.44
+                                              : media.width * 0.13,
+                                          height: deviceTypeIsTablet()
+                                              ? 130 * 0.44
+                                              : media.width * 0.13,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  ///////////////////
+                  ],
+                ),
+              ),
+            ),
+            ///////////////////
 
-                  Expanded(
-                    child: StreamBuilder<audio_players.PlayerState>(
+            Expanded(
+              child: StreamBuilder(
+                  stream: rebuildMultiSelectionScreenStreamController.stream,
+                  builder: (context, asyncSnapshot) {
+                    return StreamBuilder<audio_players.PlayerState>(
                         stream: audioPlayerPreview.onPlayerStateChanged,
                         builder: (context, snapshot) {
                           final playerState = snapshot.data;
                           return ListView.separated(
                             padding: const EdgeInsets.only(bottom: 112),
-                            itemCount: songModelList.length,
+                            itemCount: songModelListGlobal.length,
                             itemBuilder: (context, index) {
-                              final song = songModelList[index];
+                              final song = songModelListGlobal[index];
                               return SizedBox(
                                 height: 67,
                                 child: GestureDetector(
@@ -288,31 +307,38 @@ class MultiSelectionScreen extends StatelessWidget {
                                       ),
                                     ),
                                     trailing: SizedBox(
-                                      height: (selectedItems.contains(song))
-                                          ? 38
-                                          : 35,
+                                      height:
+                                          (selectedItemsFromMultiselectionScreen
+                                                  .contains(song))
+                                              ? 38
+                                              : 35,
                                       width: 48,
                                       child: IconButton(
                                         splashRadius: 24,
                                         iconSize: 20,
-                                        icon: (selectedItems.contains(song))
-                                            ? Image.asset(
-                                                "assets/img/bottomsheet/checked_box_flaticon.png",
-                                                color: Colors.green,
-                                              )
-                                            : Image.asset(
-                                                "assets/img/bottomsheet/unchecked_box_flaticon.png",
-                                                color: TColor.lightGray,
-                                              ),
+                                        icon:
+                                            (selectedItemsFromMultiselectionScreen
+                                                    .contains(song))
+                                                ? Image.asset(
+                                                    "assets/img/bottomsheet/checked_box_flaticon.png",
+                                                    color: Colors.green,
+                                                  )
+                                                : Image.asset(
+                                                    "assets/img/bottomsheet/unchecked_box_flaticon.png",
+                                                    color: TColor.lightGray,
+                                                  ),
                                         onPressed: () async {
-                                          if (selectedItems.contains(song)) {
-                                            selectedItems.remove(song);
+                                          if (selectedItemsFromMultiselectionScreen
+                                              .contains(song)) {
+                                            selectedItemsFromMultiselectionScreen
+                                                .remove(song);
                                           } else {
-                                            selectedItems.add(song);
+                                            selectedItemsFromMultiselectionScreen
+                                                .add(song);
                                           }
                                           rebuildMultiSelectionScreenNotifier();
                                           print(
-                                              "aaaaa ${selectedItems.length}");
+                                              "aaaaa ${selectedItemsFromMultiselectionScreen.length}");
                                         },
                                       ),
                                       //
@@ -351,63 +377,83 @@ class MultiSelectionScreen extends StatelessWidget {
                               return Container();
                             },
                           );
-                        }),
-                  ),
+                        });
+                  }),
+            ),
 
-                  ///////////////////
-                  Divider(
-                    color: Colors.white12,
-                    indent: 25,
-                    endIndent: 25,
-                    height: 2,
-                  ),
-                  SizedBox(
-                    height: 90,
-                    // color: Colors.white24,
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () async {
-                          print("O que fazer");
-                          // showModalBottomSheet<String>(
-                          //   isScrollControlled: true,
-                          //   backgroundColor: Colors.transparent,
-                          //   context: context,
-                          //   builder: (BuildContext context) {
-                          //     return Padding(
-                          //       padding: EdgeInsets.only(
-                          //         bottom: MediaQuery.of(context).viewInsets.bottom,
-                          //       ),
-                          //       child: CreatePlaylistAndAddSongBottomSheet(
-                          //         addSong: songModel,
-                          //       ),
-                          //     );
-                          //   },
-                          // );
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onPrimary,
-                          padding: EdgeInsets.only(
-                              left: 20, right: 20, top: 10, bottom: 10),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Text(
-                          AppLocalizations.of(context)!.what_to_do,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
+            ///////////////////
+            Divider(
+              color: Colors.white12,
+              indent: 25,
+              endIndent: 25,
+              height: 2,
+            ),
+            SizedBox(
+              height: 90,
+              // color: Colors.white24,
+              child: Center(
+                child: TextButton(
+                  onPressed: () async {
+                    if (selectedItemsFromMultiselectionScreen.isEmpty) {
+                      selectSomethingFirstSnackBar(
+                        context: context,
+                        text: AppLocalizations.of(context)!.zero_songs_selected,
+                        message: AppLocalizations.of(context)!
+                            .select_something_first,
+                      );
+                    } else {
+                      if (deviceTypeIsSmartphone()) {
+                        await hideMiniPlayerNotifier(true);
+                      }
+
+                      if (context.mounted) {
+                        showModalBottomSheet<String>(
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              child: SongSelectionInfoMoreBottomSheet(
+                                playListName: playlistName,
+                                isFromSongsScreen: isFavoriteScreen,
+                                isFromPlaylistSongScreen: isPlaylistScreen,
+                                isSongFavoriteScreen: isFavoriteScreen,
+                                isFromFavoriteScreen: isFavoriteScreen,
+                                audioRoute: audioRoute,
+                                selectedItems:
+                                    selectedItemsFromMultiselectionScreen,
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    padding: EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  SizedBox(height: 10),
-                ],
-              );
-            }),
+                  child: Text(
+                    AppLocalizations.of(context)!.what_to_do,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

@@ -386,7 +386,7 @@ class ShowAllSongsScreen extends StatelessWidget {
                                                     listOfSongModel:
                                                         allSongsDatabase,
                                                     isFromSongsScreen: true,
-                                                    songIsFavorite:
+                                                    songIsFavoriteScreen:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,

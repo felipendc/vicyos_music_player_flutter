@@ -81,7 +81,51 @@
   "removed_from_this_playlist": "Remove from this playlist",
   "multiple_selection": "Multiple selection",
   "select_files": "Select songs:",
+  "zero_songs_selected": "0 songs selected",
+  "select_something_first": "Select something first",
 
+
+  "deleted_successfully_plural": "{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}",
+  "@deleted_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_to_play_next_plural": "{count, plural, =0{Added to play next} =1{Added to play next} other{Added to play next}}",
+  "@added_to_play_next_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_favorite_plural": "{count, plural, =0{Removed from favorites!} =1{Removed from favorites!} other{Removed from favorites!}}",
+  "@removed_from_the_favorite_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_playlist_plural": "{count, plural, =0{Removed from the playlist!} =1{Removed from the playlist!} other{Removed from the playlist!}}",
+  "@removed_from_the_playlist_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "song_plural": "{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}",
+  "@song_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_successfully_plural": "{count, plural, =0{Added successfully!} =1{Added successfully!} other{Added successfully!}}",
+  "@added_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
 
   "total_of_songs_selected": "{count, plural, =0{0 songs selected} =1{1 song selected} other{{count} songs selected}}",
   "@total_of_songs_selected": {
@@ -89,6 +133,7 @@
       "count": {}
     }
   },
+
   "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
   "@create_a_playlist": {
     "placeholders": {

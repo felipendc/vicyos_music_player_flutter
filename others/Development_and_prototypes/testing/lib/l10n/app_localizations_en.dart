@@ -252,6 +252,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select_files => 'Select songs:';
 
   @override
+  String get zero_songs_selected => '0 songs selected';
+
+  @override
+  String get select_something_first => 'Select something first';
+
+  @override
+  String deleted_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deleted successfully!',
+      one: 'Deleted successfully!',
+      zero: 'Deleted successfully!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_play_next_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to play next',
+      one: 'Added to play next',
+      zero: 'Added to play next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_favorite_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removed from favorites!',
+      one: 'Removed from favorites!',
+      zero: 'Removed from favorites!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removed from the playlist!',
+      one: 'Removed from the playlist!',
+      zero: 'Removed from the playlist!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String song_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count songs',
+      one: '1 song',
+      zero: '0 songs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added successfully!',
+      one: 'Added successfully!',
+      zero: 'Added successfully!',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String total_of_songs_selected(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

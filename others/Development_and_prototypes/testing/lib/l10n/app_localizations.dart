@@ -582,6 +582,54 @@ abstract class AppLocalizations {
   /// **'Select songs:'**
   String get select_files;
 
+  /// No description provided for @zero_songs_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'0 songs selected'**
+  String get zero_songs_selected;
+
+  /// No description provided for @select_something_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Select something first'**
+  String get select_something_first;
+
+  /// No description provided for @deleted_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}'**
+  String deleted_successfully_plural(num count);
+
+  /// No description provided for @added_to_play_next_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to play next} =1{Added to play next} other{Added to play next}}'**
+  String added_to_play_next_plural(num count);
+
+  /// No description provided for @removed_from_the_favorite_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Removed from favorites!} =1{Removed from favorites!} other{Removed from favorites!}}'**
+  String removed_from_the_favorite_plural(num count);
+
+  /// No description provided for @removed_from_the_playlist_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Removed from the playlist!} =1{Removed from the playlist!} other{Removed from the playlist!}}'**
+  String removed_from_the_playlist_plural(num count);
+
+  /// No description provided for @song_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}'**
+  String song_plural(num count);
+
+  /// No description provided for @added_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added successfully!} =1{Added successfully!} other{Added successfully!}}'**
+  String added_successfully_plural(num count);
+
   /// No description provided for @total_of_songs_selected.
   ///
   /// In en, this message translates to:
