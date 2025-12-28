@@ -230,23 +230,23 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               radioPlayer.play();
                             }
                           } else {
+                            audioPlayerPreview.stop();
+                            audioPlayerPreview.release();
+
+                            if (audioPlayerWasPlaying) {
+                              Future.microtask(
+                                () async {
+                                  await audioPlayer.play();
+                                },
+                              );
+                            }
+
+                            if (isRadioOn && isRadioPaused) {
+                              radioPlayer.play();
+                            }
                             if (deviceTypeIsSmartphone()) {
                               // "When the bottom sheet is closed, send a signal to show the mini player again."
                               hideMiniPlayerNotifier(false);
-                              audioPlayerPreview.stop();
-                              audioPlayerPreview.release();
-
-                              if (audioPlayerWasPlaying) {
-                                Future.microtask(
-                                  () async {
-                                    await audioPlayer.play();
-                                  },
-                                );
-                              }
-
-                              if (isRadioOn && isRadioPaused) {
-                                radioPlayer.play();
-                              }
                             }
                           }
                         },
