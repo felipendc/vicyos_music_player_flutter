@@ -264,6 +264,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reorder_songs => 'Reorder songs';
 
   @override
+  String get add_to_queue_all_capitalized => 'ADD TO QUEUE';
+
+  @override
+  String get add_to_queue => 'Add to queue';
+
+  @override
+  String added_to_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to the playlist',
+      one: 'Added to the playlist',
+      zero: 'Added to the playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

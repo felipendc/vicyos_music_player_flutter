@@ -43,7 +43,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: isFromPlaylistSongScreen ? 490 : 430, // Adjust the height
+        height: isFromPlaylistSongScreen ? 490 : 491, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -584,6 +584,39 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                           // if (deviceTypeIsSmartphone()) {
                           //   hideMiniPlayerNotifier(false);
                           // }
+                        },
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: ImageIcon(
+                            AssetImage(
+                                "assets/img/bottomsheet/play_queue_flaticon.png"),
+                            color: TColor.focus,
+                            size: 32,
+                          ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.add_to_queue,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Navigator.pop(context);
+
+                          await addSongToPlaylist(
+                            context: context,
+                            songPath: selectedItems,
+                            audioRoute: audioRoute,
+                            audioRouteEmptyPlaylist: audioRoute,
+                          );
+                          rebuildPlaylistCurrentLengthNotifier();
                         },
                       ),
                     ),

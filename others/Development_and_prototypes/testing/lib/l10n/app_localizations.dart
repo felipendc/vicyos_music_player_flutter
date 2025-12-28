@@ -606,6 +606,24 @@ abstract class AppLocalizations {
   /// **'Reorder songs'**
   String get reorder_songs;
 
+  /// No description provided for @add_to_queue_all_capitalized.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO QUEUE'**
+  String get add_to_queue_all_capitalized;
+
+  /// No description provided for @add_to_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to queue'**
+  String get add_to_queue;
+
+  /// No description provided for @added_to_the_playlist_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to the playlist} =1{Added to the playlist} other{Added to the playlist}}'**
+  String added_to_the_playlist_plural(num count);
+
   /// No description provided for @deleted_successfully_plural.
   ///
   /// In en, this message translates to:

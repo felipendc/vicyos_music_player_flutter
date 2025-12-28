@@ -33,8 +33,8 @@ class MultiSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Clear all the songs from the selectedItems and songModelListGlobal lists
     // to avoid overload of unwanted files!
-    selectedItemsFromMultiselectionScreen.clear();
-    songModelListGlobal.clear();
+    selectedItemsFromMultiselectionScreen = {};
+    songModelListGlobal = [];
 
     // Make a copy of this list to manipulate the listview screen state
     songModelListGlobal = songModelList;

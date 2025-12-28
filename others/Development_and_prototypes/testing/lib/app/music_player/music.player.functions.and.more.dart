@@ -754,7 +754,7 @@ Future<void> addFolderToPlaylist({
 
 Future<void> addSongToPlaylist({
   required BuildContext context,
-  songPath,
+  dynamic songPath,
   required NavigationButtons audioRoute,
   required NavigationButtons audioRouteEmptyPlaylist,
 }) async {
@@ -762,90 +762,199 @@ Future<void> addSongToPlaylist({
     turnOffRadioStation();
   }
 
-  currentSongNavigationRouteNotifier();
+  if (songPath is String) {
+    currentSongNavigationRouteNotifier();
 
-  if (audioPlayer.audioSources.isEmpty) {
+    if (audioPlayer.audioSources.isEmpty) {
+      activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+      audioPlayerWasPlaying = true;
+      playlist.clear();
+      // File audioFile = File(songPath);
+      String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+      // String filePathAsId = audioFile.absolute.path;
+      // Metadata? metadata;
+
+      // try {
+      //   metadata = await MetadataRetriever.fromFile(audioFile);
+      // } catch (e) {
+      //   debugPrint('Failed to extract metadata: $e');
+      // }
+
+      final mediaItem = MediaItem(
+        id: const Uuid().v4(),
+        // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+        artUri: Uri.file(notificationPlayerAlbumArt.path),
+        extras: {
+          "playedFromRoute": audioRoute,
+        },
+      );
+
+      playlist.add(
+        AudioSource.uri(
+          Uri.file(songPath),
+          tag: mediaItem,
+        ),
+      );
+
+      audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
+      firstSongIndex = true;
+      preLoadSongName(context);
+      playOrPause();
+      showAddedToPlaylist(context, "", songName(songPath),
+          AppLocalizations.of(context)!.added_to_the_playlist);
+      rebuildPlaylistCurrentLengthNotifier();
+    } else {
+      playlist.clear();
+      // File audioFile = File(songPath);
+      String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
+      // String filePathAsId = audioFile.absolute.path;
+      // Metadata? metadata;
+
+      // try {
+      //   metadata = await MetadataRetriever.fromFile(audioFile);
+      // } catch (e) {
+      //   debugPrint('Failed to extract metadata: $e');
+      // }
+
+      final mediaItem = MediaItem(
+        id: const Uuid().v4(),
+        // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+
+        // Using the name of the file as the title by default
+        title: fileNameWithoutExtension,
+        // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+        artUri: Uri.file(notificationPlayerAlbumArt.path),
+        extras: {
+          "playedFromRoute": audioRoute,
+        },
+      );
+
+      await audioPlayer.addAudioSource(
+        AudioSource.uri(
+          Uri.file(songPath),
+          tag: mediaItem,
+        ),
+      );
+      rebuildPlaylistCurrentLengthNotifier();
+
+      if (context.mounted) {
+        showAddedToPlaylist(context, "", songName(songPath),
+            AppLocalizations.of(context)!.added_to_the_current_playlist);
+      }
+    }
+    rebuildFavoriteScreenNotifier();
+  } else if (songPath is Set<AudioInfo>) {
+    ////////////////////////////////////////////////
+    currentSongNavigationRouteNotifier();
+
     activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
     audioPlayerWasPlaying = true;
     playlist.clear();
-    // File audioFile = File(songPath);
-    String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
-    // String filePathAsId = audioFile.absolute.path;
-    // Metadata? metadata;
 
-    // try {
-    //   metadata = await MetadataRetriever.fromFile(audioFile);
-    // } catch (e) {
-    //   debugPrint('Failed to extract metadata: $e');
-    // }
+    if (audioPlayer.audioSources.isEmpty) {
+      for (AudioInfo song in songPath) {
+        // File audioFile = File(songPath);
+        String fileNameWithoutExtension =
+            path.basenameWithoutExtension(song.path);
+        // String filePathAsId = audioFile.absolute.path;
+        // Metadata? metadata;
 
-    final mediaItem = MediaItem(
-      id: const Uuid().v4(),
-      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   debugPrint('Failed to extract metadata: $e');
+        // }
 
-      // Using the name of the file as the title by default
-      title: fileNameWithoutExtension,
-      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-      artUri: Uri.file(notificationPlayerAlbumArt.path),
-      extras: {
-        "playedFromRoute": audioRoute,
-      },
-    );
+        final mediaItem = MediaItem(
+          id: const Uuid().v4(),
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
-    playlist.add(
-      AudioSource.uri(
-        Uri.file(songPath),
-        tag: mediaItem,
-      ),
-    );
+          // Using the name of the file as the title by default
+          title: fileNameWithoutExtension,
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+          artUri: Uri.file(notificationPlayerAlbumArt.path),
+          extras: {
+            "playedFromRoute": audioRoute,
+          },
+        );
 
-    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
-    firstSongIndex = true;
-    preLoadSongName(context);
-    playOrPause();
-    showAddedToPlaylist(context, "Folder", songName(songPath),
-        AppLocalizations.of(context)!.added_to_the_playlist);
-    rebuildPlaylistCurrentLengthNotifier();
-  } else {
-    playlist.clear();
-    // File audioFile = File(songPath);
-    String fileNameWithoutExtension = path.basenameWithoutExtension(songPath);
-    // String filePathAsId = audioFile.absolute.path;
-    // Metadata? metadata;
+        await audioPlayer.addAudioSource(
+          AudioSource.uri(
+            Uri.file(song.path),
+            tag: mediaItem,
+          ),
+        );
+        rebuildPlaylistCurrentLengthNotifier();
+      }
 
-    // try {
-    //   metadata = await MetadataRetriever.fromFile(audioFile);
-    // } catch (e) {
-    //   debugPrint('Failed to extract metadata: $e');
-    // }
+      audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
+      firstSongIndex = true;
+      if (context.mounted) {
+        preLoadSongName(context);
+      }
+      playOrPause();
+      if (context.mounted) {
+        showAddedToPlaylist(
+            context,
+            "",
+            AppLocalizations.of(context)!.song_plural(songPath.length),
+            AppLocalizations.of(context)!
+                .added_to_the_playlist_plural(songPath.length));
+      }
+      rebuildPlaylistCurrentLengthNotifier();
+    } else {
+      playlist.clear();
 
-    final mediaItem = MediaItem(
-      id: const Uuid().v4(),
-      // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+      for (AudioInfo song in songPath) {
+        // File audioFile = File(songPath);
+        String fileNameWithoutExtension =
+            path.basenameWithoutExtension(song.path);
+        // String filePathAsId = audioFile.absolute.path;
+        // Metadata? metadata;
 
-      // Using the name of the file as the title by default
-      title: fileNameWithoutExtension,
-      // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-      artUri: Uri.file(notificationPlayerAlbumArt.path),
-      extras: {
-        "playedFromRoute": audioRoute,
-      },
-    );
+        // try {
+        //   metadata = await MetadataRetriever.fromFile(audioFile);
+        // } catch (e) {
+        //   debugPrint('Failed to extract metadata: $e');
+        // }
 
-    await audioPlayer.addAudioSource(
-      AudioSource.uri(
-        Uri.file(songPath),
-        tag: mediaItem,
-      ),
-    );
-    rebuildPlaylistCurrentLengthNotifier();
+        final mediaItem = MediaItem(
+          id: const Uuid().v4(),
+          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
-    if (context.mounted) {
-      showAddedToPlaylist(context, "Folder", songName(songPath),
-          AppLocalizations.of(context)!.added_to_the_current_playlist);
+          // Using the name of the file as the title by default
+          title: fileNameWithoutExtension,
+          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+          artUri: Uri.file(notificationPlayerAlbumArt.path),
+          extras: {
+            "playedFromRoute": audioRoute,
+          },
+        );
+
+        await audioPlayer.addAudioSource(
+          AudioSource.uri(
+            Uri.file(song.path),
+            tag: mediaItem,
+          ),
+        );
+        rebuildPlaylistCurrentLengthNotifier();
+      }
+
+      if (context.mounted) {
+        showAddedToPlaylist(
+            context,
+            "",
+            AppLocalizations.of(context)!.song_plural(songPath.length),
+            AppLocalizations.of(context)!
+                .added_to_the_playlist_plural(songPath.length));
+      }
     }
+    rebuildFavoriteScreenNotifier();
   }
-  rebuildFavoriteScreenNotifier();
 }
 
 void addToPlayNext({
@@ -915,7 +1024,6 @@ void addToPlayNext({
     }
     rebuildFavoriteScreenNotifier();
   } else if (playNextFilePath is Set<AudioInfo>) {
-    //////////////////////////////////////////////////////////////////////////////
     if (audioPlayer.audioSources.isEmpty) {
       activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
     }
@@ -974,8 +1082,6 @@ void addToPlayNext({
       rebuildPlaylistCurrentLengthNotifier();
     }
     rebuildFavoriteScreenNotifier();
-
-    //////////////////////////////////////////////////////////////////////////////////////
   }
 }
 

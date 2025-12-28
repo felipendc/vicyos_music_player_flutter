@@ -264,6 +264,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reorder_songs => 'Reorder songs';
 
   @override
+  String get add_to_queue_all_capitalized => 'ADD TO QUEUE';
+
+  @override
+  String get add_to_queue => 'Add to queue';
+
+  @override
+  String added_to_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to the playlist',
+      one: 'Added to the playlist',
+      zero: 'Added to the playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -458,7 +476,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get add_folder_to_the_current_playlist => 'Adicionar pasta à playlist atual';
 
   @override
-  String get added_to_the_current_playlist => 'Adicionado à playlist atual';
+  String get added_to_the_current_playlist => 'Adicionada à playlist atual';
 
   @override
   String get play_all_the_songs_from_this_folder => 'Reproduzir todas as músicas desta pasta';
@@ -488,7 +506,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get delete_from_device => 'Excluir do dispositivo';
 
   @override
-  String get clear_playlist_all_capitalized => 'LIMPAR PLAYLIST';
+  String get clear_playlist_all_capitalized => 'LIMPAR FILA';
 
   @override
   String get song_preview => 'Prévia da música';
@@ -536,10 +554,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get unknown_artist => 'Artista desconhecido';
 
   @override
-  String get added_to_the_playlist => 'Adicionado à playlist';
+  String get added_to_the_playlist => 'Adicionada à playlist';
 
   @override
-  String get added_to_play_next => 'Adicionado para tocar em seguida';
+  String get added_to_play_next => 'Adicionada para tocar em seguida';
 
   @override
   String get repeat_mode_all_capitalized => 'MODO DE REPETIÇÃO:';
@@ -569,7 +587,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get grant_permission => 'Conceder permissão';
 
   @override
-  String get deleted_successfully => 'Deletado com sucesso!';
+  String get deleted_successfully => 'Deletada com sucesso!';
 
   @override
   String get removed_from_the_playlist => 'Removido da playlist';
@@ -653,7 +671,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get add_to_a_playlist => 'Adicionar a uma playlist';
 
   @override
-  String get added_successfully => 'Adicionado com sucesso!';
+  String get added_successfully => 'Adicionada com sucesso!';
 
   @override
   String get create_a_new_playlist => 'Criar uma nova playlist';
@@ -678,6 +696,24 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get reorder_songs => 'Reordenar músicas';
+
+  @override
+  String get add_to_queue_all_capitalized => 'ADICIONAR À FILA';
+
+  @override
+  String get add_to_queue => 'Adicionar à fila';
+
+  @override
+  String added_to_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicionada à playlist',
+      one: 'Adicionada à playlist',
+      zero: 'Adicionadas à playlist',
+    );
+    return '$_temp0';
+  }
 
   @override
   String deleted_successfully_plural(num count) {

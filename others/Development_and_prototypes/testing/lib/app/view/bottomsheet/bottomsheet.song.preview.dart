@@ -341,7 +341,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     FloatingActionButton.extended(
                       label: Text(
                         AppLocalizations.of(context)!
-                            .add_to_playlist_all_capitalized,
+                            .add_to_queue_all_capitalized,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: TColor.focusStart,
