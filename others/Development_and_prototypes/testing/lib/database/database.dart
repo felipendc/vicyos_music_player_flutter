@@ -353,9 +353,17 @@ class AppDatabase {
   Future<bool> addToFavorites(AudioInfo audio) async {
     final db = await database;
 
+    final count = Sqflite.firstIntValue(
+          await db.rawQuery('SELECT COUNT(*) FROM favorites'),
+        ) ??
+        0;
+
     final id = await db.insert(
       'favorites',
-      audio.toMap(),
+      {
+        ...audio.toMap(),
+        'order_index': count,
+      },
       conflictAlgorithm: ConflictAlgorithm.ignore,
     );
 
@@ -431,13 +439,42 @@ class AppDatabase {
     }
   }
 
+  // Re-order the favorites when I drag the ordered list
+  Future<void> updateFavoriteOrder(
+    String path,
+    int newIndex,
+  ) async {
+    final db = await database;
+
+    await db.update(
+      'favorites',
+      {'order_index': newIndex},
+      where: 'path = ?',
+      whereArgs: [path],
+    );
+  }
+
+  //
+  Future<void> updateFavoritesOrder(List<AudioInfo> list) async {
+    final db = await database;
+
+    for (int i = 0; i < list.length; i++) {
+      await db.update(
+        'favorites',
+        {'order_index': i},
+        where: 'path = ?',
+        whereArgs: [list[i].path],
+      );
+    }
+  }
+
   // Get all favorites
   Future<List<AudioInfo>> getFavorites() async {
     final db = await database;
 
     final result = await db.query(
       'favorites',
-      orderBy: 'name COLLATE NOCASE ASC',
+      orderBy: 'order_index ASC',
     );
 
     return result.map((e) => AudioInfo.fromMap(e)).toList();
@@ -582,6 +619,27 @@ class AppDatabase {
     );
   }
 
+  //  Update the database with the new order
+  Future<void> updatePlaylistOrder({
+    required String playlistName,
+    required List<AudioInfo> songs,
+  }) async {
+    final db = await database;
+
+    // Convert the list to JSON
+    final List<Map<String, dynamic>> encoded =
+        songs.map((e) => e.toMap()).toList();
+
+    await db.update(
+      'playlists',
+      {
+        'playlist_songs': jsonEncode(encoded),
+      },
+      where: 'playlist_name = ?',
+      whereArgs: [playlistName],
+    );
+  }
+
   // Create database
   Future _createDB(Database db, int version) async {
     // ---------------------------------------------
@@ -616,7 +674,8 @@ class AppDatabase {
       path TEXT NOT NULL UNIQUE,
       name TEXT NOT NULL,
       size TEXT NOT NULL,
-      format TEXT NOT NULL
+      format TEXT NOT NULL,
+      order_index INTEGER
     );
   ''');
 

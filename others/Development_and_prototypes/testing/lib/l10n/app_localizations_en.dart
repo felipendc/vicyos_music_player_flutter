@@ -261,6 +261,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get choose_an_option => 'Chose an option:';
 
   @override
+  String get reorder_songs => 'Reorder songs';
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

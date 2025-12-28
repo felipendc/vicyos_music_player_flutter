@@ -3,6 +3,7 @@ import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
@@ -11,12 +12,15 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.add.song.to.playlist.dart';
 import 'package:vicyos_music/app/view/screens/multi.selection.screen.dart';
+import 'package:vicyos_music/app/view/screens/reorder_songs/favorite.song.screen.reorder.dart';
+import 'package:vicyos_music/app/view/screens/reorder_songs/playlist.songs.reorder.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
+  final int? playlistModelPositionIndex;
   final bool songIsFavoriteScreen;
   final AudioInfo songModel;
   final bool isFromFavoriteScreen;
@@ -26,6 +30,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
   final String? playListName;
   final int? playlistSongIndex;
   final List<AudioInfo>? listOfSongModel;
+  final List<Playlists>? playlistModel;
 
   const SongInfoMoreBottomSheet({
     super.key,
@@ -38,6 +43,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
     this.listOfSongModel,
     required this.songIsFavoriteScreen,
     required this.isFromSongsScreen,
+    this.playlistModel,
+    this.playlistModelPositionIndex,
   });
 
   @override
@@ -49,7 +56,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 560, // Adjust the height
+        height: 615, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,6 +253,175 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                       ),
                     ),
 
+                    if (isFromFavoriteScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child:
+                                // ImageIcon(
+                                //   AssetImage(
+                                //       "assets/img/bottomsheet/remove_song_flaticon.png"),
+                                //   color: TColor.focus,
+                                //   size: 33,
+                                // ),
+
+                                Icon(
+                              Icons.reorder_sharp,
+                              color: TColor.focusSecondary,
+                              size: 30,
+                            ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!.reorder_songs,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            // ----------------------------------------------
+
+                            // Check if audioPlayer was currently playing a song
+                            if (audioPlayer.playerState.playing) {
+                              audioPlayerWasPlaying = true;
+                            } else {
+                              audioPlayerWasPlaying = false;
+                            }
+
+                            Navigator.pop(context, "");
+
+                            final result = await Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                FavoriteSongsScreenReorder(),
+                              ),
+                            );
+
+                            if (result == "hide_bottom_player") {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            } else {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            }
+                            // ----------------------------------------------
+                          },
+                        ),
+                      ),
+
+                    if (isFromPlaylistSongScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child:
+                                // ImageIcon(
+                                //   AssetImage(
+                                //       "assets/img/bottomsheet/remove_song_flaticon.png"),
+                                //   color: TColor.focus,
+                                //   size: 33,
+                                // ),
+
+                                Icon(
+                              Icons.reorder_sharp,
+                              color: TColor.focusSecondary,
+                              size: 30,
+                            ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!.reorder_songs,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            // ----------------------------------------------
+
+                            // Check if audioPlayer was currently playing a song
+                            if (audioPlayer.playerState.playing) {
+                              audioPlayerWasPlaying = true;
+                            } else {
+                              audioPlayerWasPlaying = false;
+                            }
+
+                            Navigator.pop(context, "");
+
+                            final result = await Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                PlaylistSongsReorder(
+                                  playlistModel: playlistModel!,
+                                  playlistModelIndex:
+                                      playlistModelPositionIndex!,
+                                ),
+                              ),
+                            );
+
+                            if (result == "hide_bottom_player") {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            } else {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            }
+                            // ----------------------------------------------
+                          },
+                        ),
+                      ),
                     if (isFromPlaylistSongScreen)
                       Material(
                         color: Colors.transparent,

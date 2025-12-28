@@ -261,6 +261,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get choose_an_option => 'Chose an option:';
 
   @override
+  String get reorder_songs => 'Reorder songs';
+
+  @override
   String deleted_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -672,6 +675,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get choose_an_option => 'Escolha uma opção:';
+
+  @override
+  String get reorder_songs => 'Reordenar músicas';
 
   @override
   String deleted_successfully_plural(num count) {

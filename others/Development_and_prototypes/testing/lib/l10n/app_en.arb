@@ -84,6 +84,7 @@
   "zero_songs_selected": "0 songs selected",
   "select_something_first": "Select something first",
   "choose_an_option": "Chose an option:",
+  "reorder_songs": "Reorder songs",
 
 
   "deleted_successfully_plural": "{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}",

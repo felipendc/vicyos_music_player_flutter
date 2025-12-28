@@ -600,6 +600,12 @@ abstract class AppLocalizations {
   /// **'Chose an option:'**
   String get choose_an_option;
 
+  /// No description provided for @reorder_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder songs'**
+  String get reorder_songs;
+
   /// No description provided for @deleted_successfully_plural.
   ///
   /// In en, this message translates to:
