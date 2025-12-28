@@ -124,7 +124,7 @@
     }
   },
 
-  "song_plural": "{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}",
+  "song_plural": "{count, plural, =0{0 músicas} =1{1 música} other{{count} músicas}}",
   "@song_plural": {
     "placeholders": {
       "count": {}

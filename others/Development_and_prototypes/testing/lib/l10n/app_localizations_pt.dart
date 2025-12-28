@@ -768,9 +768,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count songs',
-      one: '1 song',
-      zero: '0 songs',
+      other: '$count músicas',
+      one: '1 música',
+      zero: '0 músicas',
     );
     return '$_temp0';
   }
