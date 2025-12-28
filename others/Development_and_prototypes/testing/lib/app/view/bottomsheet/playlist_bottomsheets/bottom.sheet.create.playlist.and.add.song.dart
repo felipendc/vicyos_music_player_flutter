@@ -9,7 +9,7 @@ import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
-  final Set<AudioInfo> addSongs;
+  final dynamic addSongs;
   const CreatePlaylistAndAddSongBottomSheet({
     super.key,
     required this.addSongs,
@@ -111,8 +111,10 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           Navigator.pop(context, "");
-                                          if (deviceTypeIsSmartphone()) {
-                                            hideMiniPlayerNotifier(false);
+                                          if (addSongs is AudioInfo) {
+                                            if (deviceTypeIsSmartphone()) {
+                                              hideMiniPlayerNotifier(false);
+                                            }
                                           }
                                         },
                                         icon: Image.asset(
@@ -197,40 +199,74 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                             ),
                           ),
                           onPressed: () async {
-                            if (await playlistNameAlreadyExist(
-                                playlistNameController.text)) {
-                              if (context.mounted) {
-                                renamePlaylistSnackBar(
-                                    context: context,
-                                    text: AppLocalizations.of(context)!
-                                        .this_name_has_already_been_used,
-                                    message: AppLocalizations.of(context)!
-                                        .please_try_another_one);
-                              }
-                            } else {
-                              if (playlistNameController.text.isNotEmpty) {
-                                // Create a empty playlist
-                                await AppDatabase.instance.createEmptyPlaylist(
-                                    playlistNameController.text);
+                            if (playlistNameController.text.isNotEmpty) {
+                              if (await playlistNameAlreadyExist(
+                                  playlistNameController.text)) {
+                                if (context.mounted) {
+                                  renamePlaylistSnackBar(
+                                      context: context,
+                                      text: AppLocalizations.of(context)!
+                                          .this_name_has_already_been_used,
+                                      message: AppLocalizations.of(context)!
+                                          .please_try_another_one);
+                                }
+                              } else {
+                                if (addSongs is AudioInfo) {
+                                  // If it is an <AudioInfo> the user didn't use the
+                                  // multi-selection screen
 
-                                for (AudioInfo song in addSongs) {
+                                  // Create a empty playlist
+                                  await AppDatabase.instance
+                                      .createEmptyPlaylist(
+                                          playlistNameController.text);
+
                                   // Add a song to this playlist
                                   await AppDatabase.instance.addAudioToPlaylist(
                                       playlistName: playlistNameController.text,
-                                      audio: song);
+                                      audio: addSongs);
                                   rebuildPlaylistScreenSNotifier();
-                                }
 
-                                if (context.mounted) {
-                                  createPlaylistSnackBar(
-                                      context: context,
-                                      text: playlistNameController.text,
-                                      message: AppLocalizations.of(context)!
-                                          .added_successfully);
-                                }
-                                playlistNameController.clear();
-                                if (context.mounted) {
-                                  Navigator.pop(context, "");
+                                  if (context.mounted) {
+                                    createPlaylistSnackBar(
+                                        context: context,
+                                        text: playlistNameController.text,
+                                        message: AppLocalizations.of(context)!
+                                            .added_successfully);
+                                  }
+                                  playlistNameController.clear();
+
+                                  playlistNameController.clear();
+
+                                  if (context.mounted) {
+                                    Navigator.pop(context, "");
+                                  }
+                                } else if (addSongs is Set<AudioInfo>) {
+                                  // Create a empty playlist
+                                  await AppDatabase.instance
+                                      .createEmptyPlaylist(
+                                          playlistNameController.text);
+
+                                  for (AudioInfo song in addSongs) {
+                                    // Add a song to this playlist
+                                    await AppDatabase.instance
+                                        .addAudioToPlaylist(
+                                            playlistName:
+                                                playlistNameController.text,
+                                            audio: song);
+                                    rebuildPlaylistScreenSNotifier();
+                                  }
+
+                                  if (context.mounted) {
+                                    createPlaylistSnackBar(
+                                        context: context,
+                                        text: playlistNameController.text,
+                                        message: AppLocalizations.of(context)!
+                                            .added_successfully);
+                                  }
+                                  playlistNameController.clear();
+                                  if (context.mounted) {
+                                    Navigator.pop(context, "");
+                                  }
                                 }
                               }
                             }

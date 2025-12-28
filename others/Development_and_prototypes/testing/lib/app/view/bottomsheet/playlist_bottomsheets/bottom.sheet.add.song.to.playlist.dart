@@ -114,8 +114,10 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           Navigator.pop(context, "");
-                                          if (deviceTypeIsSmartphone()) {
-                                            hideMiniPlayerNotifier(false);
+                                          if (songModels is AudioInfo) {
+                                            if (deviceTypeIsSmartphone()) {
+                                              hideMiniPlayerNotifier(false);
+                                            }
                                           }
                                         },
                                         icon: Image.asset(
@@ -238,14 +240,25 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                                                       .added_successfully);
                                             }
 
-                                            // Add each song<AudioInfo> from songModels to the playlist
-                                            for (AudioInfo song in songModels) {
+                                            if (songModels is AudioInfo) {
                                               await AppDatabase.instance
                                                   .addAudioToPlaylist(
                                                 playlistName:
                                                     playlist.playlistName,
-                                                audio: song,
+                                                audio: songModels,
                                               );
+                                            } else if (songModels
+                                                is Set<AudioInfo>) {
+                                              // Add each song<AudioInfo> from songModels to the playlist
+                                              for (AudioInfo song
+                                                  in songModels) {
+                                                await AppDatabase.instance
+                                                    .addAudioToPlaylist(
+                                                  playlistName:
+                                                      playlist.playlistName,
+                                                  audio: song,
+                                                );
+                                              }
                                             }
 
                                             rebuildPlaylistScreenSNotifier();
@@ -308,9 +321,14 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                           hideMiniPlayerNotifier(true);
                         }
                       } else {
-                        if (deviceTypeIsSmartphone()) {
-                          // "When the bottom sheet is closed, send a signal to show the mini player again."
-                          hideMiniPlayerNotifier(false);
+                        if (songModels is AudioInfo) {
+                          // If songModels is an AudioInfo class and not a list
+                          // it means that this bottomsheet wasn't open through the multi-selection screen
+
+                          if (deviceTypeIsSmartphone()) {
+                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                            hideMiniPlayerNotifier(false);
+                          }
                         }
                       }
                     },
