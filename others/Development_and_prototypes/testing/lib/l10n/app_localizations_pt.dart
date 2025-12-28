@@ -243,7 +243,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get create_a_new_playlist => 'Create a new playlist';
 
   @override
-  String get removed_from_this_playlist => 'Remove from this playlist';
+  String get remove_from_this_playlist => 'Remove from this playlist';
 
   @override
   String get multiple_selection => 'Multiple selection';
@@ -268,6 +268,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get add_to_queue => 'Add to queue';
+
+  @override
+  String get removed_from_favorites => 'Removed from favorites';
+
+  @override
+  String get removed_from_this_playlist => 'Removed from this playlist';
 
   @override
   String added_to_the_playlist_plural(num count) {
@@ -322,9 +328,9 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed from the playlist!',
-      one: 'Removed from the playlist!',
-      zero: 'Removed from the playlist!',
+      other: 'Removed from this playlist!',
+      one: 'Removed from this playlist!',
+      zero: 'Removed from this playlist!',
     );
     return '$_temp0';
   }
@@ -590,7 +596,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get deleted_successfully => 'Deletada com sucesso!';
 
   @override
-  String get removed_from_the_playlist => 'Removido da playlist';
+  String get removed_from_the_playlist => 'Removida da playlist';
 
   @override
   String get single_shared_file => 'Este arquivo foi compartilhado usando o aplicativo Vicyos Music.';
@@ -677,7 +683,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get create_a_new_playlist => 'Criar uma nova playlist';
 
   @override
-  String get removed_from_this_playlist => 'Remover dessa playlist';
+  String get remove_from_this_playlist => 'Remover dessa playlist';
 
   @override
   String get multiple_selection => 'Seleção múltipla';
@@ -702,6 +708,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get add_to_queue => 'Adicionar à fila';
+
+  @override
+  String get removed_from_favorites => 'Removida dos favoritos';
+
+  @override
+  String get removed_from_this_playlist => 'Removida dessa playlist';
 
   @override
   String added_to_the_playlist_plural(num count) {
@@ -756,9 +768,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removidas da playlist',
-      one: 'Removida da playlist',
-      zero: 'Removidas da playlist',
+      other: 'Removidas dessa playlist',
+      one: 'Removida dessa playlist',
+      zero: 'Removidas dessa playlist',
     );
     return '$_temp0';
   }

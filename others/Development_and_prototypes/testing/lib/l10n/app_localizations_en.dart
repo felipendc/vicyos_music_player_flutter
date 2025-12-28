@@ -243,7 +243,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get create_a_new_playlist => 'Create a new playlist';
 
   @override
-  String get removed_from_this_playlist => 'Remove from this playlist';
+  String get remove_from_this_playlist => 'Remove from this playlist';
 
   @override
   String get multiple_selection => 'Multiple selection';
@@ -268,6 +268,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get add_to_queue => 'Add to queue';
+
+  @override
+  String get removed_from_favorites => 'Removed from favorites';
+
+  @override
+  String get removed_from_this_playlist => 'Removed from this playlist';
 
   @override
   String added_to_the_playlist_plural(num count) {
@@ -322,9 +328,9 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Removed from the playlist!',
-      one: 'Removed from the playlist!',
-      zero: 'Removed from the playlist!',
+      other: 'Removed from this playlist!',
+      one: 'Removed from this playlist!',
+      zero: 'Removed from this playlist!',
     );
     return '$_temp0';
   }

@@ -564,11 +564,11 @@ abstract class AppLocalizations {
   /// **'Create a new playlist'**
   String get create_a_new_playlist;
 
-  /// No description provided for @removed_from_this_playlist.
+  /// No description provided for @remove_from_this_playlist.
   ///
   /// In en, this message translates to:
   /// **'Remove from this playlist'**
-  String get removed_from_this_playlist;
+  String get remove_from_this_playlist;
 
   /// No description provided for @multiple_selection.
   ///
@@ -618,6 +618,18 @@ abstract class AppLocalizations {
   /// **'Add to queue'**
   String get add_to_queue;
 
+  /// No description provided for @removed_from_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get removed_from_favorites;
+
+  /// No description provided for @removed_from_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from this playlist'**
+  String get removed_from_this_playlist;
+
   /// No description provided for @added_to_the_playlist_plural.
   ///
   /// In en, this message translates to:
@@ -645,7 +657,7 @@ abstract class AppLocalizations {
   /// No description provided for @removed_from_the_playlist_plural.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =0{Removed from the playlist!} =1{Removed from the playlist!} other{Removed from the playlist!}}'**
+  /// **'{count, plural, =0{Removed from this playlist!} =1{Removed from this playlist!} other{Removed from this playlist!}}'**
   String removed_from_the_playlist_plural(num count);
 
   /// No description provided for @song_plural.

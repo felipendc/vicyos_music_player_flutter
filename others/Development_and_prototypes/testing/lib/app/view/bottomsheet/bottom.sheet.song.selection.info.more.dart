@@ -168,7 +168,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                           ),
                           title: Text(
                             AppLocalizations.of(context)!
-                                .removed_from_this_playlist,
+                                .remove_from_this_playlist,
                             style: TextStyle(
                               color: TColor.primaryText80,
                               fontSize: 18,

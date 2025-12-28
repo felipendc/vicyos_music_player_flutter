@@ -49,7 +49,7 @@
   "no_audio_permission_has_been_granted": "Nenhuma permissão para acessar\na pasta de músicas foi concedida.",
   "grant_permission": "Conceder permissão",
   "deleted_successfully": "Deletada com sucesso!",
-  "removed_from_the_playlist": "Removido da playlist",
+  "removed_from_the_playlist": "Removida da playlist",
   "single_shared_file": "Este arquivo foi compartilhado usando o aplicativo Vicyos Music.",
   "songs": "Músicas",
   "all_songs": "Todas as Músicas",
@@ -78,7 +78,7 @@
   "add_to_a_playlist": "Adicionar a uma playlist",
   "added_successfully": "Adicionada com sucesso!",
   "create_a_new_playlist": "Criar uma nova playlist",
-  "removed_from_this_playlist": "Remover dessa playlist",
+  "remove_from_this_playlist": "Remover dessa playlist",
   "multiple_selection": "Seleção múltipla",
   "select_files": "Selecionar músicas:",
   "zero_songs_selected": "Nenhuma música selecionada",
@@ -87,7 +87,8 @@
   "reorder_songs": "Reordenar músicas",
   "add_to_queue_all_capitalized": "ADICIONAR À FILA",
   "add_to_queue": "Adicionar à fila",
-
+  "removed_from_favorites": "Removida dos favoritos",
+  "removed_from_this_playlist": "Removida dessa playlist",
 
   "added_to_the_playlist_plural": "{count, plural, =0{Adicionadas à playlist} =1{Adicionada à playlist} other{Adicionada à playlist}}",
   "@added_to_the_playlist_plural": {
@@ -117,7 +118,7 @@
     }
   },
 
-  "removed_from_the_playlist_plural": "{count, plural, =0{Removidas da playlist} =1{Removida da playlist} other{Removidas da playlist}}",
+  "removed_from_the_playlist_plural": "{count, plural, =0{Removidas dessa playlist} =1{Removida dessa playlist} other{Removidas dessa playlist}}",
   "@removed_from_the_playlist_plural": {
     "placeholders": {
       "count": {}

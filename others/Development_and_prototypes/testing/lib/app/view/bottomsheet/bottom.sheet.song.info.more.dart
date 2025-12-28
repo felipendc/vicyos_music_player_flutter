@@ -443,7 +443,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           ),
                           title: Text(
                             AppLocalizations.of(context)!
-                                .removed_from_this_playlist,
+                                .remove_from_this_playlist,
                             style: TextStyle(
                               color: TColor.primaryText80,
                               fontSize: 18,
@@ -457,6 +457,14 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 playlistName: playListName!,
                                 audioPath: songModel.path);
 
+                            if (context.mounted) {
+                              showFileDeletedMessage(
+                                context,
+                                songModel.name,
+                                AppLocalizations.of(context)!
+                                    .removed_from_this_playlist,
+                              );
+                            }
                             if (context.mounted) {
                               removeSongPathFromCurrentPlaylist(
                                   context: context, songPath: songModel.path);
@@ -549,6 +557,15 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             Navigator.pop(context);
                             await AppDatabase.instance
                                 .removeFromFavorites(songModel.path, context);
+
+                            if (context.mounted) {
+                              showFileDeletedMessage(
+                                context,
+                                songModel.name,
+                                AppLocalizations.of(context)!
+                                    .removed_from_favorites,
+                              );
+                            }
 
                             if (deviceTypeIsSmartphone()) {
                               hideMiniPlayerNotifier(false);
