@@ -308,8 +308,9 @@ class PlaylistsScreen extends StatelessWidget {
                                       16, 16, 16, 120),
                                   itemCount: playlists.length,
                                   gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        (deviceTypeIsTablet()) ? 3 : 2,
                                     childAspectRatio: 0.9,
                                     crossAxisSpacing: 16,
                                     mainAxisSpacing: 16,
