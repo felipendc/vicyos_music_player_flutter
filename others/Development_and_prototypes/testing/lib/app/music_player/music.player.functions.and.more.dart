@@ -1135,3 +1135,22 @@ Future<void> removeSongPathFromCurrentPlaylist(
     currentSongNameNotifier();
   }
 }
+
+Future<String> songMultiSelectionPreviewSong(
+    {required String songPath,
+    required String currentSongPreview,
+    required dynamic playerState}) async {
+  if (currentSongPreview != songPath) {
+    currentSongPreview = songPath;
+
+    await audioPlayerPreview.stop();
+    await audioPlayerPreview.play(
+      audio_players.DeviceFileSource(songPath),
+    );
+  } else {
+    await (playerState == audio_players.PlayerState.playing
+        ? audioPlayerPreview.pause()
+        : audioPlayerPreview.resume());
+  }
+  return currentSongPreview;
+}

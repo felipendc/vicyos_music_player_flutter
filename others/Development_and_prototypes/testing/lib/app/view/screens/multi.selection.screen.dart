@@ -351,20 +351,47 @@ class MultiSelectionScreen extends StatelessWidget {
                                       }
 
                                       ///////// CONTROLLING THE PREVIEW PLAYER //////
-                                      if (currentSongPreview != song.path) {
-                                        previewSong(song.path);
-                                        audioPlayerPreview.resume();
-                                        currentSongPreview = song.path;
-                                      } else {
-                                        if (playerState ==
-                                            audio_players.PlayerState.paused) {
-                                          audioPlayerPreview.resume();
-                                        }
-                                        if (playerState ==
-                                            audio_players.PlayerState.playing) {
-                                          audioPlayerPreview.pause();
-                                        }
-                                      }
+
+                                      // Option One:
+                                      currentSongPreview =
+                                          await songMultiSelectionPreviewSong(
+                                        songPath: song.path,
+                                        currentSongPreview: currentSongPreview,
+                                        playerState: playerState,
+                                      );
+
+                                      // Option One: Without the function returning a String
+                                      // if (currentSongPreview != song.path) {
+                                      //   currentSongPreview = song.path;
+                                      //
+                                      //   await audioPlayerPreview.stop();
+                                      //   await audioPlayerPreview.play(
+                                      //     audio_players.DeviceFileSource(
+                                      //         song.path),
+                                      //   );
+                                      // } else {
+                                      //   await (playerState ==
+                                      //           audio_players
+                                      //               .PlayerState.playing
+                                      //       ? audioPlayerPreview.pause()
+                                      //       : audioPlayerPreview.resume());
+                                      // }
+
+                                      // Option Two: The first version that I wrote
+                                      // if (currentSongPreview != song.path) {
+                                      //   previewSong(song.path);
+                                      //   audioPlayerPreview.resume();
+                                      //   currentSongPreview = song.path;
+                                      // } else {
+                                      //   if (playerState ==
+                                      //       audio_players.PlayerState.paused) {
+                                      //     audioPlayerPreview.resume();
+                                      //   }
+                                      //   if (playerState ==
+                                      //       audio_players.PlayerState.playing) {
+                                      //     audioPlayerPreview.pause();
+                                      //   }
+                                      // }
                                       ///////////////////////////////////////////////
                                     },
                                   ),
