@@ -91,7 +91,7 @@ Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
 
-// New Preview
+// FlutterSoundPlayer
 final FlutterSoundPlayer flutterSoundPlayer = FlutterSoundPlayer();
 
 // Functions

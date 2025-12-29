@@ -21,7 +21,7 @@ Future<void> onInitPlayer() async {
   // Volume Control Listener
   initVolumeControl();
 
-  // New Player init
+  // flutterSoundPlayer init
   await flutterSoundPlayer.openPlayer();
 
   // Song Preview Player.
