@@ -89,7 +89,15 @@
   "add_to_queue": "Add to queue",
   "removed_from_favorites": "Removed from favorites",
   "removed_from_this_playlist": "Removed from this playlist",
+  "added_to_favorites": "Added to favorites",
 
+
+  "added_to_favorites_plural": "{count, plural, =0{Added to favorites} =1{Added to favorites} other{Added to favorites}}",
+  "@added_to_favorites_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
 
   "added_to_the_playlist_plural": "{count, plural, =0{Added to the playlist} =1{Added to the playlist} other{Added to the playlist}}",
   "@added_to_the_playlist_plural": {

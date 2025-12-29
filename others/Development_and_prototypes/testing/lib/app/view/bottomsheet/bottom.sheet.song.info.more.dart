@@ -604,6 +604,15 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                       .removeFromFavorites(
                                           songModel.path, context);
 
+                                  if (context.mounted) {
+                                    showFileDeletedMessage(
+                                      context,
+                                      songModel.name,
+                                      AppLocalizations.of(context)!
+                                          .removed_from_favorites,
+                                    );
+                                  }
+
                                   if (deviceTypeIsSmartphone()) {
                                     hideMiniPlayerNotifier(false);
                                   }
@@ -636,6 +645,15 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   Navigator.pop(context);
                                   await AppDatabase.instance
                                       .addToFavorites(songModel);
+
+                                  if (context.mounted) {
+                                    addedToFavoritesSnackBar(
+                                      context: context,
+                                      text: songModel.name,
+                                      message: AppLocalizations.of(context)!
+                                          .added_to_favorites,
+                                    );
+                                  }
 
                                   if (deviceTypeIsSmartphone()) {
                                     hideMiniPlayerNotifier(false);

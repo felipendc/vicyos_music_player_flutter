@@ -276,6 +276,21 @@ class AppLocalizationsPt extends AppLocalizations {
   String get removed_from_this_playlist => 'Removed from this playlist';
 
   @override
+  String get added_to_favorites => 'Added to favorites';
+
+  @override
+  String added_to_favorites_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to favorites',
+      one: 'Added to favorites',
+      zero: 'Added to favorites',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String added_to_the_playlist_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -714,6 +729,21 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get removed_from_this_playlist => 'Removida dessa playlist';
+
+  @override
+  String get added_to_favorites => 'Adicionada aos favoritos';
+
+  @override
+  String added_to_favorites_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicinada aos favoritos',
+      one: 'Adicionada aos favoritos',
+      zero: 'Adicionadas aos favoritos',
+    );
+    return '$_temp0';
+  }
 
   @override
   String added_to_the_playlist_plural(num count) {

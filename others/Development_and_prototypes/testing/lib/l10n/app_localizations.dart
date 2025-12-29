@@ -630,6 +630,18 @@ abstract class AppLocalizations {
   /// **'Removed from this playlist'**
   String get removed_from_this_playlist;
 
+  /// No description provided for @added_to_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to favorites'**
+  String get added_to_favorites;
+
+  /// No description provided for @added_to_favorites_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to favorites} =1{Added to favorites} other{Added to favorites}}'**
+  String added_to_favorites_plural(num count);
+
   /// No description provided for @added_to_the_playlist_plural.
   ///
   /// In en, this message translates to:

@@ -89,6 +89,16 @@
   "add_to_queue": "Adicionar à fila",
   "removed_from_favorites": "Removida dos favoritos",
   "removed_from_this_playlist": "Removida dessa playlist",
+  "added_to_favorites": "Adicionada aos favoritos",
+
+
+  "added_to_favorites_plural": "{count, plural, =0{Adicionadas aos favoritos} =1{Adicionada aos favoritos} other{Adicinada aos favoritos}}",
+  "@added_to_favorites_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
 
   "added_to_the_playlist_plural": "{count, plural, =0{Adicionadas à playlist} =1{Adicionada à playlist} other{Adicionada à playlist}}",
   "@added_to_the_playlist_plural": {
