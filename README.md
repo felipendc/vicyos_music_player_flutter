@@ -149,6 +149,7 @@ This project uses the following dependencies:
 - `loading_animation_widget 1.3.0` Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
 - `http: 1.6.0` - A composable, multi-platform, Future-based API for HTTP requests..
 - `sqflite: 2.4.2` - Flutter plugin for SQLite, a self-contained, high-reliability, embedded, SQL database engine.
+- `flutter_sound: 9.30.0` - Flutter Sound is a library package allowing you to play and record audio for : iOS; Android; Web.
 
 ### Submit a pull request
 
