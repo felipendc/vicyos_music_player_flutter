@@ -215,8 +215,11 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               // Hide radio mini player if it is open
                               hideMiniRadioPlayerNotifier(true);
                             }
-                            audioPlayerPreview.stop();
-                            audioPlayerPreview.release();
+
+                            // if (flutterSoundPlayer.isPlaying) {
+                            await flutterSoundPlayer.stopPlayer();
+
+                            // }
 
                             if (audioPlayerWasPlaying) {
                               Future.microtask(
@@ -230,8 +233,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               radioPlayer.play();
                             }
                           } else {
-                            audioPlayerPreview.stop();
-                            audioPlayerPreview.release();
+                            // if (flutterSoundPlayer.isPlaying) {
+                            await flutterSoundPlayer.stopPlayer();
+                            // }
 
                             if (audioPlayerWasPlaying) {
                               Future.microtask(

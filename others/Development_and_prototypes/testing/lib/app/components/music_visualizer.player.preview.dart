@@ -10,13 +10,13 @@ import "package:vicyos_music/app/music_player/music.player.functions.and.more.da
 
 // I've just applied the fix and adapted it to my music app.
 
-class MusicVisualizerPlayerPreview extends StatelessWidget {
+class FlutterSoundPlayerPreview extends StatelessWidget {
   final List<Color>? colors;
   final List<int>? duration;
   final int? barCount;
   final Curve? curve;
 
-  const MusicVisualizerPlayerPreview({
+  const FlutterSoundPlayerPreview({
     super.key,
     required this.colors,
     required this.duration,
@@ -109,8 +109,9 @@ class VisualComponentState extends State<VisualComponent>
   Widget build(BuildContext context) {
     return Container(
       width: 3,
-      height:
-          (isPlayerPreviewPlaying) ? animation!.value : animationStop!.value,
+      height: (flutterSoundPlayer.isPlaying)
+          ? animation!.value
+          : animationStop!.value,
       decoration: BoxDecoration(
           color: widget.color, borderRadius: BorderRadius.circular(5)),
     );

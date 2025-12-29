@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/music_visualizer.player.preview.dart';
@@ -10,6 +9,8 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functi
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.selection.info.more.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
+
+String currentSongPreview = "";
 
 class MultiSelectionScreen extends StatelessWidget {
   final String? playlistName;
@@ -41,8 +42,6 @@ class MultiSelectionScreen extends StatelessWidget {
 
     // Set the preferred orientations to portrait mode when this screen is built
     setScreenOrientation();
-
-    String currentSongPreview = "";
 
     bool selectAllItems = false;
 
@@ -237,10 +236,10 @@ class MultiSelectionScreen extends StatelessWidget {
               child: StreamBuilder(
                   stream: rebuildMultiSelectionScreenStreamController.stream,
                   builder: (context, asyncSnapshot) {
-                    return StreamBuilder<audio_players.PlayerState>(
-                        stream: audioPlayerPreview.onPlayerStateChanged,
+                    return StreamBuilder<void>(
+                        stream: flutterSoundPlayerOnSongChangeStreamController
+                            .stream,
                         builder: (context, snapshot) {
-                          final playerState = snapshot.data;
                           return ListView.separated(
                             padding: const EdgeInsets.only(bottom: 112),
                             itemCount: songModelListGlobal.length,
@@ -260,8 +259,7 @@ class MultiSelectionScreen extends StatelessWidget {
                                             child: SizedBox(
                                               height: 27,
                                               width: 30,
-                                              child:
-                                                  MusicVisualizerPlayerPreview(
+                                              child: FlutterSoundPlayerPreview(
                                                 barCount: 6,
                                                 colors: [
                                                   TColor.focus,
@@ -352,47 +350,29 @@ class MultiSelectionScreen extends StatelessWidget {
 
                                       ///////// CONTROLLING THE PREVIEW PLAYER //////
 
-                                      // Option One:
-                                      currentSongPreview =
-                                          await songMultiSelectionPreviewSong(
-                                        songPath: song.path,
-                                        currentSongPreview: currentSongPreview,
-                                        playerState: playerState,
-                                      );
+                                      // Current option:
+                                      // flutterSoundPlayer for the multi screen song preview.
+                                      // It's faster!
 
-                                      // Option One: Without the function returning a String
-                                      // if (currentSongPreview != song.path) {
-                                      //   currentSongPreview = song.path;
-                                      //
-                                      //   await audioPlayerPreview.stop();
-                                      //   await audioPlayerPreview.play(
-                                      //     audio_players.DeviceFileSource(
-                                      //         song.path),
-                                      //   );
-                                      // } else {
-                                      //   await (playerState ==
-                                      //           audio_players
-                                      //               .PlayerState.playing
-                                      //       ? audioPlayerPreview.pause()
-                                      //       : audioPlayerPreview.resume());
-                                      // }
+                                      if (currentSongPreview != song.path) {
+                                        currentSongPreview = song.path;
+                                        flutterSoundPlayerOnSongChangeNotifier();
 
-                                      // Option Two: The first version that I wrote
-                                      // if (currentSongPreview != song.path) {
-                                      //   previewSong(song.path);
-                                      //   audioPlayerPreview.resume();
-                                      //   currentSongPreview = song.path;
-                                      // } else {
-                                      //   if (playerState ==
-                                      //       audio_players.PlayerState.paused) {
-                                      //     audioPlayerPreview.resume();
-                                      //   }
-                                      //   if (playerState ==
-                                      //       audio_players.PlayerState.playing) {
-                                      //     audioPlayerPreview.pause();
-                                      //   }
-                                      // }
-                                      ///////////////////////////////////////////////
+                                        // if (flutterSoundPlayer.isPlaying) {
+                                        //   await flutterSoundPlayer.stopPlayer();
+                                        // }
+                                        await flutterSoundPlayer.startPlayer(
+                                            fromURI: song.path);
+                                      } else {
+                                        if (flutterSoundPlayer.isPlaying) {
+                                          await flutterSoundPlayer
+                                              .pausePlayer();
+                                        } else {
+                                          await flutterSoundPlayer
+                                              .resumePlayer();
+                                        }
+                                      }
+                                      //////////////////////////////////////////////
                                     },
                                   ),
                                 ),

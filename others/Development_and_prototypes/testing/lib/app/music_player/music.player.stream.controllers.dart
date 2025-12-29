@@ -51,6 +51,9 @@ StreamController<void> rebuildPlaylistScreenStreamController =
 StreamController<void> rebuildMultiSelectionScreenStreamController =
     StreamController<void>.broadcast();
 
+StreamController<void> flutterSoundPlayerOnSongChangeStreamController =
+    StreamController<void>.broadcast();
+
 // Streams Notifiers Functions
 void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
@@ -122,4 +125,8 @@ Future<void> rebuildPlaylistScreenSNotifier() async {
 
 void rebuildMultiSelectionScreenNotifier() {
   rebuildMultiSelectionScreenStreamController.sink.add(null);
+}
+
+void flutterSoundPlayerOnSongChangeNotifier() {
+  flutterSoundPlayerOnSongChangeStreamController.sink.add(null);
 }

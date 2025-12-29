@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -89,6 +90,9 @@ Duration currentSongDurationPositionPreview = Duration.zero;
 Duration currentSongTotalDurationPreview = Duration.zero;
 double sleekCircularSliderPositionPreview = 0.0;
 double sleekCircularSliderDurationPreview = 100.0;
+
+// New Preview
+final FlutterSoundPlayer flutterSoundPlayer = FlutterSoundPlayer();
 
 // Functions
 
@@ -1134,23 +1138,4 @@ Future<void> removeSongPathFromCurrentPlaylist(
     }
     currentSongNameNotifier();
   }
-}
-
-Future<String> songMultiSelectionPreviewSong(
-    {required String songPath,
-    required String currentSongPreview,
-    required dynamic playerState}) async {
-  if (currentSongPreview != songPath) {
-    currentSongPreview = songPath;
-
-    await audioPlayerPreview.stop();
-    await audioPlayerPreview.play(
-      audio_players.DeviceFileSource(songPath),
-    );
-  } else {
-    await (playerState == audio_players.PlayerState.playing
-        ? audioPlayerPreview.pause()
-        : audioPlayerPreview.resume());
-  }
-  return currentSongPreview;
 }
