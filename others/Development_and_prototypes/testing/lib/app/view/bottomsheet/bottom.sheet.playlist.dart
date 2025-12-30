@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
-import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
-import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
-import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/components/show.top.message.dart';
+import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class PlaylistBottomSheet extends StatelessWidget {
@@ -276,7 +275,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                               .removeAudioSourceAt(index);
                                           rebuildPlaylistCurrentLengthNotifier();
                                           if (currentIndex == index) {
-                                            preLoadSongName(context);
+                                            // preLoadSongName(context);
                                           }
                                           rebuildPlaylistCurrentLengthNotifier();
                                         }

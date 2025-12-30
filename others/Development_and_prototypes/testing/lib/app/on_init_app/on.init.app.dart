@@ -42,4 +42,7 @@ Future<void> onInitPlayer() async {
 
   // Set the default Media Notification Background
   await defaultAlbumArt();
+
+  // Init current song name listener
+  preLoadSongName();
 }

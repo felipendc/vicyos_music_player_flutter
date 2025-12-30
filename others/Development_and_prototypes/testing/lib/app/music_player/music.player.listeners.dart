@@ -111,8 +111,9 @@ void audioPlayerPreviewListener() {
 }
 
 // Update and display the title, artist, album, and index of the song
-void preLoadSongName(BuildContext context) {
+void preLoadSongName() {
   int? lastSongCurrentIndex;
+
   audioPlayer.currentIndexStream.listen((index) {
     if (lastSongCurrentIndex != index) {
       lastSongCurrentIndex = index;
@@ -132,14 +133,14 @@ void preLoadSongName(BuildContext context) {
         }
 
         currentSongName = currentMediaItem.title;
-        if (context.mounted) {
-          currentSongArtistName = currentMediaItem.artist ??
-              AppLocalizations.of(context)!.unknown_artist;
-        }
-        if (context.mounted) {
-          currentSongAlbumName = currentMediaItem.album ??
-              AppLocalizations.of(context)!.unknown_album;
-        }
+        // if (context.mounted) {
+        //   currentSongArtistName = currentMediaItem.artist ??
+        //       AppLocalizations.of(context)!.unknown_artist;
+        // }
+        // if (context.mounted) {
+        //   currentSongAlbumName = currentMediaItem.album ??
+        //       AppLocalizations.of(context)!.unknown_album;
+        // }
 
         currentIndex = index;
         currentSongNameNotifier();
@@ -148,6 +149,7 @@ void preLoadSongName(BuildContext context) {
   });
 }
 
+// Learning purposes
 // Update only once and display the title, artist, album, and index of the song
 Future<void> updateCurrentSongNameOnlyOnce(BuildContext context) async {
   final index = audioPlayer.currentIndex;

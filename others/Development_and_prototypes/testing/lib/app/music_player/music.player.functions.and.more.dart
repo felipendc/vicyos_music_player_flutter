@@ -16,7 +16,6 @@ import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
-import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
@@ -443,7 +442,7 @@ Future<void> pickFolder(BuildContext context) async {
       );
       firstSongIndex = true;
       if (context.mounted) {
-        preLoadSongName(context);
+        // preLoadSongName(context);
       }
 
       // await playOrPause();
@@ -546,7 +545,7 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
       if (context.mounted) {
-        preLoadSongName(context);
+        // preLoadSongName(context);
       }
     } else {
       for (String filePath in selectedSongs) {
@@ -650,7 +649,7 @@ Future<void> setFolderAsPlaylist({
   );
 
   firstSongIndex = true;
-  preLoadSongName(context);
+  // preLoadSongName(context);
   playOrPause();
   rebuildPlaylistCurrentLengthNotifier();
   rebuildFavoriteScreenNotifier();
@@ -714,7 +713,7 @@ Future<void> addFolderToPlaylist({
     );
 
     firstSongIndex = true;
-    preLoadSongName(context);
+    // preLoadSongName(context);
     playOrPause();
     rebuildPlaylistCurrentLengthNotifier();
   } else {
@@ -807,7 +806,7 @@ Future<void> addSongToPlaylist({
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
       firstSongIndex = true;
-      preLoadSongName(context);
+      // preLoadSongName(context);
       playOrPause();
       showAddedToPlaylist(context, "", songName(songPath),
           AppLocalizations.of(context)!.added_to_the_playlist);
@@ -899,7 +898,7 @@ Future<void> addSongToPlaylist({
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
       firstSongIndex = true;
       if (context.mounted) {
-        preLoadSongName(context);
+        // preLoadSongName(context);
       }
       playOrPause();
       if (context.mounted) {
@@ -1011,7 +1010,7 @@ void addToPlayNext({
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
-      preLoadSongName(context);
+      // preLoadSongName(context);
       rebuildPlaylistCurrentLengthNotifier();
       playOrPause();
     } else {
@@ -1073,7 +1072,7 @@ void addToPlayNext({
 
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
-      preLoadSongName(context);
+      // preLoadSongName(context);
       rebuildPlaylistCurrentLengthNotifier();
       playOrPause();
     } else {

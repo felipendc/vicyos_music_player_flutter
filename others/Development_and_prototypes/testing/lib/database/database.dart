@@ -9,7 +9,6 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 
 class AppDatabase {
@@ -426,9 +425,9 @@ class AppDatabase {
       }
     }
 
-    if (context.mounted) {
-      updateCurrentSongNameOnlyOnce(context);
-    }
+    // if (context.mounted) {
+    //   updateCurrentSongNameOnlyOnce(context);
+    // }
   }
 
   // Complete Toggle (better UI)
@@ -666,9 +665,9 @@ class AppDatabase {
         rebuildPlaylistCurrentLengthNotifier();
       }
     }
-    if (context.mounted) {
-      updateCurrentSongNameOnlyOnce(context);
-    }
+    // if (context.mounted) {
+    //   updateCurrentSongNameOnlyOnce(context);
+    // }
   }
 
   //  Update the database with the new order

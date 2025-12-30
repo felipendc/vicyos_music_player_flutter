@@ -21,7 +21,7 @@ class HomeNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomMiniPlayerPadding = MediaQuery.of(context).padding.bottom + 6;
+    ;
 
     // Set the preferred orientations to landscape mode when this screen is built
     setScreenOrientation();
@@ -76,7 +76,7 @@ class HomeNavigator extends StatelessWidget {
                               // After one second, it will return the BottomPlayer.
                               return Positioned(
                                 right: 11, // Default 11
-                                bottom: bottomMiniPlayerPadding,
+                                bottom: MediaQuery.of(context).padding.bottom,
 
                                 child: BottomMusicPlayer(),
                               );
@@ -104,7 +104,7 @@ class HomeNavigator extends StatelessWidget {
                               // After one second, it will return the BottomPlayer.
                               return Positioned(
                                 right: 11, // Default 11
-                                bottom: bottomMiniPlayerPadding,
+                                bottom: MediaQuery.of(context).padding.bottom,
                                 child: BottomRadioPlayer(),
                               );
                             }
@@ -121,7 +121,8 @@ class HomeNavigator extends StatelessWidget {
             canPop: false, // Prevents back navigation
             onPopInvokedWithResult: (_, __) async {
               final rootNavigator = Navigator.of(
-                  context); // root navigator, includes bottom sheets and dialogs
+                context,
+              ); // root navigator, includes bottom sheets and dialogs
               final nav1 = navigatorKey.currentState!;
               final nav2 = navigatorKey2.currentState!;
 
