@@ -122,70 +122,54 @@ class PlaylistsScreen extends StatelessWidget {
                                       width: 45,
                                       height: 45,
                                       child: FutureBuilder<List<Playlists>>(
-                                          future: AppDatabase.instance
-                                              .getAllPlaylists(),
-                                          builder: (context, musicSnapshot) {
-                                            // Treating the waiting
-                                            if (musicSnapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const SizedBox();
-                                            }
+                                        future: AppDatabase.instance
+                                            .getAllPlaylists(),
+                                        builder: (context, musicSnapshot) {
+                                          // Treating the waiting
+                                          if (musicSnapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const SizedBox();
+                                          }
 
-                                            // If has error show a blank screen
-                                            if (musicSnapshot.hasError) {
-                                              return const SizedBox();
-                                            }
+                                          // If has error show a blank screen
+                                          if (musicSnapshot.hasError) {
+                                            return const SizedBox();
+                                          }
 
-                                            return IconButton(
-                                              splashRadius: 20,
-                                              iconSize: 10,
-                                              onPressed: () async {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  hideMiniPlayerNotifier(true);
-                                                }
+                                          return IconButton(
+                                            splashRadius: 20,
+                                            iconSize: 10,
+                                            onPressed: () async {
+                                              hideMiniPlayerNotifier(true);
 
-                                                final result =
-                                                    await showModalBottomSheet<
-                                                        String>(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return PlaylistScreenBottomSheet();
-                                                  },
-                                                ).whenComplete(
-                                                  () {
-                                                    // if (deviceTypeIsSmartphone()) {
-                                                    //   // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                    //
-                                                    //   hideMiniPlayerNotifier(
-                                                    //       false);
-                                                    // }
-                                                  },
-                                                );
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return PlaylistScreenBottomSheet();
+                                                },
+                                              );
 
-                                                if (result ==
-                                                    "hide_bottom_player") {
-                                                  if (deviceTypeIsSmartphone()) {
-                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                    hideMiniPlayerNotifier(
-                                                        true);
-                                                  }
-                                                } else {
-                                                  if (deviceTypeIsSmartphone()) {
-                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                    hideMiniPlayerNotifier(
-                                                        false);
-                                                  }
-                                                }
-                                              },
-                                              icon: Image.asset(
-                                                "assets/img/menu/menu_open.png",
-                                                color: TColor.lightGray,
-                                              ),
-                                            );
-                                          }),
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                hideMiniPlayerNotifier(true);
+                                              } else {
+                                                // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                hideMiniPlayerNotifier(false);
+                                              }
+                                            },
+                                            icon: Image.asset(
+                                              "assets/img/menu/menu_open.png",
+                                              color: TColor.lightGray,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Padding(

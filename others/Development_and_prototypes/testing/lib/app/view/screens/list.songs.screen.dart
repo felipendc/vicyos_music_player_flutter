@@ -140,9 +140,7 @@ class SongsListScreen extends StatelessWidget {
                                               splashRadius: 20,
                                               iconSize: 10,
                                               onPressed: () async {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  hideMiniPlayerNotifier(true);
-                                                }
+                                                hideMiniPlayerNotifier(true);
 
                                                 showModalBottomSheet<void>(
                                                   backgroundColor:
@@ -298,7 +296,7 @@ class SongsListScreen extends StatelessWidget {
                                   return SizedBox(
                                     height: 67,
                                     child: GestureDetector(
-                                      onLongPress: () {
+                                      onLongPress: () async {
                                         if (audioPlayer.playerState.playing) {
                                           audioPlayerWasPlaying = true;
                                         } else {
@@ -307,9 +305,7 @@ class SongsListScreen extends StatelessWidget {
 
                                         isSongPreviewBottomSheetOpen = true;
 
-                                        if (deviceTypeIsSmartphone()) {
-                                          hideMiniPlayerNotifier(true);
-                                        }
+                                        hideMiniPlayerNotifier(true);
 
                                         showModalBottomSheet<void>(
                                           isScrollControlled: true,
@@ -327,10 +323,9 @@ class SongsListScreen extends StatelessWidget {
                                             isSongPreviewBottomSheetOpen =
                                                 false;
 
-                                            if (deviceTypeIsSmartphone()) {
-                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                              hideMiniPlayerNotifier(false);
-                                            }
+                                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                            hideMiniPlayerNotifier(false);
+
                                             audioPlayerPreview.stop();
                                             audioPlayerPreview.release();
 
@@ -415,10 +410,9 @@ class SongsListScreen extends StatelessWidget {
                                             final songIsFavorite =
                                                 await AppDatabase.instance
                                                     .isFavorite(song.path);
-                                            if (deviceTypeIsSmartphone()) {
-                                              await hideMiniPlayerNotifier(
-                                                  true);
-                                            }
+
+                                            hideMiniPlayerNotifier(true);
+
                                             if (context.mounted) {
                                               final result =
                                                   await showModalBottomSheet<
@@ -432,7 +426,7 @@ class SongsListScreen extends StatelessWidget {
                                                   return SongInfoMoreBottomSheet(
                                                     listOfSongModel: songs,
                                                     isFromSongsScreen: true,
-                                                    songIsFavoriteScreen:
+                                                    songIsFavorite:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,
@@ -458,15 +452,9 @@ class SongsListScreen extends StatelessWidget {
                                               );
                                               if (result ==
                                                   "hide_bottom_player") {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  await hideMiniPlayerNotifier(
-                                                      true);
-                                                }
+                                                hideMiniPlayerNotifier(true);
                                               } else {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  await hideMiniPlayerNotifier(
-                                                      false);
-                                                }
+                                                hideMiniPlayerNotifier(false);
                                               }
                                             }
                                           },

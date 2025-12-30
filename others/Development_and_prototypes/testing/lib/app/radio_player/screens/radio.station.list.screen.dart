@@ -116,6 +116,7 @@ class RadioStationsScreen extends StatelessWidget {
                                           iconSize: 10,
                                           onPressed: () async {
                                             hideMiniPlayerNotifier(true);
+
                                             Navigator.pop(context);
                                           },
                                           icon: Image.asset(

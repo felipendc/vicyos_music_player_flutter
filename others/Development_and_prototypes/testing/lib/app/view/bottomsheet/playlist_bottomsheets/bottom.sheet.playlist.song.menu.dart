@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
-import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
@@ -171,9 +170,7 @@ class PlaylistSongMenuBottomSheet extends StatelessWidget {
                               contentPadding:
                                   const EdgeInsets.fromLTRB(0, 4, 0, 4),
                               onTap: () async {
-                                if (deviceTypeIsSmartphone()) {
-                                  hideMiniPlayerNotifier(true);
-                                }
+                                hideMiniPlayerNotifier(true);
                                 Navigator.pop(context, "hide_bottom_player");
 
                                 final result =
@@ -189,15 +186,11 @@ class PlaylistSongMenuBottomSheet extends StatelessWidget {
                                 );
 
                                 if (result == "hide_bottom_player") {
-                                  if (deviceTypeIsSmartphone()) {
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerNotifier(true);
-                                  }
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(true);
                                 } else {
-                                  if (deviceTypeIsSmartphone()) {
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerNotifier(false);
-                                  }
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(false);
                                 }
                               },
                             ),
@@ -230,10 +223,7 @@ class PlaylistSongMenuBottomSheet extends StatelessWidget {
                               contentPadding:
                                   const EdgeInsets.fromLTRB(0, 4, 0, 4),
                               onTap: () async {
-                                if (deviceTypeIsSmartphone()) {
-                                  hideMiniPlayerNotifier(true);
-                                }
-                                // Navigator.pop(context, "hide_bottom_player");
+                                hideMiniPlayerNotifier(true);
 
                                 final result =
                                     await showModalBottomSheet<String>(
@@ -252,15 +242,12 @@ class PlaylistSongMenuBottomSheet extends StatelessWidget {
                                     Navigator.pop(
                                         context, "playlist_was_deleted");
                                   }
-                                  if (deviceTypeIsSmartphone()) {
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerNotifier(false);
-                                  }
+
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(false);
                                 } else {
-                                  if (deviceTypeIsSmartphone()) {
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerNotifier(true);
-                                  }
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(true);
                                 }
                               },
                             ),

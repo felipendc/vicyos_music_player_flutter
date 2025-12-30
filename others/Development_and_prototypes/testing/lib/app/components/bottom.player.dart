@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/main.player.navigation.animation.dart';
 import 'package:vicyos_music/app/view/screens/main.player.view.screen.dart';
-import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-class BottomPlayer extends StatelessWidget {
-  const BottomPlayer({super.key});
+class BottomMusicPlayer extends StatelessWidget {
+  const BottomMusicPlayer({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/main.player.navigation.animation.dart';
 import 'package:vicyos_music/app/view/screens/main.player.view.screen.dart';
-import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class FolderToPlaylistBottomSheet extends StatelessWidget {
@@ -203,9 +203,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
-                          if (deviceTypeIsSmartphone()) {
-                            mainPlayerIsOpen = true;
-                          }
+                          mainPlayerIsOpen = true;
                           Navigator.pop(context);
                           setFolderAsPlaylist(
                             currentFolder: folderSongList,

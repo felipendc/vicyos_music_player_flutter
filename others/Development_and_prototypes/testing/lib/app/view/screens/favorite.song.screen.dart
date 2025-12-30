@@ -248,7 +248,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                   return SizedBox(
                                     height: 67,
                                     child: GestureDetector(
-                                      onLongPress: () {
+                                      onLongPress: () async {
                                         if (audioPlayer.playerState.playing) {
                                           audioPlayerWasPlaying = true;
                                         } else {
@@ -256,10 +256,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                         }
 
                                         isSongPreviewBottomSheetOpen = true;
-
-                                        if (deviceTypeIsSmartphone()) {
-                                          hideMiniPlayerNotifier(true);
-                                        }
+                                        hideMiniPlayerNotifier(true);
 
                                         showModalBottomSheet<void>(
                                           isScrollControlled: true,
@@ -277,10 +274,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                             isSongPreviewBottomSheetOpen =
                                                 false;
 
-                                            if (deviceTypeIsSmartphone()) {
-                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                              hideMiniPlayerNotifier(false);
-                                            }
+                                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                            hideMiniPlayerNotifier(false);
+
                                             audioPlayerPreview.stop();
                                             audioPlayerPreview.release();
 
@@ -365,10 +361,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                             final songIsFavorite =
                                                 await AppDatabase.instance
                                                     .isFavorite(song.path);
-                                            if (deviceTypeIsSmartphone()) {
-                                              await hideMiniPlayerNotifier(
-                                                  true);
-                                            }
+
+                                            hideMiniPlayerNotifier(true);
+
                                             if (context.mounted) {
                                               final result =
                                                   await showModalBottomSheet<
@@ -383,7 +378,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                     listOfSongModel:
                                                         favoriteSongs,
                                                     isFromSongsScreen: false,
-                                                    songIsFavoriteScreen:
+                                                    songIsFavorite:
                                                         songIsFavorite,
                                                     isFromPlaylistSongScreen:
                                                         false,
@@ -402,10 +397,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                       debugPrint(
                                                           "No other screen is open.");
                                                     } else {
-                                                      if (deviceTypeIsSmartphone()) {
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
+                                                      hideMiniPlayerNotifier(
+                                                          false);
+
                                                       debugPrint(
                                                           "There are other open screens.");
                                                     }
@@ -414,15 +408,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                               );
                                               if (result ==
                                                   "hide_bottom_player") {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  await hideMiniPlayerNotifier(
-                                                      true);
-                                                }
+                                                hideMiniPlayerNotifier(true);
                                               } else {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  await hideMiniPlayerNotifier(
-                                                      false);
-                                                }
+                                                hideMiniPlayerNotifier(false);
                                               }
                                             }
                                           },

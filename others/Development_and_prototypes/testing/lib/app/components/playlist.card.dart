@@ -51,7 +51,7 @@ class PlaylistCard extends StatelessWidget {
                 customBorder: const CircleBorder(),
                 splashColor: Colors.white24,
                 highlightColor: Colors.white10,
-                onTap: () {
+                onTap: () async {
                   if (playingFromPlaylist ==
                           playlistModel[index]
                               .playlistName /*&&
@@ -80,7 +80,7 @@ class PlaylistCard extends StatelessWidget {
                         audioRouteEmptyPlaylist: NavigationButtons.playlists,
                       );
 
-                      if (deviceTypeIsSmartphone()) {
+                      if (context.mounted) {
                         Navigator.push(
                           context,
                           mainPlayerSlideUpDownTransition(

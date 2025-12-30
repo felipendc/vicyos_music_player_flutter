@@ -111,11 +111,7 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           Navigator.pop(context, "");
-                                          if (addSongs is AudioInfo) {
-                                            if (deviceTypeIsSmartphone()) {
-                                              hideMiniPlayerNotifier(false);
-                                            }
-                                          }
+                                          hideMiniPlayerNotifier(false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/close.png",
@@ -231,7 +227,7 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                                         context: context,
                                         text: playlistNameController.text,
                                         message: AppLocalizations.of(context)!
-                                            .added_successfully);
+                                            .created_and_song_added_successfully);
                                   }
                                   playlistNameController.clear();
 
@@ -261,7 +257,8 @@ class CreatePlaylistAndAddSongBottomSheet extends StatelessWidget {
                                         context: context,
                                         text: playlistNameController.text,
                                         message: AppLocalizations.of(context)!
-                                            .added_successfully);
+                                            .created_and_songs_added_successfully_plural(
+                                                addSongs.length));
                                   }
                                   playlistNameController.clear();
                                   if (context.mounted) {

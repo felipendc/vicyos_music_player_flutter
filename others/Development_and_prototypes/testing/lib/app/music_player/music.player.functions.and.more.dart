@@ -50,6 +50,7 @@ List<AudioInfo> songModelListGlobal = [];
 // It will be initiated by the listener in the main()
 late bool isPlayerPreviewPlaying;
 
+bool isMultiSelectionScreenOpen = false;
 String playingFromPlaylist = "";
 bool appSettingsWasOpened = false;
 late bool isPermissionGranted;

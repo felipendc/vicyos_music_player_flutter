@@ -170,9 +170,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                             Navigator.pop(context, "hide_bottom_player");
                           }
 
-                          if (deviceTypeIsSmartphone()) {
-                            await hideMiniPlayerNotifier(true);
-                          }
+                          hideMiniPlayerNotifier(true);
 
                           if (context.mounted) {
                             final result = await showModalBottomSheet<String>(
@@ -186,13 +184,9 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 });
 
                             if (result == "hide_bottom_player") {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(true);
-                              }
+                              hideMiniPlayerNotifier(true);
                             } else {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(false);
-                              }
+                              hideMiniPlayerNotifier(false);
                             }
                           }
                         },
@@ -224,8 +218,11 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                               onTap: () async {
                                 Navigator.pop(context);
 
-                                await AppDatabase.instance
-                                    .removeFromFavorites(fullFilePath, context);
+                                await AppDatabase.instance.removeFromFavorites(
+                                  context: context,
+                                  songPath: fullFilePath,
+                                  isFromFavoriteScreen: false,
+                                );
                                 rebuildFavoriteScreenNotifier();
                               },
                             ),

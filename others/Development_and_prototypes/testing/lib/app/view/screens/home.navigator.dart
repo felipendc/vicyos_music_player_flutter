@@ -59,7 +59,9 @@ class HomeNavigator extends StatelessWidget {
                     stream: hideBottonSheetStreamController.stream,
                     builder: (context, snapshot) {
                       final hideMiniPlayer = snapshot.data ?? false;
-                      if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
+                      if (hideMiniPlayer ||
+                          isSongPreviewBottomSheetOpen ||
+                          isMultiSelectionScreenOpen) {
                         return Container();
                       } else {
                         return FutureBuilder(
@@ -73,7 +75,7 @@ class HomeNavigator extends StatelessWidget {
                               return Positioned(
                                 bottom: 0, // Default 6
                                 right: 11, // Default 11
-                                child: BottomPlayer(),
+                                child: BottomMusicPlayer(),
                               );
                             }
                           },
@@ -85,8 +87,8 @@ class HomeNavigator extends StatelessWidget {
                     stream: hideMiniRadioPlayerStreamController.stream,
                     initialData: true,
                     builder: (context, snapshot) {
-                      final hideMiniPlayer = snapshot.data ?? false;
-                      if (hideMiniPlayer || isSongPreviewBottomSheetOpen) {
+                      final hideRadioMiniPlayer = snapshot.data ?? false;
+                      if (hideRadioMiniPlayer) {
                         return Container();
                       } else {
                         return FutureBuilder(
@@ -100,7 +102,7 @@ class HomeNavigator extends StatelessWidget {
                               return Positioned(
                                 bottom: 0, // Default 6
                                 right: 11, // Default 11
-                                child: RadioBottomPlayer(),
+                                child: BottomRadioPlayer(),
                               );
                             }
                           },

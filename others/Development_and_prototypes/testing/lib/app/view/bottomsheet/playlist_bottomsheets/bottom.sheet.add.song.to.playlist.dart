@@ -3,7 +3,6 @@ import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
-import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.create.playlist.and.add.song.dart';
 import 'package:vicyos_music/database/database.dart';
@@ -114,11 +113,7 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           Navigator.pop(context, "");
-                                          if (songModels is AudioInfo) {
-                                            if (deviceTypeIsSmartphone()) {
-                                              hideMiniPlayerNotifier(false);
-                                            }
-                                          }
+                                          hideMiniPlayerNotifier(false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/close.png",
@@ -294,9 +289,7 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                 child: Center(
                   child: TextButton(
                     onPressed: () async {
-                      if (deviceTypeIsSmartphone()) {
-                        hideMiniPlayerNotifier(true);
-                      }
+                      hideMiniPlayerNotifier(true);
                       Navigator.pop(context, "hide_bottom_player");
 
                       final result = await showModalBottomSheet<String>(
@@ -316,19 +309,15 @@ class AddSongToPlaylistBottomSheet extends StatelessWidget {
                       );
 
                       if (result == "hide_bottom_player") {
-                        if (deviceTypeIsSmartphone()) {
-                          // "When the bottom sheet is closed, send a signal to show the mini player again."
-                          hideMiniPlayerNotifier(true);
-                        }
+                        // "When the bottom sheet is closed, send a signal to show the mini player again."
+                        hideMiniPlayerNotifier(true);
                       } else {
                         if (songModels is AudioInfo) {
                           // If songModels is an AudioInfo class and not a list
                           // it means that this bottomsheet wasn't open through the multi-selection screen
 
-                          if (deviceTypeIsSmartphone()) {
-                            // "When the bottom sheet is closed, send a signal to show the mini player again."
-                            hideMiniPlayerNotifier(false);
-                          }
+                          // "When the bottom sheet is closed, send a signal to show the mini player again."
+                          hideMiniPlayerNotifier(false);
                         }
                       }
                     },

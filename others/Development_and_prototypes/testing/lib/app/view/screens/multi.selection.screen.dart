@@ -158,7 +158,7 @@ class MultiSelectionScreen extends StatelessWidget {
                                     iconSize: 10,
                                     onPressed: () {
                                       selectAllItems = !selectAllItems;
-                                      print(selectAllItems);
+
                                       if (selectAllItems == true) {
                                         selectedItemsFromMultiselectionScreen
                                             .addAll(songModelListGlobal);
@@ -168,9 +168,6 @@ class MultiSelectionScreen extends StatelessWidget {
                                             .clear();
                                         rebuildMultiSelectionScreenNotifier();
                                       }
-
-                                      print(
-                                          "seleted length ${selectedItemsFromMultiselectionScreen.length}");
                                     },
                                     icon: Icon(
                                       Icons.select_all_rounded,
@@ -334,11 +331,8 @@ class MultiSelectionScreen extends StatelessWidget {
                                                 .add(song);
                                           }
                                           rebuildMultiSelectionScreenNotifier();
-                                          print(
-                                              "aaaaa ${selectedItemsFromMultiselectionScreen.length}");
                                         },
                                       ),
-                                      //
                                     ),
                                     onTap: () async {
                                       if (radioPlayer.playing) {
@@ -350,7 +344,6 @@ class MultiSelectionScreen extends StatelessWidget {
 
                                       ///////// CONTROLLING THE PREVIEW PLAYER //////
 
-                                      // Current option:
                                       // flutterSoundPlayer for the multi screen song preview.
                                       // It's faster!
 
@@ -362,7 +355,11 @@ class MultiSelectionScreen extends StatelessWidget {
                                         //   await flutterSoundPlayer.stopPlayer();
                                         // }
                                         await flutterSoundPlayer.startPlayer(
-                                            fromURI: song.path);
+                                          fromURI: song.path,
+                                          whenFinished: () {
+                                            currentSongPreview = "";
+                                          },
+                                        );
                                       } else {
                                         if (flutterSoundPlayer.isPlaying) {
                                           await flutterSoundPlayer
@@ -408,35 +405,30 @@ class MultiSelectionScreen extends StatelessWidget {
                             .select_something_first,
                       );
                     } else {
-                      if (deviceTypeIsSmartphone()) {
-                        await hideMiniPlayerNotifier(true);
-                      }
+                      hideMiniPlayerNotifier(true);
 
-                      if (context.mounted) {
-                        showModalBottomSheet<String>(
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom,
-                              ),
-                              child: SongSelectionInfoMoreBottomSheet(
-                                playListName: playlistName,
-                                isFromSongsScreen: isFavoriteScreen,
-                                isFromPlaylistSongScreen: isPlaylistScreen,
-                                isSongFavoriteScreen: isFavoriteScreen,
-                                isFromFavoriteScreen: isFavoriteScreen,
-                                audioRoute: audioRoute,
-                                selectedItems:
-                                    selectedItemsFromMultiselectionScreen,
-                              ),
-                            );
-                          },
-                        );
-                      }
+                      showModalBottomSheet<String>(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: SongSelectionInfoMoreBottomSheet(
+                              playListName: playlistName,
+                              isFromSongsScreen: isFavoriteScreen,
+                              isFromPlaylistSongScreen: isPlaylistScreen,
+                              isSongFavorite: isFavoriteScreen,
+                              isFromFavoriteScreen: isFavoriteScreen,
+                              audioRoute: audioRoute,
+                              selectedItems:
+                                  selectedItemsFromMultiselectionScreen,
+                            ),
+                          );
+                        },
+                      );
                     }
                   },
                   style: TextButton.styleFrom(

@@ -21,7 +21,7 @@ import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
   final int? playlistModelPositionIndex;
-  final bool songIsFavoriteScreen;
+  final bool songIsFavorite;
   final AudioInfo songModel;
   final bool isFromFavoriteScreen;
   final bool isFromPlaylistSongScreen;
@@ -41,7 +41,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
     this.playListName,
     this.playlistSongIndex,
     this.listOfSongModel,
-    required this.songIsFavoriteScreen,
+    required this.songIsFavorite,
     required this.isFromSongsScreen,
     this.playlistModel,
     this.playlistModelPositionIndex,
@@ -191,11 +191,10 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
 
                           Navigator.pop(context, "hide_bottom_player");
 
-                          if (deviceTypeIsSmartphone()) {
-                            // Hide radio mini player if it is open
-                            hideMiniRadioPlayerNotifier(true);
-                          }
+                          // Hide radio mini player if it is open
+                          hideMiniRadioPlayerNotifier(true);
 
+                          isMultiSelectionScreenOpen = true;
                           final result = await Navigator.push(
                             context,
                             slideRightLeftTransition(
@@ -208,13 +207,13 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 isSongScreen: isFromPlaylistSongScreen,
                               ),
                             ),
-                          );
+                          ).whenComplete(() {
+                            isMultiSelectionScreenOpen = false;
+                          });
 
                           if (result == "hide_bottom_player") {
-                            if (deviceTypeIsSmartphone()) {
-                              // Hide radio mini player if it is open
-                              hideMiniRadioPlayerNotifier(true);
-                            }
+                            // Hide radio mini player if it is open
+                            hideMiniRadioPlayerNotifier(true);
 
                             // if (flutterSoundPlayer.isPlaying) {
                             await flutterSoundPlayer.stopPlayer();
@@ -248,10 +247,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             if (isRadioOn && isRadioPaused) {
                               radioPlayer.play();
                             }
-                            if (deviceTypeIsSmartphone()) {
-                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                              hideMiniPlayerNotifier(false);
-                            }
+
+                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                            hideMiniPlayerNotifier(false);
                           }
                         },
                       ),
@@ -507,30 +505,22 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context, "hide_bottom_player");
 
-                          if (deviceTypeIsSmartphone()) {
-                            await hideMiniPlayerNotifier(true);
-                          }
+                          hideMiniPlayerNotifier(true);
 
-                          if (context.mounted) {
-                            final result = await showModalBottomSheet<String>(
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AddSongToPlaylistBottomSheet(
-                                    songModels: songModel,
-                                  );
-                                });
+                          final result = await showModalBottomSheet<String>(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AddSongToPlaylistBottomSheet(
+                                  songModels: songModel,
+                                );
+                              });
 
-                            if (result == "hide_bottom_player") {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(true);
-                              }
-                            } else {
-                              if (deviceTypeIsSmartphone()) {
-                                await hideMiniPlayerNotifier(false);
-                              }
-                            }
+                          if (result == "hide_bottom_player") {
+                            hideMiniPlayerNotifier(true);
+                          } else {
+                            hideMiniPlayerNotifier(false);
                           }
                         },
                       ),
@@ -559,8 +549,10 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                           onTap: () async {
                             Navigator.pop(context);
-                            await AppDatabase.instance
-                                .removeFromFavorites(songModel.path, context);
+                            await AppDatabase.instance.removeFromFavorites(
+                                context: context,
+                                songPath: songModel.path,
+                                isFromFavoriteScreen: true);
 
                             if (context.mounted) {
                               showFileDeletedMessage(
@@ -571,15 +563,14 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               );
                             }
 
-                            if (deviceTypeIsSmartphone()) {
-                              hideMiniPlayerNotifier(false);
-                            }
+                            hideMiniPlayerNotifier(false);
+
                             rebuildFavoriteScreenNotifier();
                           },
                         ),
                       ),
                     if (!isFromFavoriteScreen)
-                      (songIsFavoriteScreen)
+                      (songIsFavorite)
                           ? Material(
                               color: Colors.transparent,
                               child: ListTile(
@@ -606,7 +597,10 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   Navigator.pop(context);
                                   await AppDatabase.instance
                                       .removeFromFavorites(
-                                          songModel.path, context);
+                                    context: context,
+                                    songPath: songModel.path,
+                                    isFromFavoriteScreen: false,
+                                  );
 
                                   if (context.mounted) {
                                     showFileDeletedMessage(
@@ -617,9 +611,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                     );
                                   }
 
-                                  if (deviceTypeIsSmartphone()) {
-                                    hideMiniPlayerNotifier(false);
-                                  }
+                                  hideMiniPlayerNotifier(false);
                                 },
                               ),
                             )
@@ -658,10 +650,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                           .added_to_favorites,
                                     );
                                   }
-
-                                  if (deviceTypeIsSmartphone()) {
-                                    hideMiniPlayerNotifier(false);
-                                  }
+                                  hideMiniPlayerNotifier(false);
                                 },
                               ),
                             ),
@@ -693,9 +682,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           }
                           isSongPreviewBottomSheetOpen = true;
 
-                          if (deviceTypeIsSmartphone()) {
-                            hideMiniPlayerNotifier(true);
-                          }
+                          hideMiniPlayerNotifier(true);
 
                           Navigator.pop(context);
 
@@ -712,10 +699,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             () {
                               isSongPreviewBottomSheetOpen = false;
 
-                              if (deviceTypeIsSmartphone()) {
-                                // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                hideMiniPlayerNotifier(false);
-                              }
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              hideMiniPlayerNotifier(false);
+
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -796,9 +782,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           await sharingFiles(songModel.path, context);
-                          if (deviceTypeIsSmartphone()) {
-                            hideMiniPlayerNotifier(false);
-                          }
+
+                          hideMiniPlayerNotifier(false);
                         },
                       ),
                     ),
@@ -870,9 +855,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   context, "close_song_preview_bottom_sheet");
                             }
                           } else if (result == "canceled") {
-                            if (deviceTypeIsSmartphone()) {
-                              hideMiniPlayerNotifier(false);
-                            }
+                            hideMiniPlayerNotifier(false);
 
                             if (context.mounted) {
                               Navigator.pop(context);

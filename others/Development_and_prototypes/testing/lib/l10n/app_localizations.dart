@@ -471,7 +471,7 @@ abstract class AppLocalizations {
   /// No description provided for @create_a_playlist_text_field_hint.
   ///
   /// In en, this message translates to:
-  /// **'e.g. The best ones...'**
+  /// **'Example: The best ones...'**
   String get create_a_playlist_text_field_hint;
 
   /// No description provided for @new_playlist.
@@ -635,6 +635,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Added to favorites'**
   String get added_to_favorites;
+
+  /// No description provided for @created_and_song_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Created and song added successfully!'**
+  String get created_and_song_added_successfully;
+
+  /// No description provided for @created_and_songs_added_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{} =1{Created and song added successfully!} other{Created and songs added successfully!}}'**
+  String created_and_songs_added_successfully_plural(num count);
 
   /// No description provided for @added_to_favorites_plural.
   ///

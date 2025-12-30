@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
-import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
@@ -104,9 +103,7 @@ class DeletePlaylistBottomSheet extends StatelessWidget {
                                       iconSize: 10,
                                       onPressed: () async {
                                         Navigator.pop(context, "");
-                                        if (deviceTypeIsSmartphone()) {
-                                          hideMiniPlayerNotifier(false);
-                                        }
+                                        hideMiniPlayerNotifier(false);
                                       },
                                       icon: Image.asset(
                                         "assets/img/menu/close.png",

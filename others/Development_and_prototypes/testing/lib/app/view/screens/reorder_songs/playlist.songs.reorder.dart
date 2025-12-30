@@ -175,9 +175,7 @@ class PlaylistSongsReorder extends StatelessWidget {
                                               splashRadius: 20,
                                               iconSize: 10,
                                               onPressed: () async {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  hideMiniPlayerNotifier(true);
-                                                }
+                                                hideMiniPlayerNotifier(true);
 
                                                 final result =
                                                     await showModalBottomSheet<
@@ -203,17 +201,11 @@ class PlaylistSongsReorder extends StatelessWidget {
 
                                                 if (result ==
                                                     "hide_bottom_player") {
-                                                  if (deviceTypeIsSmartphone()) {
-                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                    hideMiniPlayerNotifier(
-                                                        true);
-                                                  }
+                                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                  hideMiniPlayerNotifier(true);
                                                 } else {
-                                                  if (deviceTypeIsSmartphone()) {
-                                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                    hideMiniPlayerNotifier(
-                                                        false);
-                                                  }
+                                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                  hideMiniPlayerNotifier(false);
                                                 }
                                               },
                                               icon: Image.asset(

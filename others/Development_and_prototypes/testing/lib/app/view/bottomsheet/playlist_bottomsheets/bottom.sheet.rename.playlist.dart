@@ -109,11 +109,10 @@ class RenamePlaylistBottomSheet extends StatelessWidget {
                                       child: IconButton(
                                         splashRadius: 20,
                                         iconSize: 10,
-                                        onPressed: () async {
+                                        onPressed: () {
                                           Navigator.pop(context, "");
-                                          if (deviceTypeIsSmartphone()) {
-                                            hideMiniPlayerNotifier(false);
-                                          }
+
+                                          hideMiniPlayerNotifier(false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/close.png",

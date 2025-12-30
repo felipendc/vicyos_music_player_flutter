@@ -271,7 +271,7 @@ class SearchScreen extends StatelessWidget {
                               final songIsFavorite = await AppDatabase.instance
                                   .isFavorite(
                                       searchSongFromDataBase[index].path);
-                              await hideMiniPlayerNotifier(true);
+                              hideMiniPlayerNotifier(true);
 
                               if (context.mounted) {
                                 final result =
@@ -283,7 +283,7 @@ class SearchScreen extends StatelessWidget {
                                     return SongInfoMoreBottomSheet(
                                       listOfSongModel: searchSongFromDataBase,
                                       isFromSongsScreen: true,
-                                      songIsFavoriteScreen: songIsFavorite,
+                                      songIsFavorite: songIsFavorite,
                                       isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
                                       isFromFavoriteScreen: false,
@@ -309,15 +309,11 @@ class SearchScreen extends StatelessWidget {
                                   isSearchingSongsNotifier("nothing_found");
                                 }
                                 if (result == "hide_bottom_player") {
-                                  if (deviceTypeIsSmartphone()) {
-                                    // Hide radio mini player if it is open
-                                    hideMiniPlayerNotifier(true);
-                                  }
+                                  // Hide radio mini player if it is open
+                                  hideMiniPlayerNotifier(true);
                                 } else {
-                                  if (deviceTypeIsSmartphone()) {
-                                    // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                    hideMiniPlayerNotifier(false);
-                                  }
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(false);
                                 }
                               }
                             },

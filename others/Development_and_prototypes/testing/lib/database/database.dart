@@ -385,51 +385,63 @@ class AppDatabase {
   }
 
   // Remove from favorites (toggle)
-  Future<void> removeFromFavorites(
-    String songPath,
-    BuildContext context,
-  ) async {
+  Future<void> removeFromFavorites({
+    required bool isFromFavoriteScreen,
+    required String songPath,
+    required BuildContext context,
+  }) async {
     final db = await database;
 
     await db.delete('favorites', where: 'path = ?', whereArgs: [songPath]);
 
-    // Check if the file is present on the playlist...
-    final int index = audioPlayer.audioSources.indexWhere(
-      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
-    );
+    if (isFromFavoriteScreen) {
+      // Check if the file is present on the playlist...
+      final int index = audioPlayer.audioSources.indexWhere(
+        (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
+      );
 
-    if (index != -1) {
-      if (songPath == currentSongFullPath &&
-          audioPlayer.audioSources.length == 1) {
-        // Clean playlist and rebuild the entire screen to clean the listview
-        if (context.mounted) {
-          cleanPlaylist(context);
+      if (index != -1) {
+        if (songPath == currentSongFullPath &&
+            audioPlayer.audioSources.length == 1) {
+          // Clean playlist and rebuild the entire screen to clean the listview
+          if (context.mounted) {
+            cleanPlaylist(context);
+          }
+        } else {
+          await audioPlayer.removeAudioSourceAt(index);
+          rebuildPlaylistCurrentLengthNotifier();
+          currentSongNameNotifier();
+
+          // Update the current song name
+          if (index < audioPlayer.audioSources.length) {
+            String newCurrentSongFullPath = Uri.decodeFull(
+              (audioPlayer.audioSources[index] as UriAudioSource)
+                  .uri
+                  .toString(),
+            );
+            currentSongName = songName(newCurrentSongFullPath);
+          }
         }
-      } else {
-        await audioPlayer.removeAudioSourceAt(index);
-        rebuildPlaylistCurrentLengthNotifier();
         currentSongNameNotifier();
-
-        // Update the current song name
-        if (index < audioPlayer.audioSources.length) {
-          String newCurrentSongFullPath = Uri.decodeFull(
-            (audioPlayer.audioSources[index] as UriAudioSource).uri.toString(),
-          );
-          currentSongName = songName(newCurrentSongFullPath);
-        }
       }
-      currentSongNameNotifier();
     }
   }
 
   // Complete Toggle (better UI)
   // Add if isn't in favorites or delete if it is in favorites table
-  Future<bool> toggleFavorite(AudioInfo audio, BuildContext context) async {
+  Future<bool> toggleFavorite(
+      {required AudioInfo audio,
+      required BuildContext context,
+      required bool isFromFavoriteScreen}) async {
     final exists = await isFavorite(audio.path);
 
     if (exists) {
       if (context.mounted) {
-        await removeFromFavorites(audio.path, context);
+        await removeFromFavorites(
+          context: context,
+          songPath: audio.path,
+          isFromFavoriteScreen: isFromFavoriteScreen,
+        );
       }
 
       return false;

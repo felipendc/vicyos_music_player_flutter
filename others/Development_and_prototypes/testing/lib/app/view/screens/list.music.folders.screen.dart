@@ -181,15 +181,13 @@ class HomePageFolderList extends StatelessWidget {
                                                       splashRadius: 20,
                                                       iconSize: 20,
                                                       onPressed: () async {
-                                                        if (deviceTypeIsSmartphone()) {
-                                                          // Show Radio Mini Player
-                                                          hideMiniRadioPlayerNotifier(
-                                                              false);
+                                                        // Show Radio Mini Player
+                                                        hideMiniRadioPlayerNotifier(
+                                                            false);
 
-                                                          // Hide Mini Player
-                                                          hideMiniPlayerNotifier(
-                                                              true);
-                                                        }
+                                                        // Hide Mini Player
+                                                        hideMiniPlayerNotifier(
+                                                            true);
 
                                                         Navigator.push(
                                                           context,
@@ -201,14 +199,12 @@ class HomePageFolderList extends StatelessWidget {
                                                           ),
                                                         ).whenComplete(
                                                           () {
-                                                            if (deviceTypeIsSmartphone()) {
-                                                              // Hide radio mini player if it is open
-                                                              hideMiniRadioPlayerNotifier(
-                                                                  true);
-                                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                                              hideMiniPlayerNotifier(
-                                                                  false);
-                                                            }
+                                                            // Hide radio mini player if it is open
+                                                            hideMiniRadioPlayerNotifier(
+                                                                true);
+                                                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                                            hideMiniPlayerNotifier(
+                                                                false);
                                                           },
                                                         );
                                                       },
@@ -519,8 +515,9 @@ class HomePageFolderList extends StatelessWidget {
                                                   musicSnapshot.data ?? [];
 
                                               return GestureDetector(
-                                                onLongPress: () {
+                                                onLongPress: () async {
                                                   hideMiniPlayerNotifier(true);
+
                                                   showModalBottomSheet<void>(
                                                     backgroundColor:
                                                         Colors.transparent,

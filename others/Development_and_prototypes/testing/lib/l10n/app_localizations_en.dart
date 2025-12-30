@@ -195,7 +195,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get please_try_another_one => 'Please try another one';
 
   @override
-  String get create_a_playlist_text_field_hint => 'e.g. The best ones...';
+  String get create_a_playlist_text_field_hint => 'Example: The best ones...';
 
   @override
   String get new_playlist => 'New playlist';
@@ -277,6 +277,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get added_to_favorites => 'Added to favorites';
+
+  @override
+  String get created_and_song_added_successfully => 'Created and song added successfully!';
+
+  @override
+  String created_and_songs_added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Created and songs added successfully!',
+      one: 'Created and song added successfully!',
+      zero: '',
+    );
+    return '$_temp0';
+  }
 
   @override
   String added_to_favorites_plural(num count) {

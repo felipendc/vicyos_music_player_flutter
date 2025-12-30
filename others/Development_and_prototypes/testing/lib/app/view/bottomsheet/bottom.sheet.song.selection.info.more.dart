@@ -12,7 +12,7 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
-  final bool isSongFavoriteScreen;
+  final bool isSongFavorite;
 
   final bool isFromFavoriteScreen;
   final bool isFromPlaylistSongScreen;
@@ -30,7 +30,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
     this.playListName,
     this.playlistSongIndex,
     required this.selectedItems,
-    required this.isSongFavoriteScreen,
+    required this.isSongFavorite,
     required this.isFromSongsScreen,
   });
 
@@ -253,10 +253,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context, "hide_bottom_player");
 
-                          // if (deviceTypeIsSmartphone()) {
-                          //   await hideMiniPlayerNotifier(true);
-                          // }
-
                           if (context.mounted) {
                             await showModalBottomSheet<String>(
                                 isScrollControlled: true,
@@ -267,21 +263,10 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                     songModels: selectedItems,
                                   );
                                 });
-
-                            // if (result == "hide_bottom_player") {
-                            //   if (deviceTypeIsSmartphone()) {
-                            //     await hideMiniPlayerNotifier(true);
-                            //   }
-                            // } else {
-                            //   if (deviceTypeIsSmartphone()) {
-                            //     await hideMiniPlayerNotifier(false);
-                            //   }
-                            // }
                           }
                         },
                       ),
                     ),
-                    //
                     if (isFromFavoriteScreen)
                       Material(
                         color: Colors.transparent,
@@ -309,8 +294,11 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                             for (AudioInfo song in selectedItems) {
                               selectedItemsTemp.add(song);
 
-                              await AppDatabase.instance
-                                  .removeFromFavorites(song.path, context);
+                              await AppDatabase.instance.removeFromFavorites(
+                                context: context,
+                                songPath: song.path,
+                                isFromFavoriteScreen: isFromFavoriteScreen,
+                              );
                             }
 
                             if (context.mounted) {
@@ -344,7 +332,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                         ),
                       ),
                     if (!isFromFavoriteScreen)
-                      (isSongFavoriteScreen)
+                      (isSongFavorite)
                           ? Material(
                               color: Colors.transparent,
                               child: ListTile(
@@ -373,7 +361,11 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                   for (AudioInfo song in selectedItems) {
                                     await AppDatabase.instance
                                         .removeFromFavorites(
-                                            song.path, context);
+                                      context: context,
+                                      songPath: song.path,
+                                      isFromFavoriteScreen:
+                                          isFromFavoriteScreen,
+                                    );
                                   }
 
                                   if (context.mounted) {
@@ -389,10 +381,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                               selectedItems.length),
                                     );
                                   }
-
-                                  // if (deviceTypeIsSmartphone()) {
-                                  //   hideMiniPlayerNotifier(false);
-                                  // }
                                 },
                               ),
                             )
@@ -442,79 +430,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                 },
                               ),
                             ),
-                    // Material(
-                    //   color: Colors.transparent,
-                    //   child: ListTile(
-                    //     leading: Padding(
-                    //       padding: const EdgeInsets.only(left: 17),
-                    //       child: ImageIcon(
-                    //         AssetImage(
-                    //             "assets/img/bottomsheet/sound_sampler.png"),
-                    //         color: TColor.focus,
-                    //         size: 32,
-                    //       ),
-                    //     ),
-                    //     title: Text(
-                    //       AppLocalizations.of(context)!.song_preview,
-                    //       style: TextStyle(
-                    //         color: TColor.primaryText80,
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //     contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-                    //     onTap: () async {
-                    //       if (audioPlayer.playerState.playing) {
-                    //         audioPlayerWasPlaying = true;
-                    //       } else {
-                    //         audioPlayerWasPlaying = false;
-                    //       }
-                    //       isSongPreviewBottomSheetOpen = true;
-                    //
-                    //       if (deviceTypeIsSmartphone()) {
-                    //         hideMiniPlayerNotifier(true);
-                    //       }
-                    //
-                    //       Navigator.pop(context);
-                    //
-                    //       showModalBottomSheet<String>(
-                    //           isScrollControlled: true,
-                    //           backgroundColor: Colors.transparent,
-                    //           context: context,
-                    //           builder: (BuildContext context) {
-                    //             return SongPreviewBottomSheet(
-                    //               songModel: songModels,
-                    //               audioRoute: audioRoute,
-                    //             );
-                    //           }).whenComplete(
-                    //         () {
-                    //           isSongPreviewBottomSheetOpen = false;
-                    //
-                    //           if (deviceTypeIsSmartphone()) {
-                    //             // "When the bottom sheet is closed, send a signal to show the mini player again."
-                    //             hideMiniPlayerNotifier(false);
-                    //           }
-                    //           audioPlayerPreview.stop();
-                    //           audioPlayerPreview.release();
-                    //
-                    //           if (audioPlayerWasPlaying) {
-                    //             Future.microtask(
-                    //               () async {
-                    //                 await audioPlayer.play();
-                    //               },
-                    //             );
-                    //           }
-                    //           if (context.mounted) {
-                    //             Navigator.pop(context);
-                    //           }
-                    //
-                    //           if (isRadioOn && isRadioPaused) {
-                    //             radioPlayer.play();
-                    //           }
-                    //         },
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                     Material(
                       color: Colors.transparent,
                       child: ListTile(
@@ -581,9 +496,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                         onTap: () async {
                           Navigator.pop(context);
                           await sharingFiles(selectedItems, context);
-                          // if (deviceTypeIsSmartphone()) {
-                          //   hideMiniPlayerNotifier(false);
-                          // }
                         },
                       ),
                     ),
@@ -649,16 +561,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                             },
                           );
 
-                          // if (result == "close_song_preview_bottom_sheet") {
-                          //   if (context.mounted) {
-                          //     Navigator.pop(
-                          //         context, "close_song_preview_bottom_sheet");
-                          //   }
-                          // } else if (result == "canceled") {
-                          //   if (deviceTypeIsSmartphone()) {
-                          //     hideMiniPlayerNotifier(false);
-                          //   }
-                          // }
                           if (context.mounted) {
                             Navigator.pop(context);
                           }

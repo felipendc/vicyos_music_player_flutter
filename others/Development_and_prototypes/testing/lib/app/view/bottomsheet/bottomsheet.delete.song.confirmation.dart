@@ -88,8 +88,6 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                         Future.microtask(
                           () async {
                             if (songPath is String) {
-                              print("xxxxxxx STRING  ${songPath}");
-
                               FlutterMediaDelete.deleteMediaFile(
                                       songPath.toString())
                                   .then(
@@ -103,8 +101,6 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                                 },
                               );
                             } else if (songPath is Set<AudioInfo>) {
-                              print("xxxxxxx DYNAMIC  ${songPath}");
-
                               Set<AudioInfo> selectedItemsTemp = {};
 
                               for (AudioInfo song in songPath) {

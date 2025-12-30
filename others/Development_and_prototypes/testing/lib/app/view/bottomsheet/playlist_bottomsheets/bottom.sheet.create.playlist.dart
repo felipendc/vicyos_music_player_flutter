@@ -108,9 +108,7 @@ class CreatePlaylistBottomSheet extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           Navigator.pop(context, "");
-                                          if (deviceTypeIsSmartphone()) {
-                                            hideMiniPlayerNotifier(false);
-                                          }
+                                          hideMiniPlayerNotifier(false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/close.png",
