@@ -187,7 +187,8 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                               await AppDatabase.instance
                                   .removeAudioFromPlaylist(
                                       playlistName: playListName!,
-                                      audioPath: song.path);
+                                      audioPath: song.path,
+                                      context: context);
 
                               if (context.mounted) {
                                 removeSongPathFromCurrentPlaylist(
@@ -297,7 +298,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                               await AppDatabase.instance.removeFromFavorites(
                                 context: context,
                                 songPath: song.path,
-                                isFromFavoriteScreen: isFromFavoriteScreen,
                               );
                             }
 
@@ -363,8 +363,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                         .removeFromFavorites(
                                       context: context,
                                       songPath: song.path,
-                                      isFromFavoriteScreen:
-                                          isFromFavoriteScreen,
                                     );
                                   }
 

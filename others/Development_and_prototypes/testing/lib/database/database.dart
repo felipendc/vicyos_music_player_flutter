@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/music_player/music.player.listeners.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 
 class AppDatabase {
@@ -386,7 +387,6 @@ class AppDatabase {
 
   // Remove from favorites (toggle)
   Future<void> removeFromFavorites({
-    required bool isFromFavoriteScreen,
     required String songPath,
     required BuildContext context,
   }) async {
@@ -394,36 +394,40 @@ class AppDatabase {
 
     await db.delete('favorites', where: 'path = ?', whereArgs: [songPath]);
 
-    if (isFromFavoriteScreen) {
-      // Check if the file is present on the playlist...
-      final int index = audioPlayer.audioSources.indexWhere(
-        (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
-      );
+    await rebuildFavoriteScreenNotifier();
 
-      if (index != -1) {
-        if (songPath == currentSongFullPath &&
-            audioPlayer.audioSources.length == 1) {
-          // Clean playlist and rebuild the entire screen to clean the listview
-          if (context.mounted) {
-            cleanPlaylist(context);
-          }
-        } else {
-          await audioPlayer.removeAudioSourceAt(index);
-          rebuildPlaylistCurrentLengthNotifier();
-          currentSongNameNotifier();
+    // Check if the song is present on the playing queue...
+    final int index = audioPlayer.audioSources.indexWhere(
+      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
+    );
 
-          // Update the current song name
-          if (index < audioPlayer.audioSources.length) {
-            String newCurrentSongFullPath = Uri.decodeFull(
-              (audioPlayer.audioSources[index] as UriAudioSource)
-                  .uri
-                  .toString(),
-            );
-            currentSongName = songName(newCurrentSongFullPath);
-          }
-        }
-        currentSongNameNotifier();
+    // Exit the function if index isn't present in the playing queue
+    if (index == -1) {
+      return;
+    }
+
+    // Check if the song present on the playing queue is in favorites...
+    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+    final indexIsInThePlaylist = currentMediaItem.extras?['playedFromRoute'];
+
+    if (songPath == currentSongFullPath &&
+        audioPlayer.audioSources.length == 1 &&
+        indexIsInThePlaylist == NavigationButtons.favorites) {
+      // Clean playlist and rebuild the entire screen to clean the listview
+
+      if (context.mounted) {
+        cleanPlaylist(context);
       }
+    } else {
+      if (songPath == currentSongFullPath &&
+          indexIsInThePlaylist == NavigationButtons.favorites) {
+        await audioPlayer.removeAudioSourceAt(index);
+        rebuildPlaylistCurrentLengthNotifier();
+      }
+    }
+
+    if (context.mounted) {
+      updateCurrentSongNameOnlyOnce(context);
     }
   }
 
@@ -440,7 +444,6 @@ class AppDatabase {
         await removeFromFavorites(
           context: context,
           songPath: audio.path,
-          isFromFavoriteScreen: isFromFavoriteScreen,
         );
       }
 
@@ -602,6 +605,7 @@ class AppDatabase {
   Future<void> removeAudioFromPlaylist({
     required String playlistName,
     required String audioPath,
+    required BuildContext context,
   }) async {
     final db = await database;
 
@@ -629,6 +633,42 @@ class AppDatabase {
       where: 'playlist_name = ?',
       whereArgs: [playlistName],
     );
+
+    await rebuildPlaylistScreenSNotifier();
+    await rebuildSongsListScreenNotifier();
+
+    // Check if the song is present on the playing queue...
+    final int index = audioPlayer.audioSources.indexWhere(
+      (audio) => (audio as UriAudioSource).uri.toFilePath() == audioPath,
+    );
+
+    // Exit the function if index isn't present in the playing queue
+    if (index == -1) {
+      return;
+    }
+
+    // Check if the song present on the playing queue is in the playlist...
+    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+    final indexIsInThePlaylist = currentMediaItem.extras?['playedFromRoute'];
+
+    if (audioPath == currentSongFullPath &&
+        audioPlayer.audioSources.length == 1 &&
+        indexIsInThePlaylist == NavigationButtons.playlists) {
+      // Clean playlist and rebuild the entire screen to clean the listview
+
+      if (context.mounted) {
+        cleanPlaylist(context);
+      }
+    } else {
+      if (audioPath == currentSongFullPath &&
+          indexIsInThePlaylist == NavigationButtons.playlists) {
+        await audioPlayer.removeAudioSourceAt(index);
+        rebuildPlaylistCurrentLengthNotifier();
+      }
+    }
+    if (context.mounted) {
+      updateCurrentSongNameOnlyOnce(context);
+    }
   }
 
   //  Update the database with the new order

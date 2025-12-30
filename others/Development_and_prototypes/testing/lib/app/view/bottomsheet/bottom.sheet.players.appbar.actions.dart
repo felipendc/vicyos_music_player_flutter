@@ -221,7 +221,6 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 await AppDatabase.instance.removeFromFavorites(
                                   context: context,
                                   songPath: fullFilePath,
-                                  isFromFavoriteScreen: false,
                                 );
                                 rebuildFavoriteScreenNotifier();
                               },

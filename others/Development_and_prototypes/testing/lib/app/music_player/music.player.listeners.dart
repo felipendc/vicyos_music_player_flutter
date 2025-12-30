@@ -148,6 +148,37 @@ void preLoadSongName(BuildContext context) {
   });
 }
 
+// Update only once and display the title, artist, album, and index of the song
+Future<void> updateCurrentSongNameOnlyOnce(BuildContext context) async {
+  final index = audioPlayer.currentIndex;
+
+  if (index == null) return; // The song hasn't been loaded yet
+  if (index < 0 || index >= audioPlayer.sequence.length) return;
+  final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
+
+  // Accessing the enum playedFromRoute from MediaItem extras
+  songCurrentRouteType = currentMediaItem.extras?['playedFromRoute'];
+  debugPrint("current song route type: $songCurrentRouteType");
+  // If the navigationButtonsHasMiuiBehavior if disabled,
+  // update the navigation buttons whenever the player changes the song index
+  if (!navigationButtonsHasMiuiBehavior) {
+    currentSongNavigationRouteNotifier();
+  }
+
+  currentSongName = currentMediaItem.title;
+  if (context.mounted) {
+    currentSongArtistName =
+        currentMediaItem.artist ?? AppLocalizations.of(context)!.unknown_artist;
+  }
+  if (context.mounted) {
+    currentSongAlbumName =
+        currentMediaItem.album ?? AppLocalizations.of(context)!.unknown_album;
+  }
+
+  currentIndex = index;
+  currentSongNameNotifier();
+}
+
 // This func should be used on a flutter.initState or GetX.on_init_app();
 void audioPlayerPreviewEventStateStreamNotifier() {
   audioPlayerPreview.onPositionChanged.listen(

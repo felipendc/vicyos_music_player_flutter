@@ -75,7 +75,7 @@ void rebuildHomePageFolderListNotifier(FetchingSongs value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 
-void rebuildSongsListScreenNotifier() {
+Future<void> rebuildSongsListScreenNotifier() async {
   rebuildSongsListScreenStreamController.sink.add(null);
 }
 

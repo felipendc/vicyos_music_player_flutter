@@ -457,7 +457,8 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
 
                             await AppDatabase.instance.removeAudioFromPlaylist(
                                 playlistName: playListName!,
-                                audioPath: songModel.path);
+                                audioPath: songModel.path,
+                                context: context);
 
                             if (context.mounted) {
                               showFileDeletedMessage(
@@ -550,9 +551,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           onTap: () async {
                             Navigator.pop(context);
                             await AppDatabase.instance.removeFromFavorites(
-                                context: context,
-                                songPath: songModel.path,
-                                isFromFavoriteScreen: true);
+                              context: context,
+                              songPath: songModel.path,
+                            );
 
                             if (context.mounted) {
                               showFileDeletedMessage(
@@ -599,7 +600,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                       .removeFromFavorites(
                                     context: context,
                                     songPath: songModel.path,
-                                    isFromFavoriteScreen: false,
                                   );
 
                                   if (context.mounted) {
