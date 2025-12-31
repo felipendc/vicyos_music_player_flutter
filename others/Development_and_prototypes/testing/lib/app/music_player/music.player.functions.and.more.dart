@@ -23,6 +23,8 @@ import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:volume_controller/volume_controller.dart';
 
+import 'music.player.listeners.dart';
+
 enum NavigationButtons { music, favorites, playlists, none }
 
 enum CurrentLoopMode { all, one, shuffle, off }
@@ -443,6 +445,7 @@ Future<void> pickFolder(BuildContext context) async {
       firstSongIndex = true;
       if (context.mounted) {
         // preLoadSongName(context);
+        updateCurrentSongNameOnlyOnce(context);
       }
 
       // await playOrPause();
@@ -546,6 +549,7 @@ Future<void> pickAndPlayAudio(BuildContext context) async {
       firstSongIndex = true;
       if (context.mounted) {
         // preLoadSongName(context);
+        updateCurrentSongNameOnlyOnce(context);
       }
     } else {
       for (String filePath in selectedSongs) {
@@ -650,6 +654,7 @@ Future<void> setFolderAsPlaylist({
 
   firstSongIndex = true;
   // preLoadSongName(context);
+  updateCurrentSongNameOnlyOnce(context);
   playOrPause();
   rebuildPlaylistCurrentLengthNotifier();
   rebuildFavoriteScreenNotifier();
@@ -714,6 +719,7 @@ Future<void> addFolderToPlaylist({
 
     firstSongIndex = true;
     // preLoadSongName(context);
+    updateCurrentSongNameOnlyOnce(context);
     playOrPause();
     rebuildPlaylistCurrentLengthNotifier();
   } else {
@@ -807,6 +813,7 @@ Future<void> addSongToPlaylist({
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: false);
       firstSongIndex = true;
       // preLoadSongName(context);
+      updateCurrentSongNameOnlyOnce(context);
       playOrPause();
       showAddedToPlaylist(context, "", songName(songPath),
           AppLocalizations.of(context)!.added_to_the_playlist);
@@ -899,6 +906,7 @@ Future<void> addSongToPlaylist({
       firstSongIndex = true;
       if (context.mounted) {
         // preLoadSongName(context);
+        updateCurrentSongNameOnlyOnce(context);
       }
       playOrPause();
       if (context.mounted) {
@@ -1011,6 +1019,7 @@ void addToPlayNext({
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
       // preLoadSongName(context);
+      updateCurrentSongNameOnlyOnce(context);
       rebuildPlaylistCurrentLengthNotifier();
       playOrPause();
     } else {
@@ -1073,6 +1082,7 @@ void addToPlayNext({
       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
       firstSongIndex = true;
       // preLoadSongName(context);
+      updateCurrentSongNameOnlyOnce(context);
       rebuildPlaylistCurrentLengthNotifier();
       playOrPause();
     } else {
