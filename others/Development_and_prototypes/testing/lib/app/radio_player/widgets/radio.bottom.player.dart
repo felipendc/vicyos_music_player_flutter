@@ -118,7 +118,7 @@ class BottomRadioPlayer extends StatelessWidget {
                                     );
                                   },
                                   child: StreamBuilder<void>(
-                                    stream: radioPlayer.sequenceStateStream,
+                                    stream: radioPlayer.playerStateStream,
                                     builder: (context, snapshot) {
                                       return Column(
                                         crossAxisAlignment:
