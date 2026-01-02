@@ -256,7 +256,8 @@ class MultiSelectionScreen extends StatelessWidget {
                                             child: SizedBox(
                                               height: 27,
                                               width: 30,
-                                              child: FlutterSoundPlayerPreview(
+                                              child:
+                                                  VisualizerFlutterSoundPlayerPreview(
                                                 barCount: 6,
                                                 colors: [
                                                   TColor.focus,
@@ -354,6 +355,7 @@ class MultiSelectionScreen extends StatelessWidget {
                                         // if (flutterSoundPlayer.isPlaying) {
                                         //   await flutterSoundPlayer.stopPlayer();
                                         // }
+
                                         await flutterSoundPlayer.startPlayer(
                                           fromURI: song.path,
                                           whenFinished: () {

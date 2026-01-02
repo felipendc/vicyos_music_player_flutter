@@ -209,6 +209,16 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             ),
                           ).whenComplete(() {
                             isMultiSelectionScreenOpen = false;
+                            currentSongPreview = "";
+
+                            Future.microtask(
+                              () async {
+                                if (playAfterClosingPlayersPreview) {
+                                  await audioPlayer.play();
+                                  playAfterClosingPlayersPreview = false;
+                                }
+                              },
+                            );
                           });
 
                           if (result == "hide_bottom_player") {
@@ -719,6 +729,15 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               if (isRadioOn && isRadioPaused) {
                                 radioPlayer.play();
                               }
+
+                              Future.microtask(
+                                () async {
+                                  if (playAfterClosingPlayersPreview) {
+                                    await audioPlayer.play();
+                                    playAfterClosingPlayersPreview = false;
+                                  }
+                                },
+                              );
                             },
                           );
                         },

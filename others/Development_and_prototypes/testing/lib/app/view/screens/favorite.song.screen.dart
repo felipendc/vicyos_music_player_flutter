@@ -291,6 +291,15 @@ class FavoriteSongsScreen extends StatelessWidget {
                                             if (isRadioOn && isRadioPaused) {
                                               radioPlayer.play();
                                             }
+                                            Future.microtask(
+                                              () async {
+                                                if (playAfterClosingPlayersPreview) {
+                                                  await audioPlayer.play();
+                                                  playAfterClosingPlayersPreview =
+                                                      false;
+                                                }
+                                              },
+                                            );
                                           },
                                         );
                                       },

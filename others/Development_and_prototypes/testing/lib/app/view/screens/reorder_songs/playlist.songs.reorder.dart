@@ -331,7 +331,7 @@ class PlaylistSongsReorder extends StatelessWidget {
                                                       height: 27,
                                                       width: 30,
                                                       child:
-                                                          FlutterSoundPlayerPreview(
+                                                          VisualizerFlutterSoundPlayerPreview(
                                                         barCount: 6,
                                                         colors: [
                                                           TColor.focus,
