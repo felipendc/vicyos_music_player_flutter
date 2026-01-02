@@ -340,16 +340,6 @@ class SongsListScreen extends StatelessWidget {
                                             if (isRadioOn && isRadioPaused) {
                                               radioPlayer.play();
                                             }
-
-                                            Future.microtask(
-                                              () async {
-                                                if (playAfterClosingPlayersPreview) {
-                                                  playOrPause();
-                                                  playAfterClosingPlayersPreview =
-                                                      false;
-                                                }
-                                              },
-                                            );
                                           },
                                         );
                                       },

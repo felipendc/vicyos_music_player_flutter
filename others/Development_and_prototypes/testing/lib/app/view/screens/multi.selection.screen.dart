@@ -354,7 +354,6 @@ class MultiSelectionScreen extends StatelessWidget {
                                         // if (flutterSoundPlayer.isPlaying) {
                                         //   await flutterSoundPlayer.stopPlayer();
                                         // }
-
                                         await flutterSoundPlayer.startPlayer(
                                           fromURI: song.path,
                                           whenFinished: () {

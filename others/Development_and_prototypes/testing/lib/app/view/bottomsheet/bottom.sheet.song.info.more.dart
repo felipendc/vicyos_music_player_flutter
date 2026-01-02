@@ -209,21 +209,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             ),
                           ).whenComplete(() {
                             isMultiSelectionScreenOpen = false;
-
-                            Future.microtask(
-                              () async {
-                                if (playAfterClosingPlayersPreview) {
-                                  playOrPause();
-                                  playAfterClosingPlayersPreview = false;
-                                }
-
-                                // Clear the song loaded to memory
-                                // reset it and reopen it again
-                                await flutterSoundPlayer.stopPlayer();
-                                await flutterSoundPlayer.closePlayer();
-                                await flutterSoundPlayer.openPlayer();
-                              },
-                            );
                           });
 
                           if (result == "hide_bottom_player") {
@@ -734,15 +719,6 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               if (isRadioOn && isRadioPaused) {
                                 radioPlayer.play();
                               }
-
-                              Future.microtask(
-                                () async {
-                                  if (playAfterClosingPlayersPreview) {
-                                    playOrPause();
-                                    playAfterClosingPlayersPreview = false;
-                                  }
-                                },
-                              );
                             },
                           );
                         },
