@@ -51,6 +51,10 @@ List<AudioInfo> songModelListGlobal = [];
 // It will be initiated by the listener in the main()
 late bool isPlayerPreviewPlaying;
 
+// If the user added songs to to an empty playlist when they were using the players preview
+// play the song after closing the players preview bottomsheet or screen
+bool playAfterClosingPlayersPreview = false;
+
 bool isMultiSelectionScreenOpen = false;
 String playingFromPlaylist = "";
 bool appSettingsWasOpened = false;
@@ -772,6 +776,12 @@ Future<void> addSongToPlaylist({
     turnOffRadioStation();
   }
 
+  if (audioPlayer.audioSources.isEmpty) {
+    if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      playAfterClosingPlayersPreview = true;
+    }
+  }
+
   if (songPath is String) {
     currentSongNavigationRouteNotifier();
 
@@ -814,7 +824,10 @@ Future<void> addSongToPlaylist({
       firstSongIndex = true;
       // preLoadSongName(context);
       updateCurrentSongNameOnlyOnce(context);
-      playOrPause();
+      if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      } else {
+        playOrPause();
+      }
       showAddedToPlaylist(context, "", songName(songPath),
           AppLocalizations.of(context)!.added_to_the_playlist);
       rebuildPlaylistCurrentLengthNotifier();
@@ -859,7 +872,6 @@ Future<void> addSongToPlaylist({
     }
     rebuildFavoriteScreenNotifier();
   } else if (songPath is Set<AudioInfo>) {
-    ////////////////////////////////////////////////
     currentSongNavigationRouteNotifier();
 
     activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
@@ -975,10 +987,17 @@ void addToPlayNext({
   required NavigationButtons audioRoute,
   required NavigationButtons audioRouteEmptyPlaylist,
 }) {
+  if (audioPlayer.audioSources.isEmpty) {
+    if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      playAfterClosingPlayersPreview = true;
+    }
+  }
+
   if (playNextFilePath is String) {
     if (audioPlayer.audioSources.isEmpty) {
       activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
     }
+
     currentSongNavigationRouteNotifier();
 
     File audioFile = File(playNextFilePath);
@@ -1022,6 +1041,10 @@ void addToPlayNext({
       updateCurrentSongNameOnlyOnce(context);
       rebuildPlaylistCurrentLengthNotifier();
       playOrPause();
+      if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      } else {
+        playOrPause();
+      }
     } else {
       playlist.clear();
       // audioSources.insert(
@@ -1084,7 +1107,10 @@ void addToPlayNext({
       // preLoadSongName(context);
       updateCurrentSongNameOnlyOnce(context);
       rebuildPlaylistCurrentLengthNotifier();
-      playOrPause();
+      if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      } else {
+        playOrPause();
+      }
     } else {
       playlist.clear();
       // audioSources.insert(

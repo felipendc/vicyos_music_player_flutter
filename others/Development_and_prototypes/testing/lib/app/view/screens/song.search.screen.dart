@@ -202,6 +202,15 @@ class SearchScreen extends StatelessWidget {
                                   },
                                 );
                               }
+
+                              Future.microtask(
+                                () async {
+                                  if (playAfterClosingPlayersPreview) {
+                                    playOrPause();
+                                    playAfterClosingPlayersPreview = false;
+                                  }
+                                },
+                              );
                             },
                           );
 
