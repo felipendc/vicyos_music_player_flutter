@@ -26,7 +26,7 @@ class HomeNavigator extends StatelessWidget {
 
     // Fetch the songs folders first, if it's a tablet
     if (deviceType == DeviceType.tablet) {
-      getMusicFoldersContent(); // must return a Widget
+      getMusicFoldersContent(context: context); // must return a Widget
     }
 
     return deviceType == DeviceType.smartphone
@@ -50,7 +50,7 @@ class HomeNavigator extends StatelessWidget {
                     onGenerateRoute: (RouteSettings settings) {
                       return MaterialPageRoute(
                         builder: (context) {
-                          return HomePageFolderList();
+                          return HomePageFolderList(context: context);
                         },
                       );
                     },
@@ -157,7 +157,7 @@ class HomeNavigator extends StatelessWidget {
                     child: Navigator(
                       key: navigatorKey,
                       onGenerateRoute: (settings) => MaterialPageRoute(
-                        builder: (_) => HomePageFolderList(),
+                        builder: (_) => HomePageFolderList(context: context),
                       ),
                     ),
                   ),

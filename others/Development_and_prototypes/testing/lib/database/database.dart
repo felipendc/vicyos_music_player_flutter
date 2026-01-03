@@ -54,7 +54,8 @@ class AppDatabase {
   }
 
   // Saving and syncing folders one by one
-  Future<void> syncFolder(FolderSources folder) async {
+  Future<void> syncFolder(
+      {required FolderSources folder, required BuildContext context}) async {
     final db = await database;
 
     final existing = await _getFolderByPath(db, folder.folderPath);
@@ -84,6 +85,29 @@ class AppDatabase {
     // Delete the song removed from all tables
     for (final removedPath in removedSongs) {
       await deleteAudioPath(removedPath);
+
+      // Check if the song is present on the playing queue...
+      final int index = audioPlayer.audioSources.indexWhere(
+        (audio) => (audio as UriAudioSource).uri.toFilePath() == removedPath,
+      );
+
+      // Exit the function if index isn't present in the playing queue
+      if (index == -1) {
+        return;
+      }
+
+      if (removedPath == currentSongFullPath &&
+          audioPlayer.audioSources.length == 1) {
+        // Clean playlist and rebuild the entire screen to clean the listview
+        if (context.mounted) {
+          cleanPlaylist(context);
+          return;
+        }
+      } else {
+        await audioPlayer.removeAudioSourceAt(index);
+        rebuildPlaylistCurrentLengthNotifier();
+        currentSongNameNotifier();
+      }
     }
 
     // If nothing hasn't been changed
@@ -396,38 +420,33 @@ class AppDatabase {
     await rebuildFavoriteScreenNotifier();
 
     // Check if the song is present on the playing queue...
-    final int index = audioPlayer.audioSources.indexWhere(
-      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath,
-    );
+    // and if the song present on the playing queue is in favorites...
+    final int index = audioPlayer.audioSources.indexWhere((audio) {
+      if (audio is! UriAudioSource) return false;
 
-    // Exit the function if index isn't present in the playing queue
+      final tag = audio.tag;
+      if (tag is! MediaItem) return false;
+
+      return (tag.extras?['playedFromRoute'] == NavigationButtons.favorites &&
+          audio.uri.toFilePath() == songPath);
+    });
+
+    // Exit the function if the song does not exist in the queue
     if (index == -1) {
-      return;
+      return; // Song is not part of the favorites queue
     }
 
-    // Check if the song present on the playing queue is in favorites...
-    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
-    final indexIsInThePlaylist = currentMediaItem.extras?['playedFromRoute'];
-
     if (songPath == currentSongFullPath &&
-        audioPlayer.audioSources.length == 1 &&
-        indexIsInThePlaylist == NavigationButtons.favorites) {
+        audioPlayer.audioSources.length == 1) {
       // Clean playlist and rebuild the entire screen to clean the listview
 
       if (context.mounted) {
         cleanPlaylist(context);
       }
     } else {
-      if (songPath == currentSongFullPath &&
-          indexIsInThePlaylist == NavigationButtons.favorites) {
-        await audioPlayer.removeAudioSourceAt(index);
-        rebuildPlaylistCurrentLengthNotifier();
-      }
+      await audioPlayer.removeAudioSourceAt(index);
+      rebuildPlaylistCurrentLengthNotifier();
     }
-
-    // if (context.mounted) {
-    //   updateCurrentSongNameOnlyOnce(context);
-    // }
   }
 
   // Complete Toggle (better UI)
@@ -637,37 +656,35 @@ class AppDatabase {
     await rebuildSongsListScreenNotifier();
 
     // Check if the song is present on the playing queue...
-    final int index = audioPlayer.audioSources.indexWhere(
-      (audio) => (audio as UriAudioSource).uri.toFilePath() == audioPath,
-    );
+    // and if the song present on the playing queue is in the playlist...
+    final int index = audioPlayer.audioSources.indexWhere((audio) {
+      if (audio is! UriAudioSource) return false;
 
-    // Exit the function if index isn't present in the playing queue
+      final tag = audio.tag;
+      if (tag is! MediaItem) return false;
+
+      final playedFromRoute = tag.extras?['playedFromRoute'];
+
+      return (playedFromRoute == NavigationButtons.playlists &&
+          audio.uri.toFilePath() == audioPath);
+    });
+
+    // Exit the function if the song does not exist in the queue
     if (index == -1) {
-      return;
+      return; // Song is not part of the playlists queue
     }
 
-    // Check if the song present on the playing queue is in the playlist...
-    final currentMediaItem = audioPlayer.sequence[index].tag as MediaItem;
-    final indexIsInThePlaylist = currentMediaItem.extras?['playedFromRoute'];
-
     if (audioPath == currentSongFullPath &&
-        audioPlayer.audioSources.length == 1 &&
-        indexIsInThePlaylist == NavigationButtons.playlists) {
+        audioPlayer.audioSources.length == 1) {
       // Clean playlist and rebuild the entire screen to clean the listview
 
       if (context.mounted) {
         cleanPlaylist(context);
       }
     } else {
-      if (audioPath == currentSongFullPath &&
-          indexIsInThePlaylist == NavigationButtons.playlists) {
-        await audioPlayer.removeAudioSourceAt(index);
-        rebuildPlaylistCurrentLengthNotifier();
-      }
+      await audioPlayer.removeAudioSourceAt(index);
+      rebuildPlaylistCurrentLengthNotifier();
     }
-    // if (context.mounted) {
-    //   updateCurrentSongNameOnlyOnce(context);
-    // }
   }
 
   //  Update the database with the new order

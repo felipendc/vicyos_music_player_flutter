@@ -189,13 +189,6 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                       playlistName: playListName!,
                                       audioPath: song.path,
                                       context: context);
-
-                              if (context.mounted) {
-                                removeSongPathFromCurrentPlaylist(
-                                  context: context,
-                                  songPath: song.path,
-                                );
-                              }
                             }
 
                             if (context.mounted) {

@@ -133,7 +133,7 @@ Future<List<String>> deviceMusicFolderPath() async {
   return audioFolders;
 }
 
-Future<void> getMusicFoldersContent() async {
+Future<void> getMusicFoldersContent({required BuildContext context}) async {
   // musicFolderContents.clear(); //remover em breve
   rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
 
@@ -143,13 +143,17 @@ Future<void> getMusicFoldersContent() async {
     final folderSongPathsList =
         await filterSongsOnlyToList(folderPath: musicFolder);
 
-    // Populating the database with folder paths and its song list
-    await AppDatabase.instance.syncFolder(
-      FolderSources(
+    if (context.mounted) {
+      // Populating the database with folder paths and its song list
+      await AppDatabase.instance.syncFolder(
+        folder: FolderSources(
           folderPath: folderPath,
           folderSongCount: totalSongs,
-          songPathsList: folderSongPathsList),
-    );
+          songPathsList: folderSongPathsList,
+        ),
+        context: context,
+      );
+    }
   }
 
   if (isPermissionGranted) {
@@ -270,7 +274,7 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
 
     // Re-sync the folder list
-    await getMusicFoldersContent();
+    await getMusicFoldersContent(context: context);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(

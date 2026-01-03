@@ -779,7 +779,6 @@ Future<void> addSongToPlaylist({
   if (audioPlayer.audioSources.isEmpty) {
     if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       playAfterClosingPlayersPreview = true;
-      print("aaaaaaa $playAfterClosingPlayersPreview");
     }
   }
 
@@ -1150,33 +1149,4 @@ Future<bool> playlistNameAlreadyExist(String text) async {
     }
   }
   return false;
-}
-
-Future<void> removeSongPathFromCurrentPlaylist(
-    {required String songPath, required BuildContext context}) async {
-  // Check if the file is present on the playlist...
-  final int index = audioPlayer.audioSources.indexWhere(
-      (audio) => (audio as UriAudioSource).uri.toFilePath() == songPath);
-
-  if (index != -1) {
-    if (songPath == currentSongFullPath &&
-        audioPlayer.audioSources.length == 1) {
-      // Clean playlist and rebuild the entire screen to clean the listview
-      if (context.mounted) {
-        cleanPlaylist(context);
-      }
-    } else {
-      await audioPlayer.removeAudioSourceAt(index);
-      rebuildPlaylistCurrentLengthNotifier();
-      currentSongNameNotifier();
-
-      // Update the current song name
-      if (index < audioPlayer.audioSources.length) {
-        String newCurrentSongFullPath = Uri.decodeFull(
-            (audioPlayer.audioSources[index] as UriAudioSource).uri.toString());
-        currentSongName = songName(newCurrentSongFullPath);
-      }
-    }
-    currentSongNameNotifier();
-  }
 }

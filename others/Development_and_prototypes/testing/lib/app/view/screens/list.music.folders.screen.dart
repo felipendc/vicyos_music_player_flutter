@@ -25,11 +25,12 @@ import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class HomePageFolderList extends StatelessWidget {
-  HomePageFolderList({super.key}) {
+  final BuildContext context;
+  HomePageFolderList({super.key, required this.context}) {
     _lifecycle = PermissionLifecycleHandler(
       onResume: () async {
         if (appSettingsWasOpened) {
-          await getMusicFoldersContent();
+          await getMusicFoldersContent(context: context);
         }
 
         appSettingsWasOpened = false;
@@ -48,7 +49,7 @@ class HomePageFolderList extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     // Fetch the songs folders
-    getMusicFoldersContent();
+    getMusicFoldersContent(context: context);
 
     return StreamBuilder<FetchingSongs>(
       stream: rebuildHomePageFolderListStreamController.stream,
@@ -134,7 +135,8 @@ class HomePageFolderList extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 10,
                                         onPressed: () async {
-                                          getMusicFoldersContent();
+                                          getMusicFoldersContent(
+                                              context: context);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/autorenew.png",

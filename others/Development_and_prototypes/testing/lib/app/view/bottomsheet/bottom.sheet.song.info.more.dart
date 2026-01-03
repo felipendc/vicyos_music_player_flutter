@@ -204,7 +204,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 songModelList: listOfSongModel!,
                                 isFavoriteScreen: isFromFavoriteScreen,
                                 isPlaylistScreen: isFromPlaylistSongScreen,
-                                isSongScreen: isFromPlaylistSongScreen,
+                                isSongScreen: isFromSongsScreen,
                               ),
                             ),
                           ).whenComplete(() {
@@ -478,10 +478,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                     .removed_from_this_playlist,
                               );
                             }
-                            if (context.mounted) {
-                              removeSongPathFromCurrentPlaylist(
-                                  context: context, songPath: songModel.path);
-                            }
+
                             rebuildPlaylistScreenSNotifier();
                             rebuildSongsListScreenNotifier();
                           },

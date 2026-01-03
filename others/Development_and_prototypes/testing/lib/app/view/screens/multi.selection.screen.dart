@@ -425,7 +425,7 @@ class MultiSelectionScreen extends StatelessWidget {
                             ),
                             child: SongSelectionInfoMoreBottomSheet(
                               playListName: playlistName,
-                              isFromSongsScreen: isFavoriteScreen,
+                              isFromSongsScreen: isSongScreen,
                               isFromPlaylistSongScreen: isPlaylistScreen,
                               isSongFavorite: isFavoriteScreen,
                               isFromFavoriteScreen: isFavoriteScreen,
