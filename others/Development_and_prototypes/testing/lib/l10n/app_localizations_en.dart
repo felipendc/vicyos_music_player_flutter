@@ -78,7 +78,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get song_preview => 'Song Preview';
 
   @override
-  String get playback_speed_all_capitalized => 'PLAYBACK SPEED';
+  String get playback_speed => 'Playback speed:';
+
+  @override
+  String get choose_a_speed => 'Choose a speed';
 
   @override
   String get default_playback_speed => 'Default';

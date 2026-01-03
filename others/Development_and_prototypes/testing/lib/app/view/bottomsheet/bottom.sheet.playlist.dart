@@ -59,7 +59,7 @@ class PlaylistBottomSheet extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 3),
             // Top button indicator
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,21 +132,28 @@ class PlaylistBottomSheet extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
-                    child: FloatingActionButton.extended(
-                      label: Text(
-                        AppLocalizations.of(context)!
-                            .clear_playlist_all_capitalized,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: TColor.org,
-                          fontSize: 17,
-                        ),
-                      ),
-                      onPressed: () {
+                    child: TextButton(
+                      onPressed: () async {
                         // Clean playlist and rebuild the entire screen to clean the listview
                         cleanPlaylist(context);
                       },
-                      backgroundColor: TColor.darkGray,
+                      style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onPrimary,
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 8, bottom: 8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .clear_playlist_all_capitalized,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -179,7 +186,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                     : Container(),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 8),
             StreamBuilder<void>(
               stream: rebuildPlaylistCurrentLengthController.stream,
               builder: (context, snapshot) {

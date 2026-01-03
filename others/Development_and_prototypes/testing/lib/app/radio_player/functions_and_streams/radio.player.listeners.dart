@@ -85,6 +85,18 @@ void radioPlayerStreamListeners() {
   final mainPlayerViewTabletContextKey = mainPlayerViewTabletKey.currentContext;
 
   radioPlayer.playerStateStream.listen((radioState) async {
+    // Pause PlayerPreview if the main radioPlayer is playing
+    // to avoid simultaneous audio playback
+    if (audioPlayerPreview.state.toString() == "PlayerState.playing" &&
+        radioState.playing == true) {
+      audioPlayerPreview.pause();
+    }
+
+    // Pause flutterSoundPlayer when main player starts playing
+    if (flutterSoundPlayer.isPlaying && radioState.playing == true) {
+      flutterSoundPlayer.pausePlayer();
+    }
+
     if (radioState.processingState == ProcessingState.idle &&
         radioState.playing) {
       // Combine two lists into one and iterate over and search for the current

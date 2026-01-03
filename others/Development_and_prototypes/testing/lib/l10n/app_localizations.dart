@@ -234,11 +234,17 @@ abstract class AppLocalizations {
   /// **'Song Preview'**
   String get song_preview;
 
-  /// No description provided for @playback_speed_all_capitalized.
+  /// No description provided for @playback_speed.
   ///
   /// In en, this message translates to:
-  /// **'PLAYBACK SPEED'**
-  String get playback_speed_all_capitalized;
+  /// **'Playback speed:'**
+  String get playback_speed;
+
+  /// No description provided for @choose_a_speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a speed'**
+  String get choose_a_speed;
 
   /// No description provided for @default_playback_speed.
   ///

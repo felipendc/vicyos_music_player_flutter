@@ -337,9 +337,14 @@ class MultiSelectionScreen extends StatelessWidget {
                                     ),
                                     onTap: () async {
                                       if (radioPlayer.playing) {
-                                        radioPlayer.pause();
+                                        await radioPlayer.pause();
                                       }
+
                                       if (audioPlayerWasPlaying) {
+                                        await audioPlayer.pause();
+                                      }
+
+                                      if (audioPlayer.playing) {
                                         await audioPlayer.pause();
                                       }
 

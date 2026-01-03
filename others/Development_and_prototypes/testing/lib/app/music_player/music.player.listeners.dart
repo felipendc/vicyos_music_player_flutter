@@ -45,13 +45,18 @@ void audioPlayerStreamListeners() {
     },
   );
 
-  // Pause PlayerPreview if the main player is playing
+  // Pause PlayerPreview if the main audioPlayer is playing
   // to avoid simultaneous audio playback
   audioPlayer.playerStateStream.listen(
     (playerState) {
       if (audioPlayerPreview.state.toString() == "PlayerState.playing" &&
           playerState.playing == true) {
         audioPlayerPreview.pause();
+      }
+
+      // Pause flutterSoundPlayer when main player starts playing
+      if (flutterSoundPlayer.isPlaying && playerState.playing == true) {
+        flutterSoundPlayer.pausePlayer();
       }
 
       if (playerState.processingState == ProcessingState.completed) {

@@ -78,7 +78,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get song_preview => 'Song Preview';
 
   @override
-  String get playback_speed_all_capitalized => 'PLAYBACK SPEED';
+  String get playback_speed => 'Playback speed:';
+
+  @override
+  String get choose_a_speed => 'Choose a speed';
 
   @override
   String get default_playback_speed => 'Default';
@@ -548,7 +551,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get song_preview => 'Prévia da música';
 
   @override
-  String get playback_speed_all_capitalized => 'VELOCIDADE DE REPRODUÇÃO';
+  String get playback_speed => 'Velocidade de reprodução:';
+
+  @override
+  String get choose_a_speed => 'Escolha uma velocidade';
 
   @override
   String get default_playback_speed => 'Padrão';
