@@ -421,32 +421,58 @@ class AppDatabase {
 
     // Check if the song is present on the playing queue...
     // and if the song present on the playing queue is in favorites...
-    final int index = audioPlayer.audioSources.indexWhere((audio) {
-      if (audio is! UriAudioSource) return false;
+
+    //=======================================================================
+    // final int index = audioPlayer.audioSources.indexWhere((audio) {
+    //   if (audio is! UriAudioSource) return false;
+    //
+    //   final tag = audio.tag;
+    //   if (tag is! MediaItem) return false;
+    //
+    //   return (tag.extras?['playedFromRoute'] == NavigationButtons.favorites &&
+    //       audio.uri.toFilePath() == songPath);
+    // });
+    //
+    // // Exit the function if the song does not exist in the queue
+    // if (index == -1) {
+    //   return; // Song is not part of the favorites queue
+    // }
+    //
+    // if (songPath == currentSongFullPath &&
+    //     audioPlayer.audioSources.length == 1) {
+    //   // Clean playlist and rebuild the entire screen to clean the listview
+    //
+    //   if (context.mounted) {
+    //     cleanPlaylist(context);
+    //   }
+    // } else {
+    //   await audioPlayer.removeAudioSourceAt(index);
+    //   rebuildPlaylistCurrentLengthNotifier();
+    // }
+    //=======================================================================
+
+    //////////////////////////////////////////////////////////////////////////
+
+    // Collect all of the indices I want to remove
+    final List<int> indexesToRemove = [];
+    for (int i = 0; i < audioPlayer.audioSources.length; i++) {
+      final audio = audioPlayer.audioSources[i];
+
+      if (audio is! UriAudioSource) continue;
 
       final tag = audio.tag;
-      if (tag is! MediaItem) return false;
+      if (tag is! MediaItem) continue;
 
-      return (tag.extras?['playedFromRoute'] == NavigationButtons.favorites &&
-          audio.uri.toFilePath() == songPath);
-    });
-
-    // Exit the function if the song does not exist in the queue
-    if (index == -1) {
-      return; // Song is not part of the favorites queue
-    }
-
-    if (songPath == currentSongFullPath &&
-        audioPlayer.audioSources.length == 1) {
-      // Clean playlist and rebuild the entire screen to clean the listview
-
-      if (context.mounted) {
-        cleanPlaylist(context);
+      if (audio.uri.toFilePath() == songPath &&
+          tag.extras?['playedFromRoute'] == NavigationButtons.favorites) {
+        indexesToRemove.add(i);
       }
-    } else {
-      await audioPlayer.removeAudioSourceAt(index);
-      rebuildPlaylistCurrentLengthNotifier();
     }
+
+    for (final index in indexesToRemove.reversed) {
+      await audioPlayer.removeAudioSourceAt(index);
+    }
+    //////////////////////////////////////////////////////////////////////////
   }
 
   // Complete Toggle (better UI)
@@ -657,34 +683,60 @@ class AppDatabase {
 
     // Check if the song is present on the playing queue...
     // and if the song present on the playing queue is in the playlist...
-    final int index = audioPlayer.audioSources.indexWhere((audio) {
-      if (audio is! UriAudioSource) return false;
+
+    //=======================================================================
+    // final int index = audioPlayer.audioSources.indexWhere((audio) {
+    //   if (audio is! UriAudioSource) return false;
+    //
+    //   final tag = audio.tag;
+    //   if (tag is! MediaItem) return false;
+    //
+    //   final playedFromRoute = tag.extras?['playedFromRoute'];
+    //
+    //   return (playedFromRoute == NavigationButtons.playlists &&
+    //       audio.uri.toFilePath() == audioPath);
+    // });
+    //
+    // // Exit the function if the song does not exist in the queue
+    // if (index == -1) {
+    //   return; // Song is not part of the playlists queue
+    // }
+    //
+    // if (audioPath == currentSongFullPath &&
+    //     audioPlayer.audioSources.length == 1) {
+    //   // Clean playlist and rebuild the entire screen to clean the listview
+    //
+    //   if (context.mounted) {
+    //     cleanPlaylist(context);
+    //   }
+    // } else {
+    //   await audioPlayer.removeAudioSourceAt(index);
+    //   rebuildPlaylistCurrentLengthNotifier();
+    // }
+    //=======================================================================
+
+    //////////////////////////////////////////////////////////////////////////
+
+    // Collect all of the indices I want to remove
+    final List<int> indexesToRemove = [];
+    for (int i = 0; i < audioPlayer.audioSources.length; i++) {
+      final audio = audioPlayer.audioSources[i];
+
+      if (audio is! UriAudioSource) continue;
 
       final tag = audio.tag;
-      if (tag is! MediaItem) return false;
+      if (tag is! MediaItem) continue;
 
-      final playedFromRoute = tag.extras?['playedFromRoute'];
-
-      return (playedFromRoute == NavigationButtons.playlists &&
-          audio.uri.toFilePath() == audioPath);
-    });
-
-    // Exit the function if the song does not exist in the queue
-    if (index == -1) {
-      return; // Song is not part of the playlists queue
-    }
-
-    if (audioPath == currentSongFullPath &&
-        audioPlayer.audioSources.length == 1) {
-      // Clean playlist and rebuild the entire screen to clean the listview
-
-      if (context.mounted) {
-        cleanPlaylist(context);
+      if (audio.uri.toFilePath() == audioPath &&
+          tag.extras?['playedFromRoute'] == NavigationButtons.playlists) {
+        indexesToRemove.add(i);
       }
-    } else {
-      await audioPlayer.removeAudioSourceAt(index);
-      rebuildPlaylistCurrentLengthNotifier();
     }
+
+    for (final index in indexesToRemove.reversed) {
+      await audioPlayer.removeAudioSourceAt(index);
+    }
+    //////////////////////////////////////////////////////////////////////////
   }
 
   //  Update the database with the new order
