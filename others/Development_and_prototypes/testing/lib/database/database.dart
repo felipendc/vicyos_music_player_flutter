@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:vicyos_music/app/build_flags/build.flags.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
@@ -419,10 +420,7 @@ class AppDatabase {
 
     await rebuildFavoriteScreenNotifier();
 
-    // Check if the song is present on the playing queue...
-    // and if the song present on the playing queue is in favorites...
-
-    //=======================================================================
+    //=========== DO NOT DELETE, THIS IS FOR LEARNING PURPOSES ===============
     // final int index = audioPlayer.audioSources.indexWhere((audio) {
     //   if (audio is! UriAudioSource) return false;
     //
@@ -450,29 +448,43 @@ class AppDatabase {
     //   rebuildPlaylistCurrentLengthNotifier();
     // }
     //=======================================================================
+    //
 
-    //////////////////////////////////////////////////////////////////////////
+    //
+    //----------- USE THIS IF YOU ALSO WANT TO REMOVE SONG FROM THE PLAYING QUEUE TOO ------------//
+
+    // Check if the song is present on the playing queue...
+    // and if the song present on the playing queue is in favorites...
 
     // Collect all of the indices I want to remove
-    final List<int> indexesToRemove = [];
-    for (int i = 0; i < audioPlayer.audioSources.length; i++) {
-      final audio = audioPlayer.audioSources[i];
+    if (removeSongFromFavoritesAndPlayingQueueToo) {
+      final List<int> indexesToRemove = [];
+      for (int i = 0; i < audioPlayer.audioSources.length; i++) {
+        final audio = audioPlayer.audioSources[i];
 
-      if (audio is! UriAudioSource) continue;
+        if (audio is! UriAudioSource) continue;
 
-      final tag = audio.tag;
-      if (tag is! MediaItem) continue;
+        final tag = audio.tag;
+        if (tag is! MediaItem) continue;
 
-      if (audio.uri.toFilePath() == songPath &&
-          tag.extras?['playedFromRoute'] == NavigationButtons.favorites) {
-        indexesToRemove.add(i);
+        if (audio.uri.toFilePath() == songPath &&
+            tag.extras?['playedFromRoute'] == NavigationButtons.favorites) {
+          indexesToRemove.add(i);
+        }
+      }
+
+      for (final index in indexesToRemove.reversed) {
+        if (audioPlayer.audioSources.length == 1) {
+          if (context.mounted) {
+            cleanPlaylist(context);
+          }
+        } else {
+          await audioPlayer.removeAudioSourceAt(index);
+          rebuildPlaylistCurrentLengthNotifier();
+        }
       }
     }
-
-    for (final index in indexesToRemove.reversed) {
-      await audioPlayer.removeAudioSourceAt(index);
-    }
-    //////////////////////////////////////////////////////////////////////////
+    //--------------------------------------------------------------------//
   }
 
   // Complete Toggle (better UI)
@@ -681,10 +693,7 @@ class AppDatabase {
     await rebuildPlaylistScreenSNotifier();
     await rebuildSongsListScreenNotifier();
 
-    // Check if the song is present on the playing queue...
-    // and if the song present on the playing queue is in the playlist...
-
-    //=======================================================================
+    //=========== DO NOT DELETE, THIS IS FOR LEARNING PURPOSES ===============
     // final int index = audioPlayer.audioSources.indexWhere((audio) {
     //   if (audio is! UriAudioSource) return false;
     //
@@ -714,29 +723,42 @@ class AppDatabase {
     //   rebuildPlaylistCurrentLengthNotifier();
     // }
     //=======================================================================
+    //
 
-    //////////////////////////////////////////////////////////////////////////
+    //
+    //----------- USE THIS IF YOU ALSO WANT TO REMOVE SONG FROM THE PLAYING QUEUE TOO ------------//
+    // Check if the song is present on the playing queue...
+    // and if the song present on the playing queue is in the playlist...
 
     // Collect all of the indices I want to remove
-    final List<int> indexesToRemove = [];
-    for (int i = 0; i < audioPlayer.audioSources.length; i++) {
-      final audio = audioPlayer.audioSources[i];
+    if (removeSongFromPlaylistAndPlayingQueueToo) {
+      final List<int> indexesToRemove = [];
+      for (int i = 0; i < audioPlayer.audioSources.length; i++) {
+        final audio = audioPlayer.audioSources[i];
 
-      if (audio is! UriAudioSource) continue;
+        if (audio is! UriAudioSource) continue;
 
-      final tag = audio.tag;
-      if (tag is! MediaItem) continue;
+        final tag = audio.tag;
+        if (tag is! MediaItem) continue;
 
-      if (audio.uri.toFilePath() == audioPath &&
-          tag.extras?['playedFromRoute'] == NavigationButtons.playlists) {
-        indexesToRemove.add(i);
+        if (audio.uri.toFilePath() == audioPath &&
+            tag.extras?['playedFromRoute'] == NavigationButtons.playlists) {
+          indexesToRemove.add(i);
+        }
+      }
+
+      for (final index in indexesToRemove.reversed) {
+        if (audioPlayer.audioSources.length == 1) {
+          if (context.mounted) {
+            cleanPlaylist(context);
+          }
+        } else {
+          await audioPlayer.removeAudioSourceAt(index);
+          rebuildPlaylistCurrentLengthNotifier();
+        }
       }
     }
-
-    for (final index in indexesToRemove.reversed) {
-      await audioPlayer.removeAudioSourceAt(index);
-    }
-    //////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------//
   }
 
   //  Update the database with the new order
