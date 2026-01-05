@@ -14,6 +14,42 @@ import 'package:vicyos_music/app/permission_handler/permission.handler.dart'
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
+Future<List<String>> getFoldersWithoutAudioFiles() async {
+  await requestAudioPermission();
+
+  final audioExtensions = {'.mp3', '.m4a', '.ogg', '.wav', '.aac', '.midi'};
+  final allFolders = <String>{};
+  final foldersWithAudio = <String>{};
+
+  final deviceRoot = Directory("/storage/emulated/0/Music/");
+
+  if (await deviceRoot.exists()) {
+    noDeviceMusicFolderFound = false;
+
+    // Iterate all of the files and folders
+    await for (var entity
+        in deviceRoot.list(recursive: true, followLinks: false)) {
+      if (entity is File) {
+        final extension = '.${entity.path.split('.').last.toLowerCase()}';
+        if (audioExtensions.contains(extension)) {
+          // Add the folders containing audio files
+          foldersWithAudio.add(entity.parent.path);
+        }
+      } else if (entity is Directory) {
+        // Add all the folders
+        allFolders.add(entity.path);
+      }
+    }
+  } else {
+    noDeviceMusicFolderFound = true;
+  }
+
+  // Return only the folders that doesn't have audio files
+  final foldersWithoutAudio = allFolders.difference(foldersWithAudio);
+
+  return foldersWithoutAudio.toList();
+}
+
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestAudioPermission();
 
@@ -133,9 +169,14 @@ Future<List<String>> deviceMusicFolderPath() async {
   return audioFolders;
 }
 
-Future<void> getMusicFoldersContent({required BuildContext context}) async {
-  // musicFolderContents.clear(); //remover em breve
-  rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
+Future<void> getMusicFoldersContent(
+    {required BuildContext context, required bool isListener}) async {
+  // musicFolderContents.clear(); // remove it soon
+  if (isListener) {
+    rebuildHomePageFolderListNotifier(FetchingSongs.done);
+  } else {
+    rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
+  }
 
   for (var musicFolder in await deviceMusicFolderPath()) {
     final folderPath = musicFolder;
@@ -274,7 +315,7 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
 
     // Re-sync the folder list
-    await getMusicFoldersContent(context: context);
+    await getMusicFoldersContent(context: context, isListener: false);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(

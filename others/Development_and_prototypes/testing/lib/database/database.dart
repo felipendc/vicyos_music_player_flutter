@@ -6,6 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:vicyos_music/app/build_flags/build.flags.dart';
+import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
@@ -55,15 +56,41 @@ class AppDatabase {
   }
 
   // Saving and syncing folders one by one
-  Future<void> syncFolder(
-      {required FolderSources folder, required BuildContext context}) async {
+  Future<void> syncFolder({
+    required FolderSources folder,
+    required BuildContext context,
+  }) async {
     final db = await database;
 
     final existing = await _getFolderByPath(db, folder.folderPath);
-
     final newSongs = folder.songPathsList.map((e) => e.path).toSet();
 
-    // New folder
+    //---------------------------------------------------------------------
+
+    final listDeviceFoldersWithAudioFile =
+        await getFoldersWithAudioFiles("/storage/emulated/0/Music/");
+
+    final foldersWithoutAudios = await getFoldersWithoutAudioFiles();
+    final dbFolders = await getAllFolderPathsFromDB();
+
+    // Remove folder from database if it doesn't exist in the device music folder
+    for (String folder in dbFolders) {
+      if (!listDeviceFoldersWithAudioFile.contains(folder)) {
+        await removeFolderFromDB(folder);
+      }
+    }
+
+    // Remove the empty folders from the DB
+    for (String emptyFolder in foldersWithoutAudios) {
+      if (dbFolders.contains(emptyFolder)) {
+        await removeFolderFromDB(emptyFolder);
+        // print("Folder deleted: $emptyFolder");
+      }
+    }
+
+    //---------------------------------------------------------------------
+
+    // If the folder is new, insert it to the DB
     if (existing == null) {
       await db.insert('music_folders', {
         'folder_path': folder.folderPath,
@@ -75,48 +102,48 @@ class AppDatabase {
       return;
     }
 
-    // Old content
     final List oldDecoded = jsonDecode(existing['folder_content'] as String);
-
     final oldSongs = oldDecoded.map((e) => e['path'] as String).toSet();
 
-    // Files removed from device
+    // Files removed from the device
     final removedSongs = oldSongs.difference(newSongs);
+    final List<int> indexesToRemoveFromPlayer = [];
 
-    // Delete the song removed from all tables
-    for (final removedPath in removedSongs) {
-      await deleteAudioPath(removedPath);
+    await Future.wait(
+      removedSongs.map((removedPath) async {
+        // Delete from the DB and playlists
+        await deleteAudioPath(removedPath);
 
-      // Check if the song is present on the playing queue...
-      final int index = audioPlayer.audioSources.indexWhere(
-        (audio) => (audio as UriAudioSource).uri.toFilePath() == removedPath,
-      );
+        // Get the index in the playing queue
+        final int index = audioPlayer.audioSources.indexWhere(
+          (audio) => (audio as UriAudioSource).uri.toFilePath() == removedPath,
+        );
 
-      // Exit the function if index isn't present in the playing queue
-      if (index == -1) {
-        return;
-      }
-
-      if (removedPath == currentSongFullPath &&
-          audioPlayer.audioSources.length == 1) {
-        // Clean playlist and rebuild the entire screen to clean the listview
-        if (context.mounted) {
-          cleanPlaylist(context);
-          return;
+        if (index != -1) {
+          indexesToRemoveFromPlayer.add(index);
         }
+      }),
+    );
+
+    // Remove the songs from the playing queue at once reversed
+    for (final index in indexesToRemoveFromPlayer.reversed) {
+      if (audioPlayer.audioSources.length == 1) {
+        if (context.mounted) cleanPlaylist(context);
       } else {
         await audioPlayer.removeAudioSourceAt(index);
-        rebuildPlaylistCurrentLengthNotifier();
-        currentSongNameNotifier();
       }
     }
 
-    // If nothing hasn't been changed
+    // Update the UI **Only once** at the end
+    rebuildPlaylistCurrentLengthNotifier();
+    currentSongNameNotifier();
+
+    // 5️⃣ If nothing has changed, exit it
     if (oldSongs.length == newSongs.length && oldSongs.containsAll(newSongs)) {
       return;
     }
 
-    // Update the folder
+    // 6️⃣ Update the folder in the DB
     await db.update(
       'music_folders',
       {
@@ -128,6 +155,35 @@ class AppDatabase {
       where: 'folder_path = ?',
       whereArgs: [folder.folderPath],
     );
+  }
+
+  // Remove a folder from the database
+  Future<void> removeFolderFromDB(String folderPath) async {
+    final db = await AppDatabase.instance.database;
+
+    await db.delete(
+      'music_folders', // Table
+      where: 'folder_path = ?', // Statement
+      whereArgs: [folderPath], //  folder_path path
+    );
+
+    debugPrint("Folder removed from DB: $folderPath");
+  }
+
+  // Check if folder exists in the database
+  Future<bool> folderExistsInDB(String folderPath) async {
+    final db = await AppDatabase.instance.database;
+
+    final result = await db.query(
+      'music_folders', // Table
+      columns: ['folder_path'], // Only get the column folder_path
+      where: 'folder_path = ?', // Statement
+      whereArgs: [folderPath], // folder_path value
+      limit: 1, // We only need one result
+    );
+
+    // If result isn't empty, the folder exists
+    return result.isNotEmpty;
   }
 
   // Return the music_folders model to access the music_folders[index].value
@@ -222,31 +278,34 @@ class AppDatabase {
     final db = await database;
 
     await db.transaction((txn) async {
-      // Delete from favorites
-      await txn.delete('favorites', where: 'path = ?', whereArgs: [audioPath]);
+      // ----------------- Delete from favorites -----------------
+      await txn.delete(
+        'favorites',
+        where: 'path = ?',
+        whereArgs: [audioPath],
+      );
 
-      //  Fetch all folders
+      // ----------------- Delete from folders -----------------
       final folders = await txn.query('music_folders');
-
       for (final folder in folders) {
-        // final List decoded = jsonDecode(folder['folder_content'] as String);
+        final folderId = folder['id'] as int;
         final decoded = jsonDecode(folder['folder_content'] as String);
         if (decoded is! List) continue;
-        final originalLength = decoded.length;
 
+        final originalLength = decoded.length;
         decoded.removeWhere((e) => e['path'] == audioPath);
 
-        if (decoded.length == originalLength) continue;
+        if (decoded.length == originalLength) continue; // Nothing has changed
 
-        // If the folder is now empty, delete it
         if (decoded.isEmpty) {
+          // If the is empty, delete it
           await txn.delete(
             'music_folders',
             where: 'id = ?',
-            whereArgs: [folder['id']],
+            whereArgs: [folderId],
           );
         } else {
-          // 🔄 Update the folder normally
+          // Update the folder content
           await txn.update(
             'music_folders',
             {
@@ -254,30 +313,28 @@ class AppDatabase {
               'song_count': decoded.length,
             },
             where: 'id = ?',
-            whereArgs: [folder['id']],
+            whereArgs: [folderId],
           );
         }
       }
 
-      // Remove from playlists (JSON-based)
+      // ----------------- Delete from playlists -----------------
       final playlists = await txn.query('playlists');
-
       for (final playlist in playlists) {
+        final playlistId = playlist['id'] as int;
         final decoded = jsonDecode(playlist['playlist_songs'] as String);
         if (decoded is! List) continue;
 
         final originalLength = decoded.length;
         decoded.removeWhere((e) => e['path'] == audioPath);
 
-        if (decoded.length == originalLength) continue;
+        if (decoded.length == originalLength) continue; // Nada mudou
 
         await txn.update(
           'playlists',
-          {
-            'playlist_songs': jsonEncode(decoded),
-          },
+          {'playlist_songs': jsonEncode(decoded)},
           where: 'id = ?',
-          whereArgs: [playlist['id']],
+          whereArgs: [playlistId],
         );
       }
     });
@@ -525,7 +582,6 @@ class AppDatabase {
     );
   }
 
-  //
   Future<void> updateFavoritesOrder(List<AudioInfo> list) async {
     final db = await database;
 
