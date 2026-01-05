@@ -135,7 +135,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                     child: TextButton(
                       onPressed: () async {
                         // Clean playlist and rebuild the entire screen to clean the listview
-                        cleanPlaylist(context);
+                        cleanPlaylist();
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -276,7 +276,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                               .removed_from_the_playlist,
                                         );
                                         if (playlistCurrentLength == 1) {
-                                          cleanPlaylist(context);
+                                          cleanPlaylist();
                                         } else {
                                           audioPlayer
                                               .removeAudioSourceAt(index);

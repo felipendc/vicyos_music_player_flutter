@@ -211,7 +211,9 @@ class MainRadioPlayerView extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
                           child: Text(
                             isRadioOn
-                                ? currentRadioStationLocation
+                                ? currentRadioStationLocation.isEmpty
+                                    ? AppLocalizations.of(context)!.ellipsis
+                                    : currentRadioStationLocation
                                 : AppLocalizations.of(context)!.ellipsis,
                             textAlign: TextAlign.center,
                             maxLines: 1,

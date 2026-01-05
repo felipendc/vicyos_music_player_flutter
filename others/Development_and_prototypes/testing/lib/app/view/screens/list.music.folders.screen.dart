@@ -27,18 +27,16 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 final watcher = MusicWatcher();
 
-void syncSongFiles(BuildContext context) async {
+void syncSongFiles() async {
   // Fetch the songs folders
-  await getMusicFoldersContent(context: context, isMusicFolderListener: false);
+  await getMusicFoldersContent(isMusicFolderListener: false);
 
   // Remove empty folders and Deleted folders from the device music folder
   await AppDatabase.instance.removeEmptyFoldersAndDeletedFolders();
   rebuildHomePageFolderListNotifier(FetchingSongs.done);
 
   // Start the device music folder listener
-  if (context.mounted) {
-    watcher.start(context);
-  }
+  watcher.start();
 }
 
 class HomePageFolderList extends StatelessWidget {
@@ -47,8 +45,7 @@ class HomePageFolderList extends StatelessWidget {
     _lifecycle = PermissionLifecycleHandler(
       onResume: () async {
         if (appSettingsWasOpened) {
-          await getMusicFoldersContent(
-              context: context, isMusicFolderListener: false);
+          await getMusicFoldersContent(isMusicFolderListener: false);
           await AppDatabase.instance.removeEmptyFoldersAndDeletedFolders();
           rebuildHomePageFolderListNotifier(FetchingSongs.done);
         }
@@ -68,7 +65,7 @@ class HomePageFolderList extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
 
-    syncSongFiles(context);
+    syncSongFiles();
 
     return StreamBuilder<FetchingSongs>(
       stream: rebuildHomePageFolderListStreamController.stream,
@@ -155,7 +152,6 @@ class HomePageFolderList extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           await getMusicFoldersContent(
-                                              context: context,
                                               isMusicFolderListener: false);
                                           await AppDatabase.instance
                                               .removeEmptyFoldersAndDeletedFolders();

@@ -13,7 +13,6 @@ import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
-import 'package:vicyos_music/l10n/app_localizations.dart';
 
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
@@ -129,9 +128,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
   currentRadioStationID = radioStationList[index].id;
 
   turnOnRadioStation();
-  if (context.mounted) {
-    cleanPlaylist(context);
-  }
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
@@ -192,19 +189,19 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist(context);
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: foundStations[index].id,
-    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+    // album: metadata?.albumName ?? "",
 
     // Using the name of the file as the title by default
     title: foundStations[index].radioName,
     album: foundStations[index].radioLocation,
-    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+    // artist: metadata?.albumArtistName ?? "",
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
@@ -262,20 +259,18 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist(context);
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: currentRadioStationID,
-    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+    // album: metadata?.albumName ?? "",
 
     // Using the name of the file as the title by default
     title: currentRadioStationName,
-    album: currentRadioStationLocation.isEmpty
-        ? AppLocalizations.of(context)!.ellipsis
-        : currentRadioStationLocation,
+    album: currentRadioStationLocation,
     // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );

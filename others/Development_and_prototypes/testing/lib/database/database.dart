@@ -82,7 +82,6 @@ class AppDatabase {
   // Saving and syncing folders one by one
   Future<void> syncFolder({
     required FolderSources folder,
-    required BuildContext context,
     required bool isMusicFolderListener,
   }) async {
     if (isMusicFolderListener == false) {
@@ -131,7 +130,7 @@ class AppDatabase {
     // Remove the songs from the playing queue at once reversed
     for (final index in indexesToRemoveFromPlayer.reversed) {
       if (audioPlayer.audioSources.length == 1) {
-        if (context.mounted) cleanPlaylist(context);
+        cleanPlaylist();
       } else {
         await audioPlayer.removeAudioSourceAt(index);
       }
@@ -499,10 +498,8 @@ class AppDatabase {
     // if (songPath == currentSongFullPath &&
     //     audioPlayer.audioSources.length == 1) {
     //   // Clean playlist and rebuild the entire screen to clean the listview
-    //
-    //   if (context.mounted) {
-    //     cleanPlaylist(context);
-    //   }
+    //     cleanPlaylist();
+
     // } else {
     //   await audioPlayer.removeAudioSourceAt(index);
     //   rebuildPlaylistCurrentLengthNotifier();
@@ -536,7 +533,7 @@ class AppDatabase {
       for (final index in indexesToRemove.reversed) {
         if (audioPlayer.audioSources.length == 1) {
           if (context.mounted) {
-            cleanPlaylist(context);
+            cleanPlaylist();
           }
         } else {
           await audioPlayer.removeAudioSourceAt(index);
@@ -774,9 +771,9 @@ class AppDatabase {
     //     audioPlayer.audioSources.length == 1) {
     //   // Clean playlist and rebuild the entire screen to clean the listview
     //
-    //   if (context.mounted) {
-    //     cleanPlaylist(context);
-    //   }
+    //
+    //     cleanPlaylist();
+    //
     // } else {
     //   await audioPlayer.removeAudioSourceAt(index);
     //   rebuildPlaylistCurrentLengthNotifier();
@@ -808,9 +805,7 @@ class AppDatabase {
 
       for (final index in indexesToRemove.reversed) {
         if (audioPlayer.audioSources.length == 1) {
-          if (context.mounted) {
-            cleanPlaylist(context);
-          }
+          cleanPlaylist();
         } else {
           await audioPlayer.removeAudioSourceAt(index);
           rebuildPlaylistCurrentLengthNotifier();

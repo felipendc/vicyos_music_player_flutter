@@ -164,7 +164,7 @@ Future<void> defaultAlbumArt() async {
       await File('${tempDir.path}/default_album_art.png').writeAsBytes(bytes);
 }
 
-Future<void> cleanPlaylist(BuildContext context) async {
+Future<void> cleanPlaylist() async {
   audioPlayer.stop();
   await audioPlayer.clearAudioSources();
   audioPlayer.audioSources.clear();
@@ -174,17 +174,6 @@ Future<void> cleanPlaylist(BuildContext context) async {
   currentSongTotalDuration = Duration.zero;
   sleekCircularSliderPosition = 0.0;
 
-  if (context.mounted) {
-    currentSongName = AppLocalizations.of(context)!.the_playlist_is_empty;
-  }
-  if (context.mounted) {
-    currentSongAlbumName = AppLocalizations.of(context)!.unknown_album;
-  }
-
-  if (context.mounted) {
-    currentFolderPath =
-        AppLocalizations.of(context)!.the_song_folder_will_be_displayed_here;
-  }
   sleekCircularSliderPosition = Duration.zero.inSeconds.toDouble();
   currentSongFullPath = "";
   playingFromPlaylist = "";

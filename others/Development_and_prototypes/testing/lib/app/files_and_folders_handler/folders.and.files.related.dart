@@ -170,8 +170,7 @@ Future<List<String>> deviceMusicFolderPath() async {
 }
 
 Future<void> getMusicFoldersContent(
-    {required BuildContext context,
-    required bool isMusicFolderListener}) async {
+    {required bool isMusicFolderListener}) async {
   // rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
 
   for (var musicFolder in await deviceMusicFolderPath()) {
@@ -180,18 +179,15 @@ Future<void> getMusicFoldersContent(
     final folderSongPathsList =
         await filterSongsOnlyToList(folderPath: musicFolder);
 
-    if (context.mounted) {
-      // Populating the database with folder paths and its song list
-      await AppDatabase.instance.syncFolder(
-        folder: FolderSources(
-          folderPath: folderPath,
-          folderSongCount: totalSongs,
-          songPathsList: folderSongPathsList,
-        ),
-        context: context,
-        isMusicFolderListener: isMusicFolderListener,
-      );
-    }
+    // Populating the database with folder paths and its song list
+    await AppDatabase.instance.syncFolder(
+      folder: FolderSources(
+        folderPath: folderPath,
+        folderSongCount: totalSongs,
+        songPathsList: folderSongPathsList,
+      ),
+      isMusicFolderListener: isMusicFolderListener,
+    );
   }
 
   if (isPermissionGranted) {
@@ -312,8 +308,7 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
 
     // Re-sync the folder list
-    await getMusicFoldersContent(
-        context: context, isMusicFolderListener: false);
+    await getMusicFoldersContent(isMusicFolderListener: false);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(
@@ -323,9 +318,8 @@ Future<void> deleteSongFromStorage(
       if (songPath == currentSongFullPath &&
           audioPlayer.audioSources.length == 1) {
         // Clean playlist and rebuild the entire screen to clean the listview
-        if (context.mounted) {
-          cleanPlaylist(context);
-        }
+
+        cleanPlaylist();
       } else {
         await audioPlayer.removeAudioSourceAt(index);
         rebuildPlaylistCurrentLengthNotifier();
