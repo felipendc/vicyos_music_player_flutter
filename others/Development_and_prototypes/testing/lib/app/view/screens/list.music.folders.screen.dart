@@ -27,13 +27,24 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 final watcher = MusicWatcher();
 
+Future<void> syncFiles(BuildContext context) async {
+  // Fetch the songs folders
+  await getMusicFoldersContent(context: context, isMusicFolderListener: false);
+
+  // Start the device music folder listener
+  if (context.mounted) {
+    watcher.start(context);
+  }
+}
+
 class HomePageFolderList extends StatelessWidget {
   final BuildContext context;
   HomePageFolderList({super.key, required this.context}) {
     _lifecycle = PermissionLifecycleHandler(
       onResume: () async {
         if (appSettingsWasOpened) {
-          await getMusicFoldersContent(context: context, isListener: false);
+          await getMusicFoldersContent(
+              context: context, isMusicFolderListener: false);
         }
 
         appSettingsWasOpened = false;
@@ -52,7 +63,7 @@ class HomePageFolderList extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     // Fetch the songs folders
-    getMusicFoldersContent(context: context, isListener: false);
+    getMusicFoldersContent(context: context, isMusicFolderListener: false);
 
     // Start the device music folder listener
     watcher.start(context);
@@ -143,7 +154,7 @@ class HomePageFolderList extends StatelessWidget {
                                         onPressed: () async {
                                           getMusicFoldersContent(
                                               context: context,
-                                              isListener: false);
+                                              isMusicFolderListener: false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/autorenew.png",

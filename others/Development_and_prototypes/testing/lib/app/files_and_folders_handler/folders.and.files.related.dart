@@ -170,13 +170,9 @@ Future<List<String>> deviceMusicFolderPath() async {
 }
 
 Future<void> getMusicFoldersContent(
-    {required BuildContext context, required bool isListener}) async {
-  // musicFolderContents.clear(); // remove it soon
-  if (isListener) {
-    rebuildHomePageFolderListNotifier(FetchingSongs.done);
-  } else {
-    rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
-  }
+    {required BuildContext context,
+    required bool isMusicFolderListener}) async {
+  // rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
 
   for (var musicFolder in await deviceMusicFolderPath()) {
     final folderPath = musicFolder;
@@ -193,6 +189,7 @@ Future<void> getMusicFoldersContent(
           songPathsList: folderSongPathsList,
         ),
         context: context,
+        isMusicFolderListener: isMusicFolderListener,
       );
     }
   }
@@ -222,6 +219,57 @@ Future<void> getMusicFoldersContent(
   // rebuild the song list screen
   rebuildSongsListScreenNotifier();
 }
+
+// Future<void> deviceMusicFolderWatcher({required BuildContext context}) async {
+//   // musicFolderContents.clear(); // remove it soon
+//
+//   rebuildHomePageFolderListNotifier(FetchingSongs.done);
+//
+//   for (var musicFolder in await deviceMusicFolderPath()) {
+//     final folderPath = musicFolder;
+//     final totalSongs = folderLength(musicFolder);
+//     final folderSongPathsList =
+//         await filterSongsOnlyToList(folderPath: musicFolder);
+//
+//     if (context.mounted) {
+//       // Populating the database with folder paths and its song list
+//       await AppDatabase.instance.syncFolder(
+//         folder: FolderSources(
+//           folderPath: folderPath,
+//           folderSongCount: totalSongs,
+//           songPathsList: folderSongPathsList,
+//         ),
+//         context: context,
+//         isMusicFolderListener: true,
+//       );
+//     }
+//   }
+//
+//   if (isPermissionGranted) {
+//     if (noDeviceMusicFolderFound == true) {
+//       // Delete database
+//       await AppDatabase.instance.deleteDatabaseFile();
+//       rebuildHomePageFolderListNotifier(
+//           FetchingSongs.noMusicFolderHasBeenFound);
+//       //
+//     } else if (!await AppDatabase.instance.musicFoldersIsEmpty()) {
+//       // Database isn't empty!
+//       rebuildHomePageFolderListNotifier(FetchingSongs.done);
+//       //
+//     } else if (await AppDatabase.instance.musicFoldersIsEmpty()) {
+//       // Database is empty
+//       rebuildHomePageFolderListNotifier(FetchingSongs.musicFolderIsEmpty);
+//       //
+//     } else {
+//       rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
+//     }
+//   } else {
+//     rebuildHomePageFolderListNotifier(FetchingSongs.permissionDenied);
+//   }
+//
+//   // rebuild the song list screen
+//   rebuildSongsListScreenNotifier();
+// }
 
 int folderLength(String folderPath) {
   final Set<String> audioExtensions = {
@@ -315,7 +363,8 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
 
     // Re-sync the folder list
-    await getMusicFoldersContent(context: context, isListener: false);
+    await getMusicFoldersContent(
+        context: context, isMusicFolderListener: false);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(

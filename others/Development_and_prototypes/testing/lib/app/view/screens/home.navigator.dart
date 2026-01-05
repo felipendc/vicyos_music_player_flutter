@@ -27,7 +27,8 @@ class HomeNavigator extends StatelessWidget {
     // Fetch the songs folders first, if it's a tablet
     if (deviceType == DeviceType.tablet) {
       getMusicFoldersContent(
-          context: context, isListener: false); // must return a Widget
+          context: context,
+          isMusicFolderListener: false); // must return a Widget
     }
 
     return deviceType == DeviceType.smartphone

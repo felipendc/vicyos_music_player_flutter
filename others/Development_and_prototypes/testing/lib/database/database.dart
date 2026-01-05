@@ -55,18 +55,7 @@ class AppDatabase {
     return result.isNotEmpty ? result.first : null;
   }
 
-  // Saving and syncing folders one by one
-  Future<void> syncFolder({
-    required FolderSources folder,
-    required BuildContext context,
-  }) async {
-    final db = await database;
-
-    final existing = await _getFolderByPath(db, folder.folderPath);
-    final newSongs = folder.songPathsList.map((e) => e.path).toSet();
-
-    //---------------------------------------------------------------------
-
+  Future<void> removeEmptyFoldersAndDeletedFolders() async {
     final listDeviceFoldersWithAudioFile =
         await getFoldersWithAudioFiles("/storage/emulated/0/Music/");
 
@@ -87,8 +76,22 @@ class AppDatabase {
         // print("Folder deleted: $emptyFolder");
       }
     }
+    // rebuildHomePageFolderListNotifier(FetchingSongs.done);
+  }
 
-    //---------------------------------------------------------------------
+  // Saving and syncing folders one by one
+  Future<void> syncFolder({
+    required FolderSources folder,
+    required BuildContext context,
+    required bool isMusicFolderListener,
+  }) async {
+    if (isMusicFolderListener == false) {
+      rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
+    }
+    final db = await database;
+
+    final existing = await _getFolderByPath(db, folder.folderPath);
+    final newSongs = folder.songPathsList.map((e) => e.path).toSet();
 
     // If the folder is new, insert it to the DB
     if (existing == null) {
