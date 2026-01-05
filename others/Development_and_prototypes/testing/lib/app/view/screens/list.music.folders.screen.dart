@@ -14,6 +14,7 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functi
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/services/music.watcher.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playlist.dart';
 import 'package:vicyos_music/app/view/screens/favorite.song.screen.dart';
 import 'package:vicyos_music/app/view/screens/list.songs.screen.dart';
@@ -24,13 +25,15 @@ import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
+final watcher = MusicWatcher();
+
 class HomePageFolderList extends StatelessWidget {
   final BuildContext context;
   HomePageFolderList({super.key, required this.context}) {
     _lifecycle = PermissionLifecycleHandler(
       onResume: () async {
         if (appSettingsWasOpened) {
-          await getMusicFoldersContent(context: context);
+          await getMusicFoldersContent(context: context, isListener: false);
         }
 
         appSettingsWasOpened = false;
@@ -49,7 +52,10 @@ class HomePageFolderList extends StatelessWidget {
     var media = MediaQuery.sizeOf(context);
 
     // Fetch the songs folders
-    getMusicFoldersContent(context: context);
+    getMusicFoldersContent(context: context, isListener: false);
+
+    // Start the device music folder listener
+    watcher.start(context);
 
     return StreamBuilder<FetchingSongs>(
       stream: rebuildHomePageFolderListStreamController.stream,
@@ -136,7 +142,8 @@ class HomePageFolderList extends StatelessWidget {
                                         iconSize: 10,
                                         onPressed: () async {
                                           getMusicFoldersContent(
-                                              context: context);
+                                              context: context,
+                                              isListener: false);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/autorenew.png",
