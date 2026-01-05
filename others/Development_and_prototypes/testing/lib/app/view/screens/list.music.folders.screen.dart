@@ -27,9 +27,13 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 final watcher = MusicWatcher();
 
-Future<void> syncFiles(BuildContext context) async {
+void syncSongFiles(BuildContext context) async {
   // Fetch the songs folders
   await getMusicFoldersContent(context: context, isMusicFolderListener: false);
+
+  // Remove empty folders and Deleted folders from the device music folder
+  await AppDatabase.instance.removeEmptyFoldersAndDeletedFolders();
+  rebuildHomePageFolderListNotifier(FetchingSongs.done);
 
   // Start the device music folder listener
   if (context.mounted) {
@@ -45,6 +49,8 @@ class HomePageFolderList extends StatelessWidget {
         if (appSettingsWasOpened) {
           await getMusicFoldersContent(
               context: context, isMusicFolderListener: false);
+          await AppDatabase.instance.removeEmptyFoldersAndDeletedFolders();
+          rebuildHomePageFolderListNotifier(FetchingSongs.done);
         }
 
         appSettingsWasOpened = false;
@@ -62,11 +68,7 @@ class HomePageFolderList extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
 
-    // Fetch the songs folders
-    getMusicFoldersContent(context: context, isMusicFolderListener: false);
-
-    // Start the device music folder listener
-    watcher.start(context);
+    syncSongFiles(context);
 
     return StreamBuilder<FetchingSongs>(
       stream: rebuildHomePageFolderListStreamController.stream,
@@ -152,9 +154,13 @@ class HomePageFolderList extends StatelessWidget {
                                         splashRadius: 20,
                                         iconSize: 10,
                                         onPressed: () async {
-                                          getMusicFoldersContent(
+                                          await getMusicFoldersContent(
                                               context: context,
                                               isMusicFolderListener: false);
+                                          await AppDatabase.instance
+                                              .removeEmptyFoldersAndDeletedFolders();
+                                          rebuildHomePageFolderListNotifier(
+                                              FetchingSongs.done);
                                         },
                                         icon: Image.asset(
                                           "assets/img/menu/autorenew.png",
