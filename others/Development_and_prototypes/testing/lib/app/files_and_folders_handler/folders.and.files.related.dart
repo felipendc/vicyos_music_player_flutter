@@ -220,57 +220,6 @@ Future<void> getMusicFoldersContent(
   rebuildSongsListScreenNotifier();
 }
 
-// Future<void> deviceMusicFolderWatcher({required BuildContext context}) async {
-//   // musicFolderContents.clear(); // remove it soon
-//
-//   rebuildHomePageFolderListNotifier(FetchingSongs.done);
-//
-//   for (var musicFolder in await deviceMusicFolderPath()) {
-//     final folderPath = musicFolder;
-//     final totalSongs = folderLength(musicFolder);
-//     final folderSongPathsList =
-//         await filterSongsOnlyToList(folderPath: musicFolder);
-//
-//     if (context.mounted) {
-//       // Populating the database with folder paths and its song list
-//       await AppDatabase.instance.syncFolder(
-//         folder: FolderSources(
-//           folderPath: folderPath,
-//           folderSongCount: totalSongs,
-//           songPathsList: folderSongPathsList,
-//         ),
-//         context: context,
-//         isMusicFolderListener: true,
-//       );
-//     }
-//   }
-//
-//   if (isPermissionGranted) {
-//     if (noDeviceMusicFolderFound == true) {
-//       // Delete database
-//       await AppDatabase.instance.deleteDatabaseFile();
-//       rebuildHomePageFolderListNotifier(
-//           FetchingSongs.noMusicFolderHasBeenFound);
-//       //
-//     } else if (!await AppDatabase.instance.musicFoldersIsEmpty()) {
-//       // Database isn't empty!
-//       rebuildHomePageFolderListNotifier(FetchingSongs.done);
-//       //
-//     } else if (await AppDatabase.instance.musicFoldersIsEmpty()) {
-//       // Database is empty
-//       rebuildHomePageFolderListNotifier(FetchingSongs.musicFolderIsEmpty);
-//       //
-//     } else {
-//       rebuildHomePageFolderListNotifier(FetchingSongs.nullValue);
-//     }
-//   } else {
-//     rebuildHomePageFolderListNotifier(FetchingSongs.permissionDenied);
-//   }
-//
-//   // rebuild the song list screen
-//   rebuildSongsListScreenNotifier();
-// }
-
 int folderLength(String folderPath) {
   final Set<String> audioExtensions = {
     '.mp3',
