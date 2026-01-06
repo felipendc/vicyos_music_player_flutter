@@ -1157,3 +1157,11 @@ Future<bool> playlistNameAlreadyExist(String text) async {
   }
   return false;
 }
+
+Future<void> clearAppCache() async {
+  final cacheDir = await getTemporaryDirectory();
+
+  if (cacheDir.existsSync()) {
+    cacheDir.deleteSync(recursive: true);
+  }
+}
