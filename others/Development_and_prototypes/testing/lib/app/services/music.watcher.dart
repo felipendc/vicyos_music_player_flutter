@@ -20,7 +20,7 @@ class MusicWatcher {
     _sub = _channel.receiveBroadcastStream().listen((event) {
       // print('🎵 Detected change: ${event['uri']}');
 
-      // 🔹 Marca que o stream começou a emitir eventos
+      // Flag that the stream has started emitting events
       if (!_hasReceivedFirstEvent) {
         _hasReceivedFirstEvent = true;
       }

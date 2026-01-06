@@ -98,6 +98,9 @@ class AppDatabase {
             rebuildPlaylistCurrentLengthNotifier();
             currentSongNameNotifier();
           }
+          if (audioPlayer.audioSources.isEmpty) {
+            cleanPlaylist();
+          }
         }
         await removeFolderFromDB(folder);
       }

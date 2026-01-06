@@ -626,6 +626,8 @@ Future<void> setFolderAsPlaylist({
       artUri: Uri.file(notificationPlayerAlbumArt.path),
       extras: {
         "playedFromRoute": audioRoute,
+        "size": filePath.size,
+        "extension": filePath.extension,
       },
     );
 
@@ -691,6 +693,8 @@ Future<void> addFolderToPlaylist({
         artUri: Uri.file(notificationPlayerAlbumArt.path),
         extras: {
           "playedFromRoute": audioRoute,
+          "size": filePath.size,
+          "extension": filePath.extension,
         },
       );
 
@@ -740,6 +744,8 @@ Future<void> addFolderToPlaylist({
         artUri: Uri.file(notificationPlayerAlbumArt.path),
         extras: {
           "playedFromRoute": audioRoute,
+          "size": filePath.size,
+          "extension": filePath.extension,
         },
       );
 
@@ -799,6 +805,8 @@ Future<void> addSongToPlaylist({
         artUri: Uri.file(notificationPlayerAlbumArt.path),
         extras: {
           "playedFromRoute": audioRoute,
+          "size": getFileSize(songPath),
+          "extension": getFileExtension(songPath),
         },
       );
 
@@ -843,6 +851,8 @@ Future<void> addSongToPlaylist({
         artUri: Uri.file(notificationPlayerAlbumArt.path),
         extras: {
           "playedFromRoute": audioRoute,
+          "size": getFileSize(songPath),
+          "extension": getFileExtension(songPath),
         },
       );
 
@@ -892,6 +902,8 @@ Future<void> addSongToPlaylist({
           artUri: Uri.file(notificationPlayerAlbumArt.path),
           extras: {
             "playedFromRoute": audioRoute,
+            "size": song.size,
+            "extension": song.extension,
           },
         );
 
@@ -949,6 +961,8 @@ Future<void> addSongToPlaylist({
           artUri: Uri.file(notificationPlayerAlbumArt.path),
           extras: {
             "playedFromRoute": audioRoute,
+            "size": song.size,
+            "extension": song.extension,
           },
         );
 
@@ -1015,6 +1029,8 @@ void addToPlayNext({
       artUri: Uri.file(notificationPlayerAlbumArt.path),
       extras: {
         "playedFromRoute": audioRoute,
+        "size": getFileSize(playNextFilePath),
+        "extension": getFileExtension(playNextFilePath),
       },
     );
 
@@ -1077,6 +1093,8 @@ void addToPlayNext({
         artUri: Uri.file(notificationPlayerAlbumArt.path),
         extras: {
           "playedFromRoute": audioRoute,
+          "size": song.size,
+          "extension": song.extension,
         },
       );
 

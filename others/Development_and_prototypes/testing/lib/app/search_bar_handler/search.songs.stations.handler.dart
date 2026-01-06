@@ -49,6 +49,7 @@ Future<void> searchSongFilesByName(
                     path: file.path,
                     size: file.existsSync() ? getFileSize(file.path) : '0 KB',
                     format: getFileExtension(file.path),
+                    extension: getFileExtension(file.path),
                   ),
                 );
               } catch (e) {

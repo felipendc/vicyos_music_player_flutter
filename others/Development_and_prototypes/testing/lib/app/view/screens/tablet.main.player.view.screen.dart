@@ -13,7 +13,7 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream
 import 'package:vicyos_music/app/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.playlist.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.playing.queue.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.speed.rate.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
@@ -610,7 +610,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               builder: (BuildContext context) {
                                                 playlistBottomSheetTabletContext =
                                                     context;
-                                                return PlaylistBottomSheet();
+                                                return PlayingQueueBottomSheet();
                                               },
                                             ).whenComplete(() {
                                               playlistBottomSheetTabletContext =

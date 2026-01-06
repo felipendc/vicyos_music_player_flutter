@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
@@ -8,8 +9,8 @@ import 'package:vicyos_music/app/music_player/music.player.functions.and.more.da
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-class PlaylistBottomSheet extends StatelessWidget {
-  const PlaylistBottomSheet({super.key});
+class PlayingQueueBottomSheet extends StatelessWidget {
+  const PlayingQueueBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -196,6 +197,9 @@ class PlaylistBottomSheet extends StatelessWidget {
                     itemCount: audioPlayer.audioSources.length,
                     onReorder: onReorder,
                     itemBuilder: (BuildContext context, int index) {
+                      final playerCurrentMediaItem =
+                          audioPlayer.sequence[index].tag as MediaItem;
+
                       return Container(
                         height: 72,
                         color: TColor.bg,
@@ -242,7 +246,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                           ),
                                     title: Text(
                                       songName(
-                                        songFullPath(index: index),
+                                        playerCurrentMediaItem.title,
                                       ),
                                       textAlign: TextAlign.start,
                                       maxLines: 1,
@@ -254,7 +258,7 @@ class PlaylistBottomSheet extends StatelessWidget {
                                       ),
                                     ),
                                     subtitle: Text(
-                                      /*${index + 1}*/ '${getFileSize(songFullPath(index: index))}MB  |  ${getFileExtension(songFullPath(index: index))}',
+                                      /*${index + 1}*/ '${playerCurrentMediaItem.extras?['size']} MB  |  ${playerCurrentMediaItem.extras?['extension']}',
                                       style: const TextStyle(
                                           fontFamily: "Circular Std",
                                           fontSize: 15,

@@ -150,6 +150,7 @@ Future<List<AudioInfo>> filterSongsOnlyToList(
         path: songPath,
         size: getFileSize(songPath),
         format: getFileExtension(songPath),
+        extension: getFileExtension(songPath),
       ),
     );
   }
