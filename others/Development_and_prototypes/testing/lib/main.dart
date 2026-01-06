@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/on_init_app/on.init.app.dart';
 import 'package:vicyos_music/app/screen_orientation/is_tablet.dart';
@@ -14,20 +13,9 @@ import 'l10n/app_localizations.dart';
 // flutter gen-l10n
 
 void main() async {
-  // Init WidgetsBinding
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Init JustAudioBackground
-  await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-    androidNotificationChannelName: 'Vicyos Music',
-    androidNotificationOngoing: true,
-  );
-
-  systemStatusAndNavigationBarMainTheme();
-
   await onInitPlayer();
   runApp(const MyApp());
+  systemStatusAndNavigationBarMainTheme();
 }
 
 class MyApp extends StatelessWidget {
