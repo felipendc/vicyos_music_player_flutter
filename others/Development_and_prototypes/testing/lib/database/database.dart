@@ -65,6 +65,40 @@ class AppDatabase {
     // Remove folder from database if it doesn't exist in the device music folder
     for (String folder in dbFolders) {
       if (!listDeviceFoldersWithAudioFile.contains(folder)) {
+        // -----------------------------------------------------------------
+        // If the device music folder(s) has(have) been removed or renamed:
+        // Remove all the songs from the playing queue to avoid crashes
+        // Then, remove the folder(s) from the Data base
+        // -----------------------------------------------------------------
+        if (audioPlayer.audioSources.isNotEmpty) {
+          final List<int> indexesToRemove = [];
+
+          // Make sure the folder ends with "/" to avoid removing the path
+          final String normalizedFolder =
+              folder.endsWith('/') ? folder : '$folder/';
+
+          for (int i = 0; i < audioPlayer.audioSources.length; i++) {
+            final source = audioPlayer.audioSources[i];
+
+            if (source is UriAudioSource) {
+              final uri = source.uri;
+
+              if (uri.isScheme('file')) {
+                final String path = uri.toFilePath();
+                if (path.contains(normalizedFolder)) {
+                  indexesToRemove.add(i);
+                }
+              }
+            }
+          }
+
+          // Remove in reversed order
+          for (final index in indexesToRemove.reversed) {
+            await audioPlayer.removeAudioSourceAt(index);
+            rebuildPlaylistCurrentLengthNotifier();
+            currentSongNameNotifier();
+          }
+        }
         await removeFolderFromDB(folder);
       }
     }
