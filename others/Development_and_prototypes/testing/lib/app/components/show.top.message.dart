@@ -221,13 +221,13 @@ void showFileDeletedMessage(
                   ),
                 ),
               ),
-              SizedBox(width: 5),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      fileName.toUpperCase(),
+                      fileName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
@@ -313,7 +313,7 @@ void createPlaylistSnackBar(
                     // ),
                   ),
                 ),
-                SizedBox(width: 5),
+                SizedBox(width: 6),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -487,7 +487,7 @@ void deletePlaylistSnackBar({
                     ),
                   ),
                 ),
-                SizedBox(width: 5),
+                SizedBox(width: 6),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
