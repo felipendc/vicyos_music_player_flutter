@@ -910,6 +910,7 @@ class AppDatabase {
       name TEXT NOT NULL,
       size TEXT NOT NULL,
       format TEXT NOT NULL,
+      extension TEXT NOT NULL,
       order_index INTEGER
     );
   ''');
