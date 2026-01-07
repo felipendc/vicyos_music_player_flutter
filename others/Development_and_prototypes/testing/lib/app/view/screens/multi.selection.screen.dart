@@ -18,7 +18,7 @@ class MultiSelectionScreen extends StatelessWidget {
   final bool isSongScreen;
   final bool isPlaylistScreen;
   final List<AudioInfo> songModelList;
-  final NavigationButtons audioRoute;
+  final String audioRoute;
 
   const MultiSelectionScreen({
     super.key,

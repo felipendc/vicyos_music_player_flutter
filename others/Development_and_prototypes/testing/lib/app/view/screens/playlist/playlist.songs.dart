@@ -361,8 +361,9 @@ class PlaylistSongs extends StatelessWidget {
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
                                               songModel: song,
-                                              audioRoute:
-                                                  NavigationButtons.playlists,
+                                              audioRoute: NavigationButtons
+                                                  .playlists
+                                                  .toString(),
                                             );
                                           },
                                         ).whenComplete(
@@ -499,7 +500,8 @@ class PlaylistSongs extends StatelessWidget {
                                                     isFromFavoriteScreen: false,
                                                     audioRoute:
                                                         NavigationButtons
-                                                            .playlists,
+                                                            .playlists
+                                                            .toString(),
                                                     isFromPlaylistSongScreen:
                                                         true,
                                                   );
@@ -534,7 +536,8 @@ class PlaylistSongs extends StatelessWidget {
                                           if (song.path ==
                                                   currentSongFullPath &&
                                               songCurrentRouteType ==
-                                                  NavigationButtons.playlists) {
+                                                  NavigationButtons.playlists
+                                                      .toString()) {
                                             if (songIsPlaying) {
                                               audioPlayer.pause();
                                               songIsPlaying = false;
@@ -551,10 +554,12 @@ class PlaylistSongs extends StatelessWidget {
                                                   playlistIndex.playlistSongs,
                                               currentIndex: index,
                                               context: context,
-                                              audioRoute:
-                                                  NavigationButtons.playlists,
+                                              audioRoute: NavigationButtons
+                                                  .playlists
+                                                  .toString(),
                                               audioRouteEmptyPlaylist:
-                                                  NavigationButtons.playlists,
+                                                  NavigationButtons.playlists
+                                                      .toString(),
                                             );
                                           }
                                         },

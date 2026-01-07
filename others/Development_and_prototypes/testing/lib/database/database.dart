@@ -523,7 +523,7 @@ class AppDatabase {
     //   final tag = audio.tag;
     //   if (tag is! MediaItem) return false;
     //
-    //   return (tag.extras?['playedFromRoute'] == NavigationButtons.favorites &&
+    //   return (tag.extras?['playedFromRoute'] == NavigationButtons.favorites.toString() &&
     //       audio.uri.toFilePath() == songPath);
     // });
     //
@@ -562,7 +562,8 @@ class AppDatabase {
         if (tag is! MediaItem) continue;
 
         if (audio.uri.toFilePath() == songPath &&
-            tag.extras?['playedFromRoute'] == NavigationButtons.favorites) {
+            tag.extras?['playedFromRoute'] ==
+                NavigationButtons.favorites.toString()) {
           indexesToRemove.add(i);
         }
       }
@@ -795,7 +796,7 @@ class AppDatabase {
     //
     //   final playedFromRoute = tag.extras?['playedFromRoute'];
     //
-    //   return (playedFromRoute == NavigationButtons.playlists &&
+    //   return (playedFromRoute == NavigationButtons.playlists.toString() &&
     //       audio.uri.toFilePath() == audioPath);
     // });
     //
@@ -835,7 +836,8 @@ class AppDatabase {
         if (tag is! MediaItem) continue;
 
         if (audio.uri.toFilePath() == audioPath &&
-            tag.extras?['playedFromRoute'] == NavigationButtons.playlists) {
+            tag.extras?['playedFromRoute'] ==
+                NavigationButtons.playlists.toString()) {
           indexesToRemove.add(i);
         }
       }

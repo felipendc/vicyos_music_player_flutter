@@ -9,7 +9,7 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 
 AppBar mainPlayerViewAppBarTablet({
   required BuildContext context,
-  required NavigationButtons audioRoute,
+  required String audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(
@@ -80,7 +80,7 @@ AppBar mainPlayerViewAppBarTablet({
 
 AppBar mainPlayerViewAppBar({
   required BuildContext context,
-  required NavigationButtons audioRoute,
+  required String audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(
@@ -158,7 +158,7 @@ AppBar mainPlayerViewAppBar({
 AppBar previewPlayerViewAppBar({
   required BuildContext context,
   required String filePath,
-  required NavigationButtons audioRoute,
+  required String audioRoute,
 }) {
   return AppBar(
     shape: const RoundedRectangleBorder(

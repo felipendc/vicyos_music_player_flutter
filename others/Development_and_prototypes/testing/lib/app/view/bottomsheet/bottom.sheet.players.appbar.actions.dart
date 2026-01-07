@@ -14,7 +14,7 @@ import 'bottomsheet.delete.song.confirmation.dart';
 class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
   final bool songIsFavorite;
   final dynamic fullFilePath;
-  final NavigationButtons audioRoute;
+  final String audioRoute;
   const PlayerPreviewAppBarActionsBottomSheet({
     super.key,
     required this.fullFilePath,

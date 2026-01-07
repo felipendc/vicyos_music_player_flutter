@@ -163,8 +163,9 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           addFolderToPlaylist(
                             currentFolder: folderSongList,
                             context: context,
-                            audioRoute: NavigationButtons.music,
-                            audioRouteEmptyPlaylist: NavigationButtons.music,
+                            audioRoute: NavigationButtons.music.toString(),
+                            audioRouteEmptyPlaylist:
+                                NavigationButtons.music.toString(),
                           );
 
                           showAddedToPlaylist(
@@ -209,8 +210,9 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                             currentFolder: folderSongList,
                             currentIndex: 0,
                             context: context,
-                            audioRoute: NavigationButtons.music,
-                            audioRouteEmptyPlaylist: NavigationButtons.music,
+                            audioRoute: NavigationButtons.music.toString(),
+                            audioRouteEmptyPlaylist:
+                                NavigationButtons.music.toString(),
                           );
 
                           if (deviceTypeIsTablet()) {

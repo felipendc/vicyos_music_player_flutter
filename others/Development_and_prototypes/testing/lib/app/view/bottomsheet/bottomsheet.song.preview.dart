@@ -14,7 +14,7 @@ import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
   final AudioInfo songModel;
-  final NavigationButtons audioRoute;
+  final String audioRoute;
 
   const SongPreviewBottomSheet({
     super.key,

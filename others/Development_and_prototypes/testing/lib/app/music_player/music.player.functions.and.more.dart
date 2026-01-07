@@ -25,6 +25,7 @@ import 'package:volume_controller/volume_controller.dart';
 
 import 'music.player.listeners.dart';
 
+// Use it as String (NavigationButtons.favorites.toString())
 enum NavigationButtons { music, favorites, playlists, none }
 
 enum CurrentLoopMode { all, one, shuffle, off }
@@ -39,10 +40,10 @@ enum FetchingSongs {
 }
 
 // From audioPlayer.listener
-NavigationButtons songCurrentRouteType = NavigationButtons.none;
+String songCurrentRouteType = "NavigationButtons.none";
 
 // Manual listener only when playlist is empty
-NavigationButtons activeNavigationButton = NavigationButtons.none;
+String activeNavigationButton = "NavigationButtons.none";
 
 // From the Multi Selection Screen
 Set<AudioInfo> selectedItemsFromMultiselectionScreen = <AudioInfo>{};
@@ -183,8 +184,8 @@ Future<void> cleanPlaylist() async {
   rebuildSongsListScreenNotifier();
   clearCurrentPlaylistStreamController.sink.add(null);
   rebuildPlaylistCurrentLengthNotifier();
-  activeNavigationButton = NavigationButtons.none; // Manual attribution
-  songCurrentRouteType = NavigationButtons.none; // Via listener
+  activeNavigationButton = "NavigationButtons.none"; // Manual attribution
+  songCurrentRouteType = "NavigationButtons.none"; // Via listener
   currentSongNavigationRouteNotifier();
 }
 
@@ -589,8 +590,8 @@ Future<void> setFolderAsPlaylist({
   required List<AudioInfo> currentFolder,
   required int currentIndex,
   required BuildContext context,
-  required NavigationButtons audioRoute,
-  required NavigationButtons audioRouteEmptyPlaylist,
+  required String audioRoute,
+  required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -600,13 +601,14 @@ Future<void> setFolderAsPlaylist({
 
   playingFromPlaylist = playlistName ?? "";
 
-  activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+  activeNavigationButton =
+      audioRouteEmptyPlaylist.toString(); // Manual attribution
   currentSongNavigationRouteNotifier();
 
-  for (AudioInfo filePath in currentFolder) {
+  for (var filePath in currentFolder) {
     // File audioFile = File(filePath.path);
-    String fileNameWithoutExtension =
-        path.basenameWithoutExtension(filePath.path);
+    // String fileNameWithoutExtension =
+    path.basenameWithoutExtension(filePath.path);
     // String filePathAsId = audioFile.absolute.path;
     // Metadata? metadata;
 
@@ -621,13 +623,13 @@ Future<void> setFolderAsPlaylist({
       // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
 
       // Using the name of the file as the title by default
-      title: fileNameWithoutExtension,
+      title: filePath.name,
       // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
       artUri: Uri.file(notificationPlayerAlbumArt.path),
       extras: {
-        "playedFromRoute": audioRoute,
-        "size": filePath.size,
-        "extension": filePath.extension,
+        'playedFromRoute': audioRoute,
+        'size': filePath.size,
+        'extension': filePath.extension,
       },
     );
 
@@ -658,8 +660,8 @@ Future<void> setFolderAsPlaylist({
 Future<void> addFolderToPlaylist({
   required List<AudioInfo> currentFolder,
   required BuildContext context,
-  required NavigationButtons audioRoute,
-  required NavigationButtons audioRouteEmptyPlaylist,
+  required String audioRoute,
+  required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -668,7 +670,8 @@ Future<void> addFolderToPlaylist({
   currentSongNavigationRouteNotifier();
 
   if (audioPlayer.audioSources.isEmpty) {
-    activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+    activeNavigationButton =
+        audioRouteEmptyPlaylist.toString(); // Manual attribution
     playlist.clear();
     for (AudioInfo filePath in currentFolder) {
       // File audioFile = File(filePath.path);
@@ -764,8 +767,8 @@ Future<void> addFolderToPlaylist({
 Future<void> addSongToPlaylist({
   required BuildContext context,
   dynamic songPath,
-  required NavigationButtons audioRoute,
-  required NavigationButtons audioRouteEmptyPlaylist,
+  required String audioRoute,
+  required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
     turnOffRadioStation();
@@ -781,7 +784,8 @@ Future<void> addSongToPlaylist({
     currentSongNavigationRouteNotifier();
 
     if (audioPlayer.audioSources.isEmpty) {
-      activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+      activeNavigationButton =
+          audioRouteEmptyPlaylist.toString(); // Manual attribution
       audioPlayerWasPlaying = true;
       playlist.clear();
       // File audioFile = File(songPath);
@@ -873,7 +877,8 @@ Future<void> addSongToPlaylist({
   } else if (songPath is Set<AudioInfo>) {
     currentSongNavigationRouteNotifier();
 
-    activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+    activeNavigationButton =
+        audioRouteEmptyPlaylist.toString(); // Manual attribution
     audioPlayerWasPlaying = true;
     playlist.clear();
 
@@ -991,8 +996,8 @@ Future<void> addSongToPlaylist({
 void addToPlayNext({
   required dynamic playNextFilePath,
   required BuildContext context,
-  required NavigationButtons audioRoute,
-  required NavigationButtons audioRouteEmptyPlaylist,
+  required String audioRoute,
+  required String audioRouteEmptyPlaylist,
 }) {
   if (audioPlayer.audioSources.isEmpty) {
     if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
@@ -1002,7 +1007,8 @@ void addToPlayNext({
 
   if (playNextFilePath is String) {
     if (audioPlayer.audioSources.isEmpty) {
-      activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+      activeNavigationButton =
+          audioRouteEmptyPlaylist.toString(); // Manual attribution
     }
 
     currentSongNavigationRouteNotifier();
@@ -1070,7 +1076,8 @@ void addToPlayNext({
     rebuildFavoriteScreenNotifier();
   } else if (playNextFilePath is Set<AudioInfo>) {
     if (audioPlayer.audioSources.isEmpty) {
-      activeNavigationButton = audioRouteEmptyPlaylist; // Manual attribution
+      activeNavigationButton =
+          audioRouteEmptyPlaylist.toString(); // Manual attribution
     }
     currentSongNavigationRouteNotifier();
 
@@ -1136,11 +1143,11 @@ void addToPlayNext({
   }
 }
 
-NavigationButtons miuiNavigationButtonsBehavior() {
+String miuiNavigationButtonsBehavior() {
   if (navigationButtonsHasMiuiBehavior) {
-    return activeNavigationButton;
+    return activeNavigationButton.toString();
   } else {
-    return songCurrentRouteType;
+    return songCurrentRouteType.toString();
   }
 }
 
@@ -1158,10 +1165,84 @@ Future<bool> playlistNameAlreadyExist(String text) async {
   return false;
 }
 
-Future<void> clearAppCache() async {
-  final cacheDir = await getTemporaryDirectory();
-
-  if (cacheDir.existsSync()) {
-    cacheDir.deleteSync(recursive: true);
+void xxAAAA({
+  required String playNextFilePath,
+  required BuildContext context,
+  required String audioRoute,
+  required String audioRouteEmptyPlaylist,
+}) {
+  if (audioPlayer.audioSources.isEmpty) {
+    if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+      playAfterClosingPlayersPreview = true;
+    }
   }
+
+  if (audioPlayer.audioSources.isEmpty) {
+    activeNavigationButton =
+        audioRouteEmptyPlaylist.toString(); // Manual attribution
+  }
+
+  currentSongNavigationRouteNotifier();
+
+  File audioFile = File(playNextFilePath);
+  String fileNameWithoutExtension =
+      path.basenameWithoutExtension(playNextFilePath);
+  String filePathAsId = audioFile.absolute.path;
+  // Metadata? metadata;
+
+  // try {
+  //   metadata = await MetadataRetriever.fromFile(audioFile);
+  // } catch (e) {
+  //   debugPrint('Failed to extract metadata: $e');
+  // }
+
+  final mediaItem = MediaItem(
+    id: filePathAsId,
+    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+
+    // Using the name of the file as the title by default
+    title: fileNameWithoutExtension,
+    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+    artUri: Uri.file(notificationPlayerAlbumArt.path),
+    extras: {
+      "playedFromRoute": audioRoute,
+      "size": getFileSize(playNextFilePath),
+      "extension": getFileExtension(playNextFilePath),
+    },
+  );
+
+  if (audioPlayer.audioSources.isEmpty) {
+    audioPlayerWasPlaying = true;
+    playlist.clear();
+    playlist.add(
+      AudioSource.uri(
+        Uri.file(playNextFilePath),
+        tag: mediaItem,
+      ),
+    );
+
+    audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
+    firstSongIndex = true;
+    // preLoadSongName(context);
+    updateCurrentSongNameOnlyOnce(context);
+    rebuildPlaylistCurrentLengthNotifier();
+
+    if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
+    } else {
+      playOrPause();
+    }
+  } else {
+    playlist.clear();
+    // audioSources.insert(
+    audioPlayer.insertAudioSource(
+      currentIndex.toInt() + 1,
+      AudioSource.uri(
+        Uri.file(playNextFilePath),
+        tag: mediaItem,
+      ),
+    );
+
+    rebuildPlaylistCurrentLengthNotifier();
+  }
+  rebuildFavoriteScreenNotifier();
 }

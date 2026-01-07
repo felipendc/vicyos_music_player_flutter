@@ -165,6 +165,7 @@ Future<void> updateCurrentSongNameOnlyOnce(BuildContext context) async {
 
   // Accessing the enum playedFromRoute from MediaItem extras
   songCurrentRouteType = currentMediaItem.extras?['playedFromRoute'];
+
   debugPrint("current song route type: $songCurrentRouteType");
   // If the navigationButtonsHasMiuiBehavior if disabled,
   // update the navigation buttons whenever the player changes the song index

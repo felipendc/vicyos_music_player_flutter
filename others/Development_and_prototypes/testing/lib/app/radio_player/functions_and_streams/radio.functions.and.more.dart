@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
 import 'package:vicyos_music/app/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart'
-    show currentSongNavigationRouteNotifier;
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
@@ -54,8 +53,8 @@ Future<void> turnOnRadioStation() async {
   isRadioPaused = false;
   radioStationBtn = Colors.green;
 
-  activeNavigationButton = NavigationButtons.none; // Manual attribution
-  songCurrentRouteType = NavigationButtons.none; // Via listener
+  activeNavigationButton = "NavigationButtons.none"; // Manual attribution
+  songCurrentRouteType = "NavigationButtons.none"; // Via listener
 
   currentSongNavigationRouteNotifier();
 

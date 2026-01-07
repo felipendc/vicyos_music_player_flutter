@@ -183,7 +183,7 @@ class SearchScreen extends StatelessWidget {
                             builder: (BuildContext context) {
                               return SongPreviewBottomSheet(
                                 songModel: searchSongFromDataBase[index],
-                                audioRoute: NavigationButtons.music,
+                                audioRoute: NavigationButtons.music.toString(),
                               );
                             },
                           ).whenComplete(
@@ -207,8 +207,7 @@ class SearchScreen extends StatelessWidget {
                                 () async {
                                   if (playAfterClosingPlayersPreview) {
                                     await audioPlayer.play();
-                                    playAfterClosingPlayersPreview =
-                                    false;
+                                    playAfterClosingPlayersPreview = false;
                                   }
                                 },
                               );
@@ -297,7 +296,8 @@ class SearchScreen extends StatelessWidget {
                                       isFromPlaylistSongScreen: false,
                                       songModel: searchSongFromDataBase[index],
                                       isFromFavoriteScreen: false,
-                                      audioRoute: NavigationButtons.music,
+                                      audioRoute:
+                                          NavigationButtons.music.toString(),
                                     );
                                   },
                                 ).whenComplete(
@@ -333,8 +333,9 @@ class SearchScreen extends StatelessWidget {
                               currentFolder: searchSongFromDataBase,
                               currentIndex: index,
                               context: context,
-                              audioRoute: NavigationButtons.music,
-                              audioRouteEmptyPlaylist: NavigationButtons.music,
+                              audioRoute: NavigationButtons.music.toString(),
+                              audioRouteEmptyPlaylist:
+                                  NavigationButtons.music.toString(),
                             );
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");

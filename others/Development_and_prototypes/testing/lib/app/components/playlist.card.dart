@@ -55,7 +55,7 @@ class PlaylistCard extends StatelessWidget {
                   if (playingFromPlaylist ==
                           playlistModel[index]
                               .playlistName /*&&
-                      songCurrentRouteType == NavigationButtons.playlists*/
+                      songCurrentRouteType == NavigationButtons.playlists.toString()*/
                       ) {
                     if (songIsPlaying) {
                       audioPlayer.pause();
@@ -76,8 +76,9 @@ class PlaylistCard extends StatelessWidget {
                         currentFolder: playlistModel[index].playlistSongs,
                         currentIndex: 0,
                         context: context,
-                        audioRoute: NavigationButtons.playlists,
-                        audioRouteEmptyPlaylist: NavigationButtons.playlists,
+                        audioRoute: NavigationButtons.playlists.toString(),
+                        audioRouteEmptyPlaylist:
+                            NavigationButtons.playlists.toString(),
                       );
 
                       if (context.mounted) {

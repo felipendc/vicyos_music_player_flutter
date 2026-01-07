@@ -4,7 +4,7 @@ import 'package:vicyos_music/app/music_player/music.player.functions.and.more.da
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class ImportFilesBottomSheet extends StatelessWidget {
-  final NavigationButtons fileCurrentRoute;
+  final String fileCurrentRoute;
   const ImportFilesBottomSheet({
     super.key,
     required this.fileCurrentRoute,

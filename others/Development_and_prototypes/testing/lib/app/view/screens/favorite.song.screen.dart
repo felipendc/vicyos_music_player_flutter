@@ -265,8 +265,9 @@ class FavoriteSongsScreen extends StatelessWidget {
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
                                               songModel: song,
-                                              audioRoute:
-                                                  NavigationButtons.favorites,
+                                              audioRoute: NavigationButtons
+                                                  .favorites
+                                                  .toString(),
                                             );
                                           },
                                         ).whenComplete(
@@ -395,7 +396,8 @@ class FavoriteSongsScreen extends StatelessWidget {
                                                     isFromFavoriteScreen: true,
                                                     audioRoute:
                                                         NavigationButtons
-                                                            .favorites,
+                                                            .favorites
+                                                            .toString(),
                                                   );
                                                 },
                                               ).whenComplete(
@@ -428,7 +430,8 @@ class FavoriteSongsScreen extends StatelessWidget {
                                           if (song.path ==
                                                   currentSongFullPath &&
                                               songCurrentRouteType ==
-                                                  NavigationButtons.favorites) {
+                                                  NavigationButtons.favorites
+                                                      .toString()) {
                                             if (songIsPlaying) {
                                               audioPlayer.pause();
                                               songIsPlaying = false;
@@ -441,10 +444,12 @@ class FavoriteSongsScreen extends StatelessWidget {
                                               currentFolder: favoriteSongs,
                                               currentIndex: index,
                                               context: context,
-                                              audioRoute:
-                                                  NavigationButtons.favorites,
+                                              audioRoute: NavigationButtons
+                                                  .favorites
+                                                  .toString(),
                                               audioRouteEmptyPlaylist:
-                                                  NavigationButtons.favorites,
+                                                  NavigationButtons.favorites
+                                                      .toString(),
                                             );
                                           }
                                         },

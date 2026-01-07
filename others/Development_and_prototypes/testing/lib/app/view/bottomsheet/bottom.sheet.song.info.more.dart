@@ -26,7 +26,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
   final bool isFromFavoriteScreen;
   final bool isFromPlaylistSongScreen;
   final bool isFromSongsScreen;
-  final NavigationButtons audioRoute;
+  final String audioRoute;
   final String? playListName;
   final int? playlistSongIndex;
   final List<AudioInfo>? listOfSongModel;
