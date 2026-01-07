@@ -753,7 +753,7 @@ void addedToFavoritesSnackBar(
                   child: IconButton(
                     onPressed: () {},
                     icon: Image.asset(
-                      "assets/img/bottomsheet/star_treamline.png",
+                      "assets/img/bottomsheet/love_flaticone.png",
                       width: 30,
                       height: 30,
                       color: TColor.primaryText80,

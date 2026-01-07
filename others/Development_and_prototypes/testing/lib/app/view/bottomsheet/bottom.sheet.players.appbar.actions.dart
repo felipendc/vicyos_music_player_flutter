@@ -200,7 +200,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 17),
                                 child: ImageIcon(
                                   AssetImage(
-                                      "assets/img/bottomsheet/star_treamline.png"),
+                                      "assets/img/bottomsheet/love_flaticone.png"),
                                   color: TColor.focus,
                                   size: 29,
                                 ),
@@ -223,6 +223,15 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                   songPath: fullFilePath,
                                 );
                                 rebuildFavoriteScreenNotifier();
+
+                                if (context.mounted) {
+                                  showFileDeletedMessage(
+                                    context,
+                                    songName(fullFilePath),
+                                    AppLocalizations.of(context)!
+                                        .removed_from_favorites,
+                                  );
+                                }
                               },
                             ),
                           )
@@ -233,7 +242,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 17),
                                 child: ImageIcon(
                                   AssetImage(
-                                      "assets/img/bottomsheet/star_treamline.png"),
+                                      "assets/img/bottomsheet/love_flaticone.png"),
                                   color: TColor.focus,
                                   size: 29,
                                 ),
@@ -258,6 +267,15 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 await AppDatabase.instance
                                     .addToFavorites(songPathAsModel.first);
                                 rebuildFavoriteScreenNotifier();
+
+                                if (context.mounted) {
+                                  addedToFavoritesSnackBar(
+                                    context: context,
+                                    text: songPathAsModel.first.name,
+                                    message: AppLocalizations.of(context)!
+                                        .added_to_favorites,
+                                  );
+                                }
                               },
                             ),
                           ),

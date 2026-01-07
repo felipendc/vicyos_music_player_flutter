@@ -542,7 +542,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 17),
                             child: ImageIcon(
                               AssetImage(
-                                  "assets/img/bottomsheet/star_treamline.png"),
+                                  "assets/img/bottomsheet/love_flaticone.png"),
                               color: TColor.focus,
                               size: 29,
                             ),
@@ -586,7 +586,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 17),
                                   child: ImageIcon(
                                     AssetImage(
-                                        "assets/img/bottomsheet/star_treamline.png"),
+                                        "assets/img/bottomsheet/love_flaticone.png"),
                                     color: TColor.focus,
                                     size: 29,
                                   ),
@@ -629,7 +629,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 17),
                                   child: ImageIcon(
                                     AssetImage(
-                                        "assets/img/bottomsheet/star_treamline.png"),
+                                        "assets/img/bottomsheet/love_flaticone.png"),
                                     color: TColor.focus,
                                     size: 29,
                                   ),
