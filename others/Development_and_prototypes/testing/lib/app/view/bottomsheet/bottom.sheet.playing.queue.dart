@@ -271,7 +271,7 @@ class PlayingQueueBottomSheet extends StatelessWidget {
                                           Icons.delete_forever_rounded),
                                       color: TColor.focusSecondary,
                                       onPressed: () {
-                                        showFileDeletedMessageSnackBar(
+                                        showFileDeletedMessage(
                                           context,
                                           songName(
                                             songFullPath(index: index),

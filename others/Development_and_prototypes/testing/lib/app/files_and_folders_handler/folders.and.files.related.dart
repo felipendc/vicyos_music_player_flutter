@@ -356,7 +356,7 @@ Future<void> deleteSongFromStorage(
 
   // if (multipleFiles != true || multipleFiles == null) {
   if (context.mounted) {
-    showFileDeletedMessageSnackBar(
+    showFileDeletedMessage(
       context,
       songName(songPath),
       AppLocalizations.of(context)!.deleted_successfully,

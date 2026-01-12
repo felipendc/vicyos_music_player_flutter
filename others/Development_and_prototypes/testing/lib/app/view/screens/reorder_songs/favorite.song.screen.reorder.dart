@@ -283,7 +283,7 @@ class FavoriteSongsScreenReorder extends StatelessWidget {
                                                 ///////// CONTROLLING THE PREVIEW PLAYER //////
 
                                                 if (radioPlayer.playing) {
-                                                  radioPlayOrPause(context);
+                                                  radioPlayer.pause();
                                                 }
                                                 if (audioPlayerWasPlaying) {
                                                   await audioPlayer.pause();

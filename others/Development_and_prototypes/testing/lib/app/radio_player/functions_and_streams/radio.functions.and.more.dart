@@ -4,22 +4,18 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter/material.dart' show Colors, Navigator;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
-import 'package:vicyos_music/app/components/show.top.message.dart';
+import 'package:vicyos_music/app/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
-import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list.dart';
-import 'package:vicyos_music/app/radio_player/recordings/record.streaming.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
-import 'package:vicyos_music/l10n/app_localizations.dart';
 
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
 
-bool currentRadioStationWasPaused = false;
 int currentRadioIndex = 0;
 bool isRadioPlaying = false;
 bool isRadioPaused = false;
@@ -33,9 +29,6 @@ bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;
 late int radioStationErrorIndex;
-
-// Stream Recorder
-final StreamRecorder streamRecorder = StreamRecorder();
 
 // Radio Player
 late AudioPlayer radioPlayer;
@@ -59,7 +52,6 @@ Future<void> turnOnRadioStation() async {
   isRadioOn = true;
   isRadioPaused = false;
   radioStationBtn = Colors.green;
-  currentRadioStationWasPaused = false;
 
   activeNavigationButton = "NavigationButtons.none"; // Manual attribution
   songCurrentRouteType = "NavigationButtons.none"; // Via listener
@@ -77,13 +69,8 @@ Future<void> turnOffRadioStation() async {
   isRadioPaused = false;
   radioStationBtn = const Color(0xFFFF0F7B);
 
-  currentRadioStationWasPaused = false;
   currentRadioStationID = "";
   currentRadioIndex = 0;
-
-  if (streamRecorder.isRecording) {
-    streamRecorder.stopRecording();
-  }
 
   await radioPlayer.stop();
   await radioPlayer.clearAudioSources();
@@ -117,36 +104,20 @@ Future<bool> checkStreamUrl(String url) async {
 Future<void> radioSeekToNext() async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
-    if (streamRecorder.isRecording) {
-      streamRecorder.stopRecording();
-    }
-
     radioPlayer.setSpeed(1.0);
     await radioPlayer.seekToNext();
-
-    currentRadioStationWasPaused = false;
   }
 }
 
 Future<void> radioSeekToPrevious() async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
-    if (streamRecorder.isRecording) {
-      streamRecorder.stopRecording();
-    }
     radioPlayer.setSpeed(1.0);
     await radioPlayer.seekToPrevious();
-
-    currentRadioStationWasPaused = false;
   }
 }
 
 Future<void> playRadioStation(BuildContext context, int index) async {
-  if (streamRecorder.isRecording) {
-    streamRecorder.stopRecording();
-  }
-
-  currentRadioStationWasPaused = false;
   stationHasBeenSearched = false;
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
@@ -271,21 +242,11 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
   }
 }
 
-Future<void> radioPlayOrPause(BuildContext context) async {
-  if (streamRecorder.isRecording) {
-    streamRecorder.stopRecording();
-    showRadioPlaybackSpeedWarningSnackBar(
-      context: context,
-      text: AppLocalizations.of(context)!.radio_recording,
-      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
-    );
-  }
-
+Future<void> radioPlayOrPause() async {
   if (radioPlayer.audioSources.isNotEmpty) {
     if (isRadioPaused == false) {
       // isRadioPaused = true;
       await radioPlayer.pause();
-      currentRadioStationWasPaused = true;
     } else if (isRadioPaused == true) {
       // isRadioPaused = false;
       await radioPlayer.play();

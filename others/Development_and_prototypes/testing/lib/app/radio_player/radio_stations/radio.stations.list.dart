@@ -1,5 +1,5 @@
 import 'package:uuid/uuid.dart';
-import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
+import 'package:vicyos_music/app/models/radio.stations.model.dart';
 
 List<RadioStationInfo> radioStationList = <RadioStationInfo>[
   RadioStationInfo(

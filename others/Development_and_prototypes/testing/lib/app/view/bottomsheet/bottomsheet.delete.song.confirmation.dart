@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_media_delete/flutter_media_delete.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
@@ -7,7 +5,6 @@ import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
-import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 import '../../music_player/music.player.stream.controllers.dart';
@@ -91,210 +88,63 @@ class DeleteSongConfirmationDialog extends StatelessWidget {
                         Future.microtask(
                           () async {
                             if (songPath is String) {
-                              //////////////////////////////////////////////////
-                              if (songPath.contains(
-                                  "/storage/emulated/0/Music/Vicyos Radio Recordings/")) {
-                                final file = File(songPath.toString());
-
-                                final fileFolder = Directory(songPath).parent;
-
-                                if (await file.exists()) {
-                                  await file.delete();
+                              FlutterMediaDelete.deleteMediaFile(
+                                      songPath.toString())
+                                  .then(
+                                (wasDeleted) async {
                                   if (context.mounted) {
                                     await deleteSongFromStorage(
                                         context: context,
-                                        wasDeleted:
-                                            "Files deleted successfully",
+                                        wasDeleted: wasDeleted,
                                         songPath: songPath);
                                   }
+                                },
+                              );
+                            } else if (songPath is Set<AudioInfo>) {
+                              Set<AudioInfo> selectedItemsTemp = {};
 
-                                  final folderContentLength = await AppDatabase
-                                      .instance
-                                      .getFolderContentByPath(
-                                          fileFolder.absolute.path);
+                              for (AudioInfo song in songPath) {
+                                selectedItemsTemp.add(song);
 
-                                  if (await fileFolder.exists()) {
-                                    if (folderContentLength.isEmpty) {
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    }
-                                  }
-                                }
-
-                                await AppDatabase.instance
-                                    .removeEmptyFoldersAndDeletedFolders();
-                                rebuildSongsListScreenNotifier();
-
-                                ////////////////////////////////////////////////
-                              } else {
-                                FlutterMediaDelete.deleteMediaFile(
-                                        songPath.toString())
+                                await FlutterMediaDelete.deleteMediaFile(
+                                        song.path.toString())
                                     .then(
                                   (wasDeleted) async {
                                     if (context.mounted) {
                                       await deleteSongFromStorage(
                                           context: context,
                                           wasDeleted: wasDeleted,
-                                          songPath: songPath);
+                                          songPath: song.path,
+                                          multipleFiles: true);
                                     }
                                   },
                                 );
-
-                                ////////////////// TESTING /////////////////////
-                                final folderContentLength = await AppDatabase
-                                    .instance
-                                    .getFolderContentByPath(
-                                        songPath.absolute.path);
-
-                                if (await songPath.exists()) {
-                                  if (folderContentLength.isEmpty) {
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                    }
-                                  }
-                                }
-
-                                await AppDatabase.instance
-                                    .removeEmptyFoldersAndDeletedFolders();
-                                rebuildSongsListScreenNotifier();
-                                ////////////////////////////////////////////////
                               }
-                            } else if (songPath is Set<AudioInfo>) {
-                              //////////////////////////////////////////////////
 
-                              if (songPath.contains(
-                                  "/storage/emulated/0/Music/Vicyos Radio Recordings/")) {
-                                final fileFolder =
-                                    Directory(songPath.first.path).parent;
+                              if (context.mounted) {
+                                showFileDeletedMessage(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .song_plural(songPath.length),
+                                  AppLocalizations.of(context)!
+                                      .deleted_successfully_plural(
+                                          songPath.length),
+                                );
+                              }
 
-                                // print("aaaa SET $songPath");
-                                Set<AudioInfo> selectedItemsTemp = {};
+                              //------------------------------------------
+                              for (AudioInfo song in selectedItemsTemp) {
+                                selectedItemsFromMultiselectionScreen
+                                    .remove(song);
+                                songModelListGlobal.remove(song);
 
-                                for (final song in songPath) {
-                                  final songPathString = song.path;
-                                  final file = File(songPathString.toString());
+                                // Rebuild the top Container and the listview only
+                                rebuildMultiSelectionScreenNotifier();
+                              }
+                              //-----------------------------------------
 
-                                  selectedItemsTemp.add(song);
-
-                                  await file.delete();
-
-                                  if (context.mounted) {
-                                    await deleteSongFromStorage(
-                                        context: context,
-                                        wasDeleted:
-                                            "Files deleted successfully",
-                                        songPath: song.path,
-                                        multipleFiles: true);
-                                  }
-                                }
-
-                                final folderContentLength = await AppDatabase
-                                    .instance
-                                    .getFolderContentByPath(
-                                        fileFolder.absolute.path);
-                                print("oooooo ${folderContentLength.length}");
-
-                                if (context.mounted) {
-                                  showFileDeletedMessageSnackBar(
-                                    context,
-                                    AppLocalizations.of(context)!
-                                        .song_plural(songPath.length),
-                                    AppLocalizations.of(context)!
-                                        .deleted_successfully_plural(
-                                            songPath.length),
-                                  );
-                                }
-                                if (await fileFolder.exists()) {
-                                  if (folderContentLength.isEmpty) {
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                    }
-                                  }
-                                }
-
-                                //------------------------------------------
-                                for (AudioInfo song in selectedItemsTemp) {
-                                  selectedItemsFromMultiselectionScreen
-                                      .remove(song);
-                                  songModelListGlobal.remove(song);
-
-                                  // Rebuild the top Container and the listview only
-                                  rebuildMultiSelectionScreenNotifier();
-                                }
-                                //-----------------------------------------
-
-                                if (context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                                //==============================================
-                                ////////////////////////////////////////////////
-                                await AppDatabase.instance
-                                    .removeEmptyFoldersAndDeletedFolders();
-                                rebuildSongsListScreenNotifier();
-                              } else {
-                                Set<AudioInfo> selectedItemsTemp = {};
-
-                                for (AudioInfo song in songPath) {
-                                  selectedItemsTemp.add(song);
-
-                                  await FlutterMediaDelete.deleteMediaFile(
-                                          song.path.toString())
-                                      .then(
-                                    (wasDeleted) async {
-                                      if (context.mounted) {
-                                        await deleteSongFromStorage(
-                                            context: context,
-                                            wasDeleted: wasDeleted,
-                                            songPath: song.path,
-                                            multipleFiles: true);
-                                      }
-                                    },
-                                  );
-                                }
-
-                                if (context.mounted) {
-                                  showFileDeletedMessageSnackBar(
-                                    context,
-                                    AppLocalizations.of(context)!
-                                        .song_plural(songPath.length),
-                                    AppLocalizations.of(context)!
-                                        .deleted_successfully_plural(
-                                            songPath.length),
-                                  );
-                                }
-
-                                //------------------------------------------
-                                for (AudioInfo song in selectedItemsTemp) {
-                                  selectedItemsFromMultiselectionScreen
-                                      .remove(song);
-                                  songModelListGlobal.remove(song);
-
-                                  // Rebuild the top Container and the listview only
-                                  rebuildMultiSelectionScreenNotifier();
-                                }
-                                //-----------------------------------------
-
-                                if (context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                                ////////////////// TESTING /////////////////////
-                                final folderContentLength = await AppDatabase
-                                    .instance
-                                    .getFolderContentByPath(
-                                        songPath.absolute.path);
-
-                                if (await songPath.exists()) {
-                                  if (folderContentLength.isEmpty) {
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                    }
-                                  }
-                                }
-                                await AppDatabase.instance
-                                    .removeEmptyFoldersAndDeletedFolders();
-                                rebuildSongsListScreenNotifier();
-                                ////////////////////////////////////////////////
+                              if (context.mounted) {
+                                Navigator.pop(context);
                               }
                             }
                           },

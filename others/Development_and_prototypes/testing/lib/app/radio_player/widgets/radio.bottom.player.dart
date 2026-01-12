@@ -8,7 +8,7 @@ import 'package:vicyos_music/app/navigation_animation/main.player.navigation.ani
     show mainPlayerSlideUpDownTransition;
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
-import 'package:vicyos_music/app/radio_player/screens/main.radio.player.screen.dart';
+import 'package:vicyos_music/app/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 class BottomRadioPlayer extends StatelessWidget {
@@ -250,7 +250,7 @@ class BottomRadioPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () async {
-                                      await radioPlayOrPause(context);
+                                      await radioPlayOrPause();
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_play.png",
@@ -265,7 +265,7 @@ class BottomRadioPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () async {
-                                      await radioPlayOrPause(context);
+                                      await radioPlayOrPause();
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_paused.png",

@@ -265,7 +265,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                               iconSize: 45,
                               onPressed: () async {
                                 if (radioPlayer.playing) {
-                                  radioPlayOrPause(context);
+                                  radioPlayer.pause();
                                 }
                                 if (audioPlayerWasPlaying) {
                                   await audioPlayer.pause();

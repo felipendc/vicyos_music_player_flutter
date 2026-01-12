@@ -13,12 +13,6 @@ StreamController<void> switchingToRadioStreamController =
 StreamController<void> updateRadioScreensStreamController =
     StreamController<void>.broadcast();
 
-StreamController<bool> showStreamRecordingTimerStreamController =
-    StreamController<bool>.broadcast();
-
-StreamController<void> updateStreamRecordProgressStreamController =
-    StreamController<void>.broadcast();
-
 // Stream functions
 void hideMiniRadioPlayerNotifier(bool value) {
   hideMiniRadioPlayerStreamController.sink.add(value);
@@ -34,12 +28,4 @@ void switchingToRadioNotifier() {
 
 Future<void> updateRadioScreensNotifier() async {
   updateRadioScreensStreamController.add(null);
-}
-
-Future<void> showStreamRecordingTimerNotifier(bool value) async {
-  showStreamRecordingTimerStreamController.sink.add(value);
-}
-
-Future<void> updateStreamRecorderProgressNotifier() async {
-  updateStreamRecordProgressStreamController.sink.add(null);
 }
