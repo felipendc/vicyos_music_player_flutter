@@ -168,7 +168,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                                 NavigationButtons.music.toString(),
                           );
 
-                          showAddedToPlaylist(
+                          showAddedToPlaylistSnackBar(
                               context,
                               "Folder",
                               folderName(folderPath),
@@ -216,7 +216,7 @@ class FolderToPlaylistBottomSheet extends StatelessWidget {
                           );
 
                           if (deviceTypeIsTablet()) {
-                            showAddedToPlaylist(
+                            showAddedToPlaylistSnackBar(
                                 context,
                                 "Folder",
                                 folderName(folderPath),

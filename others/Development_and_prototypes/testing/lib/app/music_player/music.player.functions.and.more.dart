@@ -272,7 +272,7 @@ void repeatMode(BuildContext context) {
     audioPlayer.setLoopMode(LoopMode.one);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_one.png";
     debugPrint("Repeat: One");
-    showLoopMode(context, AppLocalizations.of(context)!.repeating_one);
+    showLoopModeSnackBar(context, AppLocalizations.of(context)!.repeating_one);
   } else if (currentLoopMode == CurrentLoopMode.one) {
     currentLoopMode = CurrentLoopMode.shuffle;
     repeatModeNotifier();
@@ -280,7 +280,8 @@ void repeatMode(BuildContext context) {
     audioPlayer.setShuffleModeEnabled(true);
     currentLoopModeIcon = "assets/img/repeat_mode/shuffle_1.png";
     debugPrint("Repeat: Shuffle");
-    showLoopMode(context, AppLocalizations.of(context)!.playback_is_shuffled);
+    showLoopModeSnackBar(
+        context, AppLocalizations.of(context)!.playback_is_shuffled);
   } else if (currentLoopMode == CurrentLoopMode.shuffle) {
     currentLoopMode = CurrentLoopMode.off;
     repeatModeNotifier();
@@ -288,14 +289,14 @@ void repeatMode(BuildContext context) {
     audioPlayer.setLoopMode(LoopMode.off);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_none.png";
     debugPrint("Repeat: Off");
-    showLoopMode(context, AppLocalizations.of(context)!.repeating_off);
+    showLoopModeSnackBar(context, AppLocalizations.of(context)!.repeating_off);
   } else if (currentLoopMode == CurrentLoopMode.off) {
     currentLoopMode = CurrentLoopMode.all;
     repeatModeNotifier();
     audioPlayer.setLoopMode(LoopMode.all);
     currentLoopModeIcon = "assets/img/repeat_mode/repeat_all.png";
     debugPrint("Repeat: All");
-    showLoopMode(context, AppLocalizations.of(context)!.repeating_all);
+    showLoopModeSnackBar(context, AppLocalizations.of(context)!.repeating_all);
   }
 }
 
@@ -829,7 +830,7 @@ Future<void> addSongToPlaylist({
       } else {
         playOrPause();
       }
-      showAddedToPlaylist(context, "", songName(songPath),
+      showAddedToPlaylistSnackBar(context, "", songName(songPath),
           AppLocalizations.of(context)!.added_to_the_playlist);
       rebuildPlaylistCurrentLengthNotifier();
     } else {
@@ -869,7 +870,7 @@ Future<void> addSongToPlaylist({
       rebuildPlaylistCurrentLengthNotifier();
 
       if (context.mounted) {
-        showAddedToPlaylist(context, "", songName(songPath),
+        showAddedToPlaylistSnackBar(context, "", songName(songPath),
             AppLocalizations.of(context)!.added_to_the_current_playlist);
       }
     }
@@ -932,7 +933,7 @@ Future<void> addSongToPlaylist({
         playOrPause();
       }
       if (context.mounted) {
-        showAddedToPlaylist(
+        showAddedToPlaylistSnackBar(
             context,
             "",
             AppLocalizations.of(context)!.song_plural(songPath.length),
@@ -981,7 +982,7 @@ Future<void> addSongToPlaylist({
       }
 
       if (context.mounted) {
-        showAddedToPlaylist(
+        showAddedToPlaylistSnackBar(
             context,
             "",
             AppLocalizations.of(context)!.song_plural(songPath.length),

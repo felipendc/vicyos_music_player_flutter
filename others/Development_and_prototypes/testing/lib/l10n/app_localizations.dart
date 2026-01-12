@@ -648,6 +648,30 @@ abstract class AppLocalizations {
   /// **'Created and song added successfully!'**
   String get created_and_song_added_successfully;
 
+  /// No description provided for @radio_stream_recording_in_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Radio stream recording in progress'**
+  String get radio_stream_recording_in_progress;
+
+  /// No description provided for @stop_the_radio_stream_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop recording first'**
+  String get stop_the_radio_stream_first;
+
+  /// No description provided for @radio_recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Radio stream recording'**
+  String get radio_recording;
+
+  /// No description provided for @radio_recording_saved_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully!'**
+  String get radio_recording_saved_successfully;
+
   /// No description provided for @created_and_songs_added_successfully_plural.
   ///
   /// In en, this message translates to:

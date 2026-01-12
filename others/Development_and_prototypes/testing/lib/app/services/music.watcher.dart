@@ -35,6 +35,7 @@ class MusicWatcher {
           await getMusicFoldersContent(isMusicFolderListener: true);
           await AppDatabase.instance.removeEmptyFoldersAndDeletedFolders();
           rebuildHomePageFolderListNotifier(FetchingSongs.done);
+          // rebuildSongsListScreenNotifier();
         }
       });
     });

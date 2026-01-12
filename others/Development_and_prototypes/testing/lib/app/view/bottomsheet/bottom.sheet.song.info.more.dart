@@ -207,7 +207,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 isSongScreen: isFromSongsScreen,
                               ),
                             ),
-                          ).whenComplete(() {
+                          ).whenComplete(() async {
                             isMultiSelectionScreenOpen = false;
                             currentSongPreview = "";
 
@@ -217,6 +217,9 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   await audioPlayer.play();
                                   playAfterClosingPlayersPreview = false;
                                 }
+                                await AppDatabase.instance
+                                    .removeEmptyFoldersAndDeletedFolders();
+                                rebuildSongsListScreenNotifier();
                               },
                             );
                           });
@@ -471,7 +474,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 context: context);
 
                             if (context.mounted) {
-                              showFileDeletedMessage(
+                              showFileDeletedMessageSnackBar(
                                 context,
                                 songModel.name,
                                 AppLocalizations.of(context)!
@@ -563,7 +566,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             );
 
                             if (context.mounted) {
-                              showFileDeletedMessage(
+                              showFileDeletedMessageSnackBar(
                                 context,
                                 songModel.name,
                                 AppLocalizations.of(context)!
@@ -610,7 +613,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   );
 
                                   if (context.mounted) {
-                                    showFileDeletedMessage(
+                                    showFileDeletedMessageSnackBar(
                                       context,
                                       songModel.name,
                                       AppLocalizations.of(context)!
@@ -768,7 +771,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             audioRouteEmptyPlaylist: audioRoute,
                           );
                           Navigator.pop(context);
-                          showAddedToPlaylist(
+                          showAddedToPlaylistSnackBar(
                               context,
                               "Song",
                               songName(songModel.path),
