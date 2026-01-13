@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:ffmpeg_kit_flutter_new/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_new/ffmpeg_session.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/permission_handler/permission.handler.dart';
@@ -19,9 +21,7 @@ class StreamRecorder {
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _uiTimer;
 
-  HttpClient? _client;
-  IOSink? _sink;
-  StreamSubscription<List<int>>? _subscription;
+  FFmpegSession? _recordSession;
 
   bool _isRecording = false;
   bool _allowPlaybackSpeedBottomSheetToOpen = true;
@@ -36,30 +36,28 @@ class StreamRecorder {
   bool get allowPlaybackSpeedBottomSheetToOpen =>
       _allowPlaybackSpeedBottomSheetToOpen;
 
-  // ================== PROCESSOR QUEUE ==================
+  // ================== QUEUE ==================
 
   Future<void> _processQueue() async {
     if (_isProcessingQueue) return;
-
     _isProcessingQueue = true;
 
     while (_queue.isNotEmpty) {
       final task = _queue.removeFirst();
       try {
-        await task(); // Wait for the task to finish
+        await task();
       } catch (_) {}
     }
 
     _isProcessingQueue = false;
   }
 
-  // ================== PUBLIC API ==================
+  // ================== API ==================
 
   Future<void> startRecording(String streamUrl) async {
     _queue.add(() async {
       await _startRecordingInternal(streamUrl);
     });
-
     await _processQueue();
   }
 
@@ -67,13 +65,14 @@ class StreamRecorder {
     _queue.add(() async {
       await _stopRecordingInternal();
     });
-
     await _processQueue();
   }
 
-  // ================== START REAL ==================
+  // ================== START ==================
 
   Future<void> _startRecordingInternal(String streamUrl) async {
+    if (_isRecording) return;
+
     await requestAudioPermission();
 
     showStreamRecordingTimerNotifier(true);
@@ -81,18 +80,24 @@ class StreamRecorder {
 
     final cacheDir = await getTemporaryDirectory();
     final formatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
-    final id = DateTime.now().microsecondsSinceEpoch;
 
     _tempFile = File(
-      '${cacheDir.path}/radio_${formatter.format(DateTime.now())}_${id}_temp.m4a',
+      '${cacheDir.path}/radio_${formatter.format(DateTime.now())}.m4a',
     );
 
-    _client = HttpClient()..idleTimeout = Duration.zero;
+    final cmd = '-y '
+        '-reconnect 1 '
+        '-reconnect_streamed 1 '
+        '-reconnect_delay_max 5 '
+        '-i "$streamUrl" '
+        '-vn '
+        '-c:a aac '
+        '-b:a 96k '
+        '-ar 44100 '
+        '-ac 2 '
+        '-f mp4 '
+        '"${_tempFile.path}"';
 
-    final request = await _client!.getUrl(Uri.parse(streamUrl));
-    final response = await request.close();
-
-    _sink = _tempFile.openWrite();
     _isRecording = true;
 
     _stopwatch
@@ -101,18 +106,18 @@ class StreamRecorder {
 
     _startUiTimer();
 
-    _subscription = response.listen(
-      (data) {
-        if (!_isRecording) return;
-        _sink?.add(data);
+    _recordSession = await FFmpegKit.executeAsync(
+      cmd,
+      (session) async {
+        final rc = await session.getReturnCode();
+        debugPrint('🎙️ RECORD RETURN CODE: $rc');
       },
-      onError: (_) => stopRecording(),
-      onDone: stopRecording,
-      cancelOnError: true,
+      (log) => debugPrint('FFMPEG: ${log.getMessage()}'),
+      null,
     );
   }
 
-  // ================== UI TIMER ==================
+  // ================== TIMER ==================
 
   void _startUiTimer() {
     _uiTimer = Timer.periodic(
@@ -130,15 +135,13 @@ class StreamRecorder {
 
   String displayTimerProgress() {
     final d = _stopwatch.elapsed;
-
     final h = d.inHours.toString().padLeft(2, '0');
     final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
     final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
-
     return d.inHours > 0 ? '$h:$m:$s' : '$m:$s';
   }
 
-  // ================== REAL STOP ==================
+  // ================== STOP ==================
 
   Future<void> _stopRecordingInternal() async {
     if (!_isRecording) return;
@@ -153,24 +156,23 @@ class StreamRecorder {
     _stopUiTimer();
     _allowPlaybackSpeedBottomSheetToOpen = true;
 
-    await _subscription?.cancel();
-    _subscription = null;
+    if (_recordSession != null) {
+      await FFmpegKit.cancel(_recordSession!.getSessionId());
+      _recordSession = null;
+    }
 
-    await _sink?.flush();
-    await _sink?.close();
-    _sink = null;
+    await Future.delayed(const Duration(seconds: 1));
 
-    _client?.close(force: true);
-    _client = null;
-
-    if (_finalDuration.inSeconds > 0) {
-      await _trimWithFfmpeg(); // lock queue
+    if (await _tempFile.exists() && await _tempFile.length() > 1000) {
+      await _copyToFinalFolder();
+    } else {
+      debugPrint('❌ Arquivo TEMP inválido');
     }
   }
 
-  // ================== FFMPEG ==================
+  // ================== FINAL COPY ==================
 
-  Future<void> _trimWithFfmpeg() async {
+  Future<void> _copyToFinalFolder() async {
     final musicDir =
         Directory('/storage/emulated/0/Music/Vicyos Radio Recordings');
 
@@ -178,23 +180,11 @@ class StreamRecorder {
       await musicDir.create(recursive: true);
     }
 
-    final finalPath = '${musicDir.path}/'
-        '${_tempFile.uri.pathSegments.last.replaceAll('_temp.m4a', '.mp3')}';
+    final finalPath = '${musicDir.path}/${_tempFile.uri.pathSegments.last}';
 
-    final cmd = '-y '
-        '-i "${_tempFile.path}" '
-        '-t ${_finalDuration.inSeconds} '
-        '-c:a libmp3lame '
-        '-b:a 96k '
-        '-ac 2 '
-        '-ar 44100 '
-        '"$finalPath"';
+    await _tempFile.copy(finalPath);
+    await _tempFile.delete();
 
-    final session = await FFmpegKit.execute(cmd);
-    final rc = await session.getReturnCode();
-
-    if (rc?.isValueSuccess() == true) {
-      await _tempFile.delete();
-    }
+    debugPrint('✅ Arquivo salvo em: $finalPath');
   }
 }
