@@ -230,7 +230,7 @@ class BottomRadioPlayer extends StatelessWidget {
                               splashRadius: 20,
                               iconSize: 10,
                               onPressed: () async {
-                                await radioSeekToPrevious();
+                                await radioSeekToPrevious(context);
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_previous.png",
@@ -283,7 +283,7 @@ class BottomRadioPlayer extends StatelessWidget {
                               iconSize: 10,
                               splashRadius: 20,
                               onPressed: () async {
-                                await radioSeekToNext();
+                                await radioSeekToNext(context);
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_next.png",

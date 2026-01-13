@@ -562,9 +562,6 @@ class MainPlayerViewTablet extends StatelessWidget {
                                           onPressed: () {
                                             if (radioPlayer
                                                 .audioSources.isNotEmpty) {
-                                              if (streamRecorder.isRecording) {
-                                                streamRecorder.stopRecording();
-                                              }
                                               if (stationHasBeenSearched) {
                                                 reLoadRatioStationCurrentIndex(
                                                     context);
@@ -880,7 +877,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                             child: IconButton(
                               iconSize: 10,
                               onPressed: () async {
-                                await radioSeekToPrevious();
+                                await radioSeekToPrevious(context);
                               },
                               icon: Image.asset(
                                 "assets/img/player/previous_song.png",
@@ -935,7 +932,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                             height: 60,
                             child: IconButton(
                               onPressed: () async {
-                                await radioSeekToNext();
+                                await radioSeekToNext(context);
                               },
                               icon: Image.asset(
                                 "assets/img/player/next_song.png",

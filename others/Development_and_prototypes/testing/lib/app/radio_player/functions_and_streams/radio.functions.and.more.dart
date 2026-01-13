@@ -114,11 +114,17 @@ Future<bool> checkStreamUrl(String url) async {
   }
 }
 
-Future<void> radioSeekToNext() async {
+Future<void> radioSeekToNext(BuildContext context) async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
     if (streamRecorder.isRecording) {
       streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
     }
 
     radioPlayer.setSpeed(1.0);
@@ -128,11 +134,17 @@ Future<void> radioSeekToNext() async {
   }
 }
 
-Future<void> radioSeekToPrevious() async {
+Future<void> radioSeekToPrevious(BuildContext context) async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
     if (streamRecorder.isRecording) {
       streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
     }
     radioPlayer.setSpeed(1.0);
     await radioPlayer.seekToPrevious();
@@ -144,6 +156,11 @@ Future<void> radioSeekToPrevious() async {
 Future<void> playRadioStation(BuildContext context, int index) async {
   if (streamRecorder.isRecording) {
     streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
   }
 
   currentRadioStationWasPaused = false;
@@ -203,7 +220,9 @@ Future<void> playRadioStation(BuildContext context, int index) async {
           radioStationList[index].radioName,
         );
       }
-      await turnOffRadioStation();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
       await updateRadioScreensNotifier();
     }
 
@@ -213,6 +232,15 @@ Future<void> playRadioStation(BuildContext context, int index) async {
 }
 
 Future<void> playSearchedRadioStation(BuildContext context, int index) async {
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
+  }
+
   stationHasBeenSearched = true;
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
@@ -263,7 +291,9 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
           radioStationList[index].radioName,
         );
       }
-      await turnOffRadioStation();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
       await updateRadioScreensNotifier();
     }
 
@@ -272,16 +302,17 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
 }
 
 Future<void> radioPlayOrPause(BuildContext context) async {
-  if (streamRecorder.isRecording) {
-    streamRecorder.stopRecording();
-    showRadioPlaybackSpeedWarningSnackBar(
-      context: context,
-      text: AppLocalizations.of(context)!.radio_recording,
-      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
-    );
-  }
-
   if (radioPlayer.audioSources.isNotEmpty) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
+
     if (isRadioPaused == false) {
       // isRadioPaused = true;
       await radioPlayer.pause();
@@ -294,6 +325,15 @@ Future<void> radioPlayOrPause(BuildContext context) async {
 }
 
 Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
+  }
+
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
@@ -356,7 +396,9 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
       if (context.mounted) {
         errorToFetchRadioStationCard(context, currentRadioStationName);
       }
-      await turnOffRadioStation();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
       await updateRadioScreensNotifier();
     }
 

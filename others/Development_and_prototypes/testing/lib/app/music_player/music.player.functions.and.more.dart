@@ -189,9 +189,18 @@ Future<void> cleanPlaylist() async {
   currentSongNavigationRouteNotifier();
 }
 
-Future<void> playOrPause() async {
+Future<void> playOrPause(BuildContext context) async {
   if (audioPlayer.audioSources.isEmpty) {
   } else {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     await turnOffRadioStation();
     if (songIsPlaying == false) {
       songIsPlaying = true;
@@ -376,6 +385,15 @@ String formatDuration(Duration duration) {
 
 Future<void> pickFolder(BuildContext context) async {
   if (isRadioOn) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     turnOffRadioStation();
   }
   stopSong();
@@ -487,6 +505,15 @@ Future<void> pickFolder(BuildContext context) async {
 
 Future<void> pickAndPlayAudio(BuildContext context) async {
   if (isRadioOn) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     turnOffRadioStation();
   }
   stopSong();
@@ -595,6 +622,15 @@ Future<void> setFolderAsPlaylist({
   required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     turnOffRadioStation();
   }
   stopSong();
@@ -653,7 +689,7 @@ Future<void> setFolderAsPlaylist({
   firstSongIndex = true;
   // preLoadSongName(context);
   updateCurrentSongNameOnlyOnce(context);
-  playOrPause();
+  playOrPause(context);
   rebuildPlaylistCurrentLengthNotifier();
   rebuildFavoriteScreenNotifier();
 }
@@ -665,6 +701,15 @@ Future<void> addFolderToPlaylist({
   required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     turnOffRadioStation();
   }
 
@@ -721,7 +766,7 @@ Future<void> addFolderToPlaylist({
     firstSongIndex = true;
     // preLoadSongName(context);
     updateCurrentSongNameOnlyOnce(context);
-    playOrPause();
+    playOrPause(context);
     rebuildPlaylistCurrentLengthNotifier();
   } else {
     for (AudioInfo filePath in currentFolder) {
@@ -772,6 +817,15 @@ Future<void> addSongToPlaylist({
   required String audioRouteEmptyPlaylist,
 }) async {
   if (isRadioOn) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     turnOffRadioStation();
   }
 
@@ -828,7 +882,7 @@ Future<void> addSongToPlaylist({
       updateCurrentSongNameOnlyOnce(context);
       if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       } else {
-        playOrPause();
+        playOrPause(context);
       }
       showAddedToPlaylistSnackBar(context, "", songName(songPath),
           AppLocalizations.of(context)!.added_to_the_playlist);
@@ -930,7 +984,7 @@ Future<void> addSongToPlaylist({
       }
       if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       } else {
-        playOrPause();
+        playOrPause(context);
       }
       if (context.mounted) {
         showAddedToPlaylistSnackBar(
@@ -1059,7 +1113,7 @@ void addToPlayNext({
 
       if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       } else {
-        playOrPause();
+        playOrPause(context);
       }
     } else {
       playlist.clear();
@@ -1128,7 +1182,7 @@ void addToPlayNext({
       rebuildPlaylistCurrentLengthNotifier();
       if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       } else {
-        playOrPause();
+        playOrPause(context);
       }
     } else {
       playlist.clear();

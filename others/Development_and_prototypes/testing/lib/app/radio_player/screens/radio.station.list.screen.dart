@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart'
@@ -146,10 +147,24 @@ class RadioStationsScreen extends StatelessWidget {
                                             },
                                           ),
                                           onPressed: () async {
-                                            (isRadioOn)
-                                                ? await turnOffRadioStation()
-                                                : await playRadioStation(
-                                                    context, 0);
+                                            if (isRadioOn) {
+                                              if (streamRecorder.isRecording) {
+                                                streamRecorder.stopRecording();
+                                                showRadioPlaybackSpeedWarningSnackBar(
+                                                  context: context,
+                                                  text: AppLocalizations.of(
+                                                          context)!
+                                                      .radio_recording,
+                                                  message: AppLocalizations.of(
+                                                          context)!
+                                                      .radio_recording_saved_successfully,
+                                                );
+                                              }
+                                              await turnOffRadioStation();
+                                            } else {
+                                              await playRadioStation(
+                                                  context, 0);
+                                            }
                                           },
                                         ),
                                       ),
