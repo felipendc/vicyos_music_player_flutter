@@ -27,6 +27,7 @@ class StreamRecorder {
   bool _allowPlaybackSpeedBottomSheetToOpen = true;
 
   late File _tempFile;
+  late File _finalFile;
   late Duration _finalDuration;
 
   // ================== GETTERS ==================
@@ -46,7 +47,9 @@ class StreamRecorder {
       final task = _queue.removeFirst();
       try {
         await task();
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('QUEUE ERROR: $e');
+      }
     }
 
     _isProcessingQueue = false;
@@ -55,16 +58,12 @@ class StreamRecorder {
   // ================== API ==================
 
   Future<void> startRecording(String streamUrl) async {
-    _queue.add(() async {
-      await _startRecordingInternal(streamUrl);
-    });
+    _queue.add(() async => _startRecordingInternal(streamUrl));
     await _processQueue();
   }
 
   Future<void> stopRecording() async {
-    _queue.add(() async {
-      await _stopRecordingInternal();
-    });
+    _queue.add(() async => _stopRecordingInternal());
     await _processQueue();
   }
 
@@ -81,9 +80,10 @@ class StreamRecorder {
     final cacheDir = await getTemporaryDirectory();
     final formatter = DateFormat('yyyy-MM-dd_HH-mm-ss');
 
-    _tempFile = File(
-      '${cacheDir.path}/radio_${formatter.format(DateTime.now())}.m4a',
-    );
+    final baseName = 'radio_${formatter.format(DateTime.now())}';
+
+    _tempFile = File('${cacheDir.path}/$baseName.raw.m4a');
+    _finalFile = File('${cacheDir.path}/$baseName.m4a');
 
     final cmd = '-y '
         '-reconnect 1 '
@@ -110,35 +110,11 @@ class StreamRecorder {
       cmd,
       (session) async {
         final rc = await session.getReturnCode();
-        debugPrint('🎙️ RECORD RETURN CODE: $rc');
+        debugPrint('RECORD RETURN CODE: $rc');
       },
       (log) => debugPrint('FFMPEG: ${log.getMessage()}'),
       null,
     );
-  }
-
-  // ================== TIMER ==================
-
-  void _startUiTimer() {
-    _uiTimer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => updateStreamRecorderProgressNotifier(),
-    );
-  }
-
-  void _stopUiTimer() {
-    _uiTimer?.cancel();
-    _uiTimer = null;
-  }
-
-  // ================== DISPLAY ==================
-
-  String displayTimerProgress() {
-    final d = _stopwatch.elapsed;
-    final h = d.inHours.toString().padLeft(2, '0');
-    final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
-    return d.inHours > 0 ? '$h:$m:$s' : '$m:$s';
   }
 
   // ================== STOP ==================
@@ -161,13 +137,36 @@ class StreamRecorder {
       _recordSession = null;
     }
 
+    // Wait FFmpeg finish the container
     await Future.delayed(const Duration(seconds: 1));
 
-    if (await _tempFile.exists() && await _tempFile.length() > 1000) {
-      await _copyToFinalFolder();
-    } else {
-      debugPrint('❌ Arquivo TEMP inválido');
+    if (!await _tempFile.exists() || await _tempFile.length() < 1024) {
+      debugPrint('Invalid TEMP file ');
+      return;
     }
+
+    await _cutExactly();
+    await _copyToFinalFolder();
+  }
+
+  // ================== CUT EXACT ==================
+
+  Future<void> _cutExactly() async {
+    final seconds = (_finalDuration.inMilliseconds / 1000).toStringAsFixed(3);
+
+    final cutCmd = '-y '
+        '-i "${_tempFile.path}" '
+        '-t $seconds '
+        '-c:a aac '
+        '-b:a 96k '
+        '-ar 44100 '
+        '-ac 2 '
+        '-f mp4 '
+        '"${_finalFile.path}"';
+
+    await FFmpegKit.execute(cutCmd);
+
+    await _tempFile.delete();
   }
 
   // ================== FINAL COPY ==================
@@ -180,11 +179,34 @@ class StreamRecorder {
       await musicDir.create(recursive: true);
     }
 
-    final finalPath = '${musicDir.path}/${_tempFile.uri.pathSegments.last}';
+    final finalPath = '${musicDir.path}/${_finalFile.uri.pathSegments.last}';
 
-    await _tempFile.copy(finalPath);
-    await _tempFile.delete();
+    await _finalFile.copy(finalPath);
+    await _finalFile.delete();
 
-    debugPrint('✅ Arquivo salvo em: $finalPath');
+    debugPrint('File saved at: $finalPath');
+  }
+
+  // ================== UI TIMER ==================
+
+  void _startUiTimer() {
+    _uiTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => updateStreamRecorderProgressNotifier(),
+    );
+  }
+
+  void _stopUiTimer() {
+    _uiTimer?.cancel();
+    _uiTimer = null;
+  }
+
+  // ================== DISPLAY ==================
+
+  String displayTimerProgress() {
+    final d = _stopwatch.elapsed;
+    final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$m:$s';
   }
 }
