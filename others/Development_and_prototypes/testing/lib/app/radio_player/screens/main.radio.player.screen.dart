@@ -3,6 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
 import 'package:vicyos_music/app/components/marquee.text.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/bottomsheet/radio.bottom.sheet.speed.rate.dart';
@@ -250,23 +251,109 @@ class MainRadioPlayerView extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(9.0),
-                  child: Row(
+            Container(
+              // color: Colors.deepOrange,
+              height: 78,
+              child: Column(
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // -----------------------------------------------------------------------------------------------------
+
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Column(
                           children: [
                             SizedBox(
                               width: 49,
-                              height: 49,
+                              height: 46,
+                              child: IconButton(
+                                onPressed: () async {
+                                  if (isRadioOn) {
+                                    if (streamRecorder.isRecording) {
+                                      streamRecorder.stopRecording();
+                                      showRadioPlaybackSpeedWarningSnackBar(
+                                        context: context,
+                                        text: AppLocalizations.of(context)!
+                                            .radio_recording,
+                                        message: AppLocalizations.of(context)!
+                                            .radio_recording_saved_successfully,
+                                      );
+                                    } else {
+                                      if (radioPlayer.audioSources.isNotEmpty) {
+                                        if (currentRadioStationWasPaused) {
+                                          await playRadioStation(
+                                              context, (currentRadioIndex));
+                                          streamRecorder.startRecording(
+                                              currentRadioIndexUrl);
+                                        } else {
+                                          streamRecorder.startRecording(
+                                              currentRadioIndexUrl);
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                icon: Image.asset(
+                                  "assets/img/radio/record_icon_flaticon.png",
+                                  width: 40,
+                                  height: 40,
+                                  color: TColor.primaryText80,
+                                ),
+                              ),
+                            ),
+                            StreamBuilder(
+                                stream: showStreamRecordingTimerStreamController
+                                    .stream,
+                                builder: (context, asyncSnapshot) {
+                                  final showTimer = asyncSnapshot.data;
+
+                                  if (showTimer == true ||
+                                      streamRecorder.isRecording) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: StreamBuilder(
+                                          stream:
+                                              updateStreamRecordProgressStreamController
+                                                  .stream,
+                                          builder: (context, asyncSnapshot) {
+                                            return Text(
+                                              streamRecorder
+                                                  .displayTimerProgress(),
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                              ),
+                                            );
+                                          }),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }),
+                          ],
+                        ),
+                      ),
+
+                      // -----------------------------------------------------------------------------------------------------
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 6, 8, 0),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: 53,
+                              height: 53,
                               child: IconButton(
                                 onPressed: () {
                                   if (radioPlayer.audioSources.isNotEmpty) {
+                                    if (streamRecorder.isRecording) {
+                                      streamRecorder.stopRecording();
+                                    }
                                     if (stationHasBeenSearched) {
                                       reLoadRatioStationCurrentIndex(context);
                                     } else {
@@ -286,19 +373,31 @@ class MainRadioPlayerView extends StatelessWidget {
                           ],
                         ),
                       ),
+
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                         child: Column(
                           children: [
                             IconButton(
                               onPressed: () {
-                                showModalBottomSheet<void>(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return const RadioSpeedRateBottomSheet();
-                                  },
-                                );
+                                if (streamRecorder
+                                    .allowPlaybackSpeedBottomSheetToOpen) {
+                                  showModalBottomSheet<void>(
+                                    backgroundColor: Colors.transparent,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const RadioSpeedRateBottomSheet();
+                                    },
+                                  );
+                                } else {
+                                  showRadioPlaybackSpeedWarningSnackBar(
+                                    context: context,
+                                    text: AppLocalizations.of(context)!
+                                        .radio_stream_recording_in_progress,
+                                    message: AppLocalizations.of(context)!
+                                        .stop_the_radio_stream_first,
+                                  );
+                                }
                               },
                               icon: Image.asset(
                                 'assets/img/speed_rate/speed-one.png',
@@ -311,7 +410,7 @@ class MainRadioPlayerView extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(6, 0, 8, 0),
+                        padding: const EdgeInsets.fromLTRB(6, 12, 8, 0),
                         child: Column(
                           children: [
                             StreamBuilder<void>(
@@ -362,8 +461,8 @@ class MainRadioPlayerView extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,8 +554,8 @@ class MainRadioPlayerView extends StatelessWidget {
                         height: 82,
                         child: IconButton(
                           iconSize: 45,
-                          onPressed: () {
-                            radioPlayOrPause();
+                          onPressed: () async {
+                            radioPlayOrPause(context);
                           },
                           icon: Image.asset(
                             "assets/img/player/round-play-button_icon.png",
@@ -470,7 +569,7 @@ class MainRadioPlayerView extends StatelessWidget {
                         child: IconButton(
                           iconSize: 45,
                           onPressed: () {
-                            radioPlayOrPause();
+                            radioPlayOrPause(context);
                           },
                           icon: Image.asset(
                             "assets/img/player/round-pause-button_icon.png",

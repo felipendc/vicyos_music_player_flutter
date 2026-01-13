@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
-import 'package:vicyos_music/app/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
 
 List<RadioStationInfo> foundStations = <RadioStationInfo>[];
 List<AudioInfo> foundSongs = <AudioInfo>[];

@@ -92,6 +92,10 @@
   "removed_from_this_playlist": "Removed from this playlist",
   "added_to_favorites": "Added to favorites",
   "created_and_song_added_successfully": "Created and song added successfully!",
+  "radio_stream_recording_in_progress": "Radio stream recording in progress",
+  "stop_the_radio_stream_first": "Stop recording first",
+  "radio_recording": "Radio stream recording",
+  "radio_recording_saved_successfully":"Saved successfully!",
 
 
   "created_and_songs_added_successfully_plural": "{count, plural, =0{} =1{Created and song added successfully!} other{Created and songs added successfully!}}",

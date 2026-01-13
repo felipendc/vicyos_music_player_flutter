@@ -285,6 +285,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get created_and_song_added_successfully => 'Created and song added successfully!';
 
   @override
+  String get radio_stream_recording_in_progress => 'Radio stream recording in progress';
+
+  @override
+  String get stop_the_radio_stream_first => 'Stop recording first';
+
+  @override
+  String get radio_recording => 'Radio stream recording';
+
+  @override
+  String get radio_recording_saved_successfully => 'Saved successfully!';
+
+  @override
   String created_and_songs_added_successfully_plural(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

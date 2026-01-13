@@ -225,7 +225,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                                 rebuildFavoriteScreenNotifier();
 
                                 if (context.mounted) {
-                                  showFileDeletedMessage(
+                                  showFileDeletedMessageSnackBar(
                                     context,
                                     songName(fullFilePath),
                                     AppLocalizations.of(context)!
@@ -308,7 +308,7 @@ class PlayerPreviewAppBarActionsBottomSheet extends StatelessWidget {
                               audioRouteEmptyPlaylist: audioRoute,
                             );
                             Navigator.pop(context);
-                            showAddedToPlaylist(
+                            showAddedToPlaylistSnackBar(
                                 context,
                                 "Song",
                                 songName(fullFilePath),

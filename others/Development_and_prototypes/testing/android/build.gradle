@@ -1,8 +1,11 @@
 allprojects {
+
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
     }
+
 }
 
 rootProject.buildDir = "../build"

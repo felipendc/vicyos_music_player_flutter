@@ -192,7 +192,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                             }
 
                             if (context.mounted) {
-                              showFileDeletedMessage(
+                              showFileDeletedMessageSnackBar(
                                 context,
                                 (selectedItems.length == 1)
                                     ? selectedItems.first.name
@@ -295,7 +295,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                             }
 
                             if (context.mounted) {
-                              showFileDeletedMessage(
+                              showFileDeletedMessageSnackBar(
                                 context,
                                 (selectedItems.length == 1)
                                     ? selectedItems.first.name
@@ -360,7 +360,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
                                   }
 
                                   if (context.mounted) {
-                                    showFileDeletedMessage(
+                                    showFileDeletedMessageSnackBar(
                                       context,
                                       (selectedItems.length == 1)
                                           ? selectedItems.first.name
@@ -451,7 +451,7 @@ class SongSelectionInfoMoreBottomSheet extends StatelessWidget {
 
                           Navigator.pop(context);
 
-                          showAddedToPlaylist(
+                          showAddedToPlaylistSnackBar(
                             context,
                             "Song",
                             (selectedItems.length == 1)

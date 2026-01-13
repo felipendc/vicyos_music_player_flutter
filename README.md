@@ -150,6 +150,8 @@ This project uses the following dependencies:
 - `http: 1.6.0` - A composable, multi-platform, Future-based API for HTTP requests..
 - `sqflite: 2.4.2` - Flutter plugin for SQLite, a self-contained, high-reliability, embedded, SQL database engine.
 - `flutter_sound: 9.30.0` - Flutter Sound is a library package allowing you to play and record audio for : iOS; Android; Web.
+- `ffmpeg_kit_flutter_new: 4.1.0` - FFmpeg Kit for Flutter with Full GPL and updated bindings. Supports Android, iOS and macOS platforms.
+
 
 ### Submit a pull request
 

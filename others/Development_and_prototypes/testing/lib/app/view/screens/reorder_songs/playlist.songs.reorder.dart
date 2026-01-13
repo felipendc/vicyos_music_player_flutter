@@ -392,7 +392,7 @@ class PlaylistSongsReorder extends StatelessWidget {
                                             onTap: () async {
                                               ///////// CONTROLLING THE PREVIEW PLAYER //////
                                               if (radioPlayer.playing) {
-                                                radioPlayer.pause();
+                                                radioPlayOrPause(context);
                                               }
                                               if (audioPlayerWasPlaying) {
                                                 await audioPlayer.pause();
