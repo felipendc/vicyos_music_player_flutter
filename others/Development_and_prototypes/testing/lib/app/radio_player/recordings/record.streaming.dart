@@ -86,6 +86,7 @@ class StreamRecorder {
     _finalFile = File('${cacheDir.path}/$baseName.m4a');
 
     final cmd = '-y '
+        '-flags low_delay '
         '-reconnect 1 '
         '-reconnect_streamed 1 '
         '-reconnect_delay_max 5 '
