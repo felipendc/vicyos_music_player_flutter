@@ -13,9 +13,9 @@ import 'l10n/app_localizations.dart';
 // flutter gen-l10n
 
 void main() async {
-  systemStatusAndNavigationBarMainTheme();
   await onInitPlayer();
   runApp(const MyApp());
+  systemStatusAndNavigationBarMainTheme();
 }
 
 class MyApp extends StatelessWidget {

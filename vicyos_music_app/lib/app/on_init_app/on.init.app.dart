@@ -21,10 +21,14 @@ Future<void> onInitPlayer() async {
   // Volume Control Listener
   initVolumeControl();
 
+  // flutterSoundPlayer init
+  await flutterSoundPlayer.openPlayer();
+
   // Song Preview Player.
   audioPlayerPreview = audio_players.AudioPlayer();
   audioPlayerPreview.setReleaseMode(audio_players.ReleaseMode.stop);
   audioPlayerPreviewEventStateStreamNotifier();
+  audioPlayerPreviewListener();
 
   // Radio Player
   radioPlayer = AudioPlayer();
@@ -38,4 +42,7 @@ Future<void> onInitPlayer() async {
 
   // Set the default Media Notification Background
   await defaultAlbumArt();
+
+  // Init current song name listener
+  preLoadSongName();
 }

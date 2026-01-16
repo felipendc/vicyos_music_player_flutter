@@ -26,7 +26,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 #  This number (after the +) is only for Android and represents the build number of the app.
 
 
-version: 3.1.0+1
+version: 3.1.92+1
 
 environment:
   sdk: ^3.6.1
@@ -44,7 +44,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  intl: any
+  intl: ^0.20.2
 
   sleek_circular_slider:
     git:
@@ -80,6 +80,10 @@ dependencies:
   flutter_native_splash: ^2.4.7
   http: ^1.6.0
   sqflite: ^2.4.2
+  flutter_sound: ^9.30.0
+  ffmpeg_kit_flutter_new: ^4.1.0 # Full-GPL version
+
+
 
 
 
@@ -130,6 +134,7 @@ flutter:
     - assets/img/bottomsheet/
     - assets/img/player/
     - assets/img/menu/
+    - assets/img/playlist/
 
     #   - images/a_dot_ham.jpeg
     # An image asset can refer to one or more resolution-specific "variants", see

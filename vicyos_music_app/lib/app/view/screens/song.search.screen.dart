@@ -3,20 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
-import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 List<AudioInfo> searchSongFromDataBase = [];
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +182,9 @@ class SearchScreen extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return SongPreviewBottomSheet(
-                                  songPath: searchSongFromDataBase[index].path);
+                                songModel: searchSongFromDataBase[index],
+                                audioRoute: NavigationButtons.music.toString(),
+                              );
                             },
                           ).whenComplete(
                             () {
@@ -198,6 +202,15 @@ class SearchScreen extends StatelessWidget {
                                   },
                                 );
                               }
+
+                              Future.microtask(
+                                () async {
+                                  if (playAfterClosingPlayersPreview) {
+                                    await audioPlayer.play();
+                                    playAfterClosingPlayersPreview = false;
+                                  }
+                                },
+                              );
                             },
                           );
 
@@ -247,7 +260,7 @@ class SearchScreen extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            "${searchSongFromDataBase[index].size!} MB  |  ${searchSongFromDataBase[index].format!}",
+                            "${searchSongFromDataBase[index].size} MB  |  ${searchSongFromDataBase[index].format}",
                             textAlign: TextAlign.start,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -264,17 +277,27 @@ class SearchScreen extends StatelessWidget {
                               color: TColor.lightGray,
                             ),
                             onPressed: () async {
-                              await hideMiniPlayerNotifier(true);
+                              final songIsFavorite = await AppDatabase.instance
+                                  .isFavorite(
+                                      searchSongFromDataBase[index].path);
+                              hideMiniPlayerNotifier(true);
 
                               if (context.mounted) {
                                 final result =
                                     await showModalBottomSheet<String>(
+                                  isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (BuildContext context) {
                                     return SongInfoMoreBottomSheet(
-                                      fullFilePath:
-                                          searchSongFromDataBase[index].path,
+                                      listOfSongModel: searchSongFromDataBase,
+                                      isFromSongsScreen: true,
+                                      songIsFavorite: songIsFavorite,
+                                      isFromPlaylistSongScreen: false,
+                                      songModel: searchSongFromDataBase[index],
+                                      isFromFavoriteScreen: false,
+                                      audioRoute:
+                                          NavigationButtons.music.toString(),
                                     );
                                   },
                                 ).whenComplete(
@@ -283,26 +306,37 @@ class SearchScreen extends StatelessWidget {
                                       if (!Navigator.canPop(context)) {
                                         debugPrint("No other screen is open.");
                                       } else {
-                                        hideMiniPlayerNotifier(false);
                                         debugPrint(
                                             " There are other open screens .");
                                       }
                                     }
                                   },
                                 );
+
                                 if (result ==
                                     "close_song_preview_bottom_sheet") {
                                   searchSongFromDataBase.clear();
                                   isSearchingSongsNotifier("nothing_found");
+                                }
+                                if (result == "hide_bottom_player") {
+                                  // Hide radio mini player if it is open
+                                  hideMiniPlayerNotifier(true);
                                 } else {
-                                  // Do not close the Player Preview bottom sheet
+                                  // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                  hideMiniPlayerNotifier(false);
                                 }
                               }
                             },
                           ),
                           onTap: () {
                             setFolderAsPlaylist(
-                                searchSongFromDataBase, index, context);
+                              currentFolder: searchSongFromDataBase,
+                              currentIndex: index,
+                              context: context,
+                              audioRoute: NavigationButtons.music.toString(),
+                              audioRouteEmptyPlaylist:
+                                  NavigationButtons.music.toString(),
+                            );
                             debugPrint(
                                 "SONG DIRECTORY: ${getCurrentSongParentFolder(currentSongFullPath)}");
                             debugPrint(

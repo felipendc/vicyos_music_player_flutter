@@ -1,14 +1,16 @@
 class AudioInfo {
   String path;
   String name;
-  String? size;
-  String? format;
+  String size;
+  String format;
+  String extension;
 
   AudioInfo({
     required this.path,
     required this.name,
-    this.size,
-    this.format,
+    required this.size,
+    required this.format,
+    required this.extension,
   });
 
   static AudioInfo fromMap(Map<String, dynamic> map) {
@@ -17,6 +19,7 @@ class AudioInfo {
       name: map['name'],
       size: map['size'],
       format: map['format'],
+      extension: map['extension'],
     );
   }
 
@@ -26,6 +29,7 @@ class AudioInfo {
       "name": name,
       "size": size,
       "format": format,
+      "extension": extension,
     };
   }
 }

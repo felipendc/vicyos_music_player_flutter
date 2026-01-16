@@ -31,6 +31,27 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
+        // armeabi-v7a - Smartphones with older Androids (32-bit ARM)
+        // arm64-v8a - Smartphones with modern Androids (64-bit ARM)
+        // 32-bit Emulators (Intel/AMD 32-bit)
+        // x86_64-bit Emulators (Intel/AMD 64-bit)
+        // Universal - Compatible with all platforms mentioned above
+
+        //========================================================
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        }
+
+        // Activate split via ABI
+        splits {
+            abi {
+                enable true
+                reset()
+                include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+                universalApk true // true to include an universal APK
+            }
+        }
+        //========================================================
 
     }
 
@@ -75,7 +96,7 @@ afterEvaluate {
                 // Getting the versionName without the "+1"
                 def version = android.defaultConfig.versionName.split("\\+")[0]
 
-                def newName = "vicyos_music_app_v${version}_release.apk"
+                def newName = "vicyos_music_app_v${version}_release-universal.apk"
                 def destination = file("$outDir/${newName}")
 
                 println("\n\n📦 Copying the renamed APK: ${newName}")

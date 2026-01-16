@@ -1,18 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
+import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/navigation_animation/song.files.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
+import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
-import 'package:vicyos_music/app/widgets/show.top.message.dart';
+import 'package:vicyos_music/app/view/bottomsheet/playlist_bottomsheets/bottom.sheet.add.song.to.playlist.dart';
+import 'package:vicyos_music/app/view/screens/multi.selection.screen.dart';
+import 'package:vicyos_music/app/view/screens/reorder_songs/favorite.song.screen.reorder.dart';
+import 'package:vicyos_music/app/view/screens/reorder_songs/playlist.songs.reorder.dart';
+import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
 import 'bottomsheet.delete.song.confirmation.dart';
 
 class SongInfoMoreBottomSheet extends StatelessWidget {
-  final dynamic fullFilePath;
-  const SongInfoMoreBottomSheet({super.key, required this.fullFilePath});
+  final int? playlistModelPositionIndex;
+  final bool songIsFavorite;
+  final AudioInfo songModel;
+  final bool isFromFavoriteScreen;
+  final bool isFromPlaylistSongScreen;
+  final bool isFromSongsScreen;
+  final String audioRoute;
+  final String? playListName;
+  final int? playlistSongIndex;
+  final List<AudioInfo>? listOfSongModel;
+  final List<Playlists>? playlistModel;
+
+  const SongInfoMoreBottomSheet({
+    super.key,
+    required this.songModel,
+    required this.isFromFavoriteScreen,
+    required this.audioRoute,
+    required this.isFromPlaylistSongScreen,
+    this.playListName,
+    this.playlistSongIndex,
+    this.listOfSongModel,
+    required this.songIsFavorite,
+    required this.isFromSongsScreen,
+    this.playlistModel,
+    this.playlistModelPositionIndex,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +56,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
       ),
       child: Container(
         color: TColor.bg,
-        height: 360, // Adjust the height
+        height: 480, // Adjust the height
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,7 +103,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                 width: 270,
                                 // color: Colors.grey,
                                 child: Text(
-                                  songName(fullFilePath),
+                                  songName(songModel.path),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -133,6 +166,508 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                       color: Colors.transparent,
                       child: ListTile(
                         leading: Padding(
+                          padding: const EdgeInsets.only(left: 13),
+                          child: Icon(
+                            Icons.select_all_rounded,
+                            color: TColor.focusSecondary,
+                            size: 30,
+                          ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.multiple_selection,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          // Check if audioPlayer was currently playing a song
+                          if (audioPlayer.playerState.playing) {
+                            audioPlayerWasPlaying = true;
+                          } else {
+                            audioPlayerWasPlaying = false;
+                          }
+
+                          Navigator.pop(context, "hide_bottom_player");
+
+                          // Hide radio mini player if it is open
+                          hideMiniRadioPlayerNotifier(true);
+
+                          isMultiSelectionScreenOpen = true;
+                          final result = await Navigator.push(
+                            context,
+                            slideRightLeftTransition(
+                              MultiSelectionScreen(
+                                playlistName: playListName,
+                                audioRoute: audioRoute,
+                                songModelList: listOfSongModel!,
+                                isFavoriteScreen: isFromFavoriteScreen,
+                                isPlaylistScreen: isFromPlaylistSongScreen,
+                                isSongScreen: isFromSongsScreen,
+                              ),
+                            ),
+                          ).whenComplete(() async {
+                            isMultiSelectionScreenOpen = false;
+                            currentSongPreview = "";
+
+                            Future.microtask(
+                              () async {
+                                if (playAfterClosingPlayersPreview) {
+                                  await audioPlayer.play();
+                                  playAfterClosingPlayersPreview = false;
+                                }
+                                await AppDatabase.instance
+                                    .removeEmptyFoldersAndDeletedFolders();
+                                rebuildSongsListScreenNotifier();
+                              },
+                            );
+                          });
+
+                          if (result == "hide_bottom_player") {
+                            // Hide radio mini player if it is open
+                            hideMiniRadioPlayerNotifier(true);
+
+                            // if (flutterSoundPlayer.isPlaying) {
+                            await flutterSoundPlayer.stopPlayer();
+
+                            // }
+
+                            if (audioPlayerWasPlaying) {
+                              Future.microtask(
+                                () async {
+                                  await audioPlayer.play();
+                                },
+                              );
+                            }
+
+                            if (isRadioOn && isRadioPaused) {
+                              radioPlayer.play();
+                            }
+                          } else {
+                            // if (flutterSoundPlayer.isPlaying) {
+                            await flutterSoundPlayer.stopPlayer();
+                            // }
+
+                            if (audioPlayerWasPlaying) {
+                              Future.microtask(
+                                () async {
+                                  await audioPlayer.play();
+                                },
+                              );
+                            }
+
+                            if (isRadioOn && isRadioPaused) {
+                              radioPlayer.play();
+                            }
+
+                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                            hideMiniPlayerNotifier(false);
+                          }
+                        },
+                      ),
+                    ),
+
+                    if (isFromFavoriteScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child:
+                                // ImageIcon(
+                                //   AssetImage(
+                                //       "assets/img/bottomsheet/remove_song_flaticon.png"),
+                                //   color: TColor.focus,
+                                //   size: 33,
+                                // ),
+
+                                Icon(
+                              Icons.reorder_sharp,
+                              color: TColor.focusSecondary,
+                              size: 30,
+                            ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!.reorder_songs,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            // ----------------------------------------------
+
+                            // Check if audioPlayer was currently playing a song
+                            if (audioPlayer.playerState.playing) {
+                              audioPlayerWasPlaying = true;
+                            } else {
+                              audioPlayerWasPlaying = false;
+                            }
+
+                            Navigator.pop(context, "");
+
+                            final result = await Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                FavoriteSongsScreenReorder(),
+                              ),
+                            );
+
+                            if (result == "hide_bottom_player") {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            } else {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            }
+                            // ----------------------------------------------
+                          },
+                        ),
+                      ),
+
+                    if (isFromPlaylistSongScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child:
+                                // ImageIcon(
+                                //   AssetImage(
+                                //       "assets/img/bottomsheet/remove_song_flaticon.png"),
+                                //   color: TColor.focus,
+                                //   size: 33,
+                                // ),
+
+                                Icon(
+                              Icons.reorder_sharp,
+                              color: TColor.focusSecondary,
+                              size: 30,
+                            ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!.reorder_songs,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            // ----------------------------------------------
+
+                            // Check if audioPlayer was currently playing a song
+                            if (audioPlayer.playerState.playing) {
+                              audioPlayerWasPlaying = true;
+                            } else {
+                              audioPlayerWasPlaying = false;
+                            }
+
+                            Navigator.pop(context, "");
+
+                            final result = await Navigator.push(
+                              context,
+                              slideRightLeftTransition(
+                                PlaylistSongsReorder(
+                                  playlistModel: playlistModel!,
+                                  playlistModelIndex:
+                                      playlistModelPositionIndex!,
+                                ),
+                              ),
+                            );
+
+                            if (result == "hide_bottom_player") {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            } else {
+                              audioPlayerPreview.stop();
+                              audioPlayerPreview.release();
+
+                              if (audioPlayerWasPlaying) {
+                                Future.microtask(
+                                  () async {
+                                    await audioPlayer.play();
+                                  },
+                                );
+                              }
+
+                              if (isRadioOn && isRadioPaused) {
+                                radioPlayer.play();
+                              }
+                            }
+                            // ----------------------------------------------
+                          },
+                        ),
+                      ),
+                    if (isFromPlaylistSongScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child: ImageIcon(
+                              AssetImage(
+                                  "assets/img/bottomsheet/remove_song_flaticon.png"),
+                              color: TColor.focus,
+                              size: 33,
+                            ),
+
+                            // Icon(
+                            //   Icons.library_music,
+                            //   color: TColor.focusSecondary,
+                            //   size: 30,
+                            // ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!
+                                .remove_from_this_playlist,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            Navigator.pop(context, "");
+
+                            await AppDatabase.instance.removeAudioFromPlaylist(
+                                playlistName: playListName!,
+                                audioPath: songModel.path,
+                                context: context);
+
+                            if (context.mounted) {
+                              showFileDeletedMessageSnackBar(
+                                context,
+                                songModel.name,
+                                AppLocalizations.of(context)!
+                                    .removed_from_this_playlist,
+                              );
+                            }
+
+                            rebuildPlaylistScreenSNotifier();
+                            rebuildSongsListScreenNotifier();
+                          },
+                        ),
+                      ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: ImageIcon(
+                            AssetImage(
+                                "assets/img/bottomsheet/add_to_playlist_flaticon.png"),
+                            color: TColor.focus,
+                            size: 29,
+                          ),
+
+                          // Icon(
+                          //   Icons.library_music,
+                          //   color: TColor.focusSecondary,
+                          //   size: 30,
+                          // ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.add_to_a_playlist,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Navigator.pop(context, "hide_bottom_player");
+
+                          hideMiniPlayerNotifier(true);
+
+                          final result = await showModalBottomSheet<String>(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AddSongToPlaylistBottomSheet(
+                                  songModels: songModel,
+                                );
+                              });
+
+                          if (result == "hide_bottom_player") {
+                            hideMiniPlayerNotifier(true);
+                          } else {
+                            hideMiniPlayerNotifier(false);
+                          }
+                        },
+                      ),
+                    ),
+                    //
+                    if (isFromFavoriteScreen)
+                      Material(
+                        color: Colors.transparent,
+                        child: ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(left: 17),
+                            child: ImageIcon(
+                              AssetImage(
+                                  "assets/img/bottomsheet/love_flaticone.png"),
+                              color: TColor.focus,
+                              size: 29,
+                            ),
+                          ),
+                          title: Text(
+                            AppLocalizations.of(context)!.remove_from_favorites,
+                            style: TextStyle(
+                              color: TColor.primaryText80,
+                              fontSize: 18,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          onTap: () async {
+                            Navigator.pop(context);
+                            await AppDatabase.instance.removeFromFavorites(
+                              context: context,
+                              songPath: songModel.path,
+                            );
+
+                            if (context.mounted) {
+                              showFileDeletedMessageSnackBar(
+                                context,
+                                songModel.name,
+                                AppLocalizations.of(context)!
+                                    .removed_from_favorites,
+                              );
+                            }
+
+                            hideMiniPlayerNotifier(false);
+
+                            rebuildFavoriteScreenNotifier();
+                          },
+                        ),
+                      ),
+                    if (!isFromFavoriteScreen)
+                      (songIsFavorite)
+                          ? Material(
+                              color: Colors.transparent,
+                              child: ListTile(
+                                leading: Padding(
+                                  padding: const EdgeInsets.only(left: 17),
+                                  child: ImageIcon(
+                                    AssetImage(
+                                        "assets/img/bottomsheet/love_flaticone.png"),
+                                    color: TColor.focus,
+                                    size: 29,
+                                  ),
+                                ),
+                                title: Text(
+                                  AppLocalizations.of(context)!
+                                      .remove_from_favorites,
+                                  style: TextStyle(
+                                    color: TColor.primaryText80,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await AppDatabase.instance
+                                      .removeFromFavorites(
+                                    context: context,
+                                    songPath: songModel.path,
+                                  );
+
+                                  if (context.mounted) {
+                                    showFileDeletedMessageSnackBar(
+                                      context,
+                                      songModel.name,
+                                      AppLocalizations.of(context)!
+                                          .removed_from_favorites,
+                                    );
+                                  }
+
+                                  hideMiniPlayerNotifier(false);
+                                },
+                              ),
+                            )
+                          : Material(
+                              color: Colors.transparent,
+                              child: ListTile(
+                                leading: Padding(
+                                  padding: const EdgeInsets.only(left: 17),
+                                  child: ImageIcon(
+                                    AssetImage(
+                                        "assets/img/bottomsheet/love_flaticone.png"),
+                                    color: TColor.focus,
+                                    size: 29,
+                                  ),
+                                ),
+                                title: Text(
+                                  AppLocalizations.of(context)!
+                                      .add_to_favorites,
+                                  style: TextStyle(
+                                    color: TColor.primaryText80,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await AppDatabase.instance
+                                      .addToFavorites(songModel);
+
+                                  if (context.mounted) {
+                                    addedToFavoritesSnackBar(
+                                      context: context,
+                                      text: songModel.name,
+                                      message: AppLocalizations.of(context)!
+                                          .added_to_favorites,
+                                    );
+                                  }
+                                  hideMiniPlayerNotifier(false);
+                                },
+                              ),
+                            ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
                           padding: const EdgeInsets.only(left: 17),
                           child: ImageIcon(
                             AssetImage(
@@ -157,9 +692,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                           }
                           isSongPreviewBottomSheetOpen = true;
 
-                          if (deviceTypeIsSmartphone()) {
-                            hideMiniPlayerNotifier(true);
-                          }
+                          hideMiniPlayerNotifier(true);
 
                           Navigator.pop(context);
 
@@ -169,15 +702,16 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return SongPreviewBottomSheet(
-                                    songPath: fullFilePath);
+                                  songModel: songModel,
+                                  audioRoute: audioRoute,
+                                );
                               }).whenComplete(
                             () {
                               isSongPreviewBottomSheetOpen = false;
 
-                              if (deviceTypeIsSmartphone()) {
-                                // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                hideMiniPlayerNotifier(false);
-                              }
+                              // "When the bottom sheet is closed, send a signal to show the mini player again."
+                              hideMiniPlayerNotifier(false);
+
                               audioPlayerPreview.stop();
                               audioPlayerPreview.release();
 
@@ -195,6 +729,15 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                               if (isRadioOn && isRadioPaused) {
                                 radioPlayer.play();
                               }
+
+                              Future.microtask(
+                                () async {
+                                  if (playAfterClosingPlayersPreview) {
+                                    await audioPlayer.play();
+                                    playAfterClosingPlayersPreview = false;
+                                  }
+                                },
+                              );
                             },
                           );
                         },
@@ -221,10 +764,18 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         ),
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () {
-                          addToPlayNext(fullFilePath, context);
+                          addToPlayNext(
+                            playNextFilePath: songModel.path,
+                            context: context,
+                            audioRoute: audioRoute,
+                            audioRouteEmptyPlaylist: audioRoute,
+                          );
                           Navigator.pop(context);
-                          showAddedToPlaylist(context, "Song",
-                              songName(fullFilePath), "Added to play next");
+                          showAddedToPlaylistSnackBar(
+                              context,
+                              "Song",
+                              songName(songModel.path),
+                              AppLocalizations.of(context)!.added_to_play_next);
                         },
                       ),
                     ),
@@ -249,10 +800,42 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                         contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
                         onTap: () async {
                           Navigator.pop(context);
-                          await sharingFiles(fullFilePath, context);
-                          if (deviceTypeIsSmartphone()) {
-                            hideMiniPlayerNotifier(false);
-                          }
+                          await sharingFiles(songModel.path, context);
+
+                          hideMiniPlayerNotifier(false);
+                        },
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: ImageIcon(
+                            AssetImage(
+                                "assets/img/bottomsheet/play_queue_flaticon.png"),
+                            color: TColor.focus,
+                            size: 32,
+                          ),
+                        ),
+                        title: Text(
+                          AppLocalizations.of(context)!.add_to_queue,
+                          style: TextStyle(
+                            color: TColor.primaryText80,
+                            fontSize: 18,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                        onTap: () async {
+                          Navigator.pop(context);
+
+                          await addSongToPlaylist(
+                            context: context,
+                            songPath: songModel.path,
+                            audioRoute: audioRoute,
+                            audioRouteEmptyPlaylist: audioRoute,
+                          );
+                          rebuildPlaylistCurrentLengthNotifier();
                         },
                       ),
                     ),
@@ -281,7 +864,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return DeleteSongConfirmationDialog(
-                                  songPath: fullFilePath);
+                                  songPath: songModel.path);
                             },
                           );
 
@@ -291,9 +874,7 @@ class SongInfoMoreBottomSheet extends StatelessWidget {
                                   context, "close_song_preview_bottom_sheet");
                             }
                           } else if (result == "canceled") {
-                            if (deviceTypeIsSmartphone()) {
-                              hideMiniPlayerNotifier(false);
-                            }
+                            hideMiniPlayerNotifier(false);
 
                             if (context.mounted) {
                               Navigator.pop(context);

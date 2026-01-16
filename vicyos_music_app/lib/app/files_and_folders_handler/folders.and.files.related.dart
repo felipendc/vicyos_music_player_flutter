@@ -4,15 +4,51 @@ import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/permission_handler/permission.handler.dart'
     show requestAudioPermission;
-import 'package:vicyos_music/app/widgets/show.top.message.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
+
+Future<List<String>> getFoldersWithoutAudioFiles() async {
+  await requestAudioPermission();
+
+  final audioExtensions = {'.mp3', '.m4a', '.ogg', '.wav', '.aac', '.midi'};
+  final allFolders = <String>{};
+  final foldersWithAudio = <String>{};
+
+  final deviceRoot = Directory("/storage/emulated/0/Music/");
+
+  if (await deviceRoot.exists()) {
+    noDeviceMusicFolderFound = false;
+
+    // Iterate all of the files and folders
+    await for (var entity
+        in deviceRoot.list(recursive: true, followLinks: false)) {
+      if (entity is File) {
+        final extension = '.${entity.path.split('.').last.toLowerCase()}';
+        if (audioExtensions.contains(extension)) {
+          // Add the folders containing audio files
+          foldersWithAudio.add(entity.parent.path);
+        }
+      } else if (entity is Directory) {
+        // Add all the folders
+        allFolders.add(entity.path);
+      }
+    }
+  } else {
+    noDeviceMusicFolderFound = true;
+  }
+
+  // Return only the folders that doesn't have audio files
+  final foldersWithoutAudio = allFolders.difference(foldersWithAudio);
+
+  return foldersWithoutAudio.toList();
+}
 
 Future<List<String>> getFoldersWithAudioFiles(String rootDir) async {
   await requestAudioPermission();
@@ -114,6 +150,7 @@ Future<List<AudioInfo>> filterSongsOnlyToList(
         path: songPath,
         size: getFileSize(songPath),
         format: getFileExtension(songPath),
+        extension: getFileExtension(songPath),
       ),
     );
   }
@@ -133,9 +170,9 @@ Future<List<String>> deviceMusicFolderPath() async {
   return audioFolders;
 }
 
-Future<void> getMusicFoldersContent() async {
-  // musicFolderContents.clear(); //remover em breve
-  rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
+Future<void> getMusicFoldersContent(
+    {required bool isMusicFolderListener}) async {
+  // rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
 
   for (var musicFolder in await deviceMusicFolderPath()) {
     final folderPath = musicFolder;
@@ -145,10 +182,12 @@ Future<void> getMusicFoldersContent() async {
 
     // Populating the database with folder paths and its song list
     await AppDatabase.instance.syncFolder(
-      FolderSources(
-          folderPath: folderPath,
-          folderSongCount: totalSongs,
-          songPathsList: folderSongPathsList),
+      folder: FolderSources(
+        folderPath: folderPath,
+        folderSongCount: totalSongs,
+        songPathsList: folderSongPathsList,
+      ),
+      isMusicFolderListener: isMusicFolderListener,
     );
   }
 
@@ -248,9 +287,9 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
         files: [XFile(shareFile)],
       ),
     );
-  } else if (shareFile is List) {
+  } else if (shareFile is Set<AudioInfo>) {
     //  TODO: FUTURE FEATURE, SHARE MULTIPLE FILES...
-    List<XFile> files = shareFile.map((path) => XFile(path)).toList();
+    List<XFile> files = shareFile.map((path) => XFile(path.path)).toList();
     await SharePlus.instance.share(
       ShareParams(
         text: AppLocalizations.of(context)!
@@ -262,12 +301,15 @@ Future<void> sharingFiles(dynamic shareFile, BuildContext context) async {
 }
 
 Future<void> deleteSongFromStorage(
-    BuildContext context, String wasDeleted, String songPath) async {
+    {required BuildContext context,
+    required String wasDeleted,
+    required String songPath,
+    bool? multipleFiles}) async {
   if (wasDeleted == "Files deleted successfully") {
     // ----------------------------------------------------------
 
     // Re-sync the folder list
-    await getMusicFoldersContent();
+    await getMusicFoldersContent(isMusicFolderListener: false);
 
     // Check if the file is present on the playlist...
     final int index = audioPlayer.audioSources.indexWhere(
@@ -277,9 +319,8 @@ Future<void> deleteSongFromStorage(
       if (songPath == currentSongFullPath &&
           audioPlayer.audioSources.length == 1) {
         // Clean playlist and rebuild the entire screen to clean the listview
-        if (context.mounted) {
-          cleanPlaylist(context);
-        }
+
+        cleanPlaylist();
       } else {
         await audioPlayer.removeAudioSourceAt(index);
         rebuildPlaylistCurrentLengthNotifier();
@@ -299,19 +340,27 @@ Future<void> deleteSongFromStorage(
     // ----------------------------------------------------------
     rebuildSongsListScreenNotifier();
     rebuildHomePageFolderListNotifier(FetchingSongs.done);
-    if (context.mounted) {
-      Navigator.pop(context, "close_song_preview_bottom_sheet");
+    currentSongNavigationRouteNotifier();
+    if (multipleFiles != true || multipleFiles == null) {
+      if (context.mounted) {
+        Navigator.pop(context, "close_song_preview_bottom_sheet");
+      }
     }
   } else if (wasDeleted != "Files deleted successfully") {
-    if (context.mounted) {
-      Navigator.pop(context);
+    if (multipleFiles != true || multipleFiles == null) {
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
     }
   }
+
+  // if (multipleFiles != true || multipleFiles == null) {
   if (context.mounted) {
-    showFileDeletedMessage(
+    showFileDeletedMessageSnackBar(
       context,
       songName(songPath),
       AppLocalizations.of(context)!.deleted_successfully,
     );
   }
+  // }
 }

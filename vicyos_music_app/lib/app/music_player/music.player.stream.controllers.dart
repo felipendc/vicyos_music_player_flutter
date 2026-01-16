@@ -39,6 +39,21 @@ StreamController<String> isSearchingSongsStreamController =
 StreamController<bool> isSearchTypingStreamController =
     StreamController<bool>.broadcast();
 
+StreamController<void> currentSongNavigationRouteStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<void> rebuildFavoriteScreenStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<void> rebuildPlaylistScreenStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<void> rebuildMultiSelectionScreenStreamController =
+    StreamController<void>.broadcast();
+
+StreamController<void> flutterSoundPlayerOnSongChangeStreamController =
+    StreamController<void>.broadcast();
+
 // Streams Notifiers Functions
 void getCurrentSongFolderNotifier() {
   getCurrentSongFolderStreamController.sink.add(null);
@@ -60,7 +75,7 @@ void rebuildHomePageFolderListNotifier(FetchingSongs value) {
   rebuildHomePageFolderListStreamController.sink.add(value);
 }
 
-void rebuildSongsListScreenNotifier() {
+Future<void> rebuildSongsListScreenNotifier() async {
   rebuildSongsListScreenStreamController.sink.add(null);
 }
 
@@ -94,4 +109,24 @@ void systemVolumeNotifier() {
 
 Future<void> hideMiniPlayerNotifier(bool value) async {
   hideBottonSheetStreamController.sink.add(value);
+}
+
+Future<void> currentSongNavigationRouteNotifier() async {
+  currentSongNavigationRouteStreamController.sink.add(null);
+}
+
+Future<void> rebuildFavoriteScreenNotifier() async {
+  rebuildFavoriteScreenStreamController.sink.add(null);
+}
+
+Future<void> rebuildPlaylistScreenSNotifier() async {
+  rebuildPlaylistScreenStreamController.sink.add(null);
+}
+
+void rebuildMultiSelectionScreenNotifier() {
+  rebuildMultiSelectionScreenStreamController.sink.add(null);
+}
+
+void flutterSoundPlayerOnSongChangeNotifier() {
+  flutterSoundPlayerOnSongChangeStreamController.sink.add(null);
 }

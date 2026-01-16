@@ -1,16 +1,16 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:vicyos_music/app/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
+import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/radio_player/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/radio_player/screens/radio.station.list.screen.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/app/services/audio.output.service.dart';
-import 'package:vicyos_music/app/view/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
 
 void radioPlayerStreamListeners() {
@@ -85,6 +85,18 @@ void radioPlayerStreamListeners() {
   final mainPlayerViewTabletContextKey = mainPlayerViewTabletKey.currentContext;
 
   radioPlayer.playerStateStream.listen((radioState) async {
+    // Pause PlayerPreview if the main radioPlayer is playing
+    // to avoid simultaneous audio playback
+    if (audioPlayerPreview.state.toString() == "PlayerState.playing" &&
+        radioState.playing == true) {
+      audioPlayerPreview.pause();
+    }
+
+    // Pause flutterSoundPlayer when main player starts playing
+    if (flutterSoundPlayer.isPlaying && radioState.playing == true) {
+      flutterSoundPlayer.pausePlayer();
+    }
+
     if (radioState.processingState == ProcessingState.idle &&
         radioState.playing) {
       // Combine two lists into one and iterate over and search for the current

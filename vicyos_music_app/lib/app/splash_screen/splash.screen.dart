@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/navigation_animation/some.screen.navigation.animation.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/screens/home.screen.dart';
+import 'package:vicyos_music/app/view/screens/home.navigator.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
             if (context.mounted) {
               Navigator.pushReplacement(
                 context,
-                splashFadeTransition(context, HomeScreen()),
+                splashFadeTransition(context, HomeNavigator()),
               );
             }
           },

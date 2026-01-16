@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
 import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
@@ -11,7 +12,6 @@ import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.folders.to.playli
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.song.info.more.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottomsheet.song.preview.dart';
 import 'package:vicyos_music/app/view/screens/song.search.screen.dart';
-import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
@@ -41,13 +41,13 @@ class SongsListScreen extends StatelessWidget {
             body: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                  padding: const EdgeInsets.only(top: 13.0),
                   child: Container(
                     decoration: BoxDecoration(
                       // color: Colors.grey,
                       color: Color(0xff181B2C),
                     ),
-                    height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
+                    // height: deviceTypeIsTablet() ? 135 : 130, // Loading enabled
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -140,9 +140,7 @@ class SongsListScreen extends StatelessWidget {
                                               splashRadius: 20,
                                               iconSize: 10,
                                               onPressed: () async {
-                                                if (deviceTypeIsSmartphone()) {
-                                                  hideMiniPlayerNotifier(true);
-                                                }
+                                                hideMiniPlayerNotifier(true);
 
                                                 showModalBottomSheet<void>(
                                                   backgroundColor:
@@ -225,7 +223,7 @@ class SongsListScreen extends StatelessWidget {
                         ),
                         // Search Box
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                          padding: const EdgeInsets.fromLTRB(10, 5, 10, 15),
                           child: GestureDetector(
                             onTap: () async {
                               Navigator.push(
@@ -298,7 +296,7 @@ class SongsListScreen extends StatelessWidget {
                                   return SizedBox(
                                     height: 67,
                                     child: GestureDetector(
-                                      onLongPress: () {
+                                      onLongPress: () async {
                                         if (audioPlayer.playerState.playing) {
                                           audioPlayerWasPlaying = true;
                                         } else {
@@ -307,9 +305,7 @@ class SongsListScreen extends StatelessWidget {
 
                                         isSongPreviewBottomSheetOpen = true;
 
-                                        if (deviceTypeIsSmartphone()) {
-                                          hideMiniPlayerNotifier(true);
-                                        }
+                                        hideMiniPlayerNotifier(true);
 
                                         showModalBottomSheet<void>(
                                           isScrollControlled: true,
@@ -317,17 +313,20 @@ class SongsListScreen extends StatelessWidget {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return SongPreviewBottomSheet(
-                                                songPath: song.path);
+                                              songModel: song,
+                                              audioRoute: NavigationButtons
+                                                  .music
+                                                  .toString(),
+                                            );
                                           },
                                         ).whenComplete(
                                           () {
                                             isSongPreviewBottomSheetOpen =
                                                 false;
 
-                                            if (deviceTypeIsSmartphone()) {
-                                              // "When the bottom sheet is closed, send a signal to show the mini player again."
-                                              hideMiniPlayerNotifier(false);
-                                            }
+                                            // "When the bottom sheet is closed, send a signal to show the mini player again."
+                                            hideMiniPlayerNotifier(false);
+
                                             audioPlayerPreview.stop();
                                             audioPlayerPreview.release();
 
@@ -342,6 +341,16 @@ class SongsListScreen extends StatelessWidget {
                                             if (isRadioOn && isRadioPaused) {
                                               radioPlayer.play();
                                             }
+
+                                            Future.microtask(
+                                              () async {
+                                                if (playAfterClosingPlayersPreview) {
+                                                  await audioPlayer.play();
+                                                  playAfterClosingPlayersPreview =
+                                                      false;
+                                                }
+                                              },
+                                            );
                                           },
                                         );
                                       },
@@ -392,7 +401,7 @@ class SongsListScreen extends StatelessWidget {
                                           ),
                                         ),
                                         subtitle: Text(
-                                          "${song.size!} MB  •  ${song.format!}",
+                                          "${song.size} MB  •  ${song.format}",
                                           textAlign: TextAlign.start,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -409,19 +418,34 @@ class SongsListScreen extends StatelessWidget {
                                             color: TColor.lightGray,
                                           ),
                                           onPressed: () async {
-                                            if (deviceTypeIsSmartphone()) {
-                                              await hideMiniPlayerNotifier(
-                                                  true);
-                                            }
+                                            final songIsFavorite =
+                                                await AppDatabase.instance
+                                                    .isFavorite(song.path);
+
+                                            hideMiniPlayerNotifier(true);
+
                                             if (context.mounted) {
-                                              showModalBottomSheet<String>(
+                                              final result =
+                                                  await showModalBottomSheet<
+                                                      String>(
+                                                isScrollControlled: true,
                                                 backgroundColor:
                                                     Colors.transparent,
                                                 context: context,
                                                 builder:
                                                     (BuildContext context) {
                                                   return SongInfoMoreBottomSheet(
-                                                    fullFilePath: song.path,
+                                                    listOfSongModel: songs,
+                                                    isFromSongsScreen: true,
+                                                    songIsFavorite:
+                                                        songIsFavorite,
+                                                    isFromPlaylistSongScreen:
+                                                        false,
+                                                    songModel: song,
+                                                    isFromFavoriteScreen: false,
+                                                    audioRoute:
+                                                        NavigationButtons.music
+                                                            .toString(),
                                                   );
                                                 },
                                               ).whenComplete(
@@ -432,22 +456,27 @@ class SongsListScreen extends StatelessWidget {
                                                       debugPrint(
                                                           "No other screen is open.");
                                                     } else {
-                                                      if (deviceTypeIsSmartphone()) {
-                                                        hideMiniPlayerNotifier(
-                                                            false);
-                                                      }
                                                       debugPrint(
                                                           "There are other open screens.");
                                                     }
                                                   }
                                                 },
                                               );
+                                              if (result ==
+                                                  "hide_bottom_player") {
+                                                hideMiniPlayerNotifier(true);
+                                              } else {
+                                                hideMiniPlayerNotifier(false);
+                                              }
                                             }
                                           },
                                         ),
                                         onTap: () {
                                           if (song.path ==
-                                              currentSongFullPath) {
+                                                  currentSongFullPath &&
+                                              songCurrentRouteType ==
+                                                  NavigationButtons.music
+                                                      .toString()) {
                                             if (songIsPlaying) {
                                               audioPlayer.pause();
                                               songIsPlaying = false;
@@ -457,7 +486,16 @@ class SongsListScreen extends StatelessWidget {
                                             }
                                           } else {
                                             setFolderAsPlaylist(
-                                                songs, index, context);
+                                              currentFolder: songs,
+                                              currentIndex: index,
+                                              context: context,
+                                              audioRoute: NavigationButtons
+                                                  .music
+                                                  .toString(),
+                                              audioRouteEmptyPlaylist:
+                                                  NavigationButtons.music
+                                                      .toString(),
+                                            );
                                             debugPrint(
                                                 "SONG DIRECTORY: $folderPath");
                                             debugPrint(

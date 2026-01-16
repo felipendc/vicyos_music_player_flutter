@@ -234,11 +234,17 @@ abstract class AppLocalizations {
   /// **'Song Preview'**
   String get song_preview;
 
-  /// No description provided for @playback_speed_all_capitalized.
+  /// No description provided for @playback_speed.
   ///
   /// In en, this message translates to:
-  /// **'PLAYBACK SPEED'**
-  String get playback_speed_all_capitalized;
+  /// **'Playback speed:'**
+  String get playback_speed;
+
+  /// No description provided for @choose_a_speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a speed'**
+  String get choose_a_speed;
 
   /// No description provided for @default_playback_speed.
   ///
@@ -324,6 +330,12 @@ abstract class AppLocalizations {
   /// **'Added to the playlist'**
   String get added_to_the_playlist;
 
+  /// No description provided for @added_to_play_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to play next'**
+  String get added_to_play_next;
+
   /// No description provided for @repeat_mode_all_capitalized.
   ///
   /// In en, this message translates to:
@@ -387,7 +399,7 @@ abstract class AppLocalizations {
   /// No description provided for @removed_from_the_playlist.
   ///
   /// In en, this message translates to:
-  /// **'Removed from the playlist'**
+  /// **'Removed from the playlist!'**
   String get removed_from_the_playlist;
 
   /// No description provided for @single_shared_file.
@@ -395,6 +407,354 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This file was shared via the Vicyos Music app.'**
   String get single_shared_file;
+
+  /// No description provided for @songs.
+  ///
+  /// In en, this message translates to:
+  /// **'All Songs'**
+  String get songs;
+
+  /// No description provided for @all_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'All Songs'**
+  String get all_songs;
+
+  /// No description provided for @favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favorites;
+
+  /// No description provided for @playlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlists'**
+  String get playlists;
+
+  /// No description provided for @add_to_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get add_to_favorites;
+
+  /// No description provided for @remove_from_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get remove_from_favorites;
+
+  /// No description provided for @delete_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete a playlist'**
+  String get delete_a_playlist;
+
+  /// No description provided for @what_to_do.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do?'**
+  String get what_to_do;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @this_name_has_already_been_used.
+  ///
+  /// In en, this message translates to:
+  /// **'This name is already in use'**
+  String get this_name_has_already_been_used;
+
+  /// No description provided for @please_try_another_one.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try another one'**
+  String get please_try_another_one;
+
+  /// No description provided for @create_a_playlist_text_field_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: The best ones...'**
+  String get create_a_playlist_text_field_hint;
+
+  /// No description provided for @new_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'New playlist'**
+  String get new_playlist;
+
+  /// No description provided for @choose_a_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a name:'**
+  String get choose_a_name;
+
+  /// No description provided for @choose_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a playlist'**
+  String get choose_a_playlist;
+
+  /// No description provided for @playlist_deleted_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist deleted successfully!'**
+  String get playlist_deleted_successfully;
+
+  /// No description provided for @playlist_created_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist created successfully!'**
+  String get playlist_created_successfully;
+
+  /// No description provided for @playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Playlist'**
+  String get playlist;
+
+  /// No description provided for @rename_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename this playlist'**
+  String get rename_this_playlist;
+
+  /// No description provided for @delete_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this playlist'**
+  String get delete_this_playlist;
+
+  /// No description provided for @rename_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename playlist'**
+  String get rename_playlist;
+
+  /// No description provided for @choose_a_new_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new name:'**
+  String get choose_a_new_name;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @playlist_renamed_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Renamed successfully!'**
+  String get playlist_renamed_successfully;
+
+  /// No description provided for @add_to_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to a playlist'**
+  String get add_to_a_playlist;
+
+  /// No description provided for @added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Added successfully'**
+  String get added_successfully;
+
+  /// No description provided for @create_a_new_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new playlist'**
+  String get create_a_new_playlist;
+
+  /// No description provided for @remove_from_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from this playlist'**
+  String get remove_from_this_playlist;
+
+  /// No description provided for @multiple_selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple selection'**
+  String get multiple_selection;
+
+  /// No description provided for @select_files.
+  ///
+  /// In en, this message translates to:
+  /// **'Select songs:'**
+  String get select_files;
+
+  /// No description provided for @zero_songs_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'0 songs selected'**
+  String get zero_songs_selected;
+
+  /// No description provided for @select_something_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Select something first'**
+  String get select_something_first;
+
+  /// No description provided for @choose_an_option.
+  ///
+  /// In en, this message translates to:
+  /// **'Chose an option:'**
+  String get choose_an_option;
+
+  /// No description provided for @reorder_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder songs'**
+  String get reorder_songs;
+
+  /// No description provided for @add_to_queue_all_capitalized.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO QUEUE'**
+  String get add_to_queue_all_capitalized;
+
+  /// No description provided for @add_to_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to queue'**
+  String get add_to_queue;
+
+  /// No description provided for @removed_from_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get removed_from_favorites;
+
+  /// No description provided for @removed_from_this_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from this playlist'**
+  String get removed_from_this_playlist;
+
+  /// No description provided for @added_to_favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to favorites'**
+  String get added_to_favorites;
+
+  /// No description provided for @created_and_song_added_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Created and song added successfully!'**
+  String get created_and_song_added_successfully;
+
+  /// No description provided for @radio_stream_recording_in_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Radio stream recording in progress'**
+  String get radio_stream_recording_in_progress;
+
+  /// No description provided for @stop_the_radio_stream_first.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop recording first'**
+  String get stop_the_radio_stream_first;
+
+  /// No description provided for @radio_recording.
+  ///
+  /// In en, this message translates to:
+  /// **'Radio stream recording'**
+  String get radio_recording;
+
+  /// No description provided for @radio_recording_saved_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved successfully!'**
+  String get radio_recording_saved_successfully;
+
+  /// No description provided for @created_and_songs_added_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{} =1{Created and song added successfully!} other{Created and songs added successfully!}}'**
+  String created_and_songs_added_successfully_plural(num count);
+
+  /// No description provided for @added_to_favorites_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to favorites} =1{Added to favorites} other{Added to favorites}}'**
+  String added_to_favorites_plural(num count);
+
+  /// No description provided for @added_to_the_playlist_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to the playlist} =1{Added to the playlist} other{Added to the playlist}}'**
+  String added_to_the_playlist_plural(num count);
+
+  /// No description provided for @deleted_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}'**
+  String deleted_successfully_plural(num count);
+
+  /// No description provided for @added_to_play_next_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added to play next} =1{Added to play next} other{Added to play next}}'**
+  String added_to_play_next_plural(num count);
+
+  /// No description provided for @removed_from_the_favorite_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Removed from favorites!} =1{Removed from favorites!} other{Removed from favorites!}}'**
+  String removed_from_the_favorite_plural(num count);
+
+  /// No description provided for @removed_from_the_playlist_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Removed from this playlist!} =1{Removed from this playlist!} other{Removed from this playlist!}}'**
+  String removed_from_the_playlist_plural(num count);
+
+  /// No description provided for @song_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}'**
+  String song_plural(num count);
+
+  /// No description provided for @added_successfully_plural.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Added successfully!} =1{Added successfully!} other{Added successfully!}}'**
+  String added_successfully_plural(num count);
+
+  /// No description provided for @total_of_songs_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 songs selected} =1{1 song selected} other{{count} songs selected}}'**
+  String total_of_songs_selected(num count);
+
+  /// No description provided for @create_a_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}'**
+  String create_a_playlist(num count);
+
+  /// No description provided for @total_of_playlist.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 playlists} =1{Total: 1 playlist} other{Total: {count} playlists}}'**
+  String total_of_playlist(num count);
+
+  /// No description provided for @playlist_total_of_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{songs} =1{song} other{songs}}'**
+  String playlist_total_of_songs(num count);
+
+  /// No description provided for @total_of_songs.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}'**
+  String total_of_songs(num count);
 
   /// No description provided for @multiple_shared_files.
   ///

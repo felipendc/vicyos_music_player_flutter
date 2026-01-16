@@ -23,7 +23,8 @@
   "delete_from_device": "Delete from device",
   "clear_playlist_all_capitalized": "CLEAR PLAYLIST",
   "song_preview": "Song Preview",
-  "playback_speed_all_capitalized": "PLAYBACK SPEED",
+  "playback_speed": "Playback speed:",
+  "choose_a_speed": "Choose a speed",
   "default_playback_speed": "Default",
   "delete_from_device_all_capitalized": "DELETE FILE FROM DEVICE",
   "are_you_sure": "Are you sure?",
@@ -38,6 +39,7 @@
   "the_playlist_is_empty": "The playlist is empty",
   "unknown_artist": "Unknown Artist",
   "added_to_the_playlist": "Added to the playlist",
+  "added_to_play_next": "Added to play next",
   "repeat_mode_all_capitalized": "REPEAT MODE:",
   "repeating_one": "Repeating one",
   "playback_is_shuffled": "Playback is shuffled",
@@ -48,9 +50,152 @@
   "no_audio_permission_has_been_granted": "No permission to access\nthe music folder has been granted.",
   "grant_permission": "Grant Permission",
   "deleted_successfully": "Deleted successfully",
-  "removed_from_the_playlist": "Removed from the playlist",
+  "removed_from_the_playlist": "Removed from the playlist!",
   "single_shared_file": "This file was shared via the Vicyos Music app.",
+  "songs": "All Songs",
+  "all_songs": "All Songs",
+  "favorites": "Favorites",
+  "playlists": "Playlists",
+  "add_to_favorites": "Add to favorites",
+  "remove_from_favorites": "Remove from favorites",
+  "delete_a_playlist": "Delete a playlist",
+  "what_to_do": "What to do?",
+  "create": "Create",
+  "this_name_has_already_been_used": "This name is already in use",
+  "please_try_another_one": "Please try another one",
+  "create_a_playlist_text_field_hint": "Example: The best ones...",
+  "new_playlist": "New playlist",
+  "choose_a_name": "Choose a name:",
+  "choose_a_playlist": "Choose a playlist",
+  "playlist_deleted_successfully": "Playlist deleted successfully!",
+  "playlist_created_successfully": "Playlist created successfully!",
+  "playlist": "Playlist",
+  "rename_this_playlist": "Rename this playlist",
+  "delete_this_playlist": "Delete this playlist",
+  "rename_playlist": "Rename playlist",
+  "choose_a_new_name": "Choose a new name:",
+  "save": "Save",
+  "playlist_renamed_successfully": "Renamed successfully!",
+  "add_to_a_playlist": "Add to a playlist",
+  "added_successfully": "Added successfully",
+  "create_a_new_playlist": "Create a new playlist",
+  "remove_from_this_playlist": "Remove from this playlist",
+  "multiple_selection": "Multiple selection",
+  "select_files": "Select songs:",
+  "zero_songs_selected": "0 songs selected",
+  "select_something_first": "Select something first",
+  "choose_an_option": "Chose an option:",
+  "reorder_songs": "Reorder songs",
+  "add_to_queue_all_capitalized": "ADD TO QUEUE",
+  "add_to_queue": "Add to queue",
+  "removed_from_favorites": "Removed from favorites",
+  "removed_from_this_playlist": "Removed from this playlist",
+  "added_to_favorites": "Added to favorites",
+  "created_and_song_added_successfully": "Created and song added successfully!",
+  "radio_stream_recording_in_progress": "Radio stream recording in progress",
+  "stop_the_radio_stream_first": "Stop recording first",
+  "radio_recording": "Radio stream recording",
+  "radio_recording_saved_successfully":"Saved successfully!",
 
+
+  "created_and_songs_added_successfully_plural": "{count, plural, =0{} =1{Created and song added successfully!} other{Created and songs added successfully!}}",
+  "@created_and_songs_added_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+
+  "added_to_favorites_plural": "{count, plural, =0{Added to favorites} =1{Added to favorites} other{Added to favorites}}",
+  "@added_to_favorites_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_to_the_playlist_plural": "{count, plural, =0{Added to the playlist} =1{Added to the playlist} other{Added to the playlist}}",
+  "@added_to_the_playlist_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "deleted_successfully_plural": "{count, plural, =0{Deleted successfully!} =1{Deleted successfully!} other{Deleted successfully!}}",
+  "@deleted_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_to_play_next_plural": "{count, plural, =0{Added to play next} =1{Added to play next} other{Added to play next}}",
+  "@added_to_play_next_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_favorite_plural": "{count, plural, =0{Removed from favorites!} =1{Removed from favorites!} other{Removed from favorites!}}",
+  "@removed_from_the_favorite_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "removed_from_the_playlist_plural": "{count, plural, =0{Removed from this playlist!} =1{Removed from this playlist!} other{Removed from this playlist!}}",
+  "@removed_from_the_playlist_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "song_plural": "{count, plural, =0{0 songs} =1{1 song} other{{count} songs}}",
+  "@song_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "added_successfully_plural": "{count, plural, =0{Added successfully!} =1{Added successfully!} other{Added successfully!}}",
+  "@added_successfully_plural": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "total_of_songs_selected": "{count, plural, =0{0 songs selected} =1{1 song selected} other{{count} songs selected}}",
+  "@total_of_songs_selected": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "create_a_playlist": "{count, plural, =0{Create a playlist} =1{Create a new playlist} other{Create a new playlist}}",
+  "@create_a_playlist": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "total_of_playlist": "{count, plural, =0{0 playlists} =1{Total: 1 playlist} other{Total: {count} playlists}}",
+  "@total_of_playlist": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "playlist_total_of_songs": "{count, plural, =0{songs} =1{song} other{songs}}",
+  "@playlist_total_of_songs": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "total_of_songs": "{count, plural, =0{Total: O songs} =1{Total: 1 song} other{Total: {count} songs}}",
+  "@total_of_songs": {
+    "placeholders": {
+      "count": {}
+    }
+  },
 
   "multiple_shared_files": "{count, plural, =0{} =1{This file was shared using the Vicyos Music app.} other{These {count} files were shared using the Vicyos Music app.}}",
   "@multiple_shared_files": {
@@ -58,6 +203,7 @@
       "count": {}
     }
   },
+
   "number_of_songs_in_folder": "{count, plural, =0{No songs} =1{1 song} other{{count} songs}}",
   "@number_of_songs_in_folder": {
     "placeholders": {

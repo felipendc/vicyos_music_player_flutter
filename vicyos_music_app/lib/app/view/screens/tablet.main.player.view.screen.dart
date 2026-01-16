@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/appbars.dart';
+import 'package:vicyos_music/app/components/marquee.text.dart';
+import 'package:vicyos_music/app/components/music_visualizer.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/bottomsheet/radio.bottom.sheet.speed.rate.dart';
@@ -10,11 +14,8 @@ import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream
 import 'package:vicyos_music/app/radio_player/widgets/radio.music.visualizer.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
-import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.playlist.dart';
+import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.playing.queue.dart';
 import 'package:vicyos_music/app/view/bottomsheet/bottom.sheet.speed.rate.dart';
-import 'package:vicyos_music/app/widgets/appbars.dart';
-import 'package:vicyos_music/app/widgets/marquee.text.dart';
-import 'package:vicyos_music/app/widgets/music_visualizer.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
@@ -46,7 +47,10 @@ class MainPlayerViewTablet extends StatelessWidget {
 
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: mainPlayerViewAppBarTablet(context),
+      appBar: mainPlayerViewAppBarTablet(
+        context: context,
+        audioRoute: songCurrentRouteType,
+      ),
       body: StreamBuilder(
         stream: switchingToRadioStreamController.stream,
         builder: (context, asyncSnapshot) {
@@ -55,33 +59,33 @@ class MainPlayerViewTablet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 10,
+                  height: 9,
                 ),
                 Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(media.width * 0.19),
+                      borderRadius: BorderRadius.circular(media.width * 0.185),
                       child: StreamBuilder<void>(
                         stream: null,
                         builder: (context, snapshot) {
                           return Image.asset(
                             "assets/img/default_album_art/lofi-woman-album-cover-art_10.png",
-                            width: media.width * 0.19,
-                            height: media.width * 0.19,
+                            width: media.width * 0.185,
+                            height: media.width * 0.185,
                             fit: BoxFit.cover,
                           );
                         },
                       ),
                     ),
                     WaveProgress(
-                      size: 218.0,
+                      size: 212.0,
                       borderColor: Colors.transparent,
                       fillColor: Colors.blueAccent,
                       progress: 10.0,
                     ),
                     SizedBox(
-                      width: media.width * 0.19,
-                      height: media.width * 0.19,
+                      width: media.width * 0.185,
+                      height: media.width * 0.185,
                       child: StreamBuilder<void>(
                         stream: clearCurrentPlaylistStreamController.stream,
                         builder: (context, snapshot) {
@@ -443,25 +447,117 @@ class MainPlayerViewTablet extends StatelessWidget {
                         ),
                       ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 isRadioOn
-                    ? Column(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 5.0),
-                            child: Row(
+                    ? Container(
+                        // color: Colors.deepOrange,
+                        height: 66,
+                        child: Column(
+                          children: [
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                // -----------------------------------------------------------------------------------------------------
+
                                 Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(6, 0, 8, 0),
+                                      const EdgeInsets.fromLTRB(10, 4, 4, 0),
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                        width: 42,
+                                        width: 49,
                                         height: 42,
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            if (isRadioOn) {
+                                              if (streamRecorder.isRecording) {
+                                                streamRecorder.stopRecording();
+                                                showRadioPlaybackSpeedWarningSnackBar(
+                                                  context: context,
+                                                  text: AppLocalizations.of(
+                                                          context)!
+                                                      .radio_recording,
+                                                  message: AppLocalizations.of(
+                                                          context)!
+                                                      .radio_recording_saved_successfully,
+                                                );
+                                              } else {
+                                                if (radioPlayer
+                                                    .audioSources.isNotEmpty) {
+                                                  if (currentRadioStationWasPaused) {
+                                                    await playRadioStation(
+                                                        context,
+                                                        (currentRadioIndex));
+                                                    streamRecorder.startRecording(
+                                                        currentRadioIndexUrl);
+                                                  } else {
+                                                    streamRecorder.startRecording(
+                                                        currentRadioIndexUrl);
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          },
+                                          icon: Image.asset(
+                                            "assets/img/radio/record_icon_flaticon.png",
+                                            width: 40,
+                                            height: 40,
+                                            color: TColor.primaryText80,
+                                          ),
+                                        ),
+                                      ),
+                                      StreamBuilder(
+                                          stream:
+                                              showStreamRecordingTimerStreamController
+                                                  .stream,
+                                          builder: (context, asyncSnapshot) {
+                                            final showTimer =
+                                                asyncSnapshot.data;
+
+                                            if (showTimer == true ||
+                                                streamRecorder.isRecording) {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                padding: EdgeInsets.fromLTRB(
+                                                    5, 0, 5, 0),
+                                                child: StreamBuilder(
+                                                    stream:
+                                                        updateStreamRecordProgressStreamController
+                                                            .stream,
+                                                    builder: (context,
+                                                        asyncSnapshot) {
+                                                      return Text(
+                                                        streamRecorder
+                                                            .displayTimerProgress(),
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                        ),
+                                                      );
+                                                    }),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
+                                          }),
+                                    ],
+                                  ),
+                                ),
+
+                                // -----------------------------------------------------------------------------------------------------
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 53,
+                                        height: 48,
                                         child: IconButton(
                                           onPressed: () {
                                             if (radioPlayer
@@ -471,14 +567,59 @@ class MainPlayerViewTablet extends StatelessWidget {
                                                     context);
                                               } else {
                                                 playRadioStation(context,
-                                                    (currentRadioIndex - 1));
+                                                    (currentRadioIndex));
                                               }
                                             }
                                           },
                                           icon: Image.asset(
                                             "assets/img/radio/reload-two-streamline-tabler.png",
-                                            width: 30,
-                                            height: 30,
+                                            width: 40,
+                                            height: 40,
+                                            color: TColor.primaryText80,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 4, 9, 0),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 49,
+                                        height: 44,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            if (streamRecorder
+                                                .allowPlaybackSpeedBottomSheetToOpen) {
+                                              showModalBottomSheet<void>(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return const RadioSpeedRateBottomSheet();
+                                                },
+                                              );
+                                            } else {
+                                              showRadioPlaybackSpeedWarningSnackBar(
+                                                context: context,
+                                                text: AppLocalizations.of(
+                                                        context)!
+                                                    .radio_stream_recording_in_progress,
+                                                message: AppLocalizations.of(
+                                                        context)!
+                                                    .stop_the_radio_stream_first,
+                                              );
+                                            }
+                                          },
+                                          icon: Image.asset(
+                                            'assets/img/speed_rate/speed-one.png',
+                                            width: 40,
+                                            height: 40,
                                             color: TColor.primaryText80,
                                           ),
                                         ),
@@ -488,37 +629,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  child: Column(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          showModalBottomSheet<void>(
-                                            backgroundColor: Colors.transparent,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              radioPlayerPlaybackSpeedBottomSheetTabletContext =
-                                                  context;
-                                              return const RadioSpeedRateBottomSheet();
-                                            },
-                                          ).whenComplete(() {
-                                            radioPlayerPlaybackSpeedBottomSheetTabletContext =
-                                                null;
-                                          });
-                                        },
-                                        icon: Image.asset(
-                                          'assets/img/speed_rate/speed-one.png',
-                                          width: 25,
-                                          height: 25,
-                                          color: TColor.primaryText80,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(6, 0, 8, 0),
+                                      const EdgeInsets.fromLTRB(6, 5, 8, 0),
                                   child: Column(
                                     children: [
                                       StreamBuilder<void>(
@@ -579,14 +690,14 @@ class MainPlayerViewTablet extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     : Column(
                         children: [
                           Padding(
                             padding:
-                                const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 5.0),
+                                const EdgeInsets.fromLTRB(9.0, 9.0, 9.0, 9.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -596,8 +707,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                        width: 40,
-                                        height: 40,
+                                        width: 43,
+                                        height: 43,
                                         child: IconButton(
                                           onPressed: () {
                                             showModalBottomSheet<void>(
@@ -607,7 +718,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               builder: (BuildContext context) {
                                                 playlistBottomSheetTabletContext =
                                                     context;
-                                                return PlaylistBottomSheet();
+                                                return PlayingQueueBottomSheet();
                                               },
                                             ).whenComplete(() {
                                               playlistBottomSheetTabletContext =
@@ -628,26 +739,29 @@ class MainPlayerViewTablet extends StatelessWidget {
                                       const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                   child: Column(
                                     children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          showModalBottomSheet<void>(
-                                            backgroundColor: Colors.transparent,
-                                            context: context,
-                                            builder: (BuildContext context) {
+                                      SizedBox(
+                                        child: IconButton(
+                                          onPressed: () {
+                                            showModalBottomSheet<void>(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                audioPlayerPlaybackSpeedBottomSheetTabletContext =
+                                                    context;
+                                                return const SpeedRateBottomSheet();
+                                              },
+                                            ).whenComplete(() {
                                               audioPlayerPlaybackSpeedBottomSheetTabletContext =
-                                                  context;
-                                              return const SpeedRateBottomSheet();
-                                            },
-                                          ).whenComplete(() {
-                                            audioPlayerPlaybackSpeedBottomSheetTabletContext =
-                                                null;
-                                          });
-                                        },
-                                        icon: Image.asset(
-                                          'assets/img/speed_rate/speed-one.png',
-                                          width: 25,
-                                          height: 25,
-                                          color: TColor.primaryText80,
+                                                  null;
+                                            });
+                                          },
+                                          icon: Image.asset(
+                                            'assets/img/speed_rate/speed-one.png',
+                                            width: 30,
+                                            height: 30,
+                                            color: TColor.primaryText80,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -665,11 +779,11 @@ class MainPlayerViewTablet extends StatelessWidget {
                                           return SizedBox(
                                             width:
                                                 audioPlayer.shuffleModeEnabled
-                                                    ? 45
+                                                    ? 42
                                                     : 45,
                                             height: (currentLoopMode ==
                                                     CurrentLoopMode.shuffle)
-                                                ? 40
+                                                ? 44
                                                 : 40,
                                             child: IconButton(
                                               onPressed: () {
@@ -677,8 +791,8 @@ class MainPlayerViewTablet extends StatelessWidget {
                                               },
                                               icon: Image.asset(
                                                 currentLoopModeIcon,
-                                                width: 22,
-                                                height: 22,
+                                                width: 26,
+                                                height: 26,
                                                 color: TColor.primaryText80,
                                               ),
                                             ),
@@ -763,7 +877,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                             child: IconButton(
                               iconSize: 10,
                               onPressed: () async {
-                                await radioSeekToPrevious();
+                                await radioSeekToPrevious(context);
                               },
                               icon: Image.asset(
                                 "assets/img/player/previous_song.png",
@@ -785,7 +899,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   child: IconButton(
                                     iconSize: 45,
                                     onPressed: () {
-                                      radioPlayOrPause();
+                                      radioPlayOrPause(context);
                                     },
                                     icon: Image.asset(
                                       "assets/img/player/round-play-button_icon.png",
@@ -799,7 +913,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                                   child: IconButton(
                                     iconSize: 45,
                                     onPressed: () {
-                                      radioPlayOrPause();
+                                      radioPlayOrPause(context);
                                     },
                                     icon: Image.asset(
                                       "assets/img/player/round-pause-button_icon.png",
@@ -818,7 +932,7 @@ class MainPlayerViewTablet extends StatelessWidget {
                             height: 60,
                             child: IconButton(
                               onPressed: () async {
-                                await radioSeekToNext();
+                                await radioSeekToNext(context);
                               },
                               icon: Image.asset(
                                 "assets/img/player/next_song.png",

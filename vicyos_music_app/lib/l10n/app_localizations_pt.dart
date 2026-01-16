@@ -78,7 +78,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get song_preview => 'Song Preview';
 
   @override
-  String get playback_speed_all_capitalized => 'PLAYBACK SPEED';
+  String get playback_speed => 'Playback speed:';
+
+  @override
+  String get choose_a_speed => 'Choose a speed';
 
   @override
   String get default_playback_speed => 'Default';
@@ -123,6 +126,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get added_to_the_playlist => 'Added to the playlist';
 
   @override
+  String get added_to_play_next => 'Added to play next';
+
+  @override
   String get repeat_mode_all_capitalized => 'REPEAT MODE:';
 
   @override
@@ -153,10 +159,310 @@ class AppLocalizationsPt extends AppLocalizations {
   String get deleted_successfully => 'Deleted successfully';
 
   @override
-  String get removed_from_the_playlist => 'Removed from the playlist';
+  String get removed_from_the_playlist => 'Removed from the playlist!';
 
   @override
   String get single_shared_file => 'This file was shared via the Vicyos Music app.';
+
+  @override
+  String get songs => 'All Songs';
+
+  @override
+  String get all_songs => 'All Songs';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get playlists => 'Playlists';
+
+  @override
+  String get add_to_favorites => 'Add to favorites';
+
+  @override
+  String get remove_from_favorites => 'Remove from favorites';
+
+  @override
+  String get delete_a_playlist => 'Delete a playlist';
+
+  @override
+  String get what_to_do => 'What to do?';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get this_name_has_already_been_used => 'This name is already in use';
+
+  @override
+  String get please_try_another_one => 'Please try another one';
+
+  @override
+  String get create_a_playlist_text_field_hint => 'Example: The best ones...';
+
+  @override
+  String get new_playlist => 'New playlist';
+
+  @override
+  String get choose_a_name => 'Choose a name:';
+
+  @override
+  String get choose_a_playlist => 'Choose a playlist';
+
+  @override
+  String get playlist_deleted_successfully => 'Playlist deleted successfully!';
+
+  @override
+  String get playlist_created_successfully => 'Playlist created successfully!';
+
+  @override
+  String get playlist => 'Playlist';
+
+  @override
+  String get rename_this_playlist => 'Rename this playlist';
+
+  @override
+  String get delete_this_playlist => 'Delete this playlist';
+
+  @override
+  String get rename_playlist => 'Rename playlist';
+
+  @override
+  String get choose_a_new_name => 'Choose a new name:';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get playlist_renamed_successfully => 'Renamed successfully!';
+
+  @override
+  String get add_to_a_playlist => 'Add to a playlist';
+
+  @override
+  String get added_successfully => 'Added successfully';
+
+  @override
+  String get create_a_new_playlist => 'Create a new playlist';
+
+  @override
+  String get remove_from_this_playlist => 'Remove from this playlist';
+
+  @override
+  String get multiple_selection => 'Multiple selection';
+
+  @override
+  String get select_files => 'Select songs:';
+
+  @override
+  String get zero_songs_selected => '0 songs selected';
+
+  @override
+  String get select_something_first => 'Select something first';
+
+  @override
+  String get choose_an_option => 'Chose an option:';
+
+  @override
+  String get reorder_songs => 'Reorder songs';
+
+  @override
+  String get add_to_queue_all_capitalized => 'ADD TO QUEUE';
+
+  @override
+  String get add_to_queue => 'Add to queue';
+
+  @override
+  String get removed_from_favorites => 'Removed from favorites';
+
+  @override
+  String get removed_from_this_playlist => 'Removed from this playlist';
+
+  @override
+  String get added_to_favorites => 'Added to favorites';
+
+  @override
+  String get created_and_song_added_successfully => 'Created and song added successfully!';
+
+  @override
+  String get radio_stream_recording_in_progress => 'Radio stream recording in progress';
+
+  @override
+  String get stop_the_radio_stream_first => 'Stop recording first';
+
+  @override
+  String get radio_recording => 'Radio stream recording';
+
+  @override
+  String get radio_recording_saved_successfully => 'Saved successfully!';
+
+  @override
+  String created_and_songs_added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Created and songs added successfully!',
+      one: 'Created and song added successfully!',
+      zero: '',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_favorites_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to favorites',
+      one: 'Added to favorites',
+      zero: 'Added to favorites',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to the playlist',
+      one: 'Added to the playlist',
+      zero: 'Added to the playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String deleted_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deleted successfully!',
+      one: 'Deleted successfully!',
+      zero: 'Deleted successfully!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_play_next_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added to play next',
+      one: 'Added to play next',
+      zero: 'Added to play next',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_favorite_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removed from favorites!',
+      one: 'Removed from favorites!',
+      zero: 'Removed from favorites!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removed from this playlist!',
+      one: 'Removed from this playlist!',
+      zero: 'Removed from this playlist!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String song_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count songs',
+      one: '1 song',
+      zero: '0 songs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Added successfully!',
+      one: 'Added successfully!',
+      zero: 'Added successfully!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_songs_selected(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count songs selected',
+      one: '1 song selected',
+      zero: '0 songs selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String create_a_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Create a new playlist',
+      one: 'Create a new playlist',
+      zero: 'Create a playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count playlists',
+      one: 'Total: 1 playlist',
+      zero: '0 playlists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playlist_total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'songs',
+      one: 'song',
+      zero: 'songs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count songs',
+      one: 'Total: 1 song',
+      zero: 'Total: O songs',
+    );
+    return '$_temp0';
+  }
 
   @override
   String multiple_shared_files(num count) {
@@ -221,7 +527,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get add_folder_to_the_current_playlist => 'Adicionar pasta à playlist atual';
 
   @override
-  String get added_to_the_current_playlist => 'Adicionado à playlist atual';
+  String get added_to_the_current_playlist => 'Adicionada à playlist atual';
 
   @override
   String get play_all_the_songs_from_this_folder => 'Reproduzir todas as músicas desta pasta';
@@ -251,13 +557,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get delete_from_device => 'Excluir do dispositivo';
 
   @override
-  String get clear_playlist_all_capitalized => 'LIMPAR PLAYLIST';
+  String get clear_playlist_all_capitalized => 'LIMPAR FILA';
 
   @override
   String get song_preview => 'Prévia da música';
 
   @override
-  String get playback_speed_all_capitalized => 'VELOCIDADE DE REPRODUÇÃO';
+  String get playback_speed => 'Velocidade de reprodução:';
+
+  @override
+  String get choose_a_speed => 'Escolha uma velocidade';
 
   @override
   String get default_playback_speed => 'Padrão';
@@ -299,7 +608,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get unknown_artist => 'Artista desconhecido';
 
   @override
-  String get added_to_the_playlist => 'Adicionado à playlist';
+  String get added_to_the_playlist => 'Adicionada à playlist';
+
+  @override
+  String get added_to_play_next => 'Adicionada para tocar em seguida';
 
   @override
   String get repeat_mode_all_capitalized => 'MODO DE REPETIÇÃO:';
@@ -329,13 +641,313 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get grant_permission => 'Conceder permissão';
 
   @override
-  String get deleted_successfully => 'Deletado com sucesso!';
+  String get deleted_successfully => 'Deletada com sucesso!';
 
   @override
-  String get removed_from_the_playlist => 'Removido da playlist';
+  String get removed_from_the_playlist => 'Removida da playlist';
 
   @override
   String get single_shared_file => 'Este arquivo foi compartilhado usando o aplicativo Vicyos Music.';
+
+  @override
+  String get songs => 'Músicas';
+
+  @override
+  String get all_songs => 'Todas as Músicas';
+
+  @override
+  String get favorites => 'Favoritos';
+
+  @override
+  String get playlists => 'Playlists';
+
+  @override
+  String get add_to_favorites => 'Adicionar aos favoritos';
+
+  @override
+  String get remove_from_favorites => 'Remover dos favoritos';
+
+  @override
+  String get delete_a_playlist => 'Excluir uma playlist';
+
+  @override
+  String get what_to_do => 'O que fazer?';
+
+  @override
+  String get create => 'Criar';
+
+  @override
+  String get this_name_has_already_been_used => 'Esse nome já foi usado';
+
+  @override
+  String get please_try_another_one => 'Por favor, tente outro nome';
+
+  @override
+  String get create_a_playlist_text_field_hint => 'Ex: As melhores...';
+
+  @override
+  String get new_playlist => 'Nova playlist';
+
+  @override
+  String get choose_a_name => 'Escolha um nome:';
+
+  @override
+  String get choose_a_playlist => 'Escolha uma playlist';
+
+  @override
+  String get playlist_deleted_successfully => 'Playlist deletada com sucesso!';
+
+  @override
+  String get playlist_created_successfully => 'Playlist criada com sucesso!';
+
+  @override
+  String get playlist => 'Playlist';
+
+  @override
+  String get rename_this_playlist => 'Renomear essa playlist';
+
+  @override
+  String get delete_this_playlist => 'Excluir essa playlist';
+
+  @override
+  String get rename_playlist => 'Renomear playlist';
+
+  @override
+  String get choose_a_new_name => 'Escolha um novo nome:';
+
+  @override
+  String get save => 'Salvar';
+
+  @override
+  String get playlist_renamed_successfully => 'Renomeada com sucesso!';
+
+  @override
+  String get add_to_a_playlist => 'Adicionar a uma playlist';
+
+  @override
+  String get added_successfully => 'Adicionada com sucesso!';
+
+  @override
+  String get create_a_new_playlist => 'Criar uma nova playlist';
+
+  @override
+  String get remove_from_this_playlist => 'Remover dessa playlist';
+
+  @override
+  String get multiple_selection => 'Seleção múltipla';
+
+  @override
+  String get select_files => 'Selecionar músicas:';
+
+  @override
+  String get zero_songs_selected => 'Nenhuma música selecionada';
+
+  @override
+  String get select_something_first => 'Selecione algo primeiro';
+
+  @override
+  String get choose_an_option => 'Escolha uma opção:';
+
+  @override
+  String get reorder_songs => 'Reordenar músicas';
+
+  @override
+  String get add_to_queue_all_capitalized => 'ADICIONAR À FILA';
+
+  @override
+  String get add_to_queue => 'Adicionar à fila';
+
+  @override
+  String get removed_from_favorites => 'Removida dos favoritos';
+
+  @override
+  String get removed_from_this_playlist => 'Removida dessa playlist';
+
+  @override
+  String get added_to_favorites => 'Adicionada aos favoritos';
+
+  @override
+  String get created_and_song_added_successfully => 'Criada e música adicionada com sucesso!';
+
+  @override
+  String get radio_stream_recording_in_progress => 'Gravação de rádio em progresso';
+
+  @override
+  String get stop_the_radio_stream_first => 'Pare a gravação primeiro';
+
+  @override
+  String get radio_recording => 'Gravação de rádio';
+
+  @override
+  String get radio_recording_saved_successfully => 'Salva com sucesso!';
+
+  @override
+  String created_and_songs_added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Criada e músicas adicionadas com sucesso!',
+      one: 'Criada e música adicionada com sucesso!',
+      zero: '',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_favorites_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicinada aos favoritos',
+      one: 'Adicionada aos favoritos',
+      zero: 'Adicionadas aos favoritos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicionada à playlist',
+      one: 'Adicionada à playlist',
+      zero: 'Adicionadas à playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String deleted_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Deletadas com sucesso!',
+      one: 'Deletada com sucesso!',
+      zero: 'Deletadas com sucesso!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_to_play_next_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicionadas para tocar em seguida',
+      one: 'Adicionada para tocar em seguida',
+      zero: 'Adicionadas para tocar em seguida',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_favorite_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removidas dos favoritos!',
+      one: 'Removida dos favoritos!',
+      zero: 'Removidas dos favoritos!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String removed_from_the_playlist_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Removidas dessa playlist',
+      one: 'Removida dessa playlist',
+      zero: 'Removidas dessa playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String song_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count músicas',
+      one: '1 música',
+      zero: '0 músicas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String added_successfully_plural(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Adicionadas com sucesso!',
+      one: 'Adicionada com sucesso!',
+      zero: 'Adicionadas com sucesso!',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_songs_selected(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count músicas selecionadas',
+      one: '1 música selecionada',
+      zero: '0 músicas selecionadas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String create_a_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Cria uma nova playlist',
+      one: 'Criar uma nova playlist',
+      zero: 'Criar uma playlist',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_playlist(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count playlists',
+      one: 'Total: 1 playlist',
+      zero: '0 playlists',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playlist_total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'músicas',
+      one: 'música',
+      zero: 'músicas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String total_of_songs(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Total: $count músicas',
+      one: 'Total: 1 música',
+      zero: 'Total: 0 músicas',
+    );
+    return '$_temp0';
+  }
 
   @override
   String multiple_shared_files(num count) {

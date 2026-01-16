@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/navigation_animation/main.player.navigation.animation.dart'
     show mainPlayerSlideUpDownTransition;
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
-import 'package:vicyos_music/app/view/screens/main.radio.player.screen.dart';
-import 'package:vicyos_music/app/widgets/marquee.text.dart';
+import 'package:vicyos_music/app/radio_player/screens/main.radio.player.screen.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 
-class RadioBottomPlayer extends StatelessWidget {
-  const RadioBottomPlayer({super.key});
+class BottomRadioPlayer extends StatelessWidget {
+  const BottomRadioPlayer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +118,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                     );
                                   },
                                   child: StreamBuilder<void>(
-                                    stream: radioPlayer.sequenceStateStream,
+                                    stream: radioPlayer.playerStateStream,
                                     builder: (context, snapshot) {
                                       return Column(
                                         crossAxisAlignment:
@@ -230,7 +230,7 @@ class RadioBottomPlayer extends StatelessWidget {
                               splashRadius: 20,
                               iconSize: 10,
                               onPressed: () async {
-                                await radioSeekToPrevious();
+                                await radioSeekToPrevious(context);
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_previous.png",
@@ -250,7 +250,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () async {
-                                      await radioPlayOrPause();
+                                      await radioPlayOrPause(context);
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_play.png",
@@ -265,7 +265,7 @@ class RadioBottomPlayer extends StatelessWidget {
                                   child: IconButton(
                                     splashRadius: 20,
                                     onPressed: () async {
-                                      await radioPlayOrPause();
+                                      await radioPlayOrPause(context);
                                     },
                                     icon: Image.asset(
                                       "assets/img/bottom_player/motion_paused.png",
@@ -283,7 +283,7 @@ class RadioBottomPlayer extends StatelessWidget {
                               iconSize: 10,
                               splashRadius: 20,
                               onPressed: () async {
-                                await radioSeekToNext();
+                                await radioSeekToNext(context);
                               },
                               icon: Image.asset(
                                 "assets/img/bottom_player/skip_next.png",

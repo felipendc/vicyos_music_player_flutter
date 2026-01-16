@@ -2,22 +2,29 @@ import 'package:audioplayers/audioplayers.dart' as audio_players;
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:vicyos_music/app/color_palette/color_extension.dart';
+import 'package:vicyos_music/app/components/appbars.dart';
+import 'package:vicyos_music/app/components/marquee.text.dart';
 import 'package:vicyos_music/app/files_and_folders_handler/folders.and.files.related.dart';
+import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
-import 'package:vicyos_music/app/widgets/appbars.dart';
-import 'package:vicyos_music/app/widgets/marquee.text.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:wave_progress_widget/wave_progress.dart';
 
 class SongPreviewBottomSheet extends StatelessWidget {
-  final String songPath;
-  const SongPreviewBottomSheet({super.key, required this.songPath});
+  final AudioInfo songModel;
+  final String audioRoute;
+
+  const SongPreviewBottomSheet({
+    super.key,
+    required this.songModel,
+    required this.audioRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
-    previewSong(songPath);
+    previewSong(songModel.path);
     var media = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(
@@ -30,7 +37,11 @@ class SongPreviewBottomSheet extends StatelessWidget {
             ? media.height * 0.76
             : media.height * 0.62, // Adjust the height
         child: Scaffold(
-          appBar: previewPlayerViewAppBar(context, songPath),
+          appBar: previewPlayerViewAppBar(
+            context: context,
+            filePath: songModel.path,
+            audioRoute: audioRoute,
+          ),
           body: Container(
             color: TColor.bg,
             // height:  media.height * 0.5, // Adjust the height
@@ -193,10 +204,10 @@ class SongPreviewBottomSheet extends StatelessWidget {
                               return MarqueeText(
                                 centerText: true,
                                 // Forces rebuild when song changes
-                                key: ValueKey(songName(songPath)),
+                                key: ValueKey(songName(songModel.name)),
                                 maxWidth:
                                     width, // Set dynamically based on layout
-                                text: songName(songPath),
+                                text: songName(songModel.name),
                                 style: TextStyle(
                                   color:
                                       TColor.primaryText.withValues(alpha: 0.9),
@@ -254,7 +265,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                               iconSize: 45,
                               onPressed: () async {
                                 if (radioPlayer.playing) {
-                                  radioPlayer.pause();
+                                  radioPlayOrPause(context);
                                 }
                                 if (audioPlayerWasPlaying) {
                                   await audioPlayer.pause();
@@ -330,7 +341,7 @@ class SongPreviewBottomSheet extends StatelessWidget {
                     FloatingActionButton.extended(
                       label: Text(
                         AppLocalizations.of(context)!
-                            .add_to_playlist_all_capitalized,
+                            .add_to_queue_all_capitalized,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: TColor.focusStart,
@@ -338,7 +349,12 @@ class SongPreviewBottomSheet extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        await addSongToPlaylist(context, songPath);
+                        await addSongToPlaylist(
+                          context: context,
+                          songPath: songModel.path,
+                          audioRoute: audioRoute,
+                          audioRouteEmptyPlaylist: audioRoute,
+                        );
                         rebuildPlaylistCurrentLengthNotifier();
                       },
                       backgroundColor: TColor.darkGray,

@@ -4,10 +4,13 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter/material.dart' show Colors, Navigator;
 import 'package:http/http.dart' as http;
 import 'package:just_audio/just_audio.dart';
-import 'package:vicyos_music/app/models/radio.stations.model.dart';
+import 'package:vicyos_music/app/components/show.top.message.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
+import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
+import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
 import 'package:vicyos_music/app/radio_player/radio_stations/radio.stations.list.dart';
+import 'package:vicyos_music/app/radio_player/recordings/record.streaming.dart';
 import 'package:vicyos_music/app/radio_player/widgets/show.radio.top.message.dart';
 import 'package:vicyos_music/app/search_bar_handler/search.songs.stations.handler.dart';
 import 'package:vicyos_music/app/view/screens/tablet.main.player.view.screen.dart';
@@ -16,6 +19,7 @@ import 'package:vicyos_music/l10n/app_localizations.dart';
 // ------------ RADIO FUNCTIONS, VARIABLES AND MORE ------------//
 enum RadioStationConnectionStatus { online, error }
 
+bool currentRadioStationWasPaused = false;
 int currentRadioIndex = 0;
 bool isRadioPlaying = false;
 bool isRadioPaused = false;
@@ -29,6 +33,9 @@ bool isRadioOn = false;
 Color radioStationBtn = Color(0xFFFF0F7B);
 bool radioStationFetchError = false;
 late int radioStationErrorIndex;
+
+// Stream Recorder
+final StreamRecorder streamRecorder = StreamRecorder();
 
 // Radio Player
 late AudioPlayer radioPlayer;
@@ -50,37 +57,43 @@ void errorToFetchRadioStation(int index) {
 
 Future<void> turnOnRadioStation() async {
   isRadioOn = true;
+  isRadioPaused = false;
   radioStationBtn = Colors.green;
-  updateRadioScreensNotifier();
+  currentRadioStationWasPaused = false;
+
+  activeNavigationButton = "NavigationButtons.none"; // Manual attribution
+  songCurrentRouteType = "NavigationButtons.none"; // Via listener
+
+  currentSongNavigationRouteNotifier();
+
   switchingToRadioNotifier();
 
-  // Close the tablet audioPlayer playlist bottomsheet if it is opened
-  if (playlistBottomSheetTabletContext != null) {
-    Navigator.pop(playlistBottomSheetTabletContext!);
-  }
-
-  // Close the tablet audioPlayer playback speed bottomsheet if it is opened
-  if (audioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
-    Navigator.pop(audioPlayerPlaybackSpeedBottomSheetTabletContext!);
-  }
+  updateRadioScreensNotifier();
 }
 
 Future<void> turnOffRadioStation() async {
-  // Ordered instructions:
   stationHasBeenSearched = false;
   isRadioOn = false;
   isRadioPaused = false;
-  radioStationBtn = Color(0xFFFF0F7B);
+  radioStationBtn = const Color(0xFFFF0F7B);
+
+  currentRadioStationWasPaused = false;
+  currentRadioStationID = "";
+  currentRadioIndex = 0;
+
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+  }
+
   await radioPlayer.stop();
   await radioPlayer.clearAudioSources();
+
   radioPlaylist.clear();
-  currentRadioIndex = 0;
-  await updateRadioScreensNotifier();
-  updateRadioScreensNotifier();
-  currentRadioStationID = "";
+
   switchingToRadioNotifier();
 
-  // Close the tablet radioPlayer playback speed bottomsheet if it is opened
+  updateRadioScreensNotifier();
+
   if (radioPlayerPlaybackSpeedBottomSheetTabletContext != null) {
     Navigator.pop(radioPlayerPlaybackSpeedBottomSheetTabletContext!);
   }
@@ -88,9 +101,8 @@ Future<void> turnOffRadioStation() async {
 
 Future<bool> checkStreamUrl(String url) async {
   try {
-    final response = await http.head(Uri.parse(url)).timeout(
-          const Duration(seconds: 5),
-        );
+    final response =
+        await http.head(Uri.parse(url)).timeout(const Duration(seconds: 5));
 
     // If the server responds with 200, 206, or 302 — the URL is valid
     return response.statusCode == 200 ||
@@ -102,28 +114,66 @@ Future<bool> checkStreamUrl(String url) async {
   }
 }
 
-Future<void> radioSeekToNext() async {
+Future<void> radioSeekToNext(BuildContext context) async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
+
     radioPlayer.setSpeed(1.0);
     await radioPlayer.seekToNext();
+
+    currentRadioStationWasPaused = false;
   }
 }
 
-Future<void> radioSeekToPrevious() async {
+Future<void> radioSeekToPrevious(BuildContext context) async {
   if (radioPlayer.audioSources.length == 1) {
   } else {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
     radioPlayer.setSpeed(1.0);
     await radioPlayer.seekToPrevious();
+
+    currentRadioStationWasPaused = false;
   }
 }
 
 Future<void> playRadioStation(BuildContext context, int index) async {
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
+  }
+
+  currentRadioStationWasPaused = false;
   stationHasBeenSearched = false;
   radioPlayer.setSpeed(1.0);
   isRadioPaused = false;
+  currentRadioIndex = index;
+
+  // Set the currentRadioStationID to avoid StreamBuilder won't updating the listview
+  currentRadioStationID = radioStationList[index].id;
+
   turnOnRadioStation();
-  cleanPlaylist(context);
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
@@ -143,10 +193,7 @@ Future<void> playRadioStation(BuildContext context, int index) async {
     );
 
     radioPlaylist.add(
-      AudioSource.uri(
-        Uri.parse(radioStationUrl),
-        tag: mediaItem,
-      ),
+      AudioSource.uri(Uri.parse(radioStationUrl), tag: mediaItem),
     );
   }
 
@@ -169,34 +216,48 @@ Future<void> playRadioStation(BuildContext context, int index) async {
       errorToFetchRadioStation(index);
       if (context.mounted) {
         errorToFetchRadioStationCard(
-            context, radioStationList[index].radioName);
+          context,
+          radioStationList[index].radioName,
+        );
       }
-      await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio station: $e');
   }
+  updateRadioScreensNotifier();
 }
 
 Future<void> playSearchedRadioStation(BuildContext context, int index) async {
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
+  }
+
   stationHasBeenSearched = true;
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist(context);
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: foundStations[index].id,
-    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+    // album: metadata?.albumName ?? "",
 
     // Using the name of the file as the title by default
     title: foundStations[index].radioName,
     album: foundStations[index].radioLocation,
-    // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+    // artist: metadata?.albumArtistName ?? "",
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
@@ -226,21 +287,36 @@ Future<void> playSearchedRadioStation(BuildContext context, int index) async {
       errorToFetchRadioStation(index);
       if (context.mounted) {
         errorToFetchRadioStationCard(
-            context, radioStationList[index].radioName);
+          context,
+          radioStationList[index].radioName,
+        );
       }
-      await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio station: $e');
   }
 }
 
-Future<void> radioPlayOrPause() async {
+Future<void> radioPlayOrPause(BuildContext context) async {
   if (radioPlayer.audioSources.isNotEmpty) {
+    if (streamRecorder.isRecording) {
+      streamRecorder.stopRecording();
+      showRadioPlaybackSpeedWarningSnackBar(
+        context: context,
+        text: AppLocalizations.of(context)!.radio_recording,
+        message:
+            AppLocalizations.of(context)!.radio_recording_saved_successfully,
+      );
+    }
+
     if (isRadioPaused == false) {
       // isRadioPaused = true;
       await radioPlayer.pause();
+      currentRadioStationWasPaused = true;
     } else if (isRadioPaused == true) {
       // isRadioPaused = false;
       await radioPlayer.play();
@@ -249,32 +325,36 @@ Future<void> radioPlayOrPause() async {
 }
 
 Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
+  if (streamRecorder.isRecording) {
+    streamRecorder.stopRecording();
+    showRadioPlaybackSpeedWarningSnackBar(
+      context: context,
+      text: AppLocalizations.of(context)!.radio_recording,
+      message: AppLocalizations.of(context)!.radio_recording_saved_successfully,
+    );
+  }
+
   radioPlayer.setSpeed(1.0);
   // isRadioPaused = false;
   turnOnRadioStation();
-  cleanPlaylist(context);
+  cleanPlaylist();
 
   // Clear and re-add all the radio_player stations to the "radioPlaylist"
   radioPlaylist.clear();
 
   final mediaItem = MediaItem(
     id: currentRadioStationID,
-    // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+    // album: metadata?.albumName ?? "",
 
     // Using the name of the file as the title by default
     title: currentRadioStationName,
-    album: currentRadioStationLocation.isEmpty
-        ? AppLocalizations.of(context)!.ellipsis
-        : currentRadioStationLocation,
+    album: currentRadioStationLocation,
     // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
     artUri: Uri.file(notificationPlayerAlbumArt.path),
   );
 
   radioPlaylist.add(
-    AudioSource.uri(
-      Uri.parse(currentRadioIndexUrl),
-      tag: mediaItem,
-    ),
+    AudioSource.uri(Uri.parse(currentRadioIndexUrl), tag: mediaItem),
   );
 
   try {
@@ -305,7 +385,7 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
       // to toggle the radio_player offline signal icon
       for (RadioStationInfo station in [
         ...radioStationList,
-        ...foundStations
+        ...foundStations,
       ]) {
         String stationId = station.radioUrl;
         if (stationId.contains(currentRadioIndexUrl)) {
@@ -316,8 +396,10 @@ Future<void> reLoadRatioStationCurrentIndex(BuildContext context) async {
       if (context.mounted) {
         errorToFetchRadioStationCard(context, currentRadioStationName);
       }
-      await turnOffRadioStation();
-      updateRadioScreensNotifier();
+      if (context.mounted) {
+        await turnOffRadioStation();
+      }
+      await updateRadioScreensNotifier();
     }
 
     debugPrint('Error to load radio_player: $e');
