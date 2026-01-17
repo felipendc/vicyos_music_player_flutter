@@ -23,6 +23,8 @@ class StreamRecorder {
   Timer? _uiTimer;
 
   FFmpegSession? _recordSession;
+  Completer<void>?
+      _ffmpegFinished; // Ensures FFmpeg finishes before post-processing
 
   bool _isRecording = false;
   bool _allowPlaybackSpeedBottomSheetToOpen = true;
@@ -109,9 +111,12 @@ class StreamRecorder {
 
     _startUiTimer();
 
+    _ffmpegFinished = Completer<void>();
+
     _recordSession = await FFmpegKit.executeAsync(
       cmd,
       (session) async {
+        _ffmpegFinished?.complete();
         final rc = await session.getReturnCode();
         debugPrint('RECORD RETURN CODE: $rc');
       },
@@ -140,11 +145,14 @@ class StreamRecorder {
       _recordSession = null;
     }
 
-    // Wait FFmpeg finish the container
-    await Future.delayed(const Duration(seconds: 1));
+    // Wait for FFmpeg to fully finalize the output
+    if (_ffmpegFinished != null) {
+      await _ffmpegFinished!.future;
+      _ffmpegFinished = null;
+    }
 
     if (!await _tempFile.exists() || await _tempFile.length() < 1024) {
-      debugPrint('Invalid TEMP file ');
+      debugPrint('Invalid TEMP file');
       return;
     }
 
