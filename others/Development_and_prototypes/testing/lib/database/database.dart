@@ -949,6 +949,7 @@ class AppDatabase {
       size TEXT NOT NULL,
       format TEXT NOT NULL,
       extension TEXT NOT NULL,
+      duration TEXT NOT NULL,
       order_index INTEGER
     );
   ''');
