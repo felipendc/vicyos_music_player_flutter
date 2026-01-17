@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:vicyos_music/app/permission_handler/permission.handler.dart';
+import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.stream.controllers.dart';
 
 class StreamRecorder {
@@ -58,6 +59,7 @@ class StreamRecorder {
   // ================== API ==================
 
   Future<void> startRecording(String streamUrl) async {
+    await radioPlayer.setSpeed(1.0);
     _queue.add(() async => _startRecordingInternal(streamUrl));
     await _processQueue();
   }

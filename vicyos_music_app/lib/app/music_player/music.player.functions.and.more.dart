@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart' as audio_players;
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
@@ -19,6 +18,7 @@ import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/functions_and_streams/radio.functions.and.more.dart';
 import 'package:vicyos_music/app/screen_orientation/screen.orientation.dart';
+import 'package:vicyos_music/app/services/audio.metadata.dart';
 import 'package:vicyos_music/database/database.dart';
 import 'package:vicyos_music/l10n/app_localizations.dart';
 import 'package:volume_controller/volume_controller.dart';
@@ -383,235 +383,235 @@ String formatDuration(Duration duration) {
   }
 }
 
-Future<void> pickFolder(BuildContext context) async {
-  if (isRadioOn) {
-    if (streamRecorder.isRecording) {
-      streamRecorder.stopRecording();
-      showRadioPlaybackSpeedWarningSnackBar(
-        context: context,
-        text: AppLocalizations.of(context)!.radio_recording,
-        message:
-            AppLocalizations.of(context)!.radio_recording_saved_successfully,
-      );
-    }
-    turnOffRadioStation();
-  }
-  stopSong();
-  playlist.clear();
-
-  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-  List<String> folderFileNames = [];
-  final allowedExtensions = ["mp3", "m4a", "ogg", "wav", "aac", "midi"];
-
-  if (selectedDirectory != null) {
-    selectedDirectory = selectedDirectory;
-    final dir = Directory(selectedDirectory);
-    final files = dir.listSync();
-    folderFileNames = files
-        .where((file) =>
-            file is File &&
-            allowedExtensions.any((ext) => file.path.endsWith('.$ext')))
-        .map((file) => file.path)
-        .toList();
-
-    debugPrint(folderFileNames.toString());
-    if (audioPlayer.audioSources.isEmpty) {
-      for (String filePath in folderFileNames) {
-        // Try to extract metadata from the local file
-        File audioFile = File(filePath);
-        String fileName = audioFile.uri.pathSegments.last;
-        String fileNameWithoutExtension =
-            path.basenameWithoutExtension(fileName);
-        // String filePathAsId = audioFile.absolute.path;
-
-        // Metadata? metadata;
-
-        // try {
-        //   metadata = await MetadataRetriever.fromFile(audioFile);
-        // } catch (e) {
-        //   debugPrint('Failed to extract metadata: $e');
-        // }
-
-        final mediaItem = MediaItem(
-          id: const Uuid().v4(),
-          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
-
-          // Using the name of the file as the title by default
-          title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-          artUri: Uri.file(notificationPlayerAlbumArt.path),
-        );
-
-        playlist.add(
-          AudioSource.uri(
-            Uri.file(filePath),
-            tag: mediaItem,
-          ),
-        );
-        rebuildPlaylistCurrentLengthNotifier();
-      }
-      await audioPlayer.setAudioSources(
-        playlist,
-        initialIndex: 0,
-        preload: true,
-      );
-      firstSongIndex = true;
-      if (context.mounted) {
-        // preLoadSongName(context);
-        updateCurrentSongNameOnlyOnce(context);
-      }
-
-      // await playOrPause();
-    } else {
-      for (String filePath in folderFileNames) {
-        // Try to extract metadata from the local file
-        File audioFile = File(filePath);
-        String fileName = audioFile.uri.pathSegments.last;
-        String fileNameWithoutExtension =
-            path.basenameWithoutExtension(fileName);
-        // String filePathAsId = audioFile.absolute.path;
-
-        // Metadata? metadata;
-
-        // try {
-        //   metadata = await MetadataRetriever.fromFile(audioFile);
-        // } catch (e) {
-        //   debugPrint('Failed to extract metadata: $e');
-        // }
-
-        final mediaItem = MediaItem(
-          id: const Uuid().v4(),
-          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
-
-          // Using the name of the file as the title by default
-          title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-          artUri: Uri.file(notificationPlayerAlbumArt.path),
-        );
-
-        playlist.add(
-          AudioSource.uri(
-            Uri.file(filePath),
-            tag: mediaItem,
-          ),
-        );
-        rebuildPlaylistCurrentLengthNotifier();
-      }
-    }
-  } else {
-    debugPrint("No folder has been selected");
-  }
-}
-
-Future<void> pickAndPlayAudio(BuildContext context) async {
-  if (isRadioOn) {
-    if (streamRecorder.isRecording) {
-      streamRecorder.stopRecording();
-      showRadioPlaybackSpeedWarningSnackBar(
-        context: context,
-        text: AppLocalizations.of(context)!.radio_recording,
-        message:
-            AppLocalizations.of(context)!.radio_recording_saved_successfully,
-      );
-    }
-    turnOffRadioStation();
-  }
-  stopSong();
-  playlist.clear();
-
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowMultiple: true,
-      allowedExtensions: ["mp3", "m4a", "ogg", "wav", "aac", "midi"]);
-
-  if (result != null) {
-    List<String>? selectedSongs;
-    selectedSongs =
-        result.paths.where((path) => path != null).cast<String>().toList();
-
-    if (audioPlayer.audioSources.isEmpty) {
-      for (String filePath in selectedSongs) {
-        debugPrint('Processing file: $filePath');
-
-        // Try to extract metadata from the local file
-        File audioFile = File(filePath);
-        String fileName = audioFile.uri.pathSegments.last;
-        String fileNameWithoutExtension =
-            path.basenameWithoutExtension(fileName);
-        // String filePathAsId = audioFile.absolute.path;
-
-        // Metadata? metadata;
-
-        // try {
-        //   metadata = await MetadataRetriever.fromFile(audioFile);
-        // } catch (e) {
-        //   debugPrint('Failed to extract metadata: $e');
-        // }
-
-        final mediaItem = MediaItem(
-          id: const Uuid().v4(),
-          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
-
-          // Using the name of the file as the title by default
-          title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-          artUri: Uri.file(notificationPlayerAlbumArt.path),
-        );
-
-        playlist.add(
-          AudioSource.uri(
-            Uri.file(filePath),
-            tag: mediaItem,
-          ),
-        );
-        rebuildPlaylistCurrentLengthNotifier();
-      }
-
-      audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
-      firstSongIndex = true;
-      if (context.mounted) {
-        // preLoadSongName(context);
-        updateCurrentSongNameOnlyOnce(context);
-      }
-    } else {
-      for (String filePath in selectedSongs) {
-        // Try to extract metadata from the local file
-        File audioFile = File(filePath);
-        String fileName = audioFile.uri.pathSegments.last;
-        String fileNameWithoutExtension =
-            path.basenameWithoutExtension(fileName);
-        // String filePathAsId = audioFile.absolute.path;
-
-        // Metadata? metadata;
-
-        // try {
-        //   metadata = await MetadataRetriever.fromFile(audioFile);
-        // } catch (e) {
-        //   debugPrint('Failed to extract metadata: $e');
-        // }
-
-        final mediaItem = MediaItem(
-          id: const Uuid().v4(),
-          // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
-
-          // Using the name of the file as the title by default
-          title: fileNameWithoutExtension,
-          // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
-          artUri: Uri.file(notificationPlayerAlbumArt.path),
-        );
-
-        playlist.add(
-          AudioSource.uri(
-            Uri.file(filePath),
-            tag: mediaItem,
-          ),
-        );
-        rebuildPlaylistCurrentLengthNotifier();
-        debugPrint('Processing file: $filePath');
-      }
-    }
-  }
-}
+// Future<void> pickFolder(BuildContext context) async {
+//   if (isRadioOn) {
+//     if (streamRecorder.isRecording) {
+//       streamRecorder.stopRecording();
+//       showRadioPlaybackSpeedWarningSnackBar(
+//         context: context,
+//         text: AppLocalizations.of(context)!.radio_recording,
+//         message:
+//             AppLocalizations.of(context)!.radio_recording_saved_successfully,
+//       );
+//     }
+//     turnOffRadioStation();
+//   }
+//   stopSong();
+//   playlist.clear();
+//
+//   String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+//   List<String> folderFileNames = [];
+//   final allowedExtensions = ["mp3", "m4a", "ogg", "wav", "aac", "midi"];
+//
+//   if (selectedDirectory != null) {
+//     selectedDirectory = selectedDirectory;
+//     final dir = Directory(selectedDirectory);
+//     final files = dir.listSync();
+//     folderFileNames = files
+//         .where((file) =>
+//             file is File &&
+//             allowedExtensions.any((ext) => file.path.endsWith('.$ext')))
+//         .map((file) => file.path)
+//         .toList();
+//
+//     debugPrint(folderFileNames.toString());
+//     if (audioPlayer.audioSources.isEmpty) {
+//       for (String filePath in folderFileNames) {
+//         // Try to extract metadata from the local file
+//         File audioFile = File(filePath);
+//         String fileName = audioFile.uri.pathSegments.last;
+//         String fileNameWithoutExtension =
+//             path.basenameWithoutExtension(fileName);
+//         // String filePathAsId = audioFile.absolute.path;
+//
+//         // Metadata? metadata;
+//
+//         // try {
+//         //   metadata = await MetadataRetriever.fromFile(audioFile);
+//         // } catch (e) {
+//         //   debugPrint('Failed to extract metadata: $e');
+//         // }
+//
+//         final mediaItem = MediaItem(
+//           id: const Uuid().v4(),
+//           // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+//
+//           // Using the name of the file as the title by default
+//           title: fileNameWithoutExtension,
+//           // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+//           artUri: Uri.file(notificationPlayerAlbumArt.path),
+//         );
+//
+//         playlist.add(
+//           AudioSource.uri(
+//             Uri.file(filePath),
+//             tag: mediaItem,
+//           ),
+//         );
+//         rebuildPlaylistCurrentLengthNotifier();
+//       }
+//       await audioPlayer.setAudioSources(
+//         playlist,
+//         initialIndex: 0,
+//         preload: true,
+//       );
+//       firstSongIndex = true;
+//       if (context.mounted) {
+//         // preLoadSongName(context);
+//         updateCurrentSongNameOnlyOnce(context);
+//       }
+//
+//       // await playOrPause();
+//     } else {
+//       for (String filePath in folderFileNames) {
+//         // Try to extract metadata from the local file
+//         File audioFile = File(filePath);
+//         String fileName = audioFile.uri.pathSegments.last;
+//         String fileNameWithoutExtension =
+//             path.basenameWithoutExtension(fileName);
+//         // String filePathAsId = audioFile.absolute.path;
+//
+//         // Metadata? metadata;
+//
+//         // try {
+//         //   metadata = await MetadataRetriever.fromFile(audioFile);
+//         // } catch (e) {
+//         //   debugPrint('Failed to extract metadata: $e');
+//         // }
+//
+//         final mediaItem = MediaItem(
+//           id: const Uuid().v4(),
+//           // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+//
+//           // Using the name of the file as the title by default
+//           title: fileNameWithoutExtension,
+//           // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+//           artUri: Uri.file(notificationPlayerAlbumArt.path),
+//         );
+//
+//         playlist.add(
+//           AudioSource.uri(
+//             Uri.file(filePath),
+//             tag: mediaItem,
+//           ),
+//         );
+//         rebuildPlaylistCurrentLengthNotifier();
+//       }
+//     }
+//   } else {
+//     debugPrint("No folder has been selected");
+//   }
+// }
+//
+// Future<void> pickAndPlayAudio(BuildContext context) async {
+//   if (isRadioOn) {
+//     if (streamRecorder.isRecording) {
+//       streamRecorder.stopRecording();
+//       showRadioPlaybackSpeedWarningSnackBar(
+//         context: context,
+//         text: AppLocalizations.of(context)!.radio_recording,
+//         message:
+//             AppLocalizations.of(context)!.radio_recording_saved_successfully,
+//       );
+//     }
+//     turnOffRadioStation();
+//   }
+//   stopSong();
+//   playlist.clear();
+//
+//   FilePickerResult? result = await FilePicker.platform.pickFiles(
+//       type: FileType.custom,
+//       allowMultiple: true,
+//       allowedExtensions: ["mp3", "m4a", "ogg", "wav", "aac", "midi"]);
+//
+//   if (result != null) {
+//     List<String>? selectedSongs;
+//     selectedSongs =
+//         result.paths.where((path) => path != null).cast<String>().toList();
+//
+//     if (audioPlayer.audioSources.isEmpty) {
+//       for (String filePath in selectedSongs) {
+//         debugPrint('Processing file: $filePath');
+//
+//         // Try to extract metadata from the local file
+//         File audioFile = File(filePath);
+//         String fileName = audioFile.uri.pathSegments.last;
+//         String fileNameWithoutExtension =
+//             path.basenameWithoutExtension(fileName);
+//         // String filePathAsId = audioFile.absolute.path;
+//
+//         // Metadata? metadata;
+//
+//         // try {
+//         //   metadata = await MetadataRetriever.fromFile(audioFile);
+//         // } catch (e) {
+//         //   debugPrint('Failed to extract metadata: $e');
+//         // }
+//
+//         final mediaItem = MediaItem(
+//           id: const Uuid().v4(),
+//           // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+//
+//           // Using the name of the file as the title by default
+//           title: fileNameWithoutExtension,
+//           // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+//           artUri: Uri.file(notificationPlayerAlbumArt.path),
+//         );
+//
+//         playlist.add(
+//           AudioSource.uri(
+//             Uri.file(filePath),
+//             tag: mediaItem,
+//           ),
+//         );
+//         rebuildPlaylistCurrentLengthNotifier();
+//       }
+//
+//       audioPlayer.setAudioSources(playlist, initialIndex: 0, preload: true);
+//       firstSongIndex = true;
+//       if (context.mounted) {
+//         // preLoadSongName(context);
+//         updateCurrentSongNameOnlyOnce(context);
+//       }
+//     } else {
+//       for (String filePath in selectedSongs) {
+//         // Try to extract metadata from the local file
+//         File audioFile = File(filePath);
+//         String fileName = audioFile.uri.pathSegments.last;
+//         String fileNameWithoutExtension =
+//             path.basenameWithoutExtension(fileName);
+//         // String filePathAsId = audioFile.absolute.path;
+//
+//         // Metadata? metadata;
+//
+//         // try {
+//         //   metadata = await MetadataRetriever.fromFile(audioFile);
+//         // } catch (e) {
+//         //   debugPrint('Failed to extract metadata: $e');
+//         // }
+//
+//         final mediaItem = MediaItem(
+//           id: const Uuid().v4(),
+//           // album: metadata?.albumName ?? AppLocalizations.of(context)!.unknown_album,
+//
+//           // Using the name of the file as the title by default
+//           title: fileNameWithoutExtension,
+//           // artist: metadata?.albumArtistName ?? AppLocalizations.of(context)!.unknown_artist,
+//           artUri: Uri.file(notificationPlayerAlbumArt.path),
+//         );
+//
+//         playlist.add(
+//           AudioSource.uri(
+//             Uri.file(filePath),
+//             tag: mediaItem,
+//           ),
+//         );
+//         rebuildPlaylistCurrentLengthNotifier();
+//         debugPrint('Processing file: $filePath');
+//       }
+//     }
+//   }
+// }
 
 Future<void> setFolderAsPlaylist({
   String? playlistName,
@@ -667,6 +667,7 @@ Future<void> setFolderAsPlaylist({
         'playedFromRoute': audioRoute,
         'size': filePath.size,
         'extension': filePath.extension,
+        'duration': filePath.duration,
       },
     );
 
@@ -744,6 +745,7 @@ Future<void> addFolderToPlaylist({
           "playedFromRoute": audioRoute,
           "size": filePath.size,
           "extension": filePath.extension,
+          'duration': filePath.duration,
         },
       );
 
@@ -795,6 +797,7 @@ Future<void> addFolderToPlaylist({
           "playedFromRoute": audioRoute,
           "size": filePath.size,
           "extension": filePath.extension,
+          'duration': filePath.duration,
         },
       );
 
@@ -866,6 +869,7 @@ Future<void> addSongToPlaylist({
           "playedFromRoute": audioRoute,
           "size": getFileSize(songPath),
           "extension": getFileExtension(songPath),
+          'duration': await AudioMetadata.getFormattedDuration(songPath),
         },
       );
 
@@ -912,6 +916,7 @@ Future<void> addSongToPlaylist({
           "playedFromRoute": audioRoute,
           "size": getFileSize(songPath),
           "extension": getFileExtension(songPath),
+          'duration': await AudioMetadata.getFormattedDuration(songPath),
         },
       );
 
@@ -964,6 +969,7 @@ Future<void> addSongToPlaylist({
             "playedFromRoute": audioRoute,
             "size": song.size,
             "extension": song.extension,
+            'duration': song.duration,
           },
         );
 
@@ -1023,6 +1029,7 @@ Future<void> addSongToPlaylist({
             "playedFromRoute": audioRoute,
             "size": song.size,
             "extension": song.extension,
+            'duration': song.duration,
           },
         );
 
@@ -1048,12 +1055,12 @@ Future<void> addSongToPlaylist({
   }
 }
 
-void addToPlayNext({
+Future<void> addToPlayNext({
   required dynamic playNextFilePath,
   required BuildContext context,
   required String audioRoute,
   required String audioRouteEmptyPlaylist,
-}) {
+}) async {
   if (audioPlayer.audioSources.isEmpty) {
     if (isSongPreviewBottomSheetOpen || isMultiSelectionScreenOpen) {
       playAfterClosingPlayersPreview = true;
@@ -1092,6 +1099,7 @@ void addToPlayNext({
         "playedFromRoute": audioRoute,
         "size": getFileSize(playNextFilePath),
         "extension": getFileExtension(playNextFilePath),
+        'duration': await AudioMetadata.getFormattedDuration(playNextFilePath),
       },
     );
 
@@ -1157,6 +1165,7 @@ void addToPlayNext({
           "playedFromRoute": audioRoute,
           "size": song.size,
           "extension": song.extension,
+          'duration': song.duration,
         },
       );
 

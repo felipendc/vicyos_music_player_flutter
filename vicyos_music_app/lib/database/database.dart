@@ -12,6 +12,7 @@ import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/models/playlists.dart';
 import 'package:vicyos_music/app/music_player/music.player.functions.and.more.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
+import 'package:vicyos_music/app/services/audio.metadata.dart';
 
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
@@ -121,79 +122,116 @@ class AppDatabase {
     required FolderSources folder,
     required bool isMusicFolderListener,
   }) async {
-    if (isMusicFolderListener == false) {
+    if (!isMusicFolderListener) {
       rebuildHomePageFolderListNotifier(FetchingSongs.fetching);
     }
+
     final db = await database;
 
+    // Look up the folder in the database
     final existing = await _getFolderByPath(db, folder.folderPath);
-    final newSongs = folder.songPathsList.map((e) => e.path).toSet();
 
-    // If the folder is new, insert it to the DB
+    // ===============================
+    // Case 1: New folder
+    // ===============================
     if (existing == null) {
+      // Calculate duration for all files (first sync)
+      final List<AudioInfo> enriched = [];
+
+      for (final audio in folder.songPathsList) {
+        final duration = await AudioMetadata.getFormattedDuration(audio.path);
+
+        enriched.add(
+          audio.copyWith(duration: duration ?? "00:00"),
+        );
+      }
+
       await db.insert('music_folders', {
         'folder_path': folder.folderPath,
-        'song_count': folder.songPathsList.length,
-        'folder_content': jsonEncode(
-          folder.songPathsList.map((e) => e.toMap()).toList(),
-        ),
+        'song_count': enriched.length,
+        'folder_content': jsonEncode(enriched.map((e) => e.toMap()).toList()),
       });
+
       return;
     }
 
-    final List oldDecoded = jsonDecode(existing['folder_content'] as String);
-    final oldSongs = oldDecoded.map((e) => e['path'] as String).toSet();
+    // ===============================
+    // Case 2: Existing folder
+    // ===============================
 
-    // Files removed from the device
-    final removedSongs = oldSongs.difference(newSongs);
-    final List<int> indexesToRemoveFromPlayer = [];
+    // Old songs stored in the database
+    final List decoded = jsonDecode(existing['folder_content'] as String);
 
-    await Future.wait(
-      removedSongs.map((removedPath) async {
-        // Delete from the DB and playlists
-        await deleteAudioPath(removedPath);
+    final List<AudioInfo> oldAudios =
+        decoded.map((e) => AudioInfo.fromMap(e)).toList();
 
-        // Get the index in the playing queue
-        final int index = audioPlayer.audioSources.indexWhere(
-          (audio) => (audio as UriAudioSource).uri.toFilePath() == removedPath,
+    final Map<String, AudioInfo> oldByPath = {
+      for (final audio in oldAudios) audio.path: audio,
+    };
+
+    final Set<String> newPaths =
+        folder.songPathsList.map((e) => e.path).toSet();
+
+    final Set<String> oldPaths = oldAudios.map((e) => e.path).toSet();
+
+    // ===============================
+    // Removed files
+    // ===============================
+    final removedPaths = oldPaths.difference(newPaths);
+
+    if (removedPaths.isNotEmpty) {
+      await Future.wait(
+        removedPaths.map(deleteAudioPath),
+      );
+    }
+
+    // ===============================
+    // Smart merge
+    // ===============================
+    final List<AudioInfo> finalList = [];
+
+    for (final audio in folder.songPathsList) {
+      final old = oldByPath[audio.path];
+
+      // New song
+      if (old == null) {
+        final duration = await AudioMetadata.getFormattedDuration(audio.path);
+
+        finalList.add(
+          audio.copyWith(duration: duration ?? "00:00"),
         );
-
-        if (index != -1) {
-          indexesToRemoveFromPlayer.add(index);
-        }
-      }),
-    );
-
-    // Remove the songs from the playing queue at once reversed
-    for (final index in indexesToRemoveFromPlayer.reversed) {
-      if (audioPlayer.audioSources.length == 1) {
-        cleanPlaylist();
-      } else {
-        await audioPlayer.removeAudioSourceAt(index);
+        continue;
       }
+
+      // Existing song without duration
+      if (old.duration == null || old.duration!.isEmpty) {
+        final duration = await AudioMetadata.getFormattedDuration(old.path);
+
+        finalList.add(
+          old.copyWith(duration: duration ?? "00:00"),
+        );
+        continue;
+      }
+
+      // Existing song already complete
+      finalList.add(old);
     }
 
-    // Update the UI **Only once** at the end
-    rebuildPlaylistCurrentLengthNotifier();
-    currentSongNameNotifier();
-
-    // 5️⃣ If nothing has changed, exit it
-    if (oldSongs.length == newSongs.length && oldSongs.containsAll(newSongs)) {
-      return;
-    }
-
-    // 6️⃣ Update the folder in the DB
+    // ===============================
+    // Update database
+    // ===============================
     await db.update(
       'music_folders',
       {
-        'song_count': folder.songPathsList.length,
-        'folder_content': jsonEncode(
-          folder.songPathsList.map((e) => e.toMap()).toList(),
-        ),
+        'song_count': finalList.length,
+        'folder_content': jsonEncode(finalList.map((e) => e.toMap()).toList()),
       },
       where: 'folder_path = ?',
       whereArgs: [folder.folderPath],
     );
+
+    rebuildPlaylistCurrentLengthNotifier();
+    currentSongNameNotifier();
   }
 
   // Remove a folder from the database
@@ -911,6 +949,7 @@ class AppDatabase {
       size TEXT NOT NULL,
       format TEXT NOT NULL,
       extension TEXT NOT NULL,
+      duration TEXT NOT NULL,
       order_index INTEGER
     );
   ''');
