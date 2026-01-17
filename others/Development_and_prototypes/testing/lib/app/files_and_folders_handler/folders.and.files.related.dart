@@ -112,49 +112,53 @@ Future<String> getMusicFolderPathWindowsOrLinux() async {
   return musicFolderPath;
 }
 
-Future<List<AudioInfo>> filterSongsOnlyToList(
-    {required String folderPath}) async {
-  final List<AudioInfo> musicFolderContents = <AudioInfo>[];
+Future<List<AudioInfo>> filterSongsOnlyToList({
+  required String folderPath,
+}) async {
   final Set<String> audioExtensions = {
     '.mp3',
     '.m4a',
     '.ogg',
     '.wav',
     '.aac',
-    '.midi'
+    '.midi',
   };
-  Directory? folderDirectory = Directory(folderPath);
 
-  final directorySongList = folderDirectory.listSync();
+  final directory = Directory(folderPath);
+  if (!await directory.exists()) return [];
 
-  final List<String> audioFiles = directorySongList
-      .where(
-        (entity) {
-          if (entity is File) {
-            String extension = entity.path
-                .substring(entity.path.lastIndexOf('.'))
-                .toLowerCase();
+  final files = await directory.list().toList();
 
-            return audioExtensions.contains(extension);
-          }
-          return false;
-        },
-      )
-      .map((entity) => entity.path)
+  final audioFiles = files
+      .whereType<File>()
+      .where((file) {
+        final ext =
+            file.path.substring(file.path.lastIndexOf('.')).toLowerCase();
+        return audioExtensions.contains(ext);
+      })
+      .map((file) => file.path)
       .toList();
 
-  for (var songPath in audioFiles) {
-    musicFolderContents.add(
-      AudioInfo(
+  const int batchSize = 4;
+  final List<AudioInfo> result = [];
+
+  for (int i = 0; i < audioFiles.length; i += batchSize) {
+    final batch = audioFiles.skip(i).take(batchSize);
+
+    final futures = batch.map((songPath) async {
+      return AudioInfo(
         name: songName(songPath),
         path: songPath,
         size: getFileSize(songPath),
         format: getFileExtension(songPath),
         extension: getFileExtension(songPath),
-      ),
-    );
+      );
+    }).toList();
+
+    result.addAll(await Future.wait(futures));
   }
-  return musicFolderContents;
+
+  return result;
 }
 
 Future<List<String>> deviceMusicFolderPath() async {

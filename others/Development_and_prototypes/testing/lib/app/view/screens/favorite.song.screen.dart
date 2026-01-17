@@ -351,7 +351,7 @@ class FavoriteSongsScreen extends StatelessWidget {
                                           ),
                                         ),
                                         subtitle: Text(
-                                          "${song.size} MB  •  ${song.format}",
+                                          "${song.size} MB  •  ${song.format}  •  ${song.duration}",
                                           textAlign: TextAlign.start,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,

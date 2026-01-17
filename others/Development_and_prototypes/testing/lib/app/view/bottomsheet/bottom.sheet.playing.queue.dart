@@ -258,7 +258,7 @@ class PlayingQueueBottomSheet extends StatelessWidget {
                                       ),
                                     ),
                                     subtitle: Text(
-                                      /*${index + 1}*/ '${playerCurrentMediaItem.extras?['size']} MB  |  ${playerCurrentMediaItem.extras?['extension']}',
+                                      /*${index + 1}*/ '${playerCurrentMediaItem.extras?['size']} MB • ${playerCurrentMediaItem.extras?['extension']} • ${playerCurrentMediaItem.extras?['duration']}',
                                       style: const TextStyle(
                                           fontFamily: "Circular Std",
                                           fontSize: 15,

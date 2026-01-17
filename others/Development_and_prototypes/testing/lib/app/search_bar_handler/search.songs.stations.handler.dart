@@ -6,6 +6,7 @@ import 'package:vicyos_music/app/models/audio.info.dart';
 import 'package:vicyos_music/app/models/folder.sources.dart';
 import 'package:vicyos_music/app/music_player/music.player.stream.controllers.dart';
 import 'package:vicyos_music/app/radio_player/models/radio.stations.model.dart';
+import 'package:vicyos_music/app/services/audio.metadata.dart';
 
 List<RadioStationInfo> foundStations = <RadioStationInfo>[];
 List<AudioInfo> foundSongs = <AudioInfo>[];
@@ -50,6 +51,8 @@ Future<void> searchSongFilesByName(
                     size: file.existsSync() ? getFileSize(file.path) : '0 KB',
                     format: getFileExtension(file.path),
                     extension: getFileExtension(file.path),
+                    duration:
+                        await AudioMetadata.getFormattedDuration(file.path),
                   ),
                 );
               } catch (e) {
